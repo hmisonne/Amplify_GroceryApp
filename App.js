@@ -4,7 +4,7 @@ import {
 } from 'react-native'
 
 import { API, graphqlOperation } from 'aws-amplify'
-import { createFoodItem, deleteFoodItem } from './src/graphql/mutations'
+import { createFoodItem, deleteFoodItem, updateFoodItem } from './src/graphql/mutations'
 import { listFoodItems } from './src/graphql/queries'
 
 import Amplify from 'aws-amplify'
@@ -52,6 +52,24 @@ const App = () => {
     }
   }
 
+  async function onToggle(foodItem) {
+    try {
+      const updatedFoodItem = {
+        id: foodItem.id,
+        name: foodItem.name,
+        amount: foodItem.amount,
+        unit: foodItem.unit,
+        type: foodItem.type,
+        checked : !foodItem.checked}
+      setFoodItems(foodItems.filter(food => 
+        (food.id === foodItem.id)
+        ? updatedFoodItem
+        : food
+      ))
+      await API.graphql(graphqlOperation(updateFoodItem, {input: updatedFoodItem}))
+    } catch (err) { console.log('error toggling foodItem') }
+  }
+
   return (
     <View style={styles.container}>
       <TextInput
@@ -78,6 +96,7 @@ const App = () => {
           <View key={foodItem.id ? foodItem.id : index} style={styles.foodItem}>
             <Switch
               value={foodItem.checked}
+              onValueChange={() => onToggle(foodItem)}
             />
             <Text style={styles.foodItemName}>{foodItem.name}</Text>
             <Text>{foodItem.amount} {foodItem.unit} {foodItem.checked}</Text>

@@ -43,3 +43,54 @@ export const deleteTodo = /* GraphQL */ `
     }
   }
 `;
+export const createFoodItem = /* GraphQL */ `
+  mutation CreateFoodItem(
+    $input: CreateFoodItemInput!
+    $condition: ModelFoodItemConditionInput
+  ) {
+    createFoodItem(input: $input, condition: $condition) {
+      id
+      name
+      checked
+      unit
+      amount
+      type
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateFoodItem = /* GraphQL */ `
+  mutation UpdateFoodItem(
+    $input: UpdateFoodItemInput!
+    $condition: ModelFoodItemConditionInput
+  ) {
+    updateFoodItem(input: $input, condition: $condition) {
+      id
+      name
+      checked
+      unit
+      amount
+      type
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteFoodItem = /* GraphQL */ `
+  mutation DeleteFoodItem(
+    $input: DeleteFoodItemInput!
+    $condition: ModelFoodItemConditionInput
+  ) {
+    deleteFoodItem(input: $input, condition: $condition) {
+      id
+      name
+      checked
+      unit
+      amount
+      type
+      createdAt
+      updatedAt
+    }
+  }
+`;

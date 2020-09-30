@@ -9,7 +9,7 @@
             "authenticationType": "API_KEY",
             "apiKeyConfig": {
               "apiKeyExpirationDays": 7,
-              "description": "devgroceryapp"
+              "description": "food-api"
             }
           },
           "additionalAuthenticationProviders": []

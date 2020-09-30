@@ -34,3 +34,45 @@ export const onDeleteTodo = /* GraphQL */ `
     }
   }
 `;
+export const onCreateFoodItem = /* GraphQL */ `
+  subscription OnCreateFoodItem {
+    onCreateFoodItem {
+      id
+      name
+      checked
+      unit
+      amount
+      type
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateFoodItem = /* GraphQL */ `
+  subscription OnUpdateFoodItem {
+    onUpdateFoodItem {
+      id
+      name
+      checked
+      unit
+      amount
+      type
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteFoodItem = /* GraphQL */ `
+  subscription OnDeleteFoodItem {
+    onDeleteFoodItem {
+      id
+      name
+      checked
+      unit
+      amount
+      type
+      createdAt
+      updatedAt
+    }
+  }
+`;

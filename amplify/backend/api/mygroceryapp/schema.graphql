@@ -3,3 +3,12 @@ type Todo @model {
   name: String!
   description: String
 }
+
+type FoodItem @model {
+  id: ID!
+  name: String!
+  checked: Boolean!
+  unit: String!
+  amount: Int!
+  type: String!
+}

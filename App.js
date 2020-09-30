@@ -4,7 +4,7 @@ import {
 } from 'react-native'
 
 import { API, graphqlOperation } from 'aws-amplify'
-import { createFoodItem } from './src/graphql/mutations'
+import { createFoodItem, deleteFoodItem } from './src/graphql/mutations'
 import { listFoodItems } from './src/graphql/queries'
 
 import Amplify from 'aws-amplify'
@@ -35,6 +35,12 @@ const App = () => {
     } catch (err) { console.log('error fetching foodItems') }
   }
 
+  async function removeFoodItem(id) {
+    try {
+      setFoodItems(foodItems.filter(food => food.id !== id))
+      await API.graphql(graphqlOperation(deleteFoodItem, {input: { id }}))
+    } catch (err) { console.log('error deleting foodItem') }
+  }
   async function addFoodItem() {
     try {
       const foodItem = { ...formState }
@@ -75,6 +81,7 @@ const App = () => {
             />
             <Text style={styles.foodItemName}>{foodItem.name}</Text>
             <Text>{foodItem.amount} {foodItem.unit} {foodItem.checked}</Text>
+            <Button title="Delete" onPress={() => removeFoodItem(foodItem.id)} />
           </View>
         ))
       }

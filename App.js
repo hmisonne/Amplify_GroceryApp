@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import {
-  View, Text, StyleSheet, TextInput, Button
+  View, Text, StyleSheet, TextInput, Button, Switch
 } from 'react-native'
 
 import { API, graphqlOperation } from 'aws-amplify'
-import { createTodo } from './src/graphql/mutations'
-import { listTodos } from './src/graphql/queries'
+import { createFoodItem } from './src/graphql/mutations'
+import { listFoodItems } from './src/graphql/queries'
 
 import Amplify from 'aws-amplify'
 import config from './aws-exports'
@@ -13,36 +13,36 @@ import { withAuthenticator } from 'aws-amplify-react-native'
 
 Amplify.configure(config)
 
-const initialState = { name: '', description: '' }
+const initialState = { name: '', checked: false, unit: '', amount: 0, type: 'Fruits'}
 
 const App = () => {
   const [formState, setFormState] = useState(initialState)
-  const [todos, setTodos] = useState([])
+  const [foodItems, setFoodItems] = useState([])
 
   useEffect(() => {
-    fetchTodos()
+    fetchFoodItems()
   }, [])
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value })
   }
 
-  async function fetchTodos() {
+  async function fetchFoodItems() {
     try {
-      const todoData = await API.graphql(graphqlOperation(listTodos))
-      const todos = todoData.data.listTodos.items
-      setTodos(todos)
-    } catch (err) { console.log('error fetching todos') }
+      const foodData = await API.graphql(graphqlOperation(listFoodItems))
+      const foodItems = foodData.data.listFoodItems.items
+      setFoodItems(foodItems)
+    } catch (err) { console.log('error fetching foodItems') }
   }
 
-  async function addTodo() {
+  async function addFoodItem() {
     try {
-      const todo = { ...formState }
-      setTodos([...todos, todo])
+      const foodItem = { ...formState }
+      setFoodItems([...foodItems, foodItem])
       setFormState(initialState)
-      await API.graphql(graphqlOperation(createTodo, {input: todo}))
+      await API.graphql(graphqlOperation(createFoodItem, {input: foodItem}))
     } catch (err) {
-      console.log('error creating todo:', err)
+      console.log('error creating food:', err)
     }
   }
 
@@ -55,17 +55,26 @@ const App = () => {
         placeholder="Name"
       />
       <TextInput
-        onChangeText={val => setInput('description', val)}
+        onChangeText={val => setInput('amount', val)}
         style={styles.input}
-        value={formState.description}
-        placeholder="Description"
+        value={formState.amount}
+        placeholder="Amount"
       />
-      <Button title="Create Todo" onPress={addTodo} />
+      <TextInput
+        onChangeText={val => setInput('unit', val)}
+        style={styles.input}
+        value={formState.unit}
+        placeholder="Unit"
+      />
+      <Button title="Create Food" onPress={addFoodItem} />
       {
-        todos.map((todo, index) => (
-          <View key={todo.id ? todo.id : index} style={styles.todo}>
-            <Text style={styles.todoName}>{todo.name}</Text>
-            <Text>{todo.description}</Text>
+        foodItems.map((foodItem, index) => (
+          <View key={foodItem.id ? foodItem.id : index} style={styles.foodItem}>
+            <Switch
+              value={foodItem.checked}
+            />
+            <Text style={styles.foodItemName}>{foodItem.name}</Text>
+            <Text>{foodItem.amount} {foodItem.unit} {foodItem.checked}</Text>
           </View>
         ))
       }
@@ -75,9 +84,9 @@ const App = () => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', padding: 20 },
-  todo: {  marginBottom: 15 },
+  foodItem: {  marginBottom: 15 },
   input: { height: 50, backgroundColor: '#ddd', marginBottom: 10, padding: 8 },
-  todoName: { fontSize: 18 }
+  foodItemName: { fontSize: 18 }
 })
 
 export default withAuthenticator(App)

@@ -16,5 +16,13 @@
         }
       }
     }
+  },
+  "auth": {
+    "mygroceryapp4dbb6b4e": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
   }
 }

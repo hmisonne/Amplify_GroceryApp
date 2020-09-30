@@ -10,6 +10,11 @@
       "StackName": "amplify-mygroceryapp-dev-100524",
       "StackId": "arn:aws:cloudformation:us-east-1:376262390406:stack/amplify-mygroceryapp-dev-100524/2332b200-033f-11eb-804f-0e1ad0c392f9",
       "AmplifyAppId": "d22bl963x1qfmv"
+    },
+    "categories": {
+      "auth": {
+        "mygroceryapp4dbb6b4e": {}
+      }
     }
   }
 }

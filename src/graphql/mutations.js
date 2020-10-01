@@ -1,94 +1,61 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createTodo = /* GraphQL */ `
-  mutation CreateTodo(
-    $input: CreateTodoInput!
-    $condition: ModelTodoConditionInput
+export const createProduct = /* GraphQL */ `
+  mutation CreateProduct(
+    $input: CreateProductInput!
+    $condition: ModelProductConditionInput
   ) {
-    createTodo(input: $input, condition: $condition) {
-      id
-      name
-      description
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateTodo = /* GraphQL */ `
-  mutation UpdateTodo(
-    $input: UpdateTodoInput!
-    $condition: ModelTodoConditionInput
-  ) {
-    updateTodo(input: $input, condition: $condition) {
-      id
-      name
-      description
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteTodo = /* GraphQL */ `
-  mutation DeleteTodo(
-    $input: DeleteTodoInput!
-    $condition: ModelTodoConditionInput
-  ) {
-    deleteTodo(input: $input, condition: $condition) {
-      id
-      name
-      description
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const createFoodItem = /* GraphQL */ `
-  mutation CreateFoodItem(
-    $input: CreateFoodItemInput!
-    $condition: ModelFoodItemConditionInput
-  ) {
-    createFoodItem(input: $input, condition: $condition) {
+    createProduct(input: $input, condition: $condition) {
       id
       name
       checked
       unit
       amount
       type
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
   }
 `;
-export const updateFoodItem = /* GraphQL */ `
-  mutation UpdateFoodItem(
-    $input: UpdateFoodItemInput!
-    $condition: ModelFoodItemConditionInput
+export const updateProduct = /* GraphQL */ `
+  mutation UpdateProduct(
+    $input: UpdateProductInput!
+    $condition: ModelProductConditionInput
   ) {
-    updateFoodItem(input: $input, condition: $condition) {
+    updateProduct(input: $input, condition: $condition) {
       id
       name
       checked
       unit
       amount
       type
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
   }
 `;
-export const deleteFoodItem = /* GraphQL */ `
-  mutation DeleteFoodItem(
-    $input: DeleteFoodItemInput!
-    $condition: ModelFoodItemConditionInput
+export const deleteProduct = /* GraphQL */ `
+  mutation DeleteProduct(
+    $input: DeleteProductInput!
+    $condition: ModelProductConditionInput
   ) {
-    deleteFoodItem(input: $input, condition: $condition) {
+    deleteProduct(input: $input, condition: $condition) {
       id
       name
       checked
       unit
       amount
       type
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }

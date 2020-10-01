@@ -1,10 +1,4 @@
-type Todo @model {
-  id: ID!
-  name: String!
-  description: String
-}
-
-type FoodItem @model {
+type Product @model {
   id: ID!
   name: String!
   checked: Boolean!

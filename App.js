@@ -4,13 +4,15 @@ import {
 } from 'react-native'
 
 import { API, graphqlOperation } from 'aws-amplify'
-import { createFoodItem, deleteFoodItem, updateFoodItem } from './src/graphql/mutations'
-import { listFoodItems } from './src/graphql/queries'
+import { createProduct, deleteProduct, updateProduct } from './src/graphql/mutations'
+import { listProducts } from './src/graphql/queries'
 
-import Amplify from 'aws-amplify'
+import Amplify, { Hub } from 'aws-amplify'
 import config from './aws-exports'
 import { withAuthenticator } from 'aws-amplify-react-native'
 import DATA from './data.js'
+import { DataStore, Predicates } from "@aws-amplify/datastore";
+import { Product } from './src/models'
 
 Amplify.configure(config)
 
@@ -18,59 +20,71 @@ const initialState = { name: '', checked: false, unit: '', amount: 0, type: 'Fru
 
 const App = () => {
   const [formState, setFormState] = useState(initialState)
-  const [foodItems, setFoodItems] = useState([])
+  const [products, setProducts] = useState([])
 
   useEffect(() => {
-    fetchFoodItems()
+    fetchProducts();
+    const subscription = DataStore.observe(Product).subscribe(msg => {
+      console.log(msg.model, msg.opType, msg.element);
+      fetchProducts();
+    })
+    return () => subscription.unsubscribe();
   }, [])
+
+  async function fetchProducts() {
+    try {
+      const data = await DataStore.query(Product, Predicates.ALL);
+      setProducts(data);
+      console.log("products retrieved successfully!");
+    } catch (error) {
+      console.log("Error retrieving products", error);
+    }
+    
+  };
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value })
   }
 
-  async function fetchFoodItems() {
-    setFoodItems(DATA)
-    // try {
-    //   const foodData = await API.graphql(graphqlOperation(listFoodItems))
-    //   const foodItems = foodData.data.listFoodItems.items
-    //   setFoodItems(foodItems)
-    // } catch (err) { console.log('error fetching foodItems') }
+  async function removeProduct(id) {
+    try {
+      setProducts(products.filter(food => food.id !== id))
+      const todelete = await DataStore.query(Product, id);
+      DataStore.delete(todelete);
+    } catch (err) { console.log('error deleting product') }
   }
 
-  async function removeFoodItem(id) {
+  async function addProduct() {
     try {
-      setFoodItems(foodItems.filter(food => food.id !== id))
-      await API.graphql(graphqlOperation(deleteFoodItem, {input: { id }}))
-    } catch (err) { console.log('error deleting foodItem') }
-  }
-  async function addFoodItem() {
-    try {
-      const foodItem = { ...formState }
-      setFoodItems([...foodItems, foodItem])
+      const product = { ...formState }
+      setProducts([...products, product])
       setFormState(initialState)
-      await API.graphql(graphqlOperation(createFoodItem, {input: foodItem}))
+
+      // Convert Amount to Int
+      product.amount = parseInt(product.amount, 10)
+      await DataStore.save(
+        new Product(product)
+      )
+      console.log("Product saved successfully!");
     } catch (err) {
       console.log('error creating food:', err)
     }
   }
 
-  async function onToggle(foodItem) {
+  async function onToggle(product) {
     try {
-      const updatedFoodItem = {
-        id: foodItem.id,
-        name: foodItem.name,
-        amount: foodItem.amount,
-        unit: foodItem.unit,
-        type: foodItem.type,
-        checked : !foodItem.checked
-      }
-      setFoodItems(foodItems.map(food => 
-        (food.id === foodItem.id)
-        ? {...food, checked: !food.checked}
-        : food
+      setProducts(products.map(product => 
+        (product.id === product.id)
+        ? {...product, checked: !product.checked}
+        : product
       ))
-      await API.graphql(graphqlOperation(updateFoodItem, {input: updatedFoodItem}))
-    } catch (err) { console.log('error toggling foodItem') }
+      const original = await DataStore.query(Product, product.id);
+      await DataStore.save(
+        Product.copyOf(original, updated => {
+          updated.checked = !original.checked;
+        })
+      );
+    } catch (err) { console.log('error toggling product') }
   }
 
   return (
@@ -94,21 +108,21 @@ const App = () => {
         value={formState.unit}
         placeholder="Unit"
       />
-      <Button title="Create Food" onPress={addFoodItem} />
+      <Button title="Create Food" onPress={addProduct} />
       {
-        foodItems.map((foodItem, index) => (
-          <View key={foodItem.id ? foodItem.id : index} style={styles.foodItem}>
+        products.map((product, index) => (
+          <View key={product.id ? product.id : index} style={styles.product}>
             <View style={styles.subContainer}>
               <Switch
-                value={foodItem.checked}
-                onValueChange={() => onToggle(foodItem)}
+                value={product.checked}
+                onValueChange={() => onToggle(product)}
               />
-              <Text style={styles.foodItemName}>{foodItem.name}</Text>
+              <Text style={styles.productName}>{product.name}</Text>
             </View>
             <View style={styles.subContainer}>
-              <Text style={styles.foodItemName}>{foodItem.amount} {foodItem.unit} {foodItem.checked}</Text>
+              <Text style={styles.productName}>{product.amount} {product.unit} {product.checked}</Text>
             </View>
-            <Button title="Delete" onPress={() => removeFoodItem(foodItem.id)} />
+            <Button title="Delete" onPress={() => removeProduct(product.id)} />
           </View>
         ))
       }
@@ -122,9 +136,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
   },
-  foodItem: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 15 },
+  product: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 15 },
   input: { height: 50, backgroundColor: '#ddd', marginBottom: 10, padding: 8 },
-  foodItemName: { fontSize: 18 }
+  productName: { fontSize: 18 }
 })
 
 export default withAuthenticator(App)

@@ -10,6 +10,7 @@ import { listFoodItems } from './src/graphql/queries'
 import Amplify from 'aws-amplify'
 import config from './aws-exports'
 import { withAuthenticator } from 'aws-amplify-react-native'
+import DATA from './data.js'
 
 Amplify.configure(config)
 
@@ -28,11 +29,12 @@ const App = () => {
   }
 
   async function fetchFoodItems() {
-    try {
-      const foodData = await API.graphql(graphqlOperation(listFoodItems))
-      const foodItems = foodData.data.listFoodItems.items
-      setFoodItems(foodItems)
-    } catch (err) { console.log('error fetching foodItems') }
+    setFoodItems(DATA)
+    // try {
+    //   const foodData = await API.graphql(graphqlOperation(listFoodItems))
+    //   const foodItems = foodData.data.listFoodItems.items
+    //   setFoodItems(foodItems)
+    // } catch (err) { console.log('error fetching foodItems') }
   }
 
   async function removeFoodItem(id) {
@@ -96,12 +98,16 @@ const App = () => {
       {
         foodItems.map((foodItem, index) => (
           <View key={foodItem.id ? foodItem.id : index} style={styles.foodItem}>
-            <Switch
-              value={foodItem.checked}
-              onValueChange={() => onToggle(foodItem)}
-            />
-            <Text style={styles.foodItemName}>{foodItem.name}</Text>
-            <Text>{foodItem.amount} {foodItem.unit} {foodItem.checked}</Text>
+            <View style={styles.subContainer}>
+              <Switch
+                value={foodItem.checked}
+                onValueChange={() => onToggle(foodItem)}
+              />
+              <Text style={styles.foodItemName}>{foodItem.name}</Text>
+            </View>
+            <View style={styles.subContainer}>
+              <Text style={styles.foodItemName}>{foodItem.amount} {foodItem.unit} {foodItem.checked}</Text>
+            </View>
             <Button title="Delete" onPress={() => removeFoodItem(foodItem.id)} />
           </View>
         ))
@@ -112,7 +118,11 @@ const App = () => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', padding: 20 },
-  foodItem: {  marginBottom: 15 },
+  subContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  foodItem: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 15 },
   input: { height: 50, backgroundColor: '#ddd', marginBottom: 10, padding: 8 },
   foodItemName: { fontSize: 18 }
 })

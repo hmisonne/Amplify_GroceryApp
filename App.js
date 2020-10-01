@@ -60,10 +60,11 @@ const App = () => {
         amount: foodItem.amount,
         unit: foodItem.unit,
         type: foodItem.type,
-        checked : !foodItem.checked}
-      setFoodItems(foodItems.filter(food => 
+        checked : !foodItem.checked
+      }
+      setFoodItems(foodItems.map(food => 
         (food.id === foodItem.id)
-        ? updatedFoodItem
+        ? {...food, checked: !food.checked}
         : food
       ))
       await API.graphql(graphqlOperation(updateFoodItem, {input: updatedFoodItem}))
@@ -80,8 +81,9 @@ const App = () => {
       />
       <TextInput
         onChangeText={val => setInput('amount', val)}
+        keyboardType="numeric"
         style={styles.input}
-        value={formState.amount}
+        value={`${formState.amount}`}
         placeholder="Amount"
       />
       <TextInput

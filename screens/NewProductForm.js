@@ -17,19 +17,18 @@ const NewProductForm = () => {
     setFormState({ ...formState, [key]: value })
   }
   
-  async function addProductHandler() {
-    const product = { ...formState }
-    dispatch(addProduct(product))
+  async function addProductHandler() {    
     try {
       const product = { ...formState }
       // setProducts([...products, product])
       setFormState(initialState)
 
       // Convert Amount to Int
-      // product.amount = parseInt(product.amount, 10)
-      // await DataStore.save(
-      //   new Product(product)
-      // )
+      product.amount = parseInt(product.amount, 10)
+      const productSaved = await DataStore.save(
+        new Product(product)
+      )
+      dispatch(addProduct(productSaved))
       console.log("Product saved successfully!");
     } catch (err) {
       console.log('error creating food:', err)

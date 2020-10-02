@@ -55,9 +55,8 @@ function ProductList(props) {
   async function removeProduct(id) {
     try {
       dispatch(deleteProduct(id))
-      // setProducts(products.filter(food => food.id !== id))
-      // const todelete = await DataStore.query(Product, id);
-      // DataStore.delete(todelete);
+      const todelete = await DataStore.query(Product, id);
+      DataStore.delete(todelete);
     } catch (err) { console.log('error deleting product') }
   }
 

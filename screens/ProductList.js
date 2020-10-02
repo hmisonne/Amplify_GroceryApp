@@ -1,29 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import {
     View, Text, StyleSheet, Button, Switch
   } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
-import reducers from '../src/redux/reducers';
 import { deleteProduct, loadProducts, toggleProduct } from '../src/redux/actions'
 import { DataStore } from "@aws-amplify/datastore";
 import { Product } from '../src/models'
 import store from '../src/redux/store';
 
 function ProductList(props) {
-  // const [state, dispatch] = useReducer(reducers);
-  const dispatch = useDispatch()
-//   const [products, setProducts] = useState([]);
+    const dispatch = useDispatch()
     const { products } = store.getState()
-   useEffect(() => {
-    // dispatch(loadProducts(DATA))
-    fetchProducts();
-    // Turn off sync with Cloud
-    // const subscription = DataStore.observe(Product).subscribe(msg => {
-    //   console.log(msg.model, msg.opType, msg.element);
-    //   fetchProducts();
-    // })
-    // return () => subscription.unsubscribe();
-  }, [])
+    useEffect(() => {
+        fetchProducts();
+        // Turn off sync with Cloud
+        // const subscription = DataStore.observe(Product).subscribe(msg => {
+        //   console.log(msg.model, msg.opType, msg.element);
+        //   fetchProducts();
+        // })
+        // return () => subscription.unsubscribe();
+    }, [])
 
   async function fetchProducts() {
     try {
@@ -57,8 +53,13 @@ function ProductList(props) {
     } catch (err) { console.log('error deleting product') }
   }
 
+  function goToNewProductScreen(){
+    return props.navigation.push('AddProduct');
+  }
+
   return (
     <View>
+    <Button title="Add" onPress={() => goToNewProductScreen()} />
     {
         products.map((product, index) => (
           <View key={product.id ? product.id : index} style={styles.product}>

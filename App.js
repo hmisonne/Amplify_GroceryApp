@@ -1,46 +1,41 @@
-import React, { useEffect, useState } from 'react'
+import 'react-native-gesture-handler';
+import React from 'react'
 import {
-  View, Text, StyleSheet, Button, Switch
+  View, StyleSheet,
 } from 'react-native'
 import Amplify from 'aws-amplify'
 import config from './aws-exports'
 import { withAuthenticator } from 'aws-amplify-react-native'
 import DATA from './data.js'
-import { DataStore, Predicates } from "@aws-amplify/datastore";
-import { Product } from './src/models'
+
 import store from './src/redux/store';
-import { Provider, useSelector, useReducer } from 'react-redux';
+import { Provider } from 'react-redux';
 import NewProductForm from './screens/NewProductForm'
 import ProductList from './screens/ProductList'
-import { deleteProduct, loadProducts } from './src/redux/actions'
-import reducers from './src/redux/reducers'
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 Amplify.configure(config)
 
+const ProductStack = createStackNavigator();
+
+
 const App = () => {
-  // const [products, setProducts] = useState([])
-  // const [products, dispatch] = useReducer(reducers);
-  // const products = useSelector(state => state.products)
-
-  // useEffect(() => {
-    // dispatch(loadProducts(DATA))
-  //   fetchProducts();
-    // Turn off sync with Cloud
-    // const subscription = DataStore.observe(Product).subscribe(msg => {
-    //   console.log(msg.model, msg.opType, msg.element);
-    //   fetchProducts();
-    // })
-    // return () => subscription.unsubscribe();
-  // }, [])
-
-  
 
   return (
     <Provider store={store}>
-      <View style={styles.container}>
+      <NavigationContainer>
+        <ProductStack.Navigator>
+          <ProductStack.Screen 
+            name="Product" 
+            component={ProductList} />
+          <ProductStack.Screen 
+            name="AddProduct" 
+            component={NewProductForm} />
+        </ProductStack.Navigator>
+      </NavigationContainer>
       <NewProductForm/>
-      <ProductList/>
-      </View>    
+      <ProductList/>  
     </Provider>
       
   )

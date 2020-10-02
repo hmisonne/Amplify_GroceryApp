@@ -12,6 +12,8 @@ import store from './src/redux/store';
 import { Provider } from 'react-redux';
 import NewProductForm from './screens/NewProductForm'
 import ProductList from './screens/ProductList'
+import ProductCategory from './screens/ProductCategory'
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -26,16 +28,17 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <ProductStack.Navigator>
-          <ProductStack.Screen 
-            name="Product" 
-            component={ProductList} />
+        <ProductStack.Screen 
+            name="ProductCategory" 
+            component={ProductCategory} />
+          <ProductStack.Screen
+            name="Product"
+            component={ProductList}/>
           <ProductStack.Screen 
             name="AddProduct" 
             component={NewProductForm} />
         </ProductStack.Navigator>
       </NavigationContainer>
-      <NewProductForm/>
-      <ProductList/>  
     </Provider>
       
   )

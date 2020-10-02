@@ -1,6 +1,6 @@
-import React, { useState, useReducer } from 'react'
+import React, { useState } from 'react'
 import { View, StyleSheet, Button, TextInput } from 'react-native'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import reducers from '../src/redux/reducers';
 import { addProduct } from '../src/redux/actions'
 import { DataStore } from "@aws-amplify/datastore";
@@ -10,7 +10,8 @@ const initialState = { name: '', checked: false, unit: '', amount: 0, type: 'Fru
 
 const NewProductForm = () => {
   const [formState, setFormState] = useState(initialState)
-  const [state, dispatch] = useReducer(reducers);
+  // const [state, dispatch] = useReducer(reducers);
+  const dispatch = useDispatch()
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value })
@@ -25,10 +26,10 @@ const NewProductForm = () => {
       setFormState(initialState)
 
       // Convert Amount to Int
-      product.amount = parseInt(product.amount, 10)
-      await DataStore.save(
-        new Product(product)
-      )
+      // product.amount = parseInt(product.amount, 10)
+      // await DataStore.save(
+      //   new Product(product)
+      // )
       console.log("Product saved successfully!");
     } catch (err) {
       console.log('error creating food:', err)
@@ -64,7 +65,7 @@ const NewProductForm = () => {
 }
 
 
-export default connect()(NewProductForm)
+export default NewProductForm
 
 
 const styles = StyleSheet.create({

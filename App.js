@@ -32,7 +32,7 @@ const App = () => {
             name="ProductCategory" 
             component={ProductCategory} />
           <ProductStack.Screen
-            name="Product"
+            name="ProductList"
             component={ProductList}/>
           <ProductStack.Screen 
             name="AddProduct" 

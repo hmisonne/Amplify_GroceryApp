@@ -6,9 +6,16 @@ import { addProduct } from '../src/redux/actions'
 import { DataStore } from "@aws-amplify/datastore";
 import { Product } from '../src/models'
 
-const initialState = { name: '', checked: false, unit: '', amount: 0, type: 'Fruits'}
+const initialState = { 
+  name: '',
+  checked: false,
+  unit: '', 
+  amount: '', 
+  type: ''
+}
 
-const NewProductForm = () => {
+const NewProductForm = (props) => {
+  initialState.type = props.route.params.category
   const [formState, setFormState] = useState(initialState)
   // const [state, dispatch] = useReducer(reducers);
   const dispatch = useDispatch()

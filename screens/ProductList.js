@@ -8,7 +8,7 @@ import { DataStore } from "@aws-amplify/datastore";
 import { Product } from '../src/models'
 import store from '../src/redux/store';
 
-function ProductList(props) {
+const ProductList = (props) => {
     const dispatch = useDispatch()
     const { products } = store.getState()
     useEffect(() => {

@@ -12,3 +12,8 @@ export const loadProducts = (products) => ({
     type: "LOAD_PRODUCTS",
     products,
 });
+
+export const toggleProduct = (id) => ({
+    type: "TOGGLE_PRODUCT",
+    id,
+});

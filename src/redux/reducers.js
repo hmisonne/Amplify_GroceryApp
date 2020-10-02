@@ -11,6 +11,11 @@ export const ProductReducer = (state = [], action) => {
             return [...state, newProduct]
         case "DELETE_PRODUCT":
             return state.filter(product => (product.id !== action.id))
+        case "TOGGLE_PRODUCT":
+            return state.map(product => (product.id === action.id)
+            ? {...product, checked: !product.checked}
+            : product
+            )
         default:
             return state;
     }

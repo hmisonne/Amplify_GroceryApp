@@ -4,7 +4,7 @@ import {
   } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
 import reducers from '../src/redux/reducers';
-import { deleteProduct } from '../src/redux/actions'
+import { deleteProduct, loadProducts, toggleProduct } from '../src/redux/actions'
 import { DataStore } from "@aws-amplify/datastore";
 import { Product } from '../src/models'
 import store from '../src/redux/store';
@@ -14,21 +14,21 @@ function ProductList(props) {
   const dispatch = useDispatch()
 //   const [products, setProducts] = useState([]);
     const { products } = store.getState()
-//    useEffect(() => {
+   useEffect(() => {
     // dispatch(loadProducts(DATA))
-    // fetchProducts();
+    fetchProducts();
     // Turn off sync with Cloud
     // const subscription = DataStore.observe(Product).subscribe(msg => {
     //   console.log(msg.model, msg.opType, msg.element);
     //   fetchProducts();
     // })
     // return () => subscription.unsubscribe();
-//   }, [])
+  }, [])
 
   async function fetchProducts() {
     try {
       const data = await DataStore.query(Product);
-      setProducts(data);
+      dispatch(loadProducts(data))
       console.log("products retrieved successfully!");
     } catch (error) {
       console.log("Error retrieving products", error);
@@ -36,19 +36,16 @@ function ProductList(props) {
     
   };
 
-  async function onToggle(product) {
+  async function onToggle(id) {
     try {
-      setProducts(products.map(product => 
-        (product.id === product.id)
-        ? {...product, checked: !product.checked}
-        : product
-      ))
-      const original = await DataStore.query(Product, product.id);
-      await DataStore.save(
-        Product.copyOf(original, updated => {
-          updated.checked = !original.checked;
+        dispatch(toggleProduct(id))
+        const original = await DataStore.query(Product, id);
+        await DataStore.save(
+            Product.copyOf(original, updated => {
+            updated.checked = !original.checked;
         })
-      );
+        );
+      
     } catch (err) { console.log('error toggling product') }
   }
 
@@ -68,7 +65,7 @@ function ProductList(props) {
             <View style={styles.subContainer}>
               <Switch
                 value={product.checked}
-                onValueChange={() => onToggle(product)}
+                onValueChange={() => onToggle(product.id)}
               />
               <Text style={styles.productName}>{product.name}</Text>
             </View>

@@ -13,9 +13,6 @@ export const createProduct = /* GraphQL */ `
       unit
       amount
       type
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -33,9 +30,6 @@ export const updateProduct = /* GraphQL */ `
       unit
       amount
       type
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -53,9 +47,6 @@ export const deleteProduct = /* GraphQL */ `
       unit
       amount
       type
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }

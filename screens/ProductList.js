@@ -24,7 +24,7 @@ const ProductList = (props) => {
   async function fetchProducts() {
     try {
         console.log("cat", props.route.params.category)
-      const data = await DataStore.query(Product, c => c.type("eq",props.route.params.category));
+      const data = await DataStore.query(Product, c => c.type("eq",props.navigation.getParam('category')));
       dispatch(loadProducts(data))
       console.log("products retrieved successfully!");
     } catch (error) {
@@ -55,7 +55,7 @@ const ProductList = (props) => {
   }
 
   function goToNewProductScreen(){
-    return props.navigation.push('AddProduct');
+    return props.navigation.push('AddProduct',{category: props.route.params.category});
   }
 
   return (

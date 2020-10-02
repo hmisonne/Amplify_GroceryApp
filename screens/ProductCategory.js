@@ -6,24 +6,24 @@ import {connect} from 'react-redux'
 
 
   const categories= [
-      {name:'fruits', img: require('../images/fruits.png'), key: 10},
-      {name:'veggies', img: require('../images/veggies.png'), key: 20},
-      {name:'dairy', img: require('../images/dairy.png'), key: 30},
-      {name:'grains', img: require('../images/grains.png'), key: 40},
-      {name:'meat', img: require('../images/meat.png'), key: 50},
-      {name:'custom', img: require('../images/custom.png'), key: 60},
+      {name:'Fruits', img: require('../images/fruits.png'), key: 10},
+      {name:'Veggies', img: require('../images/veggies.png'), key: 20},
+      {name:'Dairy', img: require('../images/dairy.png'), key: 30},
+      {name:'Grains', img: require('../images/grains.png'), key: 40},
+      {name:'Meat', img: require('../images/meat.png'), key: 50},
+      {name:'Custom', img: require('../images/custom.png'), key: 60},
   ]
 
 const ProductCategory = (props) => {
-    function goToProductList() {
-        return props.navigation.push('Product')
+    function goToProductList(category) {
+        return props.navigation.push('ProductList',{category})
     }
 
     return(
     <View style={styles.container}>
         {categories.map((cat) => (
         <TouchableOpacity 
-          onPress={() => goToProductList()} 
+          onPress={() => goToProductList(cat.name)} 
           style={styles.vignetteItem}
           key={cat.key}
           >

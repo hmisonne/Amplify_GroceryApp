@@ -3,7 +3,7 @@ import {
     View, Text, StyleSheet, Button, Switch
   } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
-import { deleteProduct, loadProducts, toggleProduct } from '../src/redux/actions'
+import { deleteProduct, loadProducts, toggleProduct, resetProductList } from '../src/redux/actions'
 import { DataStore } from "@aws-amplify/datastore";
 import { Product } from '../src/models'
 import store from '../src/redux/store';
@@ -23,7 +23,8 @@ const ProductList = (props) => {
 
   async function fetchProducts() {
     try {
-      const data = await DataStore.query(Product);
+        console.log("cat", props.route.params.category)
+      const data = await DataStore.query(Product, c => c.type("eq",props.route.params.category));
       dispatch(loadProducts(data))
       console.log("products retrieved successfully!");
     } catch (error) {

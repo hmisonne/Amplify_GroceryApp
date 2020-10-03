@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import _ from 'lodash';
 
-export const ProductReducer = (state = [], action) => {
+export const productReducer = (state = [], action) => {
     switch(action.type){
         case "LOAD_PRODUCTS":
             const products = action.products
@@ -21,6 +21,16 @@ export const ProductReducer = (state = [], action) => {
     }
 }
 
+export const userReducer = (state = {}, action) => {
+    switch(action.type){
+        case "AUTHENTIFICATE_USER":
+            return action.user
+        default:
+            return state;
+    }
+}
+
 export default combineReducers({
-    products: ProductReducer,
+    products: productReducer,
+    user: userReducer
 });

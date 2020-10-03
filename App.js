@@ -7,13 +7,11 @@ import Amplify from 'aws-amplify'
 import config from './aws-exports'
 import { withAuthenticator } from 'aws-amplify-react-native'
 import DATA from './data.js'
-
 import store from './src/redux/store';
 import { Provider } from 'react-redux';
 import NewProductForm from './screens/NewProductForm'
 import ProductList from './screens/ProductList'
 import ProductCategory from './screens/ProductCategory'
-
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 

@@ -7,11 +7,14 @@ import { deleteProduct, loadProducts, toggleProduct, resetProductList } from '..
 import { DataStore } from "@aws-amplify/datastore";
 import { Product } from '../src/models'
 import store from '../src/redux/store';
+import { authentificateUser } from '../src/redux/actions'
+import { Auth } from 'aws-amplify'
 
 const ProductList = (props) => {
     const dispatch = useDispatch()
     const { products } = store.getState()
     useEffect(() => {
+        identifyUser();
         fetchProducts();
         // Turn off sync with Cloud
         // const subscription = DataStore.observe(Product).subscribe(msg => {
@@ -20,11 +23,23 @@ const ProductList = (props) => {
         // })
         // return () => subscription.unsubscribe();
     }, [])
+  
+    async function identifyUser() {
+        try {
+            const userInfo = await Auth.currentUserInfo()
+            console.log(userInfo)
+            dispatch(authentificateUser(userInfo))
+            console.log("User info retrieved successfully!");
+        } catch (error) {
+            console.log("Error retrieving user info", error);
+        }
+
+    };
 
   async function fetchProducts() {
     try {
         console.log("cat", props.route.params.category)
-      const data = await DataStore.query(Product, c => c.type("eq",props.navigation.getParam('category')));
+      const data = await DataStore.query(Product, c => c.type("eq",props.route.params.category));
       dispatch(loadProducts(data))
       console.log("products retrieved successfully!");
     } catch (error) {

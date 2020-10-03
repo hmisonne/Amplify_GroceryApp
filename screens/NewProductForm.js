@@ -5,14 +5,19 @@ import reducers from '../src/redux/reducers';
 import { addProduct } from '../src/redux/actions'
 import { DataStore } from "@aws-amplify/datastore";
 import { Product } from '../src/models'
+import {Picker} from '@react-native-community/picker';
+import SubmitBtn from '../components/SubmitBtn'
+import StyledTextInput from '../components/StyledTextInput'
 
 const initialState = { 
   name: '',
   checked: false,
-  unit: '', 
+  unit: 'ct', 
   amount: '', 
   type: ''
 }
+
+const units = ['ct', 'lb', 'g', 'kg', 'L']
 
 const NewProductForm = (props) => {
   initialState.type = props.route.params.category
@@ -45,26 +50,30 @@ const NewProductForm = (props) => {
 
   return (
     <View>
-      <TextInput
+      <StyledTextInput
           onChangeText={val => setInput('name', val)}
           style={styles.input}
           value={formState.name} 
           placeholder="Name"
         />
-        <TextInput
+        <StyledTextInput
           onChangeText={val => setInput('amount', val)}
           keyboardType="numeric"
           style={styles.input}
           value={`${formState.amount}`}
           placeholder="Amount"
         />
-        <TextInput
-          onChangeText={val => setInput('unit', val)}
-          style={styles.input}
-          value={formState.unit}
-          placeholder="Unit"
-        />
-        <Button title="Create Food" onPress={addProductHandler} />
+        <Picker
+          selectedValue={formState.unit}
+          style={{height: 50, width: 100}}
+          onValueChange={val => setInput('unit', val)}>
+          <Picker.Item label={formState.unit} value={formState.unit} />
+          {units.filter(unit => unit !== formState.unit).map(unit => (
+            <Picker.Item label={unit} value={unit} key={unit} />
+          ))}
+          
+        </Picker>
+        <SubmitBtn title="Add to List" onPress={addProductHandler} />
       </View>
   )
 

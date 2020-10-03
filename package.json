@@ -7,7 +7,8 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "amplify-modelgen": "node amplify\\scripts\\amplify-modelgen.js",
-    "amplify-push": "node amplify\\scripts\\amplify-push.js"
+    "amplify-push": "node amplify\\scripts\\amplify-push.js",
+    "test": "jest"
   },
   "dependencies": {
     "@react-native-community/netinfo": "^5.9.7",
@@ -32,7 +33,8 @@
   "devDependencies": {
     "@babel/core": "~7.9.0",
     "ini": "^1.3.5",
-    "inquirer": "^6.5.1"
+    "inquirer": "^6.5.1",
+    "jest": "^26.4.2"
   },
   "private": true
 }

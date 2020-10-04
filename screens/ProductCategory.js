@@ -1,17 +1,22 @@
 import React from 'react';
 import { Button, Text, View, Image, StyleSheet, ImageBackground, ScrollView, TouchableOpacity} from 'react-native';
-import Constants from 'expo-constants';
-import {connect} from 'react-redux'
 
-
+import { Icon, InlineIcon } from '@iconify/react';
+import carrotIcon from '@iconify/icons-mdi/carrot';
+import fruitCherries from '@iconify/icons-mdi/fruit-cherries';
+import barleyIcon from '@iconify/icons-mdi/barley';
+import foodDrumstick from '@iconify/icons-mdi/food-drumstick';
+import cupIcon from '@iconify/icons-mdi/cup';
+import muffinIcon from '@iconify/icons-mdi/muffin';
+import { grey } from '../utils/colors';
 
   const categories= [
-      {name:'Fruits', img: require('../images/fruits.png'), key: 10},
-      {name:'Veggies', img: require('../images/veggies.png'), key: 20},
-      {name:'Dairy', img: require('../images/dairy.png'), key: 30},
-      {name:'Grains', img: require('../images/grains.png'), key: 40},
-      {name:'Meat', img: require('../images/meat.png'), key: 50},
-      {name:'Custom', img: require('../images/custom.png'), key: 60},
+      {name:'Fruits', img: fruitCherries},
+      {name:'Veggies', img: carrotIcon},
+      {name:'Dairy', img: cupIcon},
+      {name:'Grains', img: barleyIcon},
+      {name:'Meat', img: foodDrumstick},
+      {name:'Custom', img: muffinIcon},
   ]
 
 const ProductCategory = (props) => {
@@ -21,20 +26,23 @@ const ProductCategory = (props) => {
 
     return(
     <View style={styles.container}>
-        {categories.map((cat) => (
+        {categories.map((cat, index) => (
         <TouchableOpacity 
           onPress={() => goToProductList(cat.name)} 
           style={styles.vignetteItem}
-          key={cat.key}
+          key={index}
           >
-          <ImageBackground
-            style={styles.vignetteImage}
-            source={cat.img}>
-            <View style={styles.text}
-              > 
-              <Text style={{fontSize:18}}> {cat.name.toUpperCase()} </Text>
-            </View>
-          </ImageBackground>
+          <Icon 
+            icon={cat.img} 
+            width="7em"
+            height="7em"
+            color={grey}
+            />
+
+          <View style={styles.text}
+            > 
+            <Text style={{fontSize:18}}> {cat.name.toUpperCase()} </Text>
+          </View>
         </TouchableOpacity>
         ))
 
@@ -56,19 +64,9 @@ const styles = StyleSheet.create({
       flexWrap: 'wrap'
     },
     vignetteItem :{
-        width: 170,
-      height: 170,
-      margin: 20
-    },
-    vignetteImage: {
       width: 170,
-      height: 170
-    },
-    paragraph: {
-      margin: 7,
-      fontSize: 25,
-      fontWeight: 'bold',
-      textAlign: 'center',
+      height: 170,
+      margin: 20,
     },
     button: {
       marginVertical: 10,

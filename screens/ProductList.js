@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import {
-    View, Text, StyleSheet, Button, Switch
+    View, Text, StyleSheet, Button, Switch, TouchableOpacity
   } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
 import { deleteProduct, loadProducts, toggleProduct, resetProductList } from '../src/redux/actions'
@@ -9,6 +9,7 @@ import { Product } from '../src/models'
 import store from '../src/redux/store';
 import { authentificateUser } from '../src/redux/actions'
 import { Auth } from 'aws-amplify'
+import { AntDesign } from '@expo/vector-icons';
 
 const ProductList = (props) => {
     const dispatch = useDispatch()
@@ -74,7 +75,7 @@ const ProductList = (props) => {
   }
 
   return (
-    <View>
+    <View style={styles.container}>
     <Button title="Add" onPress={() => goToNewProductScreen()} />
     {
         products.map((product, index) => (
@@ -89,7 +90,9 @@ const ProductList = (props) => {
             <View style={styles.subContainer}>
               <Text style={styles.productName}>{product.amount} {product.unit} {product.checked}</Text>
             </View>
-            <Button title="Delete" onPress={() => removeProduct(product.id)} />
+            <TouchableOpacity onPress={() => removeProduct(product.id)}>
+              <AntDesign name="minuscircle" size={24} color="black" />
+            </TouchableOpacity>
           </View>
         ))
       }
@@ -105,7 +108,10 @@ export default connect(mapStateToProps)(ProductList)
 
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', padding: 20 },
+  container: { 
+    flex: 1, 
+    padding: 20 
+  },
   subContainer: {
     flex: 1,
     flexDirection: 'row',

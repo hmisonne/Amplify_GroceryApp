@@ -9,6 +9,7 @@ import {Picker} from '@react-native-community/picker';
 import SubmitBtn from '../components/SubmitBtn'
 import StyledTextInput from '../components/StyledTextInput'
 import Stepper from '../components/Stepper'
+import { grey } from '../utils/colors'
 
 const initialState = { 
   name: '',
@@ -60,27 +61,31 @@ const NewProductForm = (props) => {
 
 
   return (
-    <View>
+    <View style={styles.container}>
       <StyledTextInput
           onChangeText={val => setInput('name', val)}
           style={styles.input}
           value={formState.name} 
           placeholder="Name"
         />
-        <StyledTextInput
+        <View style={styles.product}>
+          <Stepper
+            onIncrement={() => onIncrement('amount')} 
+            onDecrement={() => onDecrement('amount')} 
+          />
+          <StyledTextInput
           onChangeText={val => setInput('amount', val)}
           keyboardType="numeric"
           style={styles.input}
           value={`${formState.amount}`}
           placeholder="Amount"
-        />
-        <Stepper
-          onIncrement={() => onIncrement('amount')} 
-          onDecrement={() => onDecrement('amount')} 
-        />
+          />
+        </View>
+        
+
         <Picker
           selectedValue={formState.unit}
-          style={{height: 50, width: 100}}
+          style={styles.picker}
           onValueChange={val => setInput('unit', val)}>
           <Picker.Item label={formState.unit} value={formState.unit} />
           {units.filter(unit => unit !== formState.unit).map(unit => (
@@ -99,12 +104,33 @@ export default NewProductForm
 
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', padding: 20 },
+  container: { 
+    flex: 1, 
+    justifyContent: 'space-around', 
+    padding: 20 
+  },
   subContainer: {
     flex: 1,
     flexDirection: 'row',
   },
-  product: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 15 },
+  product: { 
+    flexDirection: 'row', 
+    justifyContent: 'space-around', 
+    marginTop: 10,
+    marginLeft: 30,
+    marginRight: 30,
+    marginBottom: 15 
+  },
   input: { height: 50, backgroundColor: '#ddd', marginBottom: 10, padding: 8 },
-  productName: { fontSize: 18 }
+  productName: { fontSize: 18 },
+  picker: {
+    height: 40,
+    borderColor: grey,
+    borderWidth: 2,
+    borderRadius: 10,
+    paddingLeft: 15,
+    marginTop: 10,
+    marginLeft: 30,
+    marginRight: 30,
+},
 })

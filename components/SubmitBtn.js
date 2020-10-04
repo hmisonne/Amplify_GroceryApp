@@ -21,7 +21,7 @@ export default function SubmitBtn({ title, onPress, disabled = false, style = {}
 
 const styles = StyleSheet.create({
     btn: {
-        backgroundColor: lightGreen,
+        backgroundColor: grey,
         borderRadius: 10,
         marginTop: 10,
         paddingTop: 15,

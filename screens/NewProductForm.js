@@ -8,12 +8,13 @@ import { Product } from '../src/models'
 import {Picker} from '@react-native-community/picker';
 import SubmitBtn from '../components/SubmitBtn'
 import StyledTextInput from '../components/StyledTextInput'
+import Stepper from '../components/Stepper'
 
 const initialState = { 
   name: '',
   checked: false,
   unit: 'ct', 
-  amount: '', 
+  amount: 1, 
   type: ''
 }
 
@@ -29,6 +30,16 @@ const NewProductForm = (props) => {
     setFormState({ ...formState, [key]: value })
   }
   
+  function onIncrement(key) {
+    const count = parseInt(formState[key], 10) + 1
+    setFormState({ ...formState, [key]: count })
+  }
+
+  function onDecrement(key) {
+    const count = parseInt(formState[key], 10) - 1
+    setFormState({ ...formState, [key]: count })
+  }
+
   async function addProductHandler() {    
     try {
       const product = { ...formState }
@@ -62,6 +73,10 @@ const NewProductForm = (props) => {
           style={styles.input}
           value={`${formState.amount}`}
           placeholder="Amount"
+        />
+        <Stepper
+          onIncrement={() => onIncrement('amount')} 
+          onDecrement={() => onDecrement('amount')} 
         />
         <Picker
           selectedValue={formState.unit}

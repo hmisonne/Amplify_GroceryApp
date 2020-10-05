@@ -70,9 +70,6 @@ const ProductList = (props) => {
     } catch (err) { console.log('error deleting product') }
   }
 
-  function goToNewProductScreen(){
-    return props.navigation.push('AddProduct',{category: props.route.params.category});
-  }
 
   return (
     <View style={styles.container}>

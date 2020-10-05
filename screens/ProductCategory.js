@@ -8,6 +8,10 @@ import barleyIcon from '@iconify/icons-mdi/barley';
 import foodDrumstick from '@iconify/icons-mdi/food-drumstick';
 import cupIcon from '@iconify/icons-mdi/cup';
 import muffinIcon from '@iconify/icons-mdi/muffin';
+import glassCocktail from '@iconify/icons-mdi/glass-cocktail';
+import shakerIcon from '@iconify/icons-mdi/shaker';
+import cubeOutline from '@iconify/icons-mdi/cube-outline';
+
 import { grey } from '../utils/colors';
 
   const categories= [
@@ -16,7 +20,10 @@ import { grey } from '../utils/colors';
       {name:'Dairy', img: cupIcon},
       {name:'Grains', img: barleyIcon},
       {name:'Meat', img: foodDrumstick},
-      {name:'Custom', img: muffinIcon},
+      {name:'Frozen', img: cubeOutline},
+      {name:'Baking/Snacks', img: muffinIcon},
+      {name:'Drinks', img: glassCocktail},
+      {name:'Condiments', img: shakerIcon},
   ]
 
 const ProductCategory = (props) => {

@@ -37,6 +37,7 @@ const ProductCategory = (props) => {
             width="7em"
             height="7em"
             color={grey}
+            hAlign="center"
             />
 
           <View style={styles.text}
@@ -64,6 +65,7 @@ const styles = StyleSheet.create({
       flexWrap: 'wrap'
     },
     vignetteItem :{
+      alignItems: 'center',
       width: 170,
       height: 170,
       margin: 20,
@@ -73,14 +75,7 @@ const styles = StyleSheet.create({
       margin: 20,
     },
     text: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      position: 'absolute', 
-      width: '100%', 
-      bottom: 0, 
-      justifyContent: 'center', 
-      alignItems: 'center', 
-  
+      textAlign: 'center',  
     },
     
   });

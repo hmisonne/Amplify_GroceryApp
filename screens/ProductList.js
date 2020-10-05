@@ -91,7 +91,10 @@ const ProductList = (props) => {
               <Text style={styles.productName}>{product.amount} {product.unit} {product.checked}</Text>
             </View>
             <TouchableOpacity onPress={() => removeProduct(product.id)}>
-              <AntDesign name="minuscircle" size={24} color="black" />
+              <AntDesign 
+                name="minuscircle" 
+                size={24} 
+                color="red" />
             </TouchableOpacity>
           </View>
         ))

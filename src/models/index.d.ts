@@ -9,8 +9,28 @@ export declare class Product {
   readonly name: string;
   readonly checked: boolean;
   readonly unit: string;
-  readonly amount: number;
-  readonly type: string;
+  readonly quantity: number;
+  readonly category: string;
+  readonly groceryList?: GroceryList;
   constructor(init: ModelInit<Product>);
   static copyOf(source: Product, mutator: (draft: MutableModel<Product>) => MutableModel<Product> | void): Product;
+}
+
+export declare class GroceryList {
+  readonly id: string;
+  readonly name: string;
+  readonly owner?: User;
+  readonly description?: string;
+  readonly products?: Product[];
+  constructor(init: ModelInit<GroceryList>);
+  static copyOf(source: GroceryList, mutator: (draft: MutableModel<GroceryList>) => MutableModel<GroceryList> | void): GroceryList;
+}
+
+export declare class User {
+  readonly id: string;
+  readonly name?: string;
+  readonly email?: string;
+  readonly grocerylists?: GroceryList[];
+  constructor(init: ModelInit<User>);
+  static copyOf(source: User, mutator: (draft: MutableModel<User>) => MutableModel<User> | void): User;
 }

@@ -31,19 +31,32 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "amount": {
-                    "name": "amount",
+                "quantity": {
+                    "name": "quantity",
                     "isArray": false,
                     "type": "Int",
                     "isRequired": true,
                     "attributes": []
                 },
-                "type": {
-                    "name": "type",
+                "category": {
+                    "name": "category",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
                     "attributes": []
+                },
+                "groceryList": {
+                    "name": "groceryList",
+                    "isArray": false,
+                    "type": {
+                        "model": "GroceryList"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetName": "productGroceryListId"
+                    }
                 }
             },
             "syncable": true,
@@ -54,9 +67,116 @@ export const schema = {
                     "properties": {}
                 }
             ]
+        },
+        "GroceryList": {
+            "name": "GroceryList",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "name": {
+                    "name": "name",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "owner": {
+                    "name": "owner",
+                    "isArray": false,
+                    "type": {
+                        "model": "User"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetName": "groceryListOwnerId"
+                    }
+                },
+                "description": {
+                    "name": "description",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "products": {
+                    "name": "products",
+                    "isArray": true,
+                    "type": {
+                        "model": "Product"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": "groceryList"
+                    }
+                }
+            },
+            "syncable": true,
+            "pluralName": "GroceryLists",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                }
+            ]
+        },
+        "User": {
+            "name": "User",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "name": {
+                    "name": "name",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "email": {
+                    "name": "email",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "grocerylists": {
+                    "name": "grocerylists",
+                    "isArray": true,
+                    "type": {
+                        "model": "GroceryList"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": "owner"
+                    }
+                }
+            },
+            "syncable": true,
+            "pluralName": "Users",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                }
+            ]
         }
     },
     "enums": {},
     "nonModels": {},
-    "version": "4b87964abe9db1a762e940cf565a1cf6"
+    "version": "80b57985f0e0daef17b5edd3a3462215"
 };

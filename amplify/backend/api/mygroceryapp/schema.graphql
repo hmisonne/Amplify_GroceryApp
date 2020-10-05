@@ -3,6 +3,22 @@ type Product @model {
   name: String!
   checked: Boolean!
   unit: String!
-  amount: Int!
-  type: String!
+  quantity: Int!
+  category: String!
+  groceryList: GroceryList @connection(name: "GroceryListProducts")
+}
+
+type GroceryList @model {
+  id: ID!
+  name: String!
+  owner: User @connection(name: "UserGroceryLists")
+  description: String
+  products: [Product] @connection(name: "GroceryListProducts")
+}
+
+type User @model {
+  id: ID!
+  name: String
+  email: String
+  grocerylists: [GroceryList] @connection(name: "UserGroceryLists")
 }

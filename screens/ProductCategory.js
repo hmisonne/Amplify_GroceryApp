@@ -44,7 +44,6 @@ const ProductCategory = (props) => {
             width="7em"
             height="7em"
             color={grey}
-            hAlign="center"
             />
 
           <View style={styles.text}

@@ -7,15 +7,13 @@ import { deleteProduct, loadProducts, toggleProduct } from '../src/redux/actions
 import { DataStore } from "@aws-amplify/datastore";
 import { Product } from '../src/models'
 import store from '../src/redux/store';
-import { authentificateUser } from '../src/redux/actions/user'
-import { Auth } from 'aws-amplify'
+
 import { AntDesign } from '@expo/vector-icons';
 
 const ProductList = (props) => {
     const dispatch = useDispatch()
     const { products } = store.getState()
     useEffect(() => {
-        identifyUser();
         fetchProducts();
         // Turn off sync with Cloud
         // const subscription = DataStore.observe(Product).subscribe(msg => {
@@ -25,17 +23,7 @@ const ProductList = (props) => {
         // return () => subscription.unsubscribe();
     }, [])
   
-    async function identifyUser() {
-        try {
-            const userInfo = await Auth.currentUserInfo()
-            console.log(userInfo)
-            dispatch(authentificateUser(userInfo))
-            console.log("User info retrieved successfully!");
-        } catch (error) {
-            console.log("Error retrieving user info", error);
-        }
 
-    };
 
   async function fetchProducts() {
     try {

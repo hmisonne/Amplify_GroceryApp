@@ -50,11 +50,9 @@ const NewProductForm = (props) => {
 
       // Convert Quantity to Int
       product.quantity = parseInt(product.quantity, 10)
-      console.log('product', product)
       const productSaved = await DataStore.save(
         new Product(product)
       )
-      console.log('product', productSaved)
       dispatch(addProduct(productSaved))
       console.log("Product saved successfully!");
     } catch (err) {

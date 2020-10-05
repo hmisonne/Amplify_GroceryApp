@@ -76,7 +76,6 @@ const ProductList = (props) => {
 
   return (
     <View style={styles.container}>
-    <Button title="Add" onPress={() => goToNewProductScreen()} />
     {
         products.map((product, index) => (
           <View key={product.id ? product.id : index} style={styles.product}>

@@ -12,6 +12,7 @@ import { Provider } from 'react-redux';
 import NewProductForm from './screens/NewProductForm'
 import ProductList from './screens/ProductList'
 import ProductCategory from './screens/ProductCategory'
+import Home from './screens/Home'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { AntDesign } from '@expo/vector-icons';
@@ -29,6 +30,10 @@ const App = () => {
     <Provider store={store}>
       <NavigationContainer>
         <ProductStack.Navigator>
+          <ProductStack.Screen 
+            name="Home" 
+            component={Home} 
+            options={{ title: 'Home' }}/>
           <ProductStack.Screen 
             name="ProductCategory" 
             component={ProductCategory} 

@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import React from 'react'
 import {
-  View, StyleSheet,
+  View, StyleSheet, Button, TouchableOpacity
 } from 'react-native'
 import Amplify from 'aws-amplify'
 import config from './aws-exports'
@@ -14,6 +14,7 @@ import ProductList from './screens/ProductList'
 import ProductCategory from './screens/ProductCategory'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { AntDesign } from '@expo/vector-icons';
 
 Amplify.configure(config)
 
@@ -21,20 +22,40 @@ const ProductStack = createStackNavigator();
 
 
 const App = () => {
-
+  function goToNewProductScreen (props) {
+    props.navigation.push('AddProduct',{category: props.route.params.category})
+  }
   return (
     <Provider store={store}>
       <NavigationContainer>
         <ProductStack.Navigator>
-        <ProductStack.Screen 
+          <ProductStack.Screen 
             name="ProductCategory" 
-            component={ProductCategory} />
-          <ProductStack.Screen
-            name="ProductList"
-            component={ProductList}/>
+            component={ProductCategory} 
+            options={{ title: 'My Grocery List' }}/>
+          <ProductStack.Screen 
+            name="ProductList" 
+            component={ProductList} 
+            options={(props) => ({
+              title: props.route.params.category,
+              headerRight: () => (
+                <TouchableOpacity 
+                  style={{marginRight: 20}}
+                  onPress={() => goToNewProductScreen(props)}>
+                  <AntDesign 
+                    name="pluscircle" 
+                    size={24} 
+                    color="green" />
+                  </TouchableOpacity>
+                ),
+              })}
+            />
           <ProductStack.Screen 
             name="AddProduct" 
-            component={NewProductForm} />
+            component={NewProductForm} 
+            options={(props) => ({
+              title: `Add New ${props.route.params.category}`,
+              })}/>
         </ProductStack.Navigator>
       </NavigationContainer>
     </Provider>
@@ -42,16 +63,5 @@ const App = () => {
   )
   
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', padding: 20 },
-  subContainer: {
-    flex: 1,
-    flexDirection: 'row',
-  },
-  product: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 15 },
-  input: { height: 50, backgroundColor: '#ddd', marginBottom: 10, padding: 8 },
-  productName: { fontSize: 18 }
-})
 
 export default withAuthenticator(App)

@@ -15,14 +15,14 @@ const initialState = {
   name: '',
   checked: false,
   unit: 'ct', 
-  amount: 1, 
-  type: ''
+  quantity: 1, 
+  category: ''
 }
 
 const units = ['ct', 'lb', 'g', 'kg', 'L']
 
 const NewProductForm = (props) => {
-  initialState.type = props.route.params.category
+  initialState.category = props.route.params.category
   const [formState, setFormState] = useState(initialState)
   // const [state, dispatch] = useReducer(reducers);
   const dispatch = useDispatch()
@@ -47,8 +47,8 @@ const NewProductForm = (props) => {
       // setProducts([...products, product])
       setFormState(initialState)
 
-      // Convert Amount to Int
-      product.amount = parseInt(product.amount, 10)
+      // Convert Quantity to Int
+      product.quantity = parseInt(product.quantity, 10)
       const productSaved = await DataStore.save(
         new Product(product)
       )
@@ -70,15 +70,15 @@ const NewProductForm = (props) => {
         />
         <View style={styles.product}>
           <Stepper
-            onIncrement={() => onIncrement('amount')} 
-            onDecrement={() => onDecrement('amount')} 
+            onIncrement={() => onIncrement('quantity')} 
+            onDecrement={() => onDecrement('quantity')} 
           />
           <StyledTextInput
-          onChangeText={val => setInput('amount', val)}
+          onChangeText={val => setInput('quantity', val)}
           keyboardType="numeric"
           style={styles.input}
-          value={`${formState.amount}`}
-          placeholder="Amount"
+          value={`${formState.quantity}`}
+          placeholder="quantity"
           />
         </View>
         

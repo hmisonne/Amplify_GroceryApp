@@ -40,7 +40,7 @@ const ProductList = (props) => {
   async function fetchProducts() {
     try {
         console.log("cat", props.route.params.category)
-      const data = await DataStore.query(Product, c => c.type("eq",props.route.params.category));
+      const data = await DataStore.query(Product, c => c.category("eq",props.route.params.category));
       dispatch(loadProducts(data))
       console.log("products retrieved successfully!");
     } catch (error) {
@@ -84,7 +84,7 @@ const ProductList = (props) => {
               <Text style={styles.productName}>{product.name}</Text>
             </View>
             <View style={styles.subContainer}>
-              <Text style={styles.productName}>{product.amount} {product.unit} {product.checked}</Text>
+              <Text style={styles.productName}>{product.quantity} {product.unit} {product.checked}</Text>
             </View>
             <TouchableOpacity onPress={() => removeProduct(product.id)}>
               <AntDesign 

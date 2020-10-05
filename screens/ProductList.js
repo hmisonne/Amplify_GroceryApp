@@ -3,11 +3,11 @@ import {
     View, Text, StyleSheet, Button, Switch, TouchableOpacity
   } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
-import { deleteProduct, loadProducts, toggleProduct, resetProductList } from '../src/redux/actions'
+import { deleteProduct, loadProducts, toggleProduct } from '../src/redux/actions/product'
 import { DataStore } from "@aws-amplify/datastore";
 import { Product } from '../src/models'
 import store from '../src/redux/store';
-import { authentificateUser } from '../src/redux/actions'
+import { authentificateUser } from '../src/redux/actions/user'
 import { Auth } from 'aws-amplify'
 import { AntDesign } from '@expo/vector-icons';
 

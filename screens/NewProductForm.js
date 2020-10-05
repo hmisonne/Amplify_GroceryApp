@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { View, StyleSheet, Button, TextInput } from 'react-native'
 import { useDispatch } from 'react-redux'
 import reducers from '../src/redux/reducers';
-import { addProduct } from '../src/redux/actions'
+import { addProduct } from '../src/redux/actions/product'
 import { DataStore } from "@aws-amplify/datastore";
 import { Product } from '../src/models'
 import {Picker} from '@react-native-community/picker';
@@ -16,7 +16,8 @@ const initialState = {
   checked: false,
   unit: 'ct', 
   quantity: 1, 
-  category: ''
+  category: '',
+  productGroceryListId: '123'
 }
 
 const units = ['ct', 'lb', 'g', 'kg', 'L']
@@ -49,9 +50,11 @@ const NewProductForm = (props) => {
 
       // Convert Quantity to Int
       product.quantity = parseInt(product.quantity, 10)
+      console.log('product', product)
       const productSaved = await DataStore.save(
         new Product(product)
       )
+      console.log('product', productSaved)
       dispatch(addProduct(productSaved))
       console.log("Product saved successfully!");
     } catch (err) {

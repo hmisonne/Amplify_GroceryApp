@@ -1,5 +1,5 @@
 import { productReducer } from '../reducers';
-import { addProduct, deleteProduct, toggleProduct} from '../actions';
+import { addProduct, deleteProduct, toggleProduct} from '../actions/product';
 
 describe('product reducer', () => {
     const product = { 

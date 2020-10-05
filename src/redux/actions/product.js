@@ -17,8 +17,3 @@ export const toggleProduct = (id) => ({
     type: "TOGGLE_PRODUCT",
     id,
 });
-
-export const authentificateUser = (user) => ({
-    type: "AUTHENTIFICATE_USER",
-    user,
-});

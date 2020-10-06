@@ -12,12 +12,17 @@ import { Provider } from 'react-redux';
 import NewProductForm from './screens/NewProductForm'
 import ProductList from './screens/ProductList'
 import ProductCategory from './screens/ProductCategory'
+import NewGroceryListForm from './screens/NewGroceryListForm'
 import Home from './screens/Home'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { AntDesign } from '@expo/vector-icons';
 
-Amplify.configure(config)
+Amplify.configure({...config,
+  Analytics: { 
+    disabled: true
+  }
+})
 
 const ProductStack = createStackNavigator();
 
@@ -38,6 +43,10 @@ const App = () => {
             name="ProductCategory" 
             component={ProductCategory} 
             options={{ title: 'My Grocery List' }}/>
+          <ProductStack.Screen 
+            name="NewList" 
+            component={NewGroceryListForm} 
+            options={{ title: 'My New List' }}/>
           <ProductStack.Screen 
             name="ProductList" 
             component={ProductList} 

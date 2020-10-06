@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, Button, TextInput } from 'react-native'
 import { useDispatch, connect } from 'react-redux'
 import { addGroceryList } from '../src/redux/actions/groceryList'
@@ -18,28 +18,21 @@ const NewGroceryListForm = (props) => {
   const [formState, setFormState] = useState(initialState)
   const dispatch = useDispatch()
   const { user } = store.getState()
-
+  
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value })
   }
   
+  
 
   async function createListHandler() {    
     try {
-        const newProduct = await DataStore.save(
-            new Product({ 
-                name: 'Test',
-                checked: false,
-                unit: 'ct', 
-                quantity: 1, 
-                category: 'Fruits',
-              })
-        );
       const groceryList = { ...formState }
-      groceryList.owner = user.id
-      groceryList.products = newProduct
       const groceryListSaved = await DataStore.save(
-        new GroceryList(groceryList)
+        new GroceryList({
+            name: groceryList.name,
+            description: groceryList.description,
+        })
       )
       dispatch(addGroceryList(groceryListSaved))
       console.log("List saved successfully!");

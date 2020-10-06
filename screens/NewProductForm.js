@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, Button, TextInput } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { useDispatch } from 'react-redux'
-import reducers from '../src/redux/reducers';
 import { addProduct } from '../src/redux/actions/product'
 import { DataStore } from "@aws-amplify/datastore";
 import { GroceryList, Product } from '../src/models'
-import {Picker} from '@react-native-community/picker';
 import SubmitBtn from '../components/SubmitBtn'
 import StyledTextInput from '../components/StyledTextInput'
 import Stepper from '../components/Stepper'
@@ -17,14 +15,12 @@ const initialState = {
   checked: false,
   unit: 'ct', 
   quantity: 1, 
-  category: '',
-  productGroceryListId: '123'
 }
 
 const units = ['ct', 'lb', 'g', 'kg', 'L']
 
 const NewProductForm = (props) => {
-  initialState.category = props.route.params.category
+  
   const [formState, setFormState] = useState(initialState)
   // const [state, dispatch] = useReducer(reducers);
   const dispatch = useDispatch()
@@ -46,15 +42,14 @@ const NewProductForm = (props) => {
   async function addProductHandler() {    
     try {
       const product = { ...formState }
-      // setProducts([...products, product])
-      setFormState(initialState)
+      product.category = category
       // Retrieve List object
-      const listId ='918fd14f-ccd8-42d7-8b37-89ce265df990'
-      const currentList = await DataStore.query(GroceryList, listId);
-      // Convert Quantity to Int
-      product.quantity = parseInt(product.quantity, 10)
+      const { groceryListID, category } = props.route.params
+      const currentList = await DataStore.query(GroceryList, groceryListID);
       // Add reference
       product.groceryList = currentList
+      // Convert Quantity to Int
+      product.quantity = parseInt(product.quantity, 10)
 
       const productSaved = await DataStore.save(
         new Product(product)
@@ -146,7 +141,3 @@ const styles = StyleSheet.create({
     marginRight: 30,
 },
 })
-
-// updated.products = (updated.products)?
-// [...updated.products, productSaved]
-// : [productSaved]

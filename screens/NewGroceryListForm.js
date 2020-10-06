@@ -1,22 +1,23 @@
 import React, { useState } from 'react'
 import { View, StyleSheet, Button, TextInput } from 'react-native'
-import { useDispatch } from 'react-redux'
+import { useDispatch, connect } from 'react-redux'
 import { addGroceryList } from '../src/redux/actions/groceryList'
 import { DataStore } from "@aws-amplify/datastore";
-import { GroceryList } from '../src/models'
+import { GroceryList, Product} from '../src/models'
 import SubmitBtn from '../components/SubmitBtn'
 import StyledTextInput from '../components/StyledTextInput'
-
+import store from '../src/redux/store';
 import { grey } from '../utils/colors'
 
 const initialState = { 
   name: '',
-  description: '', 
+  description: '',
 }
 
 const NewGroceryListForm = (props) => {
   const [formState, setFormState] = useState(initialState)
   const dispatch = useDispatch()
+  const { user } = store.getState()
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value })
@@ -25,9 +26,18 @@ const NewGroceryListForm = (props) => {
 
   async function createListHandler() {    
     try {
+        const newProduct = await DataStore.save(
+            new Product({ 
+                name: 'Test',
+                checked: false,
+                unit: 'ct', 
+                quantity: 1, 
+                category: 'Fruits',
+              })
+        );
       const groceryList = { ...formState }
-      setFormState(initialState)
-
+      groceryList.owner = user.id
+      groceryList.products = newProduct
       const groceryListSaved = await DataStore.save(
         new GroceryList(groceryList)
       )
@@ -59,9 +69,11 @@ const NewGroceryListForm = (props) => {
 
 }
 
+const mapStateToProps = state => ({
+    user: state.user,
+  })
 
-
-export default NewGroceryListForm
+export default connect(mapStateToProps)(NewGroceryListForm)
 
 
 const styles = StyleSheet.create({

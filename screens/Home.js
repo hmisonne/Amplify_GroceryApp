@@ -37,11 +37,15 @@ const Home = (props) => {
         return props.navigation.push('ProductCategory')
     }
 
+    function goToNewGroceryList() {
+        return props.navigation.push('NewList')
+    }
+
     return (
         <View style={styles.container}>
             <SubmitBtn 
                 title='New List'
-                onPress={goToProductList}
+                onPress={goToNewGroceryList}
             />
             <SubmitBtn 
                 title='Saved List(s)'

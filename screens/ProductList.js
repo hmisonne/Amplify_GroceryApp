@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import {
-    View, Text, StyleSheet, Button, Switch, TouchableOpacity
+    View, Text, StyleSheet, Switch, TouchableOpacity
   } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
-import { deleteProduct, loadProducts, toggleProduct } from '../src/redux/actions/product'
+import { deleteProduct, toggleProduct, filterProductsbyCat } from '../src/redux/actions/product'
 import { DataStore } from "@aws-amplify/datastore";
 import { Product } from '../src/models'
 import store from '../src/redux/store';
@@ -13,29 +13,12 @@ import { AntDesign } from '@expo/vector-icons';
 const ProductList = (props) => {
     const dispatch = useDispatch()
     const { products } = store.getState()
+    const {category} = props.route.params
+
     useEffect(() => {
-        fetchProducts();
-        // Turn off sync with Cloud
-        // const subscription = DataStore.observe(Product).subscribe(msg => {
-        //   console.log(msg.model, msg.opType, msg.element);
-        //   fetchProducts();
-        // })
-        // return () => subscription.unsubscribe();
+      dispatch(filterProductsbyCat(category))
     }, [])
   
-
-
-  async function fetchProducts() {
-    try {
-        console.log("cat", props.route.params.category)
-      const data = await DataStore.query(Product, c => c.category("eq",props.route.params.category));
-      dispatch(loadProducts(data))
-      console.log("products retrieved successfully!");
-    } catch (error) {
-      console.log("Error retrieving products", error);
-    }
-    
-  };
 
   async function onToggle(id) {
     try {

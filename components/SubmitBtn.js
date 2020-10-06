@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 });
 
 SubmitBtn.propTypes = {
-    children: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
     onPress: PropTypes.func.isRequired,
     style: PropTypes.object,
     disabled: PropTypes.bool

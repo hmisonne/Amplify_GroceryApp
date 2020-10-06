@@ -3,7 +3,7 @@ import { View, TextInput, StyleSheet } from 'react-native'
 import { lightGreen, grey } from '../utils/colors'
 import PropTypes from 'prop-types'
 
-export default function StyledTextInput({ value, placeholder, onChangeText, style = {} }) {
+export default function StyledTextInput({ value, placeholder, onChangeText }) {
     return (
         <TextInput
             style={styles.textInput}
@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
 
 StyledTextInput.propTypes = {
     onChangeText: PropTypes.func.isRequired,
-    style: PropTypes.object,
     value: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
 }

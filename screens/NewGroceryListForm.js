@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { View, StyleSheet, Button, TextInput } from 'react-native'
-import { useDispatch, connect } from 'react-redux'
-import { addGroceryList } from '../src/redux/actions/groceryList'
+import React, { useState } from 'react'
+import { View, StyleSheet } from 'react-native'
+import { connect } from 'react-redux'
 import { DataStore } from "@aws-amplify/datastore";
 import { GroceryList, Product} from '../src/models'
 import SubmitBtn from '../components/SubmitBtn'
@@ -16,7 +15,6 @@ const initialState = {
 
 const NewGroceryListForm = (props) => {
   const [formState, setFormState] = useState(initialState)
-  const dispatch = useDispatch()
   const { user } = store.getState()
   
   function setInput(key, value) {
@@ -34,7 +32,6 @@ const NewGroceryListForm = (props) => {
             description: groceryList.description,
         })
       )
-      dispatch(addGroceryList(groceryListSaved))
       console.log("List saved successfully!");
     } catch (err) {
       console.log('error creating list:', err)

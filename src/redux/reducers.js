@@ -6,6 +6,8 @@ export const productReducer = (state = [], action) => {
         case "LOAD_PRODUCTS":
             const products = action.products
             return products
+        case "FILTER_PRODUCTS":
+            return state.filter(product => (product.category === action.category))
         case "ADD_PRODUCT":
             const newProduct = action.product
             return [...state, newProduct]

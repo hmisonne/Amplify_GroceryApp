@@ -13,6 +13,11 @@ export const loadProducts = (products) => ({
     products,
 });
 
+export const filterProductsbyCat = (category) => ({
+    type: "FILTER_PRODUCTS",
+    category,
+});
+
 export const toggleProduct = (id) => ({
     type: "TOGGLE_PRODUCT",
     id,

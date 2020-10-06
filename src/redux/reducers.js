@@ -20,6 +20,18 @@ export const productReducer = (state = [], action) => {
             return state;
     }
 }
+export const groceryListReducer = (state = [], action) => {
+    switch(action.type){
+        case "LOAD_GROCERY_LIST":
+            const groceryLists = action.groceryLists
+            return groceryLists
+        case "ADD_GROCERY_LIST":
+            const newGroceryList = action.groceryList
+            return [...state, newGroceryList]
+        default:
+            return state;
+    }
+}
 
 export const userReducer = (state = {}, action) => {
     switch(action.type){
@@ -32,5 +44,6 @@ export const userReducer = (state = {}, action) => {
 
 export default combineReducers({
     products: productReducer,
+    groceryLists: groceryListReducer,
     user: userReducer
 });

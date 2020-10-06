@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import reducers from '../src/redux/reducers';
 import { addProduct } from '../src/redux/actions/product'
 import { DataStore } from "@aws-amplify/datastore";
-import { Product } from '../src/models'
+import { GroceryList, Product } from '../src/models'
 import {Picker} from '@react-native-community/picker';
 import SubmitBtn from '../components/SubmitBtn'
 import StyledTextInput from '../components/StyledTextInput'
@@ -48,12 +48,25 @@ const NewProductForm = (props) => {
       const product = { ...formState }
       // setProducts([...products, product])
       setFormState(initialState)
-
+      // Retrieve List object
+      const listId ='918fd14f-ccd8-42d7-8b37-89ce265df990'
+      const currentList = await DataStore.query(GroceryList, listId);
       // Convert Quantity to Int
       product.quantity = parseInt(product.quantity, 10)
+      // Add reference
+      product.groceryList = currentList
+
       const productSaved = await DataStore.save(
         new Product(product)
       )
+
+      await DataStore.save(
+        GroceryList.copyOf(currentList, updated => {
+          updated.products = updated.products ?
+           [...updated.products, productSaved]
+          : [productSaved]
+    }))
+
       dispatch(addProduct(productSaved))
       props.navigation.goBack();
       console.log("Product saved successfully!");
@@ -133,3 +146,7 @@ const styles = StyleSheet.create({
     marginRight: 30,
 },
 })
+
+// updated.products = (updated.products)?
+// [...updated.products, productSaved]
+// : [productSaved]

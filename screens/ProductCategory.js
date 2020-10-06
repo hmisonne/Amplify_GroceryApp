@@ -1,7 +1,7 @@
-import React from 'react';
-import { Button, Text, View, Image, StyleSheet, ImageBackground, ScrollView, TouchableOpacity} from 'react-native';
+import React, {useEffect} from 'react';
+import { Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 
-import { Icon, InlineIcon } from '@iconify/react';
+import { Icon } from '@iconify/react';
 import carrotIcon from '@iconify/icons-mdi/carrot';
 import fruitCherries from '@iconify/icons-mdi/fruit-cherries';
 import barleyIcon from '@iconify/icons-mdi/barley';
@@ -11,8 +11,12 @@ import muffinIcon from '@iconify/icons-mdi/muffin';
 import glassCocktail from '@iconify/icons-mdi/glass-cocktail';
 import shakerIcon from '@iconify/icons-mdi/shaker';
 import cubeOutline from '@iconify/icons-mdi/cube-outline';
-
+import { connect, useDispatch } from 'react-redux'
+import { loadProducts } from '../src/redux/actions/product'
+import store from '../src/redux/store';
 import { grey } from '../utils/colors';
+import { GroceryList } from '../src/models';
+import { DataStore } from "@aws-amplify/datastore";
 
   const categories= [
       {name:'Fruits', img: fruitCherries},
@@ -27,10 +31,36 @@ import { grey } from '../utils/colors';
   ]
 
 const ProductCategory = (props) => {
-    function goToProductList(category) {
-        return props.navigation.push('ProductList',{category})
-    }
+  const dispatch = useDispatch()
+  const { groceryListID } = props.route.params
+  const { products} = store.getState()
+  useEffect(() => {
+      fetchProducts();
+      // Turn off sync with Cloud
+      // const subscription = DataStore.observe(Product).subscribe(msg => {
+      //   console.log(msg.model, msg.opType, msg.element);
+      //   fetchProducts();
+      // })
+      // return () => subscription.unsubscribe();
+  }, [])
 
+
+
+async function fetchProducts() {
+  try {
+    const data = await DataStore.query(GroceryList, groceryListID);
+    data.products && dispatch(loadProducts(data.products))
+    console.log("products retrieved successfully!");
+  } catch (error) {
+    console.log("Error retrieving products", error);
+  }
+  
+};
+
+  function goToProductList(category) {
+      return props.navigation.push('ProductList',{category, groceryListID})
+    }
+    
     return(
     <View style={styles.container}>
         {categories.map((cat, index) => (
@@ -58,7 +88,12 @@ const ProductCategory = (props) => {
     )
 }
 
-export default ProductCategory
+const mapStateToProps = state => ({
+  products: state.products,
+})
+
+export default connect(mapStateToProps)(ProductCategory)
+
 
 const styles = StyleSheet.create({
 

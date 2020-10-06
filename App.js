@@ -30,7 +30,10 @@ const ProductStack = createStackNavigator();
 
 const App = () => {
   function goToNewProductScreen (props) {
-    props.navigation.push('AddProduct',{category: props.route.params.category})
+    props.navigation.push('AddProduct',{
+      category: props.route.params.category,
+      groceryListID: props.route.params.groceryListID
+    })
   }
   return (
     <Provider store={store}>

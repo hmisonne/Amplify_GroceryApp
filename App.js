@@ -1,12 +1,11 @@
 import 'react-native-gesture-handler';
 import React from 'react'
 import {
-  View, StyleSheet, Button, TouchableOpacity
+ TouchableOpacity
 } from 'react-native'
 import Amplify from 'aws-amplify'
 import config from './aws-exports'
 import { withAuthenticator } from 'aws-amplify-react-native'
-import DATA from './data.js'
 import store from './src/redux/store';
 import { Provider } from 'react-redux';
 import NewProductForm from './screens/NewProductForm'

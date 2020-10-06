@@ -41,6 +41,10 @@ const Home = (props) => {
         return props.navigation.push('NewList')
     }
 
+    function goToSavedGroceryList() {
+        return props.navigation.push('GroceryLists')
+    }
+
     return (
         <View style={styles.container}>
             <SubmitBtn 
@@ -49,10 +53,10 @@ const Home = (props) => {
             />
             <SubmitBtn 
                 title='Saved List(s)'
-                onPress={goToProductList}
+                onPress={goToSavedGroceryList}
             />
             <SubmitBtn 
-                title='Add List'
+                title='Product Categories'
                 onPress={goToProductList}
             />
         </View>

@@ -10,6 +10,7 @@ import SubmitBtn from '../components/SubmitBtn'
 import StyledTextInput from '../components/StyledTextInput'
 import Stepper from '../components/Stepper'
 import { grey } from '../utils/colors'
+import UnitPicker from '../components/UnitPicker'
 
 const initialState = { 
   name: '',
@@ -54,6 +55,7 @@ const NewProductForm = (props) => {
         new Product(product)
       )
       dispatch(addProduct(productSaved))
+      props.navigation.goBack();
       console.log("Product saved successfully!");
     } catch (err) {
       console.log('error creating food:', err)
@@ -65,7 +67,7 @@ const NewProductForm = (props) => {
     <View style={styles.container}>
       <StyledTextInput
           onChangeText={val => setInput('name', val)}
-          style={styles.input}
+
           value={formState.name} 
           placeholder="Name"
         />
@@ -77,23 +79,20 @@ const NewProductForm = (props) => {
           <StyledTextInput
           onChangeText={val => setInput('quantity', val)}
           keyboardType="numeric"
-          style={styles.input}
+
           value={`${formState.quantity}`}
           placeholder="quantity"
           />
         </View>
         
 
-        <Picker
+        <UnitPicker
           selectedValue={formState.unit}
-          style={styles.picker}
-          onValueChange={val => setInput('unit', val)}>
-          <Picker.Item label={formState.unit} value={formState.unit} />
-          {units.filter(unit => unit !== formState.unit).map(unit => (
-            <Picker.Item label={unit} value={unit} key={unit} />
-          ))}
-          
-        </Picker>
+          onValueChange={val => setInput('unit', val)}
+          label={formState.unit}
+          value={formState.unit}
+          units={units}
+        />
         <SubmitBtn title="Add to List" onPress={addProductHandler} />
       </View>
   )
@@ -122,7 +121,6 @@ const styles = StyleSheet.create({
     marginRight: 30,
     marginBottom: 15 
   },
-  input: { height: 50, backgroundColor: '#ddd', marginBottom: 10, padding: 8 },
   productName: { fontSize: 18 },
   picker: {
     height: 40,

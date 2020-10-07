@@ -3,9 +3,9 @@ import {
     View, Text, StyleSheet, Switch, TouchableOpacity
   } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
-import { deleteProduct, toggleProduct, filterProductsbyCat } from '../src/redux/actions/product'
+import { deleteProduct, toggleProduct, loadProducts } from '../src/redux/actions/product'
 import { DataStore } from "@aws-amplify/datastore";
-import { Product } from '../src/models'
+import { Product, GroceryList } from '../src/models'
 import store from '../src/redux/store';
 
 import { AntDesign } from '@expo/vector-icons';
@@ -13,22 +13,27 @@ import { AntDesign } from '@expo/vector-icons';
 const ProductList = (props) => {
     const dispatch = useDispatch()
     const { products } = store.getState()
-    const {category} = props.route.params
-
-    useEffect(() => {
-      dispatch(filterProductsbyCat(category))
-    }, [])
-  
-
+    const { category, groceryListID } = props.route.params
+    const productsByCat = products.filter(product => product.category === category)
+    
   async function onToggle(id) {
     try {
         dispatch(toggleProduct(id))
         const original = await DataStore.query(Product, id);
-        await DataStore.save(
+        const newProduct = await DataStore.save(
             Product.copyOf(original, updated => {
             updated.checked = !original.checked;
-        })
-        );
+        }));
+
+        // Update GroceryList
+        const originalGroceryList = await DataStore.query(GroceryList, groceryListID);
+        await DataStore.save(
+          GroceryList.copyOf(originalGroceryList, updated => {
+          updated.products = updated.products.map(product => (product.id === id)?
+          newProduct
+          : product
+          );
+      }));
       
     } catch (err) { console.log('error toggling product') }
   }
@@ -38,6 +43,12 @@ const ProductList = (props) => {
       dispatch(deleteProduct(id))
       const todelete = await DataStore.query(Product, id);
       DataStore.delete(todelete);
+      // Update GroceryList
+      const originalGroceryList = await DataStore.query(GroceryList, groceryListID);
+      await DataStore.save(
+        GroceryList.copyOf(originalGroceryList, updated => {
+        updated.products = updated.products.filter(product => product.id ==! id)
+        }))
     } catch (err) { console.log('error deleting product') }
   }
 
@@ -45,7 +56,7 @@ const ProductList = (props) => {
   return (
     <View style={styles.container}>
     {
-        products.map((product, index) => (
+        productsByCat.map((product, index) => (
           <View key={product.id ? product.id : index} style={styles.product}>
             <View style={styles.subContainer}>
               <Switch

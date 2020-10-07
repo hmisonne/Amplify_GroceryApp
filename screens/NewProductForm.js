@@ -42,9 +42,10 @@ const NewProductForm = (props) => {
   async function addProductHandler() {    
     try {
       const product = { ...formState }
-      product.category = category
+      
       // Retrieve List object
       const { groceryListID, category } = props.route.params
+      product.category = category
       const currentList = await DataStore.query(GroceryList, groceryListID);
       // Add reference
       product.groceryList = currentList

@@ -1,13 +1,8 @@
 import React, { useState , useEffect} from 'react'
 import { View, StyleSheet, Button, TextInput } from 'react-native'
 import { useDispatch } from 'react-redux'
-
-import { DataStore } from "@aws-amplify/datastore";
-import { Product } from '../src/models'
-
 import SubmitBtn from '../components/SubmitBtn'
 import { authentificateUser } from '../src/redux/actions/user'
-import { grey } from '../utils/colors'
 import { Auth } from 'aws-amplify'
 
 
@@ -27,7 +22,6 @@ const Home = (props) => {
         try {
             const userInfo = await Auth.currentUserInfo()
             dispatch(authentificateUser(userInfo))
-            const data = await DataStore.query(Product);
             console.log("User info retrieved successfully!");
         } catch (error) {
             console.log("Error retrieving user info", error);

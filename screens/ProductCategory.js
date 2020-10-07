@@ -1,34 +1,23 @@
 import React, {useEffect} from 'react';
 import { Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-
-import { Icon } from '@iconify/react';
-import carrotIcon from '@iconify/icons-mdi/carrot';
-import fruitCherries from '@iconify/icons-mdi/fruit-cherries';
-import barleyIcon from '@iconify/icons-mdi/barley';
-import foodDrumstick from '@iconify/icons-mdi/food-drumstick';
-import cupIcon from '@iconify/icons-mdi/cup';
-import muffinIcon from '@iconify/icons-mdi/muffin';
-import glassCocktail from '@iconify/icons-mdi/glass-cocktail';
-import shakerIcon from '@iconify/icons-mdi/shaker';
-import cubeOutline from '@iconify/icons-mdi/cube-outline';
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { connect, useDispatch } from 'react-redux'
 import { loadProducts } from '../src/redux/actions/product'
 import store from '../src/redux/store';
 import { grey } from '../utils/colors';
-import { GroceryList, Product } from '../src/models';
+import { GroceryList } from '../src/models';
 import { DataStore } from "@aws-amplify/datastore";
 
   const categories= [
-      {name:'Fruits', img: fruitCherries},
-      {name:'Veggies', img: carrotIcon},
-      {name:'Dairy', img: cupIcon},
-      {name:'Grains', img: barleyIcon},
-      {name:'Meat', img: foodDrumstick},
-      {name:'Frozen', img: cubeOutline},
-      {name:'Baking/Snacks', img: muffinIcon},
-      {name:'Drinks', img: glassCocktail},
-      {name:'Condiments', img: shakerIcon},
-  ]
+    {name:'Fruits', img: "food-apple"},
+    {name:'Veggies', img: "leaf"},
+    {name:'Dairy', img: "cup"},
+    {name:'Meat', img: "cow"},
+    {name:'Frozen', img: "cube-outline"},
+    {name:'Baking/Snacks', img: "muffin"},
+    {name:'Drinks', img: "glass-cocktail"},
+    {name:'Condiments', img: "food-variant"},
+]
 
 const ProductCategory = (props) => {
   const dispatch = useDispatch()
@@ -49,8 +38,6 @@ const ProductCategory = (props) => {
 async function fetchProducts() {
   try {
     const data = await DataStore.query(GroceryList, groceryListID);
-    const data2 = await DataStore.query(Product);
-    console.log('list', data, 'prod', data2)
     data.products? 
     dispatch(loadProducts(data.products))
     : dispatch(loadProducts([]))
@@ -73,12 +60,10 @@ async function fetchProducts() {
           style={styles.vignetteItem}
           key={index}
           >
-          <Icon 
-            icon={cat.img} 
-            width="7em"
-            height="7em"
-            color={grey}
-            />
+          <MaterialCommunityIcons 
+            name={cat.img} 
+            size={100} 
+            color="black" />
 
           <View style={styles.text}
             > 
@@ -111,9 +96,9 @@ const styles = StyleSheet.create({
     },
     vignetteItem :{
       alignItems: 'center',
-      width: 170,
-      height: 170,
-      margin: 20,
+      width: 150,
+      height: 150,
+      margin: 10,
     },
     button: {
       marginVertical: 10,
@@ -124,3 +109,31 @@ const styles = StyleSheet.create({
     },
     
   });
+
+  // import { Icon } from '@iconify/react';
+// import carrotIcon from '@iconify/icons-mdi/carrot';
+// import fruitCherries from '@iconify/icons-mdi/fruit-cherries';
+// import barleyIcon from '@iconify/icons-mdi/barley';
+// import foodDrumstick from '@iconify/icons-mdi/food-drumstick';
+// import cupIcon from '@iconify/icons-mdi/cup';
+// import muffinIcon from '@iconify/icons-mdi/muffin';
+// import glassCocktail from '@iconify/icons-mdi/glass-cocktail';
+// import shakerIcon from '@iconify/icons-mdi/shaker';
+// import cubeOutline from '@iconify/icons-mdi/cube-outline';
+  // const categories= [
+  //     {name:'Fruits', img: fruitCherries},
+  //     {name:'Veggies', img: carrotIcon},
+  //     {name:'Dairy', img: cupIcon},
+  //     {name:'Grains', img: barleyIcon},
+  //     {name:'Meat', img: foodDrumstick},
+  //     {name:'Frozen', img: cubeOutline},
+  //     {name:'Baking/Snacks', img: muffinIcon},
+  //     {name:'Drinks', img: glassCocktail},
+  //     {name:'Condiments', img: shakerIcon},
+  // ]
+  // <Icon 
+  // icon={cat.img} 
+  // width="7em"
+  // height="7em"
+  // color={grey}
+  // />

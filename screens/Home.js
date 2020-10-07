@@ -27,15 +27,13 @@ const Home = (props) => {
         try {
             const userInfo = await Auth.currentUserInfo()
             dispatch(authentificateUser(userInfo))
+            const data = await DataStore.query(Product);
             console.log("User info retrieved successfully!");
         } catch (error) {
             console.log("Error retrieving user info", error);
         }
 
     };
-    function goToProductList() {
-        return props.navigation.push('ProductCategory')
-    }
 
     function goToNewGroceryList() {
         return props.navigation.push('NewList')
@@ -54,10 +52,6 @@ const Home = (props) => {
             <SubmitBtn 
                 title='Saved List(s)'
                 onPress={goToSavedGroceryList}
-            />
-            <SubmitBtn 
-                title='Product Categories'
-                onPress={goToProductList}
             />
         </View>
     )

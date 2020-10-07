@@ -1,8 +1,7 @@
-import React, { forwardRef } from 'react'
-import {Text, TouchableOpacity, StyleSheet } from 'react-native'
-import { lightGreen, grey } from '../utils/colors'
+import React from 'react'
+import { StyleSheet, Picker } from 'react-native'
+import { grey } from '../utils/colors'
 import PropTypes from 'prop-types'
-import {Picker} from '@react-native-community/picker';
 
 
 export default function UnitPicker({ selectedValue, onValueChange, value, units}) {

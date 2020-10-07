@@ -15,7 +15,7 @@ import { connect, useDispatch } from 'react-redux'
 import { loadProducts } from '../src/redux/actions/product'
 import store from '../src/redux/store';
 import { grey } from '../utils/colors';
-import { GroceryList } from '../src/models';
+import { GroceryList, Product } from '../src/models';
 import { DataStore } from "@aws-amplify/datastore";
 
   const categories= [
@@ -49,7 +49,11 @@ const ProductCategory = (props) => {
 async function fetchProducts() {
   try {
     const data = await DataStore.query(GroceryList, groceryListID);
-    data.products && dispatch(loadProducts(data.products))
+    const data2 = await DataStore.query(Product);
+    console.log('list', data, 'prod', data2)
+    data.products? 
+    dispatch(loadProducts(data.products))
+    : dispatch(loadProducts([]))
     console.log("products retrieved successfully!");
   } catch (error) {
     console.log("Error retrieving products", error);

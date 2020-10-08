@@ -1,24 +1,25 @@
-type Product @model {
+type Product @model 
+@key(name: "perGroceryList", fields: ["groceryListID"])
+{
   id: ID!
+  groceryListID: ID!
   name: String!
   checked: Boolean!
   unit: String!
   quantity: Int!
   category: String!
-  groceryList: GroceryList @connection(name: "GroceryListProducts")
 }
 
 type GroceryList @model {
   id: ID!
   name: String!
-  owner: User @connection(name: "UserGroceryLists")
   description: String
-  products: [Product] @connection(name: "GroceryListProducts")
+  products: [Product] @connection(keyName: "perGroceryList", fields: ["id"])
 }
 
 type User @model {
   id: ID!
   name: String
   email: String
-  grocerylists: [GroceryList] @connection(name: "UserGroceryLists")
+  userGroceryListID: [String]
 }

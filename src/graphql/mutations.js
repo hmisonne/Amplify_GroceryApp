@@ -8,38 +8,12 @@ export const createProduct = /* GraphQL */ `
   ) {
     createProduct(input: $input, condition: $condition) {
       id
+      groceryListID
       name
       checked
       unit
       quantity
       category
-      groceryList {
-        id
-        name
-        owner {
-          id
-          name
-          email
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        description
-        products {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -52,38 +26,12 @@ export const updateProduct = /* GraphQL */ `
   ) {
     updateProduct(input: $input, condition: $condition) {
       id
+      groceryListID
       name
       checked
       unit
       quantity
       category
-      groceryList {
-        id
-        name
-        owner {
-          id
-          name
-          email
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        description
-        products {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -96,38 +44,12 @@ export const deleteProduct = /* GraphQL */ `
   ) {
     deleteProduct(input: $input, condition: $condition) {
       id
+      groceryListID
       name
       checked
       unit
       quantity
       category
-      groceryList {
-        id
-        name
-        owner {
-          id
-          name
-          email
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        description
-        products {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -141,41 +63,31 @@ export const createGroceryList = /* GraphQL */ `
     createGroceryList(input: $input, condition: $condition) {
       id
       name
-      owner {
-        id
-        name
-        email
-        grocerylists {
-          nextToken
-          startedAt
+      shoppers {
+        items {
+          id
+          groceryListID
+          shopperID
+          createdAt
+          updatedAt
         }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
+        nextToken
       }
       description
       products {
         items {
           id
+          groceryListID
           name
           checked
           unit
           quantity
           category
-          _version
-          _deleted
-          _lastChangedAt
           createdAt
           updatedAt
         }
         nextToken
-        startedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -189,41 +101,31 @@ export const updateGroceryList = /* GraphQL */ `
     updateGroceryList(input: $input, condition: $condition) {
       id
       name
-      owner {
-        id
-        name
-        email
-        grocerylists {
-          nextToken
-          startedAt
+      shoppers {
+        items {
+          id
+          groceryListID
+          shopperID
+          createdAt
+          updatedAt
         }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
+        nextToken
       }
       description
       products {
         items {
           id
+          groceryListID
           name
           checked
           unit
           quantity
           category
-          _version
-          _deleted
-          _lastChangedAt
           createdAt
           updatedAt
         }
         nextToken
-        startedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -237,41 +139,31 @@ export const deleteGroceryList = /* GraphQL */ `
     deleteGroceryList(input: $input, condition: $condition) {
       id
       name
-      owner {
-        id
-        name
-        email
-        grocerylists {
-          nextToken
-          startedAt
+      shoppers {
+        items {
+          id
+          groceryListID
+          shopperID
+          createdAt
+          updatedAt
         }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
+        nextToken
       }
       description
       products {
         items {
           id
+          groceryListID
           name
           checked
           unit
           quantity
           category
-          _version
-          _deleted
-          _lastChangedAt
           createdAt
           updatedAt
         }
         nextToken
-        startedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -286,23 +178,16 @@ export const createUser = /* GraphQL */ `
       id
       name
       email
-      grocerylists {
+      userGroceries {
         items {
           id
-          name
-          description
-          _version
-          _deleted
-          _lastChangedAt
+          groceryListID
+          shopperID
           createdAt
           updatedAt
         }
         nextToken
-        startedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -317,23 +202,16 @@ export const updateUser = /* GraphQL */ `
       id
       name
       email
-      grocerylists {
+      userGroceries {
         items {
           id
-          name
-          description
-          _version
-          _deleted
-          _lastChangedAt
+          groceryListID
+          shopperID
           createdAt
           updatedAt
         }
         nextToken
-        startedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -348,23 +226,127 @@ export const deleteUser = /* GraphQL */ `
       id
       name
       email
-      grocerylists {
+      userGroceries {
         items {
           id
-          name
-          description
-          _version
-          _deleted
-          _lastChangedAt
+          groceryListID
+          shopperID
           createdAt
           updatedAt
         }
         nextToken
-        startedAt
       }
-      _version
-      _deleted
-      _lastChangedAt
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createGroceryShopper = /* GraphQL */ `
+  mutation CreateGroceryShopper(
+    $input: CreateGroceryShopperInput!
+    $condition: ModelGroceryShopperConditionInput
+  ) {
+    createGroceryShopper(input: $input, condition: $condition) {
+      id
+      groceryListID
+      shopperID
+      groceryList {
+        id
+        name
+        shoppers {
+          nextToken
+        }
+        description
+        products {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      shopper {
+        id
+        name
+        email
+        userGroceries {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateGroceryShopper = /* GraphQL */ `
+  mutation UpdateGroceryShopper(
+    $input: UpdateGroceryShopperInput!
+    $condition: ModelGroceryShopperConditionInput
+  ) {
+    updateGroceryShopper(input: $input, condition: $condition) {
+      id
+      groceryListID
+      shopperID
+      groceryList {
+        id
+        name
+        shoppers {
+          nextToken
+        }
+        description
+        products {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      shopper {
+        id
+        name
+        email
+        userGroceries {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteGroceryShopper = /* GraphQL */ `
+  mutation DeleteGroceryShopper(
+    $input: DeleteGroceryShopperInput!
+    $condition: ModelGroceryShopperConditionInput
+  ) {
+    deleteGroceryShopper(input: $input, condition: $condition) {
+      id
+      groceryListID
+      shopperID
+      groceryList {
+        id
+        name
+        shoppers {
+          nextToken
+        }
+        description
+        products {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      shopper {
+        id
+        name
+        email
+        userGroceries {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }

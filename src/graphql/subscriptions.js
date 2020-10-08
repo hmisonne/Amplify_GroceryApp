@@ -11,6 +11,9 @@ export const onCreateProduct = /* GraphQL */ `
       unit
       quantity
       category
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -26,6 +29,9 @@ export const onUpdateProduct = /* GraphQL */ `
       unit
       quantity
       category
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -41,6 +47,9 @@ export const onDeleteProduct = /* GraphQL */ `
       unit
       quantity
       category
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -51,16 +60,6 @@ export const onCreateGroceryList = /* GraphQL */ `
     onCreateGroceryList {
       id
       name
-      shoppers {
-        items {
-          id
-          groceryListID
-          shopperID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       description
       products {
         items {
@@ -71,11 +70,18 @@ export const onCreateGroceryList = /* GraphQL */ `
           unit
           quantity
           category
+          _version
+          _deleted
+          _lastChangedAt
           createdAt
           updatedAt
         }
         nextToken
+        startedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -86,16 +92,6 @@ export const onUpdateGroceryList = /* GraphQL */ `
     onUpdateGroceryList {
       id
       name
-      shoppers {
-        items {
-          id
-          groceryListID
-          shopperID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       description
       products {
         items {
@@ -106,11 +102,18 @@ export const onUpdateGroceryList = /* GraphQL */ `
           unit
           quantity
           category
+          _version
+          _deleted
+          _lastChangedAt
           createdAt
           updatedAt
         }
         nextToken
+        startedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -121,16 +124,6 @@ export const onDeleteGroceryList = /* GraphQL */ `
     onDeleteGroceryList {
       id
       name
-      shoppers {
-        items {
-          id
-          groceryListID
-          shopperID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       description
       products {
         items {
@@ -141,11 +134,18 @@ export const onDeleteGroceryList = /* GraphQL */ `
           unit
           quantity
           category
+          _version
+          _deleted
+          _lastChangedAt
           createdAt
           updatedAt
         }
         nextToken
+        startedAt
       }
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -157,16 +157,10 @@ export const onCreateUser = /* GraphQL */ `
       id
       name
       email
-      userGroceries {
-        items {
-          id
-          groceryListID
-          shopperID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
+      userGroceryListID
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -178,16 +172,10 @@ export const onUpdateUser = /* GraphQL */ `
       id
       name
       email
-      userGroceries {
-        items {
-          id
-          groceryListID
-          shopperID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
+      userGroceryListID
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -199,118 +187,10 @@ export const onDeleteUser = /* GraphQL */ `
       id
       name
       email
-      userGroceries {
-        items {
-          id
-          groceryListID
-          shopperID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onCreateGroceryShopper = /* GraphQL */ `
-  subscription OnCreateGroceryShopper {
-    onCreateGroceryShopper {
-      id
-      groceryListID
-      shopperID
-      groceryList {
-        id
-        name
-        shoppers {
-          nextToken
-        }
-        description
-        products {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      shopper {
-        id
-        name
-        email
-        userGroceries {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateGroceryShopper = /* GraphQL */ `
-  subscription OnUpdateGroceryShopper {
-    onUpdateGroceryShopper {
-      id
-      groceryListID
-      shopperID
-      groceryList {
-        id
-        name
-        shoppers {
-          nextToken
-        }
-        description
-        products {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      shopper {
-        id
-        name
-        email
-        userGroceries {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteGroceryShopper = /* GraphQL */ `
-  subscription OnDeleteGroceryShopper {
-    onDeleteGroceryShopper {
-      id
-      groceryListID
-      shopperID
-      groceryList {
-        id
-        name
-        shoppers {
-          nextToken
-        }
-        description
-        products {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      shopper {
-        id
-        name
-        email
-        userGroceries {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
+      userGroceryListID
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }

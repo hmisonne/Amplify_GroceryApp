@@ -96,6 +96,19 @@ Run the following commands and make sure you have access to an AWS account:
 > We already have the GraphQL code generated for this project, so generating it here is not necessary.
 ```
 
+### Update the API and models
+
+1. Update the amplify project
+```sh
+~ amplify update api
+~ amplify push
+```
+
+2. Update the DataStore
+```sh
+~ npm run amplify-modelgen
+```
+
 ### Run the front end on your local machine
 
 Start the app

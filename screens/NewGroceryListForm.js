@@ -36,14 +36,12 @@ const NewGroceryListForm = (props) => {
       // const currentUser = await DataStore.query(User,  c => c.sub("eq", user.attributes.sub));
       const currentUser = await DataStore.query(User);
       
-      const updatedUser = await DataStore.save(
+      await DataStore.save(
         User.copyOf(currentUser[0], updated => {
           updated.userGroceryListID = updated.userGroceryListID ?
             [...updated.userGroceryListID, groceryListSaved.id]
           : [groceryListSaved.id]
       }))
-
-    console.log("updatedUser",updatedUser)
 
       console.log("List saved successfully!");
     } catch (err) {

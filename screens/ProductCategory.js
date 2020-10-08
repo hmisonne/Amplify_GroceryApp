@@ -7,6 +7,7 @@ import store from '../src/redux/store';
 import { grey } from '../utils/colors';
 import { GroceryList } from '../src/models';
 import { DataStore } from "@aws-amplify/datastore";
+import { Product } from '../src/models'
 
   const categories= [
     {name:'Fruits', img: "food-apple"},
@@ -26,11 +27,12 @@ const ProductCategory = (props) => {
   useEffect(() => {
       fetchProducts();
       // Turn off sync with Cloud
-      // const subscription = DataStore.observe(Product).subscribe(msg => {
-      //   console.log(msg.model, msg.opType, msg.element);
-      //   fetchProducts();
-      // })
-      // return () => subscription.unsubscribe();
+      const subscription = DataStore.observe(Product).subscribe(msg => {
+        console.log('sub product')
+        console.log(msg.model, msg.opType, msg.element);
+        fetchProducts();
+      })
+      return () => subscription.unsubscribe();
   }, [])
 
 
@@ -63,7 +65,7 @@ async function fetchProducts() {
           <MaterialCommunityIcons 
             name={cat.img} 
             size={100} 
-            color="black" />
+            color={grey} />
 
           <View style={styles.text}
             > 

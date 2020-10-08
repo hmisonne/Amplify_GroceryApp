@@ -11,12 +11,13 @@ const Home = (props) => {
     const dispatch = useDispatch()
     useEffect(() => {
         identifyUser();
-        // Turn off sync with Cloud
-        // const subscription = DataStore.observe(Product).subscribe(msg => {
-        //   console.log(msg.model, msg.opType, msg.element);
-        //   fetchProducts();
-        // })
-        // return () => subscription.unsubscribe();
+        // Turn on sync with Cloud
+        const subscription = DataStore.observe(User).subscribe(msg => {
+            console.log('sub user')
+            console.log(msg.model, msg.opType, msg.element);
+          identifyUser();
+        })
+        return () => subscription.unsubscribe();
     }, [])
   
     async function identifyUser() {
@@ -25,10 +26,8 @@ const Home = (props) => {
 
             // let users = await DataStore.query(User, c => c.sub("eq", userInfo.attributes.sub));
             let users = await DataStore.query(User);
-
-            console.log('users', users, 'userInfo')
             if (users.length === 0){
-                const user = await DataStore.save(
+                await DataStore.save(
                     new User({
                         id: userInfo.id,
                         name: userInfo.username,
@@ -36,7 +35,6 @@ const Home = (props) => {
                         // sub: userInfo.attributes.sub
                     })
                   )
-                  console.log('user',user)
             }
             
             dispatch(authentificateUser(userInfo))

@@ -5,13 +5,13 @@ import {
 import { connect, useDispatch } from 'react-redux'
 import { loadGroceryLists} from '../src/redux/actions/groceryList'
 import { DataStore } from "@aws-amplify/datastore";
-import { GroceryList } from '../src/models'
+import { GroceryList, User } from '../src/models'
 import store from '../src/redux/store';
 
 
 const GroceryLists = (props) => {
     const dispatch = useDispatch()
-    const { groceryLists } = store.getState()
+    const { groceryLists, user } = store.getState()
     useEffect(() => {
         fetchLists();
     }, [])
@@ -22,8 +22,20 @@ const GroceryLists = (props) => {
     }
     async function fetchLists() {
     try {
-        const data = await DataStore.query(GroceryList);
-        dispatch(loadGroceryLists(data))
+        // const currentUser = await DataStore.query(User, c => c.sub("eq", user.attributes.sub));
+        const currentUser = await DataStore.query(User);
+        const data = currentUser[0].userGroceryListID;
+        console.log('data', data)
+        let groceryListsPerUser = []
+        for (let GroceryListID of data){
+          // const groceryListsPerUser = data.map(i => await DataStore.query(GroceryList, data[i]))
+          console.log(GroceryListID)
+          const groceryList = await DataStore.query(GroceryList, GroceryListID);
+          console.log(groceryList)
+          groceryListsPerUser.push(groceryList)
+        }
+        console.log('groceryListsPerUser', groceryListsPerUser)
+        dispatch(loadGroceryLists(groceryListsPerUser))
       console.log("grocery lists retrieved successfully!");
     } catch (error) {
       console.log("Error retrieving grocery lists", error);

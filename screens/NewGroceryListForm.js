@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { View, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { DataStore } from "@aws-amplify/datastore";
-import { GroceryList, Product} from '../src/models'
+import { GroceryList, User, Product, GroceryShopper} from '../src/models'
 import SubmitBtn from '../components/SubmitBtn'
 import StyledTextInput from '../components/StyledTextInput'
 import store from '../src/redux/store';
@@ -32,6 +32,19 @@ const NewGroceryListForm = (props) => {
             description: groceryList.description,
         })
       )
+      // Update User instance with new Grocery List
+      // const currentUser = await DataStore.query(User,  c => c.sub("eq", user.attributes.sub));
+      const currentUser = await DataStore.query(User);
+      
+      const updatedUser = await DataStore.save(
+        User.copyOf(currentUser[0], updated => {
+          updated.userGroceryListID = updated.userGroceryListID ?
+            [...updated.userGroceryListID, groceryListSaved.id]
+          : [groceryListSaved.id]
+      }))
+
+    console.log("updatedUser",updatedUser)
+
       console.log("List saved successfully!");
     } catch (err) {
       console.log('error creating list:', err)

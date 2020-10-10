@@ -10,12 +10,18 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "groceryListID": {
-                    "name": "groceryListID",
+                "groceryList": {
+                    "name": "groceryList",
                     "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
+                    "type": {
+                        "model": "GroceryList"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetName": "productGroceryListId"
+                    }
                 },
                 "name": {
                     "name": "name",
@@ -59,15 +65,6 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "perGroceryList",
-                        "fields": [
-                            "groceryListID"
-                        ]
-                    }
                 }
             ]
         },
@@ -105,7 +102,7 @@ export const schema = {
                     "attributes": [],
                     "association": {
                         "connectionType": "HAS_MANY",
-                        "associatedWith": "groceryListID"
+                        "associatedWith": "groceryList"
                     }
                 }
             },
@@ -162,5 +159,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "71b4339e25e51a327a3b4ae0553040af"
+    "version": "ead2aac606f7e945e748370efa06cc0b"
 };

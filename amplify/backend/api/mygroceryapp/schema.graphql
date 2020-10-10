@@ -1,8 +1,7 @@
 type Product @model 
-@key(name: "perGroceryList", fields: ["groceryListID"])
 {
   id: ID!
-  groceryListID: ID!
+  groceryList: GroceryList @connection(name: "GroceryListProducts")
   name: String!
   checked: Boolean!
   unit: String!
@@ -14,7 +13,7 @@ type GroceryList @model {
   id: ID!
   name: String!
   description: String
-  products: [Product] @connection(keyName: "perGroceryList", fields: ["id"])
+  products: [Product] @connection(name: "GroceryListProducts")
 }
 
 type User @model {

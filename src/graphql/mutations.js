@@ -8,7 +8,20 @@ export const createProduct = /* GraphQL */ `
   ) {
     createProduct(input: $input, condition: $condition) {
       id
-      groceryListID
+      groceryList {
+        id
+        name
+        description
+        products {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
       name
       checked
       unit
@@ -29,7 +42,20 @@ export const updateProduct = /* GraphQL */ `
   ) {
     updateProduct(input: $input, condition: $condition) {
       id
-      groceryListID
+      groceryList {
+        id
+        name
+        description
+        products {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
       name
       checked
       unit
@@ -50,7 +76,20 @@ export const deleteProduct = /* GraphQL */ `
   ) {
     deleteProduct(input: $input, condition: $condition) {
       id
-      groceryListID
+      groceryList {
+        id
+        name
+        description
+        products {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
       name
       checked
       unit
@@ -76,7 +115,6 @@ export const createGroceryList = /* GraphQL */ `
       products {
         items {
           id
-          groceryListID
           name
           checked
           unit
@@ -111,7 +149,6 @@ export const updateGroceryList = /* GraphQL */ `
       products {
         items {
           id
-          groceryListID
           name
           checked
           unit
@@ -146,7 +183,6 @@ export const deleteGroceryList = /* GraphQL */ `
       products {
         items {
           id
-          groceryListID
           name
           checked
           unit

@@ -5,7 +5,20 @@ export const onCreateProduct = /* GraphQL */ `
   subscription OnCreateProduct {
     onCreateProduct {
       id
-      groceryListID
+      groceryList {
+        id
+        name
+        description
+        products {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
       name
       checked
       unit
@@ -23,7 +36,20 @@ export const onUpdateProduct = /* GraphQL */ `
   subscription OnUpdateProduct {
     onUpdateProduct {
       id
-      groceryListID
+      groceryList {
+        id
+        name
+        description
+        products {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
       name
       checked
       unit
@@ -41,7 +67,20 @@ export const onDeleteProduct = /* GraphQL */ `
   subscription OnDeleteProduct {
     onDeleteProduct {
       id
-      groceryListID
+      groceryList {
+        id
+        name
+        description
+        products {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
       name
       checked
       unit
@@ -64,7 +103,6 @@ export const onCreateGroceryList = /* GraphQL */ `
       products {
         items {
           id
-          groceryListID
           name
           checked
           unit
@@ -96,7 +134,6 @@ export const onUpdateGroceryList = /* GraphQL */ `
       products {
         items {
           id
-          groceryListID
           name
           checked
           unit
@@ -128,7 +165,6 @@ export const onDeleteGroceryList = /* GraphQL */ `
       products {
         items {
           id
-          groceryListID
           name
           checked
           unit

@@ -17,6 +17,7 @@ import Home from './screens/Home'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { AntDesign } from '@expo/vector-icons';
+import useCachedResources from './hooks/useCachedResources';
 
 Amplify.configure({...config,
   Analytics: { 
@@ -28,11 +29,18 @@ const ProductStack = createStackNavigator();
 
 
 const App = () => {
+  const isLoadingComplete = useCachedResources();
+
   function goToNewProductScreen (props) {
     props.navigation.push('AddProduct',{
       category: props.route.params.category,
       groceryListID: props.route.params.groceryListID
     })
+  }
+
+
+  if (!isLoadingComplete) {
+    return null;
   }
   return (
     <Provider store={store}>

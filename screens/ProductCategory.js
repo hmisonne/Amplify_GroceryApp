@@ -37,21 +37,34 @@ const ProductCategory = (props) => {
       return () => subscription.unsubscribe();
   }, [])
 
+  async function fetchProducts() {
+    try {
+      let products
+      if (navigator.onLine) {
+        products = await fetchProductsOnline()
+      } else {
+        products = await fetchProductsOffline()
+      }
+      products? 
+      dispatch(loadProducts(products))
+      : dispatch(loadProducts([]))
+      console.log("products retrieved successfully!");
+    } catch (error) {
+        console.log("Error retrieving products", error)
+    }
+    
+  };
 
+async function fetchProductsOffline() {
+    const data = await DataStore.query(GroceryList, groceryListID)
+    console.log('offline')
+    return data.products
+};
 
-async function fetchProducts() {
-  try {
-    const todos = await API.graphql(graphqlOperation(productsForGroceryList, { input: { groceryListId: groceryListId }}))
-    console.log('to', todos)
-    const data = await DataStore.query(GroceryList, groceryListID);
-    data.products? 
-    dispatch(loadProducts(data.products))
-    : dispatch(loadProducts([]))
-    console.log("products retrieved successfully!");
-  } catch (error) {
-    console.log("Error retrieving products", error);
-  }
-  
+async function fetchProductsOnline() {
+    const { data } = await API.graphql(graphqlOperation(productsForGroceryList, { groceryListId: groceryListID }))
+    console.log('online')
+    return data.productsForGroceryList.items
 };
 
   function goToProductList(category) {

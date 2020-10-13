@@ -1,9 +1,9 @@
 import React from 'react'
-import { View, Text, TouchableOpacity, Button, StyleSheet, Platform } from 'react-native'
+import { View, TouchableOpacity, StyleSheet, Platform } from 'react-native'
 import { FontAwesome, Entypo } from '@expo/vector-icons'
 import { blue, white, grey } from '../utils/colors'
 
-export default function Stepper ({onIncrement, onDecrement, value, unit}) {
+export default function Stepper ({onIncrement, onDecrement}) {
   return (
      <View style={[styles.row, {justifyContent: 'space-between'}]}>
       {Platform.OS === 'ios'

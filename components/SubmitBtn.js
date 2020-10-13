@@ -1,6 +1,6 @@
 import React from 'react'
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
-import { lightGreen, grey } from '../utils/colors'
+import { Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { grey } from '../utils/colors'
 import PropTypes from 'prop-types'
 
 export default function SubmitBtn({ title, onPress, disabled = false, style = {} }) {

@@ -1,6 +1,6 @@
 import React from 'react'
-import { View, TextInput, StyleSheet } from 'react-native'
-import { lightGreen, grey } from '../utils/colors'
+import { TextInput, StyleSheet } from 'react-native'
+import { grey } from '../utils/colors'
 import PropTypes from 'prop-types'
 
 export default function StyledTextInput({ value, placeholder, onChangeText }) {

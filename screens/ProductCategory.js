@@ -8,6 +8,8 @@ import { grey } from '../utils/colors';
 import { GroceryList } from '../src/models';
 import { DataStore } from "@aws-amplify/datastore";
 import { Product } from '../src/models'
+import { productsForGroceryList } from '../src/graphql/queries'
+import Amplify, { API, graphqlOperation } from 'aws-amplify';
 
   const categories= [
     {name:'Fruits', img: "food-apple"},
@@ -39,6 +41,8 @@ const ProductCategory = (props) => {
 
 async function fetchProducts() {
   try {
+    const todos = await API.graphql(graphqlOperation(productsForGroceryList, { input: { groceryListId: groceryListId }}))
+    console.log('to', todos)
     const data = await DataStore.query(GroceryList, groceryListID);
     data.products? 
     dispatch(loadProducts(data.products))

@@ -22,3 +22,11 @@ type User @model {
   email: String
   userGroceryListID: [String]
 }
+
+type ProductConnection {
+  items: [Product]
+  nextToken: String
+}
+type Query {
+  productsForGroceryList(groceryListId: ID!, limit: Int, nextToken: String): ProductConnection
+}

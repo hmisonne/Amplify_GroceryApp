@@ -55,6 +55,7 @@ const NewProductForm = (props) => {
       const productSaved = await DataStore.save(
         new Product(product)
       )
+      console.log('productSaved', productSaved)
 
       await DataStore.save(
         GroceryList.copyOf(currentList, updated => {

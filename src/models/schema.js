@@ -158,6 +158,28 @@ export const schema = {
         }
     },
     "enums": {},
-    "nonModels": {},
-    "version": "ead2aac606f7e945e748370efa06cc0b"
+    "nonModels": {
+        "ProductConnection": {
+            "name": "ProductConnection",
+            "fields": {
+                "items": {
+                    "name": "items",
+                    "isArray": true,
+                    "type": {
+                        "model": "Product"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "nextToken": {
+                    "name": "nextToken",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                }
+            }
+        }
+    },
+    "version": "a6df760c19772bbf1d1a231e6a999de2"
 };

@@ -11,13 +11,15 @@ const Home = (props) => {
     const dispatch = useDispatch()
     useEffect(() => {
         identifyUser();
+        console.log('do nothing')
         // Turn on sync with Cloud
-        const subscription = DataStore.observe(User).subscribe(msg => {
-            console.log('sub user')
-            console.log(msg.model, msg.opType, msg.element);
-          identifyUser();
-        })
-        return () => subscription.unsubscribe();
+        // const subscription = DataStore.observe(User).subscribe(msg => {
+        //     console.log('sub user')
+        //     console.log(msg.model, msg.opType, msg.element);
+        //   identifyUser();
+        // })
+        // return () => subscription.unsubscribe();
+        console.log('do nothing 2')
     }, [])
   
     async function identifyUser() {

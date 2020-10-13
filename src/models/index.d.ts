@@ -2,7 +2,11 @@ import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplif
 
 
 
-
+export declare class ProductConnection {
+  readonly items?: Product[];
+  readonly nextToken?: string;
+  constructor(init: ModelInit<ProductConnection>);
+}
 
 export declare class Product {
   readonly id: string;

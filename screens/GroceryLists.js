@@ -15,9 +15,8 @@ const GroceryLists = (props) => {
     useEffect(() => {
         fetchLists();
         // Turn on sync with Cloud
-        console.log('sub grocery list')
         const subscription = DataStore.observe(GroceryList).subscribe(msg => {
-        console.log(msg.model, msg.opType, msg.element);
+        console.log('sync grocery list', msg.model, msg.opType, msg.element);
         fetchLists();
       })
       return () => subscription.unsubscribe();
@@ -26,16 +25,18 @@ const GroceryLists = (props) => {
     function goToList(groceryListID){
         return props.navigation.push('ProductCategory',{ groceryListID})
     }
+
     async function fetchLists() {
     try {
         // const currentUser = await DataStore.query(User, c => c.sub("eq", user.attributes.sub));
-        const currentUser = await DataStore.query(User);
-        const data = currentUser[0].userGroceryListID;
-        let groceryListsPerUser = []
-        for (let GroceryListID of data){
-          const groceryList = await DataStore.query(GroceryList, GroceryListID);
-          groceryListsPerUser.push(groceryList)
-        }
+        // const currentUser = await DataStore.query(User);
+        // const data = currentUser[0].userGroceryListID;
+        // let groceryListsPerUser = []
+        // for (let GroceryListID of data){
+        //   const groceryList = await DataStore.query(GroceryList, GroceryListID);
+        //   groceryListsPerUser.push(groceryList)
+        // }
+        const groceryListsPerUser = await DataStore.query(GroceryList);
         dispatch(loadGroceryLists(groceryListsPerUser))
       console.log("grocery lists retrieved successfully!");
     } catch (error) {

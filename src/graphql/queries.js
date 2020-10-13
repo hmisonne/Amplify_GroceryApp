@@ -1,6 +1,44 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const productsForGroceryList = /* GraphQL */ `
+  query ProductsForGroceryList(
+    $gorceryListId: ID!
+    $limit: Int
+    $nextToken: String
+  ) {
+    productsForGroceryList(
+      gorceryListId: $gorceryListId
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        groceryList {
+          id
+          name
+          description
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        name
+        checked
+        unit
+        quantity
+        category
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const syncProducts = /* GraphQL */ `
   query SyncProducts(
     $filter: ModelProductFilterInput

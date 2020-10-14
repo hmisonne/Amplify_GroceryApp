@@ -28,16 +28,17 @@ const GroceryLists = (props) => {
 
     async function fetchLists() {
     try {
-        // const currentUser = await DataStore.query(User, c => c.sub("eq", user.attributes.sub));
+        const currentUser = await DataStore.query(User, c => c.sub("eq", user.sub));
         // const currentUser = await DataStore.query(User);
-        // const data = currentUser[0].userGroceryListID;
-        // let groceryListsPerUser = []
-        // for (let GroceryListID of data){
-        //   const groceryList = await DataStore.query(GroceryList, GroceryListID);
-        //   groceryListsPerUser.push(groceryList)
-        // }
-        const groceryListsPerUser = await DataStore.query(GroceryList);
-        dispatch(loadGroceryLists(groceryListsPerUser))
+        const data = currentUser[0].userGroceryListID;
+        let groceryListsPerUser = []
+        if (data){
+          for (let GroceryListID of data){
+            const groceryList = await DataStore.query(GroceryList, GroceryListID);
+            groceryListsPerUser.push(groceryList)
+          }
+        }
+      dispatch(loadGroceryLists(groceryListsPerUser))
       console.log("grocery lists retrieved successfully!");
     } catch (error) {
       console.log("Error retrieving grocery lists", error);

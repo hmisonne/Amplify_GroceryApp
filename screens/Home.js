@@ -18,6 +18,15 @@ const Home = (props) => {
             console.log(msg.model, msg.opType, msg.element);
             identifyUser();
         })
+        const handleConnectionChange = () => {
+            const condition = navigator.onLine ? 'online' : 'offline';
+            console.log(condition);
+            if (condition === 'online') { identifyUser(); }
+          }
+          
+        window.addEventListener('online', handleConnectionChange);
+        window.addEventListener('offline', handleConnectionChange);
+
         return () => subscription.unsubscribe();
     }, [])
 
@@ -40,7 +49,7 @@ const Home = (props) => {
             let users = await DataStore.query(User, c => c.sub("eq", userInfo.attributes.sub));
             let currUser
             // if no user in DS and online check, if user already created
-            
+
             if (users.length === 0) {
                 if (navigator.onLine){
                     currUser = await fetchUserOnline()

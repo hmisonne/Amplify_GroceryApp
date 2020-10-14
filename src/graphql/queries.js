@@ -3,12 +3,12 @@
 
 export const productsForGroceryList = /* GraphQL */ `
   query ProductsForGroceryList(
-    $gorceryListId: ID!
+    $groceryListId: ID!
     $limit: Int
     $nextToken: String
   ) {
     productsForGroceryList(
-      gorceryListId: $gorceryListId
+      groceryListId: $groceryListId
       limit: $limit
       nextToken: $nextToken
     ) {
@@ -250,6 +250,7 @@ export const syncUsers = /* GraphQL */ `
     ) {
       items {
         id
+        sub
         name
         email
         userGroceryListID
@@ -268,6 +269,7 @@ export const getUser = /* GraphQL */ `
   query GetUser($id: ID!) {
     getUser(id: $id) {
       id
+      sub
       name
       email
       userGroceryListID
@@ -288,6 +290,7 @@ export const listUsers = /* GraphQL */ `
     listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        sub
         name
         email
         userGroceryListID

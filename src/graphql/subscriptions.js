@@ -191,6 +191,7 @@ export const onCreateUser = /* GraphQL */ `
   subscription OnCreateUser {
     onCreateUser {
       id
+      sub
       name
       email
       userGroceryListID
@@ -206,6 +207,7 @@ export const onUpdateUser = /* GraphQL */ `
   subscription OnUpdateUser {
     onUpdateUser {
       id
+      sub
       name
       email
       userGroceryListID
@@ -221,6 +223,7 @@ export const onDeleteUser = /* GraphQL */ `
   subscription OnDeleteUser {
     onDeleteUser {
       id
+      sub
       name
       email
       userGroceryListID

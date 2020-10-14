@@ -31,6 +31,7 @@ export declare class GroceryList {
 
 export declare class User {
   readonly id: string;
+  readonly sub: string;
   readonly name?: string;
   readonly email?: string;
   readonly userGroceryListID?: string[];

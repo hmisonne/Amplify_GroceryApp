@@ -125,6 +125,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "sub": {
+                    "name": "sub",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "name": {
                     "name": "name",
                     "isArray": false,
@@ -181,5 +188,5 @@ export const schema = {
             }
         }
     },
-    "version": "a6df760c19772bbf1d1a231e6a999de2"
+    "version": "44cdf3ba29eef747a5f0bec41c213861"
 };

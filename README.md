@@ -120,8 +120,10 @@ Start the app
 
 ## Resources
 
+AWS Amplify React tutorial: https://docs.amplify.aws/start/getting-started/installation/q/integration/react
 Category icons : https://iconify.design/icon-sets/mdi/
 Styled Buttons: https://icons.expo.fyi/
 AWS AppSync Resources: https://aws.amazon.com/appsync/resources/
 Point of Sale app: https://github.com/amazon-archives/aws-appsync-refarch-offline
 Amplify doc: https://docs.amplify.aws/lib/q/platform/js
+Caching Fonts: https://docs.expo.io/guides/preloading-and-caching-assets/

@@ -6,6 +6,8 @@ import { authentificateUser } from '../src/redux/actions/user'
 import { Auth } from 'aws-amplify'
 import { DataStore, Predicates } from "@aws-amplify/datastore";
 import { User } from '../src/models'
+import { listUsers } from '../src/graphql/queries'
+import Amplify, { API, graphqlOperation } from 'aws-amplify';
 
 const Home = (props) => {
     const dispatch = useDispatch()
@@ -13,38 +15,60 @@ const Home = (props) => {
         identifyUser();
        // Turn on sync with Cloud
         const subscription = DataStore.observe(User).subscribe(msg => {
-            console.log('sub user')
             console.log(msg.model, msg.opType, msg.element);
             identifyUser();
         })
         return () => subscription.unsubscribe();
     }, [])
-  
+
+
+    async function fetchUserOnline() {
+    console.log('fetchUserOnline')
+    const userInfo = await Auth.currentUserInfo()
+    const { data } = await API.graphql(graphqlOperation(listUsers, { 
+        filter: {
+            sub: {
+                eq: userInfo.attributes.sub
+            }
+    }  }))
+    console.log('data', data)
+    return data.listUsers.items[0]
+};
     async function identifyUser() {
         try {
             const userInfo = await Auth.currentUserInfo()
-
-            // let users = await DataStore.query(User, c => c.sub("eq", userInfo.attributes.sub));
-            let users = await DataStore.query(User);
-            if (users.length === 0){
-                await DataStore.save(
-                    new User({
-                        id: userInfo.id,
-                        name: userInfo.username,
-                        email: userInfo.attributes.email,
-                        // sub: userInfo.attributes.sub
-                    })
-                  )
-            }
+            let users = await DataStore.query(User, c => c.sub("eq", userInfo.attributes.sub));
+            let currUser
+            // if no user in DS and online check, if user already created
             
-            dispatch(authentificateUser(userInfo))
+            if (users.length === 0) {
+                if (navigator.onLine){
+                    currUser = await fetchUserOnline()
+                }
+                if (!navigator.onLine || !currUser){
+                    console.log('creating new user')
+                    currUser = await DataStore.save(
+                        new User({
+                            sub: userInfo.attributes.sub,
+                            name: userInfo.username,
+                            email: userInfo.attributes.email,
+                        })
+                    )
+                }
+            }
+
+            else {
+                console.log('using user in DS')
+                currUser = users[0]
+            }
+            dispatch(authentificateUser(currUser))
             console.log("User info retrieved successfully!");
         } catch (error) {
             console.log("Error retrieving user info", error);
         }
 
     };
-
+   
     function goToNewGroceryList() {
         return props.navigation.push('NewList')
     }
@@ -78,3 +102,5 @@ const styles = StyleSheet.create({
       padding: 20 
     },
   })
+
+

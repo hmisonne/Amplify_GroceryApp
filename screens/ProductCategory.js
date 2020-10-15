@@ -72,7 +72,7 @@ const ProductCategory = (props) => {
 
     function showCategories() {
       return (
-        <View>
+        <View style={styles.container}>
         {categories.map((cat, index) => (
           <TouchableOpacity 
             onPress={() => goToProductList(cat.name)} 
@@ -101,10 +101,10 @@ const ProductCategory = (props) => {
       <View>
       { Platform.OS !== 'ios' && Platform.OS !== 'android'
         ?
-        <View style={styles.container}>
+        <View>
           { showCategories() }
         </View>
-        : <ScrollView style={styles.container}>
+        : <ScrollView>
           { showCategories() }
         </ScrollView>
 

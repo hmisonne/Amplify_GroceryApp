@@ -1,4 +1,4 @@
 export const authentificateUser = (user) => ({
-    type: "AUTHENTIFICATE_USER",
-    user,
+  type: "AUTHENTIFICATE_USER",
+  user,
 });

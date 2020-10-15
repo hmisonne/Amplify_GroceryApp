@@ -1,178 +1,117 @@
-import React, {useEffect} from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, Platform, ScrollView} from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
-import { connect, useDispatch } from 'react-redux'
-import { loadProducts } from '../src/redux/actions/product'
-import store from '../src/redux/store';
-import { grey } from '../utils/colors';
-import { GroceryList } from '../src/models';
+import React, { useEffect } from "react";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Platform,
+  ScrollView,
+} from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { connect, useDispatch } from "react-redux";
+import { loadProducts } from "../src/redux/actions/product";
+import store from "../src/redux/store";
+import { grey } from "../utils/colors";
 import { DataStore } from "@aws-amplify/datastore";
-import { Product } from '../src/models'
-import { productsForGroceryList } from '../src/graphql/queries'
-import Amplify, { API, graphqlOperation } from 'aws-amplify';
+import { Product } from "../src/models";
 
-  const categories= [
-    {name:'Fruits', img: "food-apple"},
-    {name:'Veggies', img: "leaf"},
-    {name:'Dairy', img: "cup"},
-    {name:'Meat', img: "cow"},
-    {name:'Frozen', img: "cube-outline"},
-    {name:'Baking/Snacks', img: "muffin"},
-    {name:'Drinks', img: "glass-cocktail"},
-    {name:'Condiments', img: "food-variant"},
-]
+const categories = [
+  { name: "Fruits", img: "food-apple" },
+  { name: "Veggies", img: "leaf" },
+  { name: "Dairy", img: "cup" },
+  { name: "Meat", img: "cow" },
+  { name: "Frozen", img: "cube-outline" },
+  { name: "Baking/Snacks", img: "muffin" },
+  { name: "Drinks", img: "glass-cocktail" },
+  { name: "Condiments", img: "food-variant" },
+];
 
 const ProductCategory = (props) => {
-  const dispatch = useDispatch()
-  const { groceryListID } = props.route.params
-  const { products} = store.getState()
+  const dispatch = useDispatch();
+  const { groceryListID } = props.route.params;
+  const { products } = store.getState();
   useEffect(() => {
+    fetchProducts();
+    const subscription = DataStore.observe(Product).subscribe((msg) => {
+      console.log(msg.model, msg.opType, msg.element);
       fetchProducts();
-      // Turn off sync with Cloud
-      const subscription = DataStore.observe(Product).subscribe(msg => {
-        console.log(msg.model, msg.opType, msg.element);
-        fetchProducts();
-      })
-      return () => subscription.unsubscribe();
-  }, [])
+    });
+    return () => subscription.unsubscribe();
+  }, []);
 
   async function fetchProducts() {
     try {
-      const data = (await DataStore.query(Product)).filter(c => c.groceryList.id === groceryListID)
-      // if (navigator.onLine) {
-      //   products = await fetchProductsOnline()
-      // } else {
-      //   products = await fetchProductsOffline()
-      // }
-      data? 
-      dispatch(loadProducts(data))
-      : dispatch(loadProducts([]))
+      const data = (await DataStore.query(Product)).filter(
+        (c) => c.groceryList.id === groceryListID
+      );
+      data ? dispatch(loadProducts(data)) : dispatch(loadProducts([]));
       console.log("products retrieved successfully!");
     } catch (error) {
-        console.log("Error retrieving products", error)
+      console.log("Error retrieving products", error);
     }
-    
-  };
-
-// async function fetchProductsOffline() {
-//     const data = await DataStore.query(GroceryList, groceryListID)
-//     return data.products
-// };
-
-// async function fetchProductsOnline() {
-//     const { data } = await API.graphql(graphqlOperation(productsForGroceryList, { groceryListId: groceryListID }))
-//     console.log('online')
-//     const products = data.productsForGroceryList.items.filter(product => product._deleted !== true)
-//     return products
-// };
+  }
 
   function goToProductList(category) {
-      return props.navigation.push('ProductList',{category, groceryListID})
-    }
+    return props.navigation.push("ProductList", { category, groceryListID });
+  }
 
-    function showCategories() {
-      return (
-        <View style={styles.container}>
+  function showCategories() {
+    return (
+      <View style={styles.container}>
         {categories.map((cat, index) => (
-          <TouchableOpacity 
-            onPress={() => goToProductList(cat.name)} 
+          <TouchableOpacity
+            onPress={() => goToProductList(cat.name)}
             style={styles.vignetteItem}
             key={index}
-            >
-            <MaterialCommunityIcons 
-              name={cat.img} 
-              size={100} 
-              color={grey} />
-    
-            <View style={styles.text}
-              > 
-              <Text style={{fontSize:18}}> {cat.name.toUpperCase()} </Text>
+          >
+            <MaterialCommunityIcons name={cat.img} size={100} color={grey} />
+
+            <View style={styles.text}>
+              <Text style={{ fontSize: 18 }}> {cat.name.toUpperCase()} </Text>
             </View>
           </TouchableOpacity>
-          ))
-    
-          }
-        </View>
-        
-      )
-    }
-    
-    return (
-      <View>
-      { Platform.OS !== 'ios' && Platform.OS !== 'android'
-        ?
-        <View>
-          { showCategories() }
-        </View>
-        : <ScrollView>
-          { showCategories() }
-        </ScrollView>
-
-      }
+        ))}
       </View>
+    );
+  }
 
-    )
-}
+  return (
+    <View>
+      {Platform.OS !== "ios" && Platform.OS !== "android" ? (
+        <View>{showCategories()}</View>
+      ) : (
+        <ScrollView>{showCategories()}</ScrollView>
+      )}
+    </View>
+  );
+};
 
-
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   products: state.products,
-})
+});
 
-export default connect(mapStateToProps)(ProductCategory)
-
+export default connect(mapStateToProps)(ProductCategory);
 
 const styles = StyleSheet.create({
-
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      backgroundColor: '#ecf0f1',
-      flexDirection: 'row',
-      padding: 8,
-      flexWrap: 'wrap'
-    },
-    vignetteItem :{
-      alignItems: 'center',
-      width: 150,
-      height: 150,
-      margin: 10,
-    },
-    button: {
-      marginVertical: 10,
-      margin: 20,
-    },
-    text: {
-      textAlign: 'center',  
-    },
-    
-  });
-
-  // import { Icon } from '@iconify/react';
-// import carrotIcon from '@iconify/icons-mdi/carrot';
-// import fruitCherries from '@iconify/icons-mdi/fruit-cherries';
-// import barleyIcon from '@iconify/icons-mdi/barley';
-// import foodDrumstick from '@iconify/icons-mdi/food-drumstick';
-// import cupIcon from '@iconify/icons-mdi/cup';
-// import muffinIcon from '@iconify/icons-mdi/muffin';
-// import glassCocktail from '@iconify/icons-mdi/glass-cocktail';
-// import shakerIcon from '@iconify/icons-mdi/shaker';
-// import cubeOutline from '@iconify/icons-mdi/cube-outline';
-  // const categories= [
-  //     {name:'Fruits', img: fruitCherries},
-  //     {name:'Veggies', img: carrotIcon},
-  //     {name:'Dairy', img: cupIcon},
-  //     {name:'Grains', img: barleyIcon},
-  //     {name:'Meat', img: foodDrumstick},
-  //     {name:'Frozen', img: cubeOutline},
-  //     {name:'Baking/Snacks', img: muffinIcon},
-  //     {name:'Drinks', img: glassCocktail},
-  //     {name:'Condiments', img: shakerIcon},
-  // ]
-  // <Icon 
-  // icon={cat.img} 
-  // width="7em"
-  // height="7em"
-  // color={grey}
-  // />
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    backgroundColor: "#ecf0f1",
+    flexDirection: "row",
+    padding: 8,
+    flexWrap: "wrap",
+  },
+  vignetteItem: {
+    alignItems: "center",
+    width: 150,
+    height: 150,
+    margin: 10,
+  },
+  button: {
+    marginVertical: 10,
+    margin: 20,
+  },
+  text: {
+    textAlign: "center",
+  },
+});

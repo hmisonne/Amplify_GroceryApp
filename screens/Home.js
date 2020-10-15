@@ -78,6 +78,9 @@ const Home = (props) => {
 
     };
    
+    function goToAllGroceryList() {
+        return props.navigation.push('AllGroceryLists')
+    }
     function goToNewGroceryList() {
         return props.navigation.push('NewList')
     }
@@ -95,6 +98,10 @@ const Home = (props) => {
             <SubmitBtn 
                 title='Saved List(s)'
                 onPress={goToSavedGroceryList}
+            />
+            <SubmitBtn 
+                title='Browse Lists'
+                onPress={goToAllGroceryList}
             />
         </View>
     )

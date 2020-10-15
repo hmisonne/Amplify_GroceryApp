@@ -12,6 +12,7 @@ import NewProductForm from './screens/NewProductForm'
 import ProductList from './screens/ProductList'
 import ProductCategory from './screens/ProductCategory'
 import NewGroceryListForm from './screens/NewGroceryListForm'
+import AllGroceryLists from './screens/AllGroceryLists'
 import GroceryLists from './screens/GroceryLists'
 import Home from './screens/Home'
 import { NavigationContainer } from '@react-navigation/native';
@@ -58,6 +59,10 @@ const App = () => {
             name="NewList" 
             component={NewGroceryListForm} 
             options={{ title: 'My New List' }}/>
+          <ProductStack.Screen 
+            name="AllGroceryLists" 
+            component={AllGroceryLists} 
+            options={{ title: 'All Grocery Lists' }}/>
           <ProductStack.Screen 
             name="GroceryLists" 
             component={GroceryLists} 

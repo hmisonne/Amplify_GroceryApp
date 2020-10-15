@@ -30,7 +30,6 @@ const ProductCategory = (props) => {
       fetchProducts();
       // Turn off sync with Cloud
       const subscription = DataStore.observe(Product).subscribe(msg => {
-        console.log('sub product')
         console.log(msg.model, msg.opType, msg.element);
         fetchProducts();
       })
@@ -39,14 +38,14 @@ const ProductCategory = (props) => {
 
   async function fetchProducts() {
     try {
-      let products
-      if (navigator.onLine) {
-        products = await fetchProductsOnline()
-      } else {
-        products = await fetchProductsOffline()
-      }
-      products? 
-      dispatch(loadProducts(products))
+      const data = (await DataStore.query(Product)).filter(c => c.groceryList.id === groceryListID)
+      // if (navigator.onLine) {
+      //   products = await fetchProductsOnline()
+      // } else {
+      //   products = await fetchProductsOffline()
+      // }
+      data? 
+      dispatch(loadProducts(data))
       : dispatch(loadProducts([]))
       console.log("products retrieved successfully!");
     } catch (error) {
@@ -55,17 +54,17 @@ const ProductCategory = (props) => {
     
   };
 
-async function fetchProductsOffline() {
-    const data = await DataStore.query(GroceryList, groceryListID)
-    console.log('offline')
-    return data.products
-};
+// async function fetchProductsOffline() {
+//     const data = await DataStore.query(GroceryList, groceryListID)
+//     return data.products
+// };
 
-async function fetchProductsOnline() {
-    const { data } = await API.graphql(graphqlOperation(productsForGroceryList, { groceryListId: groceryListID }))
-    console.log('online')
-    return data.productsForGroceryList.items
-};
+// async function fetchProductsOnline() {
+//     const { data } = await API.graphql(graphqlOperation(productsForGroceryList, { groceryListId: groceryListID }))
+//     console.log('online')
+//     const products = data.productsForGroceryList.items.filter(product => product._deleted !== true)
+//     return products
+// };
 
   function goToProductList(category) {
       return props.navigation.push('ProductList',{category, groceryListID})

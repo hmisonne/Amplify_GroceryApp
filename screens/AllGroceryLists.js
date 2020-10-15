@@ -1,12 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import { connect } from "react-redux";
 import { DataStore } from "@aws-amplify/datastore";
-import { User } from "../src/models";
+import { User, GroceryList } from "../src/models";
 import store from "../src/redux/store";
 
 const AllGroceryLists = (props) => {
-  const { groceryLists, user } = store.getState();
+  const { user } = store.getState();
+  const [groceryListsState, setGlistState] = useState([]);
+
+  useEffect(() => {
+    fetchLists();
+  }, []);
 
   async function addListToUser(groceryListID) {
     const currentUser = await DataStore.query(User, (c) =>
@@ -22,13 +27,22 @@ const AllGroceryLists = (props) => {
     );
   }
 
+  async function fetchLists() {
+    try {
+      const allGroceryLists = await DataStore.query(GroceryList);
+      setGlistState(allGroceryLists);
+      console.log("grocery lists retrieved successfully!");
+    } catch (error) {
+      console.log("Error retrieving grocery lists", error);
+    }
+  }
 
   return (
     <View style={styles.container}>
-      {groceryLists.map((list, index) => (
+      {groceryListsState.map((list, index) => (
         <View key={list.id ? list.id : index} style={styles.list}>
           <Text style={styles.listName}>{list.name}</Text>
-          <Button title="Add" onPress={() => addListToUser(list.id)} />
+          <Button title="Add" onPress={() => addListToUser(list.id)} disabled={user.userGroceryListID.includes(list.id)} />
         </View>
       ))}
     </View>
@@ -37,7 +51,6 @@ const AllGroceryLists = (props) => {
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  groceryLists: state.groceryLists,
 });
 
 export default connect(mapStateToProps)(AllGroceryLists);

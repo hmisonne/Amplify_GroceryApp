@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import { Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Platform, ScrollView} from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { connect, useDispatch } from 'react-redux'
 import { loadProducts } from '../src/redux/actions/product'
@@ -69,31 +69,52 @@ const ProductCategory = (props) => {
   function goToProductList(category) {
       return props.navigation.push('ProductList',{category, groceryListID})
     }
-    
-    return(
-    <View style={styles.container}>
+
+    function showCategories() {
+      return (
+        <View>
         {categories.map((cat, index) => (
-        <TouchableOpacity 
-          onPress={() => goToProductList(cat.name)} 
-          style={styles.vignetteItem}
-          key={index}
-          >
-          <MaterialCommunityIcons 
-            name={cat.img} 
-            size={100} 
-            color={grey} />
+          <TouchableOpacity 
+            onPress={() => goToProductList(cat.name)} 
+            style={styles.vignetteItem}
+            key={index}
+            >
+            <MaterialCommunityIcons 
+              name={cat.img} 
+              size={100} 
+              color={grey} />
+    
+            <View style={styles.text}
+              > 
+              <Text style={{fontSize:18}}> {cat.name.toUpperCase()} </Text>
+            </View>
+          </TouchableOpacity>
+          ))
+    
+          }
+        </View>
+        
+      )
+    }
+    
+    return (
+      <View>
+      { Platform.OS !== 'ios' && Platform.OS !== 'android'
+        ?
+        <View style={styles.container}>
+          { showCategories() }
+        </View>
+        : <ScrollView style={styles.container}>
+          { showCategories() }
+        </ScrollView>
 
-          <View style={styles.text}
-            > 
-            <Text style={{fontSize:18}}> {cat.name.toUpperCase()} </Text>
-          </View>
-        </TouchableOpacity>
-        ))
+      }
+      </View>
 
-        }
-    </View>
     )
 }
+
+
 
 const mapStateToProps = state => ({
   products: state.products,

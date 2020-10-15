@@ -18,14 +18,6 @@ const Home = (props) => {
             console.log(msg.model, msg.opType, msg.element);
             identifyUser();
         })
-        const handleConnectionChange = () => {
-            const condition = navigator.onLine ? 'online' : 'offline';
-            console.log(condition);
-            if (condition === 'online') { identifyUser(); }
-          }
-          
-        window.addEventListener('online', handleConnectionChange);
-        window.addEventListener('offline', handleConnectionChange);
 
         return () => subscription.unsubscribe();
     }, [])

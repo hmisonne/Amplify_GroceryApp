@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import {
-    View, Text, StyleSheet, TouchableOpacity, Button
+    View, Text, StyleSheet, Button
   } from 'react-native'
-import { connect, useDispatch } from 'react-redux'
-import { loadGroceryLists} from '../src/redux/actions/groceryList'
+import { connect } from 'react-redux'
 import { DataStore } from "@aws-amplify/datastore";
 import { GroceryList, User } from '../src/models'
 import store from '../src/redux/store';

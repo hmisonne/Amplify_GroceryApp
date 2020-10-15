@@ -1,8 +1,5 @@
 import 'react-native-gesture-handler';
 import React from 'react'
-import {
- TouchableOpacity
-} from 'react-native'
 import Amplify from 'aws-amplify'
 import config from './aws-exports'
 import { withAuthenticator } from 'aws-amplify-react-native'
@@ -17,7 +14,6 @@ import GroceryLists from './screens/GroceryLists'
 import Home from './screens/Home'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { AntDesign } from '@expo/vector-icons';
 import useCachedResources from './hooks/useCachedResources';
 import RoundButton from './components/RoundButton';
 
@@ -74,12 +70,12 @@ const App = () => {
             options={(props) => ({
               title: props.route.params.category,
               headerRight: () => (
-                    <RoundButton
-                      onPress={() => goToNewProductScreen(props)}
-                      name="pluscircle"
-                      color="green"
-                      style={{marginRight: 20}}
-                    />
+                <RoundButton
+                  onPress={() => goToNewProductScreen(props)}
+                  name="pluscircle"
+                  color="green"
+                  style={{marginRight: 20}}
+                />
                 ),
               })}
             />

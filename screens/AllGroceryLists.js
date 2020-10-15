@@ -15,12 +15,6 @@ const AllGroceryLists = (props) => {
 
     useEffect(() => {
         fetchLists();
-        // Turn on sync with Cloud
-        const subscription = DataStore.observe(GroceryList).subscribe(msg => {
-        console.log('sync grocery list', msg.model, msg.opType, msg.element);
-        fetchLists();
-      })
-      return () => subscription.unsubscribe();
     }, [])
     
 

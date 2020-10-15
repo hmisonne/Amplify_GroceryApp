@@ -19,6 +19,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { AntDesign } from '@expo/vector-icons';
 import useCachedResources from './hooks/useCachedResources';
+import RoundButton from './components/RoundButton';
 
 Amplify.configure({...config,
   Analytics: { 
@@ -73,14 +74,12 @@ const App = () => {
             options={(props) => ({
               title: props.route.params.category,
               headerRight: () => (
-                <TouchableOpacity 
-                  style={{marginRight: 20}}
-                  onPress={() => goToNewProductScreen(props)}>
-                  <AntDesign 
-                    name="pluscircle" 
-                    size={24} 
-                    color="green" />
-                  </TouchableOpacity>
+                    <RoundButton
+                      onPress={() => goToNewProductScreen(props)}
+                      name="pluscircle"
+                      color="green"
+                      style={{marginRight: 20}}
+                    />
                 ),
               })}
             />

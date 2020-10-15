@@ -1,23 +1,20 @@
 import React, { useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { connect, useDispatch } from "react-redux";
-import {
-  deleteGroceryList,
-  loadGroceryLists,
-} from "../src/redux/actions/groceryList";
 import { DataStore } from "@aws-amplify/datastore";
 import { GroceryList, User } from "../src/models";
 import store from "../src/redux/store";
 import RoundButton from "../components/RoundButton";
+import { removeList, fetchLists } from '../utils/api'
 
 const GroceryLists = (props) => {
   const dispatch = useDispatch();
   const { groceryLists, user } = store.getState();
   useEffect(() => {
-    fetchLists();
+    fetchLists(dispatch, user);
     const subscription = DataStore.observe(GroceryList).subscribe((msg) => {
       console.log("sync grocery list", msg.model, msg.opType, msg.element);
-      fetchLists();
+      fetchLists(dispatch, user);
     });
     return () => subscription.unsubscribe();
   }, []);
@@ -25,46 +22,7 @@ const GroceryLists = (props) => {
   function goToList(groceryListID) {
     return props.navigation.push("ProductCategory", { groceryListID });
   }
-
-  async function removeList(id) {
-    try {
-      dispatch(deleteGroceryList(id));
-      const currentUser = await DataStore.query(User, (c) =>
-        c.sub("eq", user.sub)
-      );
-
-      await DataStore.save(
-        User.copyOf(currentUser[0], (updated) => {
-          updated.userGroceryListID = updated.userGroceryListID.filter(
-            (glistID) => glistID !== id
-          );
-        })
-      );
-    } catch (err) {
-      console.log("error deleting list", err);
-    }
-  }
-
-  async function fetchLists() {
-    try {
-      const currentUser = await DataStore.query(User, (c) =>
-        c.sub("eq", user.sub)
-      );
-      
-      let groceryListsPerUser = [];
-      if (currentUser[0].userGroceryListID) {
-        const data = currentUser[0].userGroceryListID;
-        for (let GroceryListID of data) {
-          const groceryList = await DataStore.query(GroceryList, GroceryListID);
-          groceryListsPerUser.push(groceryList);
-        }
-      }
-      dispatch(loadGroceryLists(groceryListsPerUser));
-      console.log("grocery lists retrieved successfully!");
-    } catch (error) {
-      console.log("Error retrieving grocery lists", error);
-    }
-  }
+  
 
   return (
     <View style={styles.container}>
@@ -79,7 +37,7 @@ const GroceryLists = (props) => {
             </View>
           </TouchableOpacity>
           <RoundButton
-            onPress={() => removeList(glist.id)}
+            onPress={() => removeList(dispatch, user, glist.id)}
             name="minuscircle"
             color="red"
           />

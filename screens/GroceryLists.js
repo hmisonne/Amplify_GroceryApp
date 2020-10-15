@@ -3,11 +3,11 @@ import {
     View, Text, StyleSheet, TouchableOpacity
   } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
-import { loadGroceryLists} from '../src/redux/actions/groceryList'
+import { deleteGroceryList, loadGroceryLists } from '../src/redux/actions/groceryList'
 import { DataStore } from "@aws-amplify/datastore";
 import { GroceryList, User } from '../src/models'
 import store from '../src/redux/store';
-
+import RoundButton from '../components/RoundButton'
 
 const GroceryLists = (props) => {
     const dispatch = useDispatch()
@@ -24,6 +24,18 @@ const GroceryLists = (props) => {
     
     function goToList(groceryListID){
         return props.navigation.push('ProductCategory',{ groceryListID})
+    }
+
+    async function removeList(id) {
+      try {
+        dispatch(deleteGroceryList(id))
+        const currentUser = await DataStore.query(User,  c => c.sub("eq", user.sub));
+        
+        await DataStore.save(
+          User.copyOf(currentUser[0], updated => {
+            updated.userGroceryListID = updated.userGroceryListID.filter(glistID => glistID !== id )
+        }))
+      } catch (err) { console.log('error deleting list', err)}
     }
 
     async function fetchLists() {
@@ -50,15 +62,23 @@ const GroceryLists = (props) => {
   return (
     <View style={styles.container}>
     {
-        groceryLists.map((product, index) => (
-          <TouchableOpacity 
-            key={product.id ? product.id : index} 
-            style={styles.product}
-            onPress={() => goToList(product.id)}>
+        groceryLists.map((glist, index) => (
+          <View 
+            style={styles.glist}
+            key={glist.id ? glist.id : index} >
+             <TouchableOpacity 
+              style={styles.product}
+              onPress={() => goToList(glist.id)}>
             <View style={styles.subContainer}>
-              <Text style={styles.productName}>{product.name}</Text>
+              <Text style={styles.productName}>{glist.name}</Text>
             </View>
           </TouchableOpacity>
+          <RoundButton 
+            onPress={() => removeList(glist.id)}
+            name="minuscircle" 
+            color="red" 
+          />
+          </View>
         ))
       }
       </View>
@@ -77,7 +97,7 @@ const styles = StyleSheet.create({
     flex: 1, 
     padding: 20 
   },
-  product: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 15 },
+  glist: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 15 },
   input: { height: 50, backgroundColor: '#ddd', marginBottom: 10, padding: 8 },
   productName: { fontSize: 18 }
 })

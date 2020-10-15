@@ -33,8 +33,7 @@ const NewGroceryListForm = (props) => {
         })
       )
       // Update User instance with new Grocery List
-      // const currentUser = await DataStore.query(User,  c => c.sub("eq", user.attributes.sub));
-      const currentUser = await DataStore.query(User);
+      const currentUser = await DataStore.query(User,  c => c.sub("eq", user.sub));
       
       await DataStore.save(
         User.copyOf(currentUser[0], updated => {

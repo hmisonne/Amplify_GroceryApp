@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react'
 import {
-    View, Text, StyleSheet, Switch, TouchableOpacity
+    View, Text, StyleSheet, Switch,
   } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
-import { deleteProduct, toggleProduct, loadProducts } from '../src/redux/actions/product'
+import { deleteProduct, toggleProduct } from '../src/redux/actions/product'
 import { DataStore } from "@aws-amplify/datastore";
 import { Product, GroceryList } from '../src/models'
 import store from '../src/redux/store';
-
-import { AntDesign } from '@expo/vector-icons';
+import RoundButton from '../components/RoundButton'
 
 const ProductList = (props) => {
     const dispatch = useDispatch()
@@ -68,12 +67,11 @@ const ProductList = (props) => {
             <View style={styles.subContainer}>
               <Text style={styles.productName}>{product.quantity} {product.unit} {product.checked}</Text>
             </View>
-            <TouchableOpacity onPress={() => removeProduct(product.id)}>
-              <AntDesign 
-                name="minuscircle" 
-                size={24} 
-                color="red" />
-            </TouchableOpacity>
+            <RoundButton 
+              onPress={() => removeProduct(product.id)}
+              name="minuscircle" 
+              color="red" 
+            />
           </View>
         ))
       }

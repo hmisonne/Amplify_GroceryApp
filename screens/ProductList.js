@@ -35,7 +35,7 @@ const ProductList = (props) => {
           );
       }));
       
-    } catch (err) { console.log('error toggling product') }
+    } catch (err) { console.log('error toggling product', err) }
   }
 
   async function removeProduct(id) {
@@ -44,12 +44,12 @@ const ProductList = (props) => {
       const todelete = await DataStore.query(Product, id);
       DataStore.delete(todelete);
       // Update GroceryList
-      const originalGroceryList = await DataStore.query(GroceryList, groceryListID);
-      await DataStore.save(
-        GroceryList.copyOf(originalGroceryList, updated => {
-        updated.products = updated.products.filter(product => product.id ==! id)
-        }))
-    } catch (err) { console.log('error deleting product') }
+      // const originalGroceryList = await DataStore.query(GroceryList, groceryListID);
+      // await DataStore.save(
+      //   GroceryList.copyOf(originalGroceryList, updated => {
+      //   updated.products = updated.products.filter(product => product.id ==! id)
+      //   }))
+    } catch (err) { console.log('error deleting product', err)}
   }
 
 

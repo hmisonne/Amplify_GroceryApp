@@ -57,12 +57,12 @@ const NewProductForm = (props) => {
       )
       console.log('productSaved', productSaved)
 
-      await DataStore.save(
-        GroceryList.copyOf(currentList, updated => {
-          updated.products = updated.products ?
-           [...updated.products, productSaved]
-          : [productSaved]
-    }))
+    //   await DataStore.save(
+    //     GroceryList.copyOf(currentList, updated => {
+    //       updated.products = updated.products ?
+    //        [...updated.products, productSaved]
+    //       : [productSaved]
+    // }))
 
       dispatch(addProduct(productSaved))
       props.navigation.goBack();

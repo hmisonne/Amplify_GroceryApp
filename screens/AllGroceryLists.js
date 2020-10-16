@@ -42,7 +42,7 @@ const AllGroceryLists = (props) => {
       {groceryListsState.map((list, index) => (
         <View key={list.id ? list.id : index} style={styles.list}>
           <Text style={styles.listName}>{list.name}</Text>
-          <Button title="Add" onPress={() => addListToUser(list.id)} disabled={user.userGroceryListID.includes(list.id)} />
+          <Button title="Add" onPress={() => addListToUser(list.id)} disabled={user.userGroceryListID && user.userGroceryListID.includes(list.id)} />
         </View>
       ))}
     </View>

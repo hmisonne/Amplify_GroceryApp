@@ -1,9 +1,9 @@
 import React from "react";
-import { View, Text, StyleSheet, Switch } from "react-native";
+import { View, Text, StyleSheet, Switch, TouchableOpacity } from "react-native";
 import { connect, useDispatch } from "react-redux";
 import { deleteProduct, toggleProduct } from "../src/redux/actions/product";
 import { DataStore } from "@aws-amplify/datastore";
-import { Product, GroceryList } from "../src/models";
+import { Product } from "../src/models";
 import store from "../src/redux/store";
 import RoundButton from "../components/RoundButton";
 
@@ -19,22 +19,9 @@ const ProductList = (props) => {
     try {
       dispatch(toggleProduct(id));
       const original = await DataStore.query(Product, id);
-      const newProduct = await DataStore.save(
+      await DataStore.save(
         Product.copyOf(original, (updated) => {
           updated.checked = !original.checked;
-        })
-      );
-
-      // Update GroceryList
-      const originalGroceryList = await DataStore.query(
-        GroceryList,
-        groceryListID
-      );
-      await DataStore.save(
-        GroceryList.copyOf(originalGroceryList, (updated) => {
-          updated.products = updated.products.map((product) =>
-            product.id === id ? newProduct : product
-          );
         })
       );
     } catch (err) {
@@ -51,6 +38,9 @@ const ProductList = (props) => {
       console.log("error deleting product", err);
     }
   }
+  function goToEditProduct(product){
+    return props.navigation.push("AddProduct", { product });
+  }
 
   return (
     <View style={styles.container}>
@@ -61,12 +51,16 @@ const ProductList = (props) => {
               value={product.checked}
               onValueChange={() => onToggle(product.id)}
             />
-            <Text style={styles.productName}>{product.name}</Text>
-          </View>
-          <View style={styles.subContainer}>
-            <Text style={styles.productName}>
-              {product.quantity} {product.unit} {product.checked}
-            </Text>
+            <TouchableOpacity style={styles.textAndQty} onPress={() => goToEditProduct(product)}>
+              <View>
+                <Text style={styles.productName}>{product.name}</Text>
+              </View>
+              <View>
+                <Text style={styles.productName}>
+                {product.quantity} {product.unit}
+                </Text>
+              </View>
+            </TouchableOpacity>
           </View>
           <RoundButton
             onPress={() => removeProduct(product.id)}
@@ -89,7 +83,12 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
-  subContainer: {
+  textAndQty:{
+    flex: 1,
+    justifyContent: "space-around",
+    flexDirection: "row",
+  },
+  subContainer:{
     flex: 1,
     flexDirection: "row",
   },

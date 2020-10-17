@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TextInput } from "react-native";
 import { useDispatch } from "react-redux";
 import { addProduct } from "../src/redux/actions/product";
 import { DataStore } from "@aws-amplify/datastore";
@@ -8,6 +8,7 @@ import SubmitBtn from "../components/SubmitBtn";
 import StyledTextInput from "../components/StyledTextInput";
 import Stepper from "../components/Stepper";
 import UnitPicker from "../components/UnitPicker";
+import { grey } from "../utils/colors"
 
 const initialState = {
   name: "",
@@ -65,12 +66,13 @@ const NewProductForm = (props) => {
         value={formState.name}
         placeholder="Name"
       />
-      <View style={styles.product}>
+      <View style={styles.stepperAndText}>
         <Stepper
           onIncrement={() => onIncrement("quantity")}
           onDecrement={() => onDecrement("quantity")}
         />
-        <StyledTextInput
+        <TextInput
+          style={styles.numInput}
           onChangeText={(val) => setInput("quantity", val)}
           keyboardType="numeric"
           value={`${formState.quantity}`}
@@ -98,12 +100,20 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     padding: 20,
   },
-  product: {
+  stepperAndText: {
     flexDirection: "row",
     justifyContent: "space-around",
     marginTop: 10,
     marginLeft: 30,
     marginRight: 30,
-    marginBottom: 15,
+    alignItems: 'center',
   },
+  numInput: {
+    flex: 1,
+    height: 40,
+    borderColor: grey,
+    borderWidth: 2,
+    borderRadius: 10,
+    paddingLeft: 15,
+  }
 });

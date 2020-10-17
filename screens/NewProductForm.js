@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, StyleSheet, TextInput } from "react-native";
 import { useDispatch } from "react-redux";
-import { addProduct } from "../src/redux/actions/product";
+import { addProduct, updateProduct } from "../src/redux/actions/product";
 import { DataStore } from "@aws-amplify/datastore";
 import { GroceryList, Product } from "../src/models";
 import SubmitBtn from "../components/SubmitBtn";
@@ -20,7 +20,10 @@ const initialState = {
 const units = ["ct", "lb", "g", "kg", "L"];
 
 const NewProductForm = (props) => {
-  const [formState, setFormState] = useState(initialState);
+  const productToUpdate= props.route.params.product
+  const [formState, setFormState] = useState(productToUpdate? 
+    productToUpdate
+    :initialState);
   const dispatch = useDispatch();
 
   function setInput(key, value) {
@@ -37,6 +40,27 @@ const NewProductForm = (props) => {
     setFormState({ ...formState, [key]: count });
   }
 
+  async function updateProductHandler() {
+    try {
+      const product = { ...formState };
+      const original = await DataStore.query(Product, product.id);
+      // Convert Quantity to Int
+      product.quantity = parseInt(product.quantity, 10);
+
+      const updatedProduct =  await DataStore.save(
+        Product.copyOf(original, (updated) => {
+          updated.name = product.name
+          updated.unit = product.unit
+          updated.quantity = product.quantity
+        })
+      )
+      dispatch(updateProduct(updatedProduct));
+      props.navigation.goBack();
+      console.log("Product saved successfully!");
+    } catch (err) {
+      console.log("error creating food:", err);
+    }
+  }
   async function addProductHandler() {
     try {
       const product = { ...formState };
@@ -87,7 +111,12 @@ const NewProductForm = (props) => {
         value={formState.unit}
         units={units}
       />
-      <SubmitBtn title="Add to List" onPress={addProductHandler} />
+      {
+        productToUpdate?
+        <SubmitBtn title="Update" onPress={updateProductHandler} />
+        :
+        <SubmitBtn title="Add to List" onPress={addProductHandler} />
+      }
     </View>
   );
 };

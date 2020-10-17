@@ -1,4 +1,4 @@
-import "react-native-gesture-handler";
+import "babel-polyfill";
 import React from "react";
 import Amplify from "aws-amplify";
 import config from "./aws-exports";
@@ -16,7 +16,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import useCachedResources from "./hooks/useCachedResources";
 import RoundButton from "./components/RoundButton";
-
 Amplify.configure({
   ...config,
   Analytics: {

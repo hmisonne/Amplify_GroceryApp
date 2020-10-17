@@ -19,6 +19,12 @@ export const productReducer = (state = [], action) => {
           ? { ...product, checked: !product.checked }
           : product
       );
+      case "UPDATE_PRODUCT":
+        return state.map((product) =>
+          product.id === action.id
+            ? { ...product, [action.key]: action.value }
+            : product
+        );
     default:
       return state;
   }

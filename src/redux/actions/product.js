@@ -22,3 +22,8 @@ export const toggleProduct = (id) => ({
   type: "TOGGLE_PRODUCT",
   id,
 });
+
+export const updateProduct = (id, key, value) => ({
+  type: "UPDATE_PRODUCT",
+  id, key, value
+});

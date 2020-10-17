@@ -20,9 +20,10 @@ export const productReducer = (state = [], action) => {
           : product
       );
       case "UPDATE_PRODUCT":
+        const updatedProduct = action.updatedProduct;
         return state.map((product) =>
-          product.id === action.id
-            ? { ...product, [action.key]: action.value }
+          product.id === updatedProduct.id
+            ? updatedProduct
             : product
         );
     default:

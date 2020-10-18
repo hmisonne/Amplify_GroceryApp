@@ -12,15 +12,15 @@ const GroceryLists = (props) => {
   const { groceryLists, user } = store.getState();
   useEffect(() => {
     fetchLists(dispatch, user);
-    const subscription = DataStore.observe(GroceryList).subscribe((msg) => {
-      console.log("sync grocery list", msg.model, msg.opType, msg.element);
-      fetchLists(dispatch, user);
-    });
-    return () => subscription.unsubscribe();
+    // const subscription = DataStore.observe(GroceryList).subscribe((msg) => {
+    //   console.log("sync grocery list", msg.model, msg.opType, msg.element);
+    //   fetchLists(dispatch, user);
+    // });
+    // return () => subscription.unsubscribe();
   }, []);
 
-  function goToList(groceryListID) {
-    return props.navigation.push("ProductCategory", { groceryListID });
+  function goToList(groceryList) {
+    return props.navigation.push("ProductCategory", { groceryList });
   }
   
 
@@ -30,7 +30,7 @@ const GroceryLists = (props) => {
         <View style={styles.glist} key={glist.id ? glist.id : index}>
           <TouchableOpacity
             style={styles.product}
-            onPress={() => goToList(glist.id)}
+            onPress={() => goToList(glist)}
           >
             <View style={styles.subContainer}>
               <Text style={styles.glistName}>{glist.name}</Text>

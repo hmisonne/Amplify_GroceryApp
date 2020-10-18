@@ -28,15 +28,15 @@ const categories = [
 
 const ProductCategory = (props) => {
   const dispatch = useDispatch();
-  const { groceryListID } = props.route.params;
+  const groceryListID = props.route.params.groceryList.id;
   const { products } = store.getState();
   useEffect(() => {
     fetchProducts();
-    const subscription = DataStore.observe(Product).subscribe((msg) => {
-      console.log(msg.model, msg.opType, msg.element);
-      fetchProducts();
-    });
-    return () => subscription.unsubscribe();
+    // const subscription = DataStore.observe(Product).subscribe((msg) => {
+    //   console.log(msg.model, msg.opType, msg.element);
+    //   fetchProducts();
+    // });
+    // return () => subscription.unsubscribe();
   }, []);
 
   async function fetchProducts() {

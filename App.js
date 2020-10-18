@@ -50,7 +50,9 @@ const App = () => {
           <ProductStack.Screen
             name="ProductCategory"
             component={ProductCategory}
-            options={{ title: "My Grocery List" }}
+            options={(props) => ({
+              title: `${props.route.params.groceryList.name}`,
+            })}
           />
           <ProductStack.Screen
             name="NewList"

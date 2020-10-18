@@ -86,7 +86,9 @@ const App = () => {
             name="AddProduct"
             component={NewProductForm}
             options={(props) => ({
-              title: `Add New ${props.route.params.category}`,
+              title: props.route.params.product?
+              `Update ${props.route.params.product.name}`
+              : `Add New ${props.route.params.category}`,
             })}
           />
         </ProductStack.Navigator>

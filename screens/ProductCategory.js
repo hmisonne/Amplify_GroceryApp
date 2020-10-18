@@ -54,7 +54,13 @@ const ProductCategory = (props) => {
   function goToProductList(category) {
     return props.navigation.push("ProductList", { category, groceryListID });
   }
+  function productCountPerCat(category) {
+    return products.filter(product => product.category === category).length
+  }
 
+  function productCheckedCountPerCat(category) {
+    return products.filter(product => product.category === category && product.checked === true).length
+  }
   function showCategories() {
     return (
       <View style={styles.container}>
@@ -67,7 +73,7 @@ const ProductCategory = (props) => {
             <MaterialCommunityIcons name={cat.img} size={100} color={grey} />
 
             <View style={styles.text}>
-              <Text style={{ fontSize: 18 }}> {cat.name.toUpperCase()} </Text>
+        <Text style={{ fontSize: 18 }}> {cat.name.toUpperCase()} {productCheckedCountPerCat(cat.name)}/{productCountPerCat(cat.name)}</Text>
             </View>
           </TouchableOpacity>
         ))}

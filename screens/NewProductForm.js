@@ -37,7 +37,7 @@ const NewProductForm = (props) => {
 
   function onDecrement(key) {
     const count = parseInt(formState[key], 10) - 1;
-    setFormState({ ...formState, [key]: count });
+    setFormState({ ...formState, [key]: count < 0 ? 0 : count });
   }
 
   async function updateProductHandler() {

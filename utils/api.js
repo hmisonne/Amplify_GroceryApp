@@ -76,32 +76,24 @@ export async function removeGroceryListFromUser(id, user, dispatch) {
     }
   }
 
-  export async function addGroceryListToUser(groceryListID, user, dispatch) {
+  export async function addGroceryListToUser(groceryListID, currUser, dispatch) {
     try {
-      const userGroceryLists = (user.userGroceryListID === undefined)? [] : user.userGroceryListID;
-      userGroceryLists.push(groceryListID)
-      await updateUserDetails(user, userGroceryLists)
-      dispatch(addListToUser(groceryListID))
+      const user = await DataStore.query(User, currUser.id)
+      const groceryList = await DataStore.query(GroceryList, groceryListID)
+      await DataStore.save(
+        new UserGroceryListJoin({
+          user,
+          groceryList
+        })
+      )
+      
+      // dispatch(addListToUser(groceryListID))
       console.log("Grocery list added to user successfully!");
     } catch (error) {
       console.log("Error adding grocery list to user", error);
     }
   }
 
-  async function updateUserDetails(user, userGroceryLists){
-     try{
-       const currentUser = await DataStore.query(User, (c) =>
-        c.sub("eq", user.sub)
-      );
-      await DataStore.save(
-        User.copyOf(currentUser[0], (updated) => {
-          updated.userGroceryListID = userGroceryLists
-        })
-      );
-     } catch (error) {
-      console.log("Error updating user details", error);
-    }
-  }
 
   export async function createNewGroceryList (groceryList, user) {
     try {

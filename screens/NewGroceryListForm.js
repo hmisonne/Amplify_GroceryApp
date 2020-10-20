@@ -41,8 +41,8 @@ const NewGroceryListForm = (props) => {
             : [groceryListSaved.id];
         })
       );
-
       console.log("List saved successfully!");
+      props.navigation.goBack();
     } catch (err) {
       console.log("error creating list:", err);
     }

@@ -1,22 +1,22 @@
 import React, { useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { connect, useDispatch } from "react-redux";
-import { DataStore } from "@aws-amplify/datastore";
-import { GroceryList, User } from "../src/models";
 import store from "../src/redux/store";
 import RoundButton from "../components/RoundButton";
-import { removeList, fetchLists } from '../utils/api'
+import { removeGroceryListFromUser, fetchUserGroceryLists } from '../utils/api'
+import { DataStore } from "@aws-amplify/datastore";
+import { GroceryList } from "../src/models";
 
 const GroceryLists = (props) => {
   const dispatch = useDispatch();
   const { groceryLists, user } = store.getState();
   useEffect(() => {
-    fetchLists(dispatch, user);
-    // const subscription = DataStore.observe(GroceryList).subscribe((msg) => {
-    //   console.log("sync grocery list", msg.model, msg.opType, msg.element);
-    //   fetchLists(dispatch, user);
-    // });
-    // return () => subscription.unsubscribe();
+    fetchUserGroceryLists(dispatch, user);
+    const subscription = DataStore.observe(GroceryList).subscribe((msg) => {
+      console.log("sync grocery list", msg.model, msg.opType, msg.element);
+      fetchUserGroceryLists(dispatch, user);
+    });
+    return () => subscription.unsubscribe();
   }, []);
 
   function goToList(groceryList) {
@@ -37,7 +37,7 @@ const GroceryLists = (props) => {
             </View>
           </TouchableOpacity>
           <RoundButton
-            onPress={() => removeList(dispatch, user, glist.id)}
+            onPress={() => removeGroceryListFromUser(glist.id, user, dispatch)}
             name="minuscircle"
             color="red"
           />

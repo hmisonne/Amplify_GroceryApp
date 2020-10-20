@@ -51,8 +51,6 @@ export async function createUser(userInfo, dispatch) {
   try {
     const userDetails = {
       sub: userInfo.attributes.sub,
-      name: userInfo.username,
-      email: userInfo.attributes.email,
     };
     const newUser = await DataStore.save(new User(userDetails));
     // const newUser = await API.graphql({ query: mutations.createUser, variables: {input: userDetails}});
@@ -140,3 +138,30 @@ export async function removeGroceryListFromUser(id, user, dispatch) {
       console.log("Error updating user details", error);
     }
   }
+
+  export async function createNewGroceryList (groceryList, user) {
+    try {
+      const groceryListSaved = await DataStore.save(
+      new GroceryList({
+        name: groceryList.name,
+        description: groceryList.description,
+      })
+    );
+    // Update User instance with new Grocery List
+    const currentUser = await DataStore.query(User, (c) =>
+      c.sub("eq", user.sub)
+    );
+
+    await DataStore.save(
+      User.copyOf(currentUser[0], (updated) => {
+        updated.userGroceryListID = updated.userGroceryListID
+          ? [...updated.userGroceryListID, groceryListSaved.id]
+          : [groceryListSaved.id];
+      })
+    );
+
+    console.log("List saved successfully!");
+  } catch (err) {
+    console.log("error creating list:", err);
+  }
+}

@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { connect } from "react-redux";
-import { DataStore } from "@aws-amplify/datastore";
-import { GroceryList, User } from "../src/models";
 import SubmitBtn from "../components/SubmitBtn";
 import StyledTextInput from "../components/StyledTextInput";
 import store from "../src/redux/store";
+import { createNewGroceryList } from '../utils/api'
 
 const initialState = {
   name: "",
@@ -20,32 +19,10 @@ const NewGroceryListForm = (props) => {
     setFormState({ ...formState, [key]: value });
   }
 
-  async function createListHandler() {
-    try {
-      const groceryList = { ...formState };
-      const groceryListSaved = await DataStore.save(
-        new GroceryList({
-          name: groceryList.name,
-          description: groceryList.description,
-        })
-      );
-      // Update User instance with new Grocery List
-      const currentUser = await DataStore.query(User, (c) =>
-        c.sub("eq", user.sub)
-      );
-
-      await DataStore.save(
-        User.copyOf(currentUser[0], (updated) => {
-          updated.userGroceryListID = updated.userGroceryListID
-            ? [...updated.userGroceryListID, groceryListSaved.id]
-            : [groceryListSaved.id];
-        })
-      );
-      console.log("List saved successfully!");
-      props.navigation.goBack();
-    } catch (err) {
-      console.log("error creating list:", err);
-    }
+  function createListHandler() {
+    const groceryList = { ...formState };
+    createNewGroceryList(groceryList,user )
+    props.navigation.goBack();
   }
 
   return (

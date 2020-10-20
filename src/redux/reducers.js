@@ -49,6 +49,17 @@ export const userReducer = (state = {}, action) => {
   switch (action.type) {
     case "AUTHENTIFICATE_USER":
       return action.user;
+    case "ADD_GROCERYLIST_TO_USER":
+      const newGroceryListID = action.groceryListID;
+      return {
+        ...state,
+        userGroceryListID: [...state.userGroceryListID, newGroceryListID]
+      }
+    case "DELETE_GROCERY_LIST":
+      return {
+        ...state,
+        userGroceryListID: state.userGroceryListID.filter((gorceryList) => gorceryList !== action.id)
+      }
     default:
       return state;
   }

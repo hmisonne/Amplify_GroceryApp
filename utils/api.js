@@ -99,14 +99,16 @@ export async function removeGroceryListFromUser(id, user, dispatch) {
       const currentUser = await DataStore.query(User, (c) =>
         c.sub("eq", user.sub)
       );
-      const userGroceryLists = (currentUser[0].userGroceryListID === undefined)? [] : currentUser[0].userGroceryListID;
-      let groceryListsPerUser = []
-      for (let id of userGroceryLists) {
-        const groceryList = await DataStore.query(GroceryList, id);
-        groceryListsPerUser.push(groceryList);
+      if (currentUser[0]){
+        const userGroceryLists = (currentUser[0].userGroceryListID === undefined)? [] : currentUser[0].userGroceryListID;
+        let groceryListsPerUser = []
+        for (let id of userGroceryLists) {
+          const groceryList = await DataStore.query(GroceryList, id);
+          groceryListsPerUser.push(groceryList);
+        }
+        dispatch(loadGroceryLists(groceryListsPerUser));
+        console.log("grocery lists retrieved successfully!");
       }
-      dispatch(loadGroceryLists(groceryListsPerUser));
-      console.log("grocery lists retrieved successfully!");
     } catch (error) {
       console.log("Error retrieving grocery lists", error);
     }

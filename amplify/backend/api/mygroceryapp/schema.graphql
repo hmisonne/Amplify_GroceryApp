@@ -19,8 +19,6 @@ type GroceryList @model {
 type User @model {
   id: ID!
   sub: String!
-  name: String
-  email: String
   userGroceryListID: [String]
 }
 

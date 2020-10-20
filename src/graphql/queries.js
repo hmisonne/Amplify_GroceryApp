@@ -251,8 +251,6 @@ export const syncUsers = /* GraphQL */ `
       items {
         id
         sub
-        name
-        email
         userGroceryListID
         _version
         _deleted
@@ -270,8 +268,6 @@ export const getUser = /* GraphQL */ `
     getUser(id: $id) {
       id
       sub
-      name
-      email
       userGroceryListID
       _version
       _deleted
@@ -291,8 +287,6 @@ export const listUsers = /* GraphQL */ `
       items {
         id
         sub
-        name
-        email
         userGroceryListID
         _version
         _deleted

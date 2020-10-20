@@ -132,20 +132,6 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "name": {
-                    "name": "name",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "email": {
-                    "name": "email",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "userGroceryListID": {
                     "name": "userGroceryListID",
                     "isArray": true,
@@ -188,5 +174,5 @@ export const schema = {
             }
         }
     },
-    "version": "44cdf3ba29eef747a5f0bec41c213861"
+    "version": "b9cbd1b6b57b709d7021301403f81196"
 };

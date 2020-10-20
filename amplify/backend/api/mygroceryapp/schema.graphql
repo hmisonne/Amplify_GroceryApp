@@ -14,18 +14,21 @@ type GroceryList @model {
   name: String!
   description: String
   products: [Product] @connection(name: "GroceryListProducts")
+  users: [UserGroceryListJoin] @connection(keyName: "byUser", fields: ["id"])
 }
 
 type User @model {
   id: ID!
   sub: String!
-  userGroceryListID: [String]
+  groceryLists: [UserGroceryListJoin] @connection(keyName: "byGroceryList", fields: ["id"])
 }
 
-type ProductConnection {
-  items: [Product]
-  nextToken: String
-}
-type Query {
-  productsForGroceryList(groceryListId: ID!, limit: Int, nextToken: String): ProductConnection
+type UserGroceryListJoin @model(queries: null)
+  @key(name: "byUser", fields: ["userID", "groceryListID"])
+  @key(name: "byGroceryList", fields: ["groceryListID", "userID"]){
+  id: ID!
+  userID: ID!
+  groceryListID: ID!
+  user: User! @connection(fields: ["userID"])      
+  groceryList: GroceryList! @connection(fields: ["groceryListID"])  
 }

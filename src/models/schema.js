@@ -104,6 +104,19 @@ export const schema = {
                         "connectionType": "HAS_MANY",
                         "associatedWith": "groceryList"
                     }
+                },
+                "users": {
+                    "name": "users",
+                    "isArray": true,
+                    "type": {
+                        "model": "UserGroceryListJoin"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": "user"
+                    }
                 }
             },
             "syncable": true,
@@ -112,6 +125,74 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                }
+            ]
+        },
+        "UserGroceryListJoin": {
+            "name": "UserGroceryListJoin",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "user": {
+                    "name": "user",
+                    "isArray": false,
+                    "type": {
+                        "model": "User"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetName": "userID"
+                    }
+                },
+                "groceryList": {
+                    "name": "groceryList",
+                    "isArray": false,
+                    "type": {
+                        "model": "GroceryList"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetName": "groceryListID"
+                    }
+                }
+            },
+            "syncable": true,
+            "pluralName": "UserGroceryListJoins",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {
+                        "queries": null
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byUser",
+                        "fields": [
+                            "userID",
+                            "groceryListID"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byGroceryList",
+                        "fields": [
+                            "groceryListID",
+                            "userID"
+                        ]
+                    }
                 }
             ]
         },
@@ -132,12 +213,18 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "userGroceryListID": {
-                    "name": "userGroceryListID",
+                "groceryLists": {
+                    "name": "groceryLists",
                     "isArray": true,
-                    "type": "String",
+                    "type": {
+                        "model": "UserGroceryListJoin"
+                    },
                     "isRequired": false,
-                    "attributes": []
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": "groceryList"
+                    }
                 }
             },
             "syncable": true,
@@ -151,28 +238,6 @@ export const schema = {
         }
     },
     "enums": {},
-    "nonModels": {
-        "ProductConnection": {
-            "name": "ProductConnection",
-            "fields": {
-                "items": {
-                    "name": "items",
-                    "isArray": true,
-                    "type": {
-                        "model": "Product"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "nextToken": {
-                    "name": "nextToken",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                }
-            }
-        }
-    },
-    "version": "b9cbd1b6b57b709d7021301403f81196"
+    "nonModels": {},
+    "version": "e71afa822492996446658125ea227a20"
 };

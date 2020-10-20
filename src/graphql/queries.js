@@ -1,44 +1,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const productsForGroceryList = /* GraphQL */ `
-  query ProductsForGroceryList(
-    $groceryListId: ID!
-    $limit: Int
-    $nextToken: String
-  ) {
-    productsForGroceryList(
-      groceryListId: $groceryListId
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        groceryList {
-          id
-          name
-          description
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        name
-        checked
-        unit
-        quantity
-        category
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
 export const syncProducts = /* GraphQL */ `
   query SyncProducts(
     $filter: ModelProductFilterInput
@@ -89,6 +51,10 @@ export const getProduct = /* GraphQL */ `
         name
         description
         products {
+          nextToken
+          startedAt
+        }
+        users {
           nextToken
           startedAt
         }
@@ -167,6 +133,10 @@ export const syncGroceryLists = /* GraphQL */ `
           nextToken
           startedAt
         }
+        users {
+          nextToken
+          startedAt
+        }
         _version
         _deleted
         _lastChangedAt
@@ -201,6 +171,20 @@ export const getGroceryList = /* GraphQL */ `
         nextToken
         startedAt
       }
+      users {
+        items {
+          id
+          userID
+          groceryListID
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
       _version
       _deleted
       _lastChangedAt
@@ -221,6 +205,10 @@ export const listGroceryLists = /* GraphQL */ `
         name
         description
         products {
+          nextToken
+          startedAt
+        }
+        users {
           nextToken
           startedAt
         }
@@ -251,7 +239,10 @@ export const syncUsers = /* GraphQL */ `
       items {
         id
         sub
-        userGroceryListID
+        groceryLists {
+          nextToken
+          startedAt
+        }
         _version
         _deleted
         _lastChangedAt
@@ -268,7 +259,20 @@ export const getUser = /* GraphQL */ `
     getUser(id: $id) {
       id
       sub
-      userGroceryListID
+      groceryLists {
+        items {
+          id
+          userID
+          groceryListID
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
       _version
       _deleted
       _lastChangedAt
@@ -287,7 +291,57 @@ export const listUsers = /* GraphQL */ `
       items {
         id
         sub
-        userGroceryListID
+        groceryLists {
+          nextToken
+          startedAt
+        }
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncUserGroceryListJoins = /* GraphQL */ `
+  query SyncUserGroceryListJoins(
+    $filter: ModelUserGroceryListJoinFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncUserGroceryListJoins(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        userID
+        groceryListID
+        user {
+          id
+          sub
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        groceryList {
+          id
+          name
+          description
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
         _version
         _deleted
         _lastChangedAt

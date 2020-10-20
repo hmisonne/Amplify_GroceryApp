@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { useDispatch } from "react-redux";
 import SubmitBtn from "../components/SubmitBtn";
-import { identifyUser, getUserInfo } from '../utils/api'
+import { identifyUser } from '../utils/api'
 import { DataStore } from "@aws-amplify/datastore";
 import { User } from "../src/models";
 
@@ -11,12 +11,12 @@ const Home = (props) => {
   const dispatch = useDispatch();
   useEffect(() => {
     identifyUser(dispatch);
-    const subscription = DataStore.observe(User).subscribe((msg) => {
-      console.log("sync users", msg.model, msg.opType, msg.element);
-      identifyUser(dispatch);
-    });
+    // const subscription = DataStore.observe(User).subscribe((msg) => {
+    //   console.log("sync users", msg.model, msg.opType, msg.element);
+    //   identifyUser(dispatch);
+    // });
 
-    return () => subscription.unsubscribe();
+    // return () => subscription.unsubscribe();
   }, []);
 
 

@@ -1,5 +1,5 @@
 
-import { authentificateUser } from "../src/redux/actions/user";
+import { authentificateUser, addListToUser } from "../src/redux/actions/user";
 import {
     deleteGroceryList,
     loadGroceryLists,
@@ -12,54 +12,69 @@ import { Auth } from "aws-amplify";
 
 export async function identifyUser(dispatch) {
   try {
-    const userInfo = await Auth.currentUserInfo();
-    let users = await DataStore.query(User, (c) =>
-      c.sub("eq", userInfo.attributes.sub)
-    );
-    let currUser;
-    // if no user in DS and online check, if user already created
-
-    if (users.length === 0) {
-      if (navigator.onLine) {
-        currUser = await fetchUserOnline();
-      }
-      if (!navigator.onLine || !currUser) {
-        console.log("creating new user");
-        currUser = await DataStore.save(
-          new User({
-            sub: userInfo.attributes.sub,
-            name: userInfo.username,
-            email: userInfo.attributes.email,
-          })
-        );
-      }
-    } else {
-      console.log("using user in DS");
-      currUser = users[0];
-    }
-    dispatch(authentificateUser(currUser));
+    // if (navigator.onLine) {
+      const currUser = await fetchUserOnline(dispatch);
+  // }
+    currUser && dispatch(authentificateUser(currUser));
     console.log("User info retrieved successfully!");
   } catch (error) {
     console.log("Error retrieving user info", error);
   }
 }
 
-export async function fetchUserOnline() {
-  console.log("fetchUserOnline");
-  const userInfo = await Auth.currentUserInfo();
-  const { data } = await API.graphql(
-    graphqlOperation(listUsers, {
-      filter: {
-        sub: {
-          eq: userInfo.attributes.sub,
+export async function fetchUserOnline(dispatch) {
+  try {
+    const userInfo = await Auth.currentUserInfo();
+    const { data } = await API.graphql(
+      graphqlOperation(listUsers, {
+        filter: {
+          sub: {
+            eq: userInfo.attributes.sub,
+          },
         },
-      },
-    })
-  );
-  return data.listUsers.items[0];
+      })
+    );
+    if (data.listUsers.items[0]){
+      console.log("User successfull retrieved!");
+      return data.listUsers.items[0]
+    }
+    else{
+      console.log("Creating a new user...");
+      createUser(userInfo, dispatch)
+    } 
+  } catch (error) {
+      console.log("Error fetching users online", error);
+  }
 }
 
-export async function removeList(dispatch, user, id) {
+export async function createUser(userInfo, dispatch) {
+  try {
+    const userDetails = {
+      sub: userInfo.attributes.sub,
+      name: userInfo.username,
+      email: userInfo.attributes.email,
+    };
+    const newUser = await DataStore.save(new User(userDetails));
+    // const newUser = await API.graphql({ query: mutations.createUser, variables: {input: userDetails}});
+    dispatch(authentificateUser(newUser))
+    console.log("new User created successfully", newUser);
+    return newUser;
+  } catch (err) {
+    console.log("error creating new User", err);
+  }
+}
+
+export async function fetchAllGroceryLists(setGlistState) {
+  try {
+    const allGroceryLists = await DataStore.query(GroceryList);
+    setGlistState(allGroceryLists);
+    console.log("grocery lists retrieved successfully!");
+  } catch (error) {
+    console.log("Error retrieving grocery lists", error);
+  }
+}
+
+export async function removeGroceryListFromUser(id, user, dispatch) {
     try {
       dispatch(deleteGroceryList(id));
       const currentUser = await DataStore.query(User, (c) =>
@@ -73,28 +88,55 @@ export async function removeList(dispatch, user, id) {
           );
         })
       );
+      console.log("Grocery list deleted from User successfully!");
     } catch (err) {
       console.log("error deleting list", err);
     }
   }
 
-  export async function fetchLists(dispatch, user) {
+  
+
+  export async function fetchUserGroceryLists(dispatch, user) {
     try {
       const currentUser = await DataStore.query(User, (c) =>
         c.sub("eq", user.sub)
       );
-      
-      let groceryListsPerUser = [];
-      if (currentUser[0].userGroceryListID) {
-        const data = currentUser[0].userGroceryListID;
-        for (let GroceryListID of data) {
-          const groceryList = await DataStore.query(GroceryList, GroceryListID);
-          groceryListsPerUser.push(groceryList);
-        }
+      const userGroceryLists = (currentUser[0].userGroceryListID === undefined)? [] : currentUser[0].userGroceryListID;
+      let groceryListsPerUser = []
+      for (let id of userGroceryLists) {
+        const groceryList = await DataStore.query(GroceryList, id);
+        groceryListsPerUser.push(groceryList);
       }
       dispatch(loadGroceryLists(groceryListsPerUser));
       console.log("grocery lists retrieved successfully!");
     } catch (error) {
       console.log("Error retrieving grocery lists", error);
+    }
+  }
+
+  export async function addGroceryListToUser(groceryListID, user, dispatch) {
+    try {
+      const userGroceryLists = (user.userGroceryListID === undefined)? [] : user.userGroceryListID;
+      userGroceryLists.push(groceryListID)
+      await updateUserDetails(user, userGroceryLists)
+      dispatch(addListToUser(groceryListID))
+      console.log("Grocery list added to user successfully!");
+    } catch (error) {
+      console.log("Error adding grocery list to user", error);
+    }
+  }
+
+  async function updateUserDetails(user, userGroceryLists){
+     try{
+       const currentUser = await DataStore.query(User, (c) =>
+        c.sub("eq", user.sub)
+      );
+      await DataStore.save(
+        User.copyOf(currentUser[0], (updated) => {
+          updated.userGroceryListID = userGroceryLists
+        })
+      );
+     } catch (error) {
+      console.log("Error updating user details", error);
     }
   }

@@ -5,7 +5,7 @@ import {
     loadGroceryLists,
   } from "../src/redux/actions/groceryList";
 import { DataStore } from "@aws-amplify/datastore";
-import { User, GroceryList } from "../src/models";
+import { User, GroceryList, UserGroceryListJoin } from "../src/models";
 import { Auth } from "aws-amplify";
 
 export async function identifyUser(dispatch) {
@@ -33,7 +33,6 @@ async function createUser(userInfo) {
       sub: userInfo.attributes.sub,
     };
     const newUser = await DataStore.save(new User(userDetails));
-    // const newUser = await API.graphql({ query: mutations.createUser, variables: {input: userDetails}});
     console.log("new User created successfully", newUser);
     return newUser;
   } catch (err) {
@@ -75,20 +74,10 @@ export async function removeGroceryListFromUser(id, user, dispatch) {
 
   export async function fetchUserGroceryLists(dispatch, user) {
     try {
-      // const currentUser = await DataStore.query(User, (c) =>
-      //   c.sub("eq", user.sub)
-      // );
-      // if (currentUser[0]){
-        // const userGroceryLists = (currentUser[0].userGroceryListID === undefined)? [] : currentUser[0].userGroceryListID;
-        const userGroceryLists = (user.userGroceryListID === undefined)? [] : user.userGroceryListID;
-        let groceryListsPerUser = []
-        for (let id of userGroceryLists) {
-          const groceryList = await DataStore.query(GroceryList, id);
-          groceryListsPerUser.push(groceryList);
-        // }
+        const result = (await DataStore.query(UserGroceryListJoin)).filter(c => c.user.id === user.id)
+        const groceryListsPerUser = result.map(element => element.groceryList) || []
         dispatch(loadGroceryLists(groceryListsPerUser));
         console.log("grocery lists retrieved successfully!");
-      }
     } catch (error) {
       console.log("Error retrieving grocery lists", error);
     }
@@ -135,13 +124,11 @@ export async function removeGroceryListFromUser(id, user, dispatch) {
     );
 
     await DataStore.save(
-      User.copyOf(currentUser[0], (updated) => {
-        updated.userGroceryListID = updated.userGroceryListID
-          ? [...updated.userGroceryListID, groceryListSaved.id]
-          : [groceryListSaved.id];
+      new UserGroceryListJoin({
+        user: currentUser[0],
+        groceryList: groceryListSaved
       })
-    );
-
+    )
     console.log("List saved successfully!");
   } catch (err) {
     console.log("error creating list:", err);

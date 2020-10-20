@@ -2,8 +2,7 @@ import React, { useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { useDispatch } from "react-redux";
 import SubmitBtn from "../components/SubmitBtn";
-import { identifyUser } from '../utils/api'
-
+import { identifyUser, getUserInfo } from '../utils/api'
 import { DataStore } from "@aws-amplify/datastore";
 import { User } from "../src/models";
 
@@ -13,7 +12,7 @@ const Home = (props) => {
   useEffect(() => {
     identifyUser(dispatch);
     const subscription = DataStore.observe(User).subscribe((msg) => {
-      console.log(msg.model, msg.opType, msg.element);
+      console.log("sync users", msg.model, msg.opType, msg.element);
       identifyUser(dispatch);
     });
 
@@ -36,8 +35,8 @@ const Home = (props) => {
 
   return (
     <View style={styles.container}>
-      <SubmitBtn title="New List" onPress={goToNewGroceryList} />
       <SubmitBtn title="Saved List(s)" onPress={goToSavedGroceryList} />
+      <SubmitBtn title="New List" onPress={goToNewGroceryList} />
       <SubmitBtn title="Browse Lists" onPress={goToAllGroceryList} />
     </View>
   );

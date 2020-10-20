@@ -52,18 +52,11 @@ export async function fetchAllGroceryLists(setGlistState) {
 
 export async function removeGroceryListFromUser(id, user, dispatch) {
     try {
-      dispatch(deleteGroceryList(id));
-      const currentUser = await DataStore.query(User, (c) =>
-        c.sub("eq", user.sub)
-      );
-
-      await DataStore.save(
-        User.copyOf(currentUser[0], (updated) => {
-          updated.userGroceryListID = updated.userGroceryListID.filter(
-            (glistID) => glistID !== id
-          );
-        })
-      );
+      // dispatch(deleteGroceryList(id));
+      const result = (await DataStore.query(UserGroceryListJoin))
+      .filter(c => c.groceryList.id === id)
+      .filter(c => c.user.id === user.id)
+      DataStore.delete(result[0]);
       console.log("Grocery list deleted from User successfully!");
     } catch (err) {
       console.log("error deleting list", err);

@@ -17,13 +17,16 @@ import { Product } from "../src/models";
 
 const categories = [
   { name: "Fruits", img: "food-apple" },
-  { name: "Veggies", img: "leaf" },
+  { name: "Veggies", img: "corn" },
+  { name: "Grains/Nuts", img: "barley" },
   { name: "Dairy", img: "cup" },
   { name: "Meat", img: "cow" },
   { name: "Frozen", img: "cube-outline" },
   { name: "Baking/Snacks", img: "muffin" },
+  { name: "Canned Food", img: "hockey-puck" },
   { name: "Drinks", img: "glass-cocktail" },
-  { name: "Condiments", img: "food-variant" },
+  { name: "Condiments/Oil", img: "food-variant" },
+  { name: "Cleaning", img: "broom" },
 ];
 
 const ProductCategory = (props) => {

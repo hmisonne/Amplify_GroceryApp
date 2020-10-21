@@ -4,16 +4,20 @@ import {
 import * as Font from "expo-font";
 import * as React from "react";
 import * as SplashScreen from "expo-splash-screen";
+import { Hub } from 'aws-amplify';
+import { DataStore } from "@aws-amplify/datastore";
 
-export default function useCachedResources() {
+export default function prepareResources() {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
+  const [isSyncComplete, setSyncComplete] = React.useState(false);
 
   // Load any resources or data that we need prior to rendering the app
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
         SplashScreen.preventAutoHideAsync();
-
+        // Load datastore
+        await DataStore.start();
         // Load fonts
         await Font.loadAsync({
           ...MaterialCommunityIcons.font,
@@ -22,6 +26,10 @@ export default function useCachedResources() {
         // We might want to provide this error information to an error reporting service
         console.warn(e);
       } finally {
+        Hub.listen('datastore', (data) => {
+          const { payload } = data;
+          payload.event === 'ready' && setSyncComplete(true);       
+        })
         setLoadingComplete(true);
         SplashScreen.hideAsync();
       }
@@ -30,5 +38,5 @@ export default function useCachedResources() {
     loadResourcesAndDataAsync();
   }, []);
 
-  return isLoadingComplete;
+  return isLoadingComplete && isSyncComplete;
 }

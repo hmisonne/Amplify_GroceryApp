@@ -14,9 +14,8 @@ import GroceryLists from "./screens/GroceryLists";
 import Home from "./screens/Home";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import useCachedResources from "./hooks/useCachedResources";
+import prepareResources from "./hooks/prepareResources";
 import RoundButton from "./components/RoundButton";
-import syncDatastore from "./hooks/syncDatastore";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Settings from "./screens/Settings";
 
@@ -30,8 +29,7 @@ Amplify.configure({
 const ProductStack = createStackNavigator();
 
 const App = () => {
-  const isLoadingComplete = useCachedResources();
-  const isSyncComplete = syncDatastore()
+  const isAppReady = prepareResources();
   function goToNewProductScreen(props) {
     props.navigation.push("AddProduct", {
       category: props.route.params.category,
@@ -42,7 +40,7 @@ const App = () => {
   function goToSettings(props) {
     props.navigation.push("Settings")
   }
-  if (!isLoadingComplete || !isSyncComplete) {
+  if (!isAppReady) {
     return null;
   }
   return (

@@ -18,6 +18,7 @@ import prepareResources from "./hooks/prepareResources";
 import RoundButton from "./components/RoundButton";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Settings from "./screens/Settings";
+import LoadingScreen from "./screens/LoadingScreen"
 
 Amplify.configure({
   ...config,
@@ -41,7 +42,9 @@ const App = () => {
     props.navigation.push("Settings")
   }
   if (!isAppReady) {
-    return null;
+    return (
+      <LoadingScreen/>
+    )
   }
   return (
     <Provider store={store}>

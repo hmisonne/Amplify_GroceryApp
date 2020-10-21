@@ -12,11 +12,11 @@ const GroceryLists = (props) => {
   const { groceryLists, user } = store.getState();
   useEffect(() => {
     fetchUserGroceryLists(dispatch, user);
-    const subscription = DataStore.observe(GroceryList).subscribe((msg) => {
-      console.log("sync grocery list", msg.model, msg.opType, msg.element);
-      fetchUserGroceryLists(dispatch, user);
-    });
-    return () => subscription.unsubscribe();
+    // const subscription = DataStore.observe(GroceryList).subscribe((msg) => {
+    //   console.log("sync grocery list", msg.model, msg.opType, msg.element);
+    //   fetchUserGroceryLists(dispatch, user);
+    // });
+    // return () => subscription.unsubscribe();
   }, []);
 
   function goToList(groceryList) {

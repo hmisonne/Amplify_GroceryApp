@@ -3,8 +3,6 @@ import { View, StyleSheet } from "react-native";
 import { useDispatch } from "react-redux";
 import SubmitBtn from "../components/SubmitBtn";
 import { identifyUser } from '../utils/api'
-import { DataStore } from "@aws-amplify/datastore";
-import { User } from "../src/models";
 
 
 const Home = (props) => {

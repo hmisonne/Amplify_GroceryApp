@@ -16,6 +16,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import useCachedResources from "./hooks/useCachedResources";
 import RoundButton from "./components/RoundButton";
+import syncDatastore from "./hooks/syncDatastore";
+
 Amplify.configure({
   ...config,
   Analytics: {
@@ -27,7 +29,7 @@ const ProductStack = createStackNavigator();
 
 const App = () => {
   const isLoadingComplete = useCachedResources();
-
+  const isSyncComplete = syncDatastore()
   function goToNewProductScreen(props) {
     props.navigation.push("AddProduct", {
       category: props.route.params.category,
@@ -35,7 +37,8 @@ const App = () => {
     });
   }
 
-  if (!isLoadingComplete) {
+  if (!isLoadingComplete || !isSyncComplete) {
+    console.log("isLoadingComplete", isLoadingComplete, "isSyncComplete",isSyncComplete)
     return null;
   }
   return (

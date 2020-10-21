@@ -1,5 +1,5 @@
 
-import { authentificateUser, addListToUser } from "../src/redux/actions/user";
+import { authentificateUser } from "../src/redux/actions/user";
 import {
     deleteGroceryList,
     loadGroceryLists,
@@ -52,7 +52,7 @@ export async function fetchAllGroceryLists(setGlistState) {
 
 export async function removeGroceryListFromUser(id, user, dispatch) {
     try {
-      // dispatch(deleteGroceryList(id));
+      dispatch(deleteGroceryList(id));
       const result = (await DataStore.query(UserGroceryListJoin))
       .filter(c => c.groceryList.id === id)
       .filter(c => c.user.id === user.id)
@@ -76,7 +76,7 @@ export async function removeGroceryListFromUser(id, user, dispatch) {
     }
   }
 
-  export async function addGroceryListToUser(groceryListID, currUser, dispatch) {
+  export async function addGroceryListToUser(groceryListID, currUser) {
     try {
       const user = await DataStore.query(User, currUser.id)
       const groceryList = await DataStore.query(GroceryList, groceryListID)
@@ -86,8 +86,6 @@ export async function removeGroceryListFromUser(id, user, dispatch) {
           groceryList
         })
       )
-      
-      // dispatch(addListToUser(groceryListID))
       console.log("Grocery list added to user successfully!");
     } catch (error) {
       console.log("Error adding grocery list to user", error);

@@ -35,9 +35,9 @@ export const groceryListReducer = (state = [], action) => {
     case "LOAD_GROCERY_LIST":
       const groceryLists = action.groceryLists;
       return groceryLists;
-    case "ADD_GROCERY_LIST":
-      const newGroceryList = action.groceryList;
-      return [...state, newGroceryList];
+    // case "ADD_GROCERY_LIST":
+    //   const newGroceryList = action.groceryList;
+    //   return [...state, newGroceryList];
     case "DELETE_GROCERY_LIST":
       return state.filter((gorceryList) => gorceryList.id !== action.id);
     default:
@@ -49,17 +49,6 @@ export const userReducer = (state = {}, action) => {
   switch (action.type) {
     case "AUTHENTIFICATE_USER":
       return action.user;
-    case "ADD_GROCERYLIST_TO_USER":
-      const newGroceryListID = action.groceryListID;
-      return {
-        ...state,
-        userGroceryListID: [...state.userGroceryListID, newGroceryListID]
-      }
-    case "DELETE_GROCERY_LIST":
-      return {
-        ...state,
-        userGroceryListID: state.userGroceryListID.filter((gorceryList) => gorceryList !== action.id)
-      }
     default:
       return state;
   }

@@ -38,7 +38,7 @@ const GroceryLists = (props) => {
           </TouchableOpacity>
           <RoundButton
             onPress={() => removeGroceryListFromUser(glist.id, user, dispatch)}
-            name="minuscircle"
+            name="minus-circle"
             color="red"
           />
         </View>

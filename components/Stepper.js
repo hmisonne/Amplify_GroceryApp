@@ -1,6 +1,6 @@
 import React from "react";
 import { View, TouchableOpacity, StyleSheet, Platform } from "react-native";
-import { FontAwesome, Entypo } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { blue, white, grey } from "../utils/colors";
 
 export default function Stepper({ onIncrement, onDecrement }) {
@@ -15,7 +15,7 @@ export default function Stepper({ onIncrement, onDecrement }) {
             ]}
             onPress={onDecrement}
           >
-            <Entypo name="minus" size={30} color={blue} />
+            <MaterialCommunityIcons name="minus" size={30} color={blue} />
           </TouchableOpacity>
           <TouchableOpacity
             style={[
@@ -28,16 +28,16 @@ export default function Stepper({ onIncrement, onDecrement }) {
             ]}
             onPress={onIncrement}
           >
-            <Entypo name="plus" size={30} color={blue} />
+            <MaterialCommunityIcons name="plus" size={30} color={blue} />
           </TouchableOpacity>
         </View>
       ) : (
         <View style={{ flexDirection: "row" }}>
           <TouchableOpacity style={styles.androidBtn} onPress={onDecrement}>
-            <FontAwesome name="minus" size={30} color={white} />
+            <MaterialCommunityIcons name="minus" size={30} color={white} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.androidBtn} onPress={onIncrement}>
-            <FontAwesome name="plus" size={30} color={white} />
+            <MaterialCommunityIcons name="plus" size={30} color={white} />
           </TouchableOpacity>
         </View>
       )}

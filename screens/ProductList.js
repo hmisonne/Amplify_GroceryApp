@@ -64,7 +64,7 @@ const ProductList = (props) => {
           </View>
           <RoundButton
             onPress={() => removeProduct(product.id)}
-            name="minuscircle"
+            name="minus-circle"
             color="red"
           />
         </View>

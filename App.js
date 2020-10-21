@@ -77,7 +77,7 @@ const App = () => {
               headerRight: () => (
                 <RoundButton
                   onPress={() => goToNewProductScreen(props)}
-                  name="pluscircle"
+                  name="plus-circle"
                   color="green"
                   style={{ marginRight: 20 }}
                 />

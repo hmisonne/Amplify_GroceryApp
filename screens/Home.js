@@ -98,7 +98,13 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems:'flex-end',
     marginBottom: 36
-  }
+  },
+  glist: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 15,
+  },
+  glistName: { fontSize: 18 },
 });
 
 {/* <View style={styles.container}>

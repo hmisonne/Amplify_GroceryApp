@@ -22,6 +22,7 @@ export async function identifyUser(dispatch) {
     
     currentUser && dispatch(authentificateUser(currentUser));
     console.log("User info retrieved successfully!");
+    return currentUser
   } catch (error) {
     console.log("Error retrieving user info", error);
   }

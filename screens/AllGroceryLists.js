@@ -20,7 +20,7 @@ const AllGroceryLists = (props) => {
       {groceryListsState.map((list, index) => (
         <View key={list.id ? list.id : index} style={styles.list}>
           <Text style={styles.listName}>{list.name}</Text>
-          <Button title="Add" onPress={() => addGroceryListToUser(list.id, user, dispatch)} />
+          <Button title="Add" onPress={() => addGroceryListToUser(list.id, user, dispatch)} disabled={user.groceryLists.includes(list.id)} />
         </View>
       ))}
     </View>

@@ -3,6 +3,7 @@ import { authentificateUser } from "../src/redux/actions/user";
 import {
     deleteGroceryList,
     loadGroceryLists,
+    addGroceryList
   } from "../src/redux/actions/groceryList";
 import { DataStore } from "@aws-amplify/datastore";
 import { User, GroceryList, UserGroceryListJoin } from "../src/models";
@@ -77,7 +78,7 @@ export async function removeGroceryListFromUser(id, user, dispatch) {
     }
   }
 
-  export async function addGroceryListToUser(groceryListID, currUser) {
+  export async function addGroceryListToUser(groceryListID, currUser, dispatch) {
     try {
       const user = await DataStore.query(User, currUser.id)
       const groceryList = await DataStore.query(GroceryList, groceryListID)
@@ -87,6 +88,7 @@ export async function removeGroceryListFromUser(id, user, dispatch) {
           groceryList
         })
       )
+      dispatch(addGroceryList(groceryList))
       console.log("Grocery list added to user successfully!");
     } catch (error) {
       console.log("Error adding grocery list to user", error);
@@ -94,7 +96,7 @@ export async function removeGroceryListFromUser(id, user, dispatch) {
   }
 
 
-  export async function createNewGroceryList (groceryList, user) {
+  export async function createNewGroceryList (groceryList, user, dispatch) {
     try {
       const groceryListSaved = await DataStore.save(
       new GroceryList({
@@ -102,6 +104,7 @@ export async function removeGroceryListFromUser(id, user, dispatch) {
         description: groceryList.description,
       })
     );
+    dispatch(addGroceryList(groceryListSaved))
     // Update User instance with new Grocery List
     const currentUser = await DataStore.query(User, (c) =>
       c.sub("eq", user.sub)

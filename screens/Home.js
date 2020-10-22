@@ -76,7 +76,7 @@ const Home = (props) => {
             <RoundButton
               onPress={() => removeGroceryListFromUser(glist.id, user, dispatch)}
               name="delete-outline"
-              color="black"
+              color="black" 
             />
           </View>
         ))}
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems:'flex-end',
-    marginBottom: 36
+    marginBottom: 16
   },
   glist: {
     flexDirection: "row",

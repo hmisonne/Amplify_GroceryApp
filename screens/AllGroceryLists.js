@@ -5,6 +5,7 @@ import store from "../src/redux/store";
 import { addGroceryListToUser, fetchAllGroceryLists } from '../utils/api'
 
 const AllGroceryLists = (props) => {
+  const dispatch = useDispatch();
   const { user } = store.getState();
   const [groceryListsState, setGlistState] = useState([]);
   useEffect(() => {
@@ -19,7 +20,7 @@ const AllGroceryLists = (props) => {
       {groceryListsState.map((list, index) => (
         <View key={list.id ? list.id : index} style={styles.list}>
           <Text style={styles.listName}>{list.name}</Text>
-          <Button title="Add" onPress={() => addGroceryListToUser(list.id, user)} />
+          <Button title="Add" onPress={() => addGroceryListToUser(list.id, user, dispatch)} />
         </View>
       ))}
     </View>

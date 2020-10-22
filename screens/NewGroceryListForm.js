@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import SubmitBtn from "../components/SubmitBtn";
 import StyledTextInput from "../components/StyledTextInput";
 import store from "../src/redux/store";
@@ -14,14 +14,14 @@ const initialState = {
 const NewGroceryListForm = (props) => {
   const [formState, setFormState] = useState(initialState);
   const { user } = store.getState();
-
+  const dispatch = useDispatch();
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
   }
 
   function createListHandler() {
     const groceryList = { ...formState };
-    createNewGroceryList(groceryList,user )
+    createNewGroceryList(groceryList, user, dispatch )
     props.navigation.goBack();
   }
 

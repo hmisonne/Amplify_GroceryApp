@@ -37,7 +37,7 @@ const NewGroceryListForm = (props) => {
         onChangeText={(val) => setInput("description", val)}
         style={styles.input}
         value={formState.description}
-        placeholder="Description"
+        placeholder="Description (optional)"
       />
       <SubmitBtn title="Add to List" onPress={createListHandler} />
     </View>

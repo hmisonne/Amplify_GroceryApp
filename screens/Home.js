@@ -46,6 +46,13 @@ const Home = (props) => {
               size={40}
               style={styles.bottom}
             />
+    <RoundButton
+      onPress={() => goToAllGroceryList()}
+      name="feature-search-outline"
+      color="blue"
+      size={40}
+      style={styles.bottom}
+    />
     </View>
   );
 
@@ -68,9 +75,8 @@ const Home = (props) => {
             </TouchableOpacity>
             <RoundButton
               onPress={() => removeGroceryListFromUser(glist.id, user, dispatch)}
-              name="minus-circle"
-              color="red"
-              
+              name="delete-outline"
+              color="black"
             />
           </View>
         ))}

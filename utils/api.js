@@ -132,3 +132,20 @@ export async function createNewProduct(product, groceryListID) {
     console.log("error creating food:", err);
   }
 }
+
+
+export async function updateProductDetails(product) {
+  try {
+    const original = await DataStore.query(Product, product.id);
+    const updatedProduct =  await DataStore.save(
+      Product.copyOf(original, (updated) => {
+        updated.name = product.name
+        updated.unit = product.unit
+        updated.quantity = product.quantity
+      }))
+      console.log("Product updated successfully!", updatedProduct);
+      return updatedProduct
+   } catch (err) {
+  console.log("error creating food:", err);
+  }
+}

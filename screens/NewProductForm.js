@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { View, StyleSheet, TextInput } from "react-native";
 import { useDispatch } from "react-redux";
 import { addProduct, updateProduct } from "../src/redux/actions/product";
-import { DataStore } from "@aws-amplify/datastore";
-import { GroceryList, Product } from "../src/models";
 import SubmitBtn from "../components/SubmitBtn";
 import StyledTextInput from "../components/StyledTextInput";
 import Stepper from "../components/Stepper";
@@ -42,33 +40,22 @@ const NewProductForm = (props) => {
   }
 
   async function updateProductHandler() {
-    try {
-      const product = { ...formState };
-      const original = await DataStore.query(Product, product.id);
-      // Convert Quantity to Int
-      product.quantity = parseInt(product.quantity, 10);
-
-      const updatedProduct =  await DataStore.save(
-        Product.copyOf(original, (updated) => {
-          updated.name = product.name
-          updated.unit = product.unit
-          updated.quantity = product.quantity
-        })
-      )
-      dispatch(updateProduct(updatedProduct));
-      props.navigation.goBack();
-      console.log("Product saved successfully!");
-    } catch (err) {
-      console.log("error creating food:", err);
-    }
+    const product = { ...formState };
+    // Convert Quantity to Int
+    product.quantity = parseInt(product.quantity, 10);
+    // Update DataStore
+    const updatedProduct = await updateProductDetails(product)
+    dispatch(updateProduct(updatedProduct));
+    props.navigation.goBack();
   }
 
   async function addProductHandler() {
     const product = { ...formState };
     const { groceryListID, category } = props.route.params;
     product.category = category;
+    // Convert Quantity to Int
     product.quantity = parseInt(product.quantity, 10);
-    console.log('product',product,'groceryListID',groceryListID)
+    // Update DataStore
     const productSaved = await createNewProduct(product, groceryListID)
     dispatch(addProduct(productSaved));
     props.navigation.goBack();

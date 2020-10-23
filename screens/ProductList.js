@@ -6,6 +6,7 @@ import { DataStore } from "@aws-amplify/datastore";
 import { Product } from "../src/models";
 import store from "../src/redux/store";
 import RoundButton from "../components/RoundButton";
+import { grey } from "../utils/colors";
 
 const ProductList = (props) => {
   const dispatch = useDispatch();
@@ -66,7 +67,7 @@ const ProductList = (props) => {
             <RoundButton
               onPress={() => removeProduct(product.id)}
               name="minus-circle"
-              color="red"
+              color={grey}
             />
           </View>
         ))}

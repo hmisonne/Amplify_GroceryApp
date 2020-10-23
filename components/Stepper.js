@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   },
   androidBtn: {
     margin: 5,
-    backgroundColor: grey,
+    backgroundColor: blue,
     padding: 10,
     borderRadius: 10,
   },

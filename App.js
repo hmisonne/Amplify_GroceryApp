@@ -19,6 +19,7 @@ import RoundButton from "./components/RoundButton";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Settings from "./screens/Settings";
 import LoadingScreen from "./screens/LoadingScreen"
+import {blue, green, blueGreen, grey } from "./utils/colors"
 
 Amplify.configure({
   ...config,
@@ -54,7 +55,7 @@ const App = () => {
             name="Home"
             component={Home}
             options={(props) => ({
-              title: "Home",
+              title: "My Grocery Lists",
               headerRight: () => (
                 <MaterialCommunityIcons
                   onPress={() => goToSettings(props)}
@@ -63,6 +64,13 @@ const App = () => {
                   style={{ marginRight: 20 }}
                 />
               ),
+              headerStyle: {
+                backgroundColor: blue,
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                // fontWeight: 'bold',
+              },
             })}
           />
           <ProductStack.Screen
@@ -75,7 +83,9 @@ const App = () => {
           <ProductStack.Screen
             name="NewList"
             component={NewGroceryListForm}
-            options={{ title: "My New List" }}
+            options={{ 
+              title: "My New List",
+              headerTintColor: blue }}
           />
           <ProductStack.Screen
             name="AllGroceryLists"

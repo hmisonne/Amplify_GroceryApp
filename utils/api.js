@@ -96,7 +96,7 @@ export async function removeGroceryListFromUser(id, user, dispatch) {
   }
 
 
-  export async function createNewGroceryList (groceryList, user, dispatch) {
+  export async function createNewGroceryList (groceryList, currentUser, dispatch) {
     try {
       const groceryListSaved = await DataStore.save(
       new GroceryList({
@@ -105,14 +105,11 @@ export async function removeGroceryListFromUser(id, user, dispatch) {
       })
     );
     dispatch(addGroceryList(groceryListSaved))
-    // Update User instance with new Grocery List
-    const currentUser = await DataStore.query(User, (c) =>
-      c.sub("eq", user.sub)
-    );
+    const user = await DataStore.query(User, currentUser.id)
 
     await DataStore.save(
       new UserGroceryListJoin({
-        user: currentUser[0],
+        user,
         groceryList: groceryListSaved
       })
     )

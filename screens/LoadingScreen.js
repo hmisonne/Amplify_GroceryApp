@@ -2,12 +2,13 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { blueGreen } from "../utils/colors";
 
 const LoadingScreen = (props) => {
     return(
         <View style={styles.container}>
             <Text style={styles.text}> Welcome back ! </Text>
-            <MaterialCommunityIcons name="bee-flower" size={100} color="black" />
+            <MaterialCommunityIcons name="bee-flower" size={100} color="#fff" />
         </View>
     )
 }
@@ -19,9 +20,11 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: "space-around",
       alignItems: "center",
-      backgroundColor: "#ecf0f1",
+      backgroundColor: blueGreen,
     },
     text: {
         fontSize: 18,
+        color: "#fff",
+        fontWeight: 'bold'
     },
   });

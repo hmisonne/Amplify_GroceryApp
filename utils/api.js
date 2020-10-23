@@ -6,7 +6,7 @@ import {
     addGroceryList
   } from "../src/redux/actions/groceryList";
 import { DataStore } from "@aws-amplify/datastore";
-import { User, GroceryList, UserGroceryListJoin } from "../src/models";
+import { User, GroceryList, Product, UserGroceryListJoin } from "../src/models";
 import { Auth } from "aws-amplify";
 
 export async function identifyUser(dispatch) {
@@ -116,5 +116,19 @@ export async function removeGroceryListFromUser(id, user, dispatch) {
     console.log("List saved successfully!");
   } catch (err) {
     console.log("error creating list:", err);
+  }
+}
+
+export async function createNewProduct(product, groceryListID) {
+  try {
+    // Retrieve List object
+    const currentList = await DataStore.query(GroceryList, groceryListID);
+    // Add reference
+    product.groceryList = currentList;
+    const productSaved = await DataStore.save(new Product(product));
+    console.log("Product saved successfully!", productSaved);
+    return productSaved
+  } catch (err) {
+    console.log("error creating food:", err);
   }
 }

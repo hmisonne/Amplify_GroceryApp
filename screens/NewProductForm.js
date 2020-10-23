@@ -9,6 +9,7 @@ import StyledTextInput from "../components/StyledTextInput";
 import Stepper from "../components/Stepper";
 import UnitPicker from "../components/UnitPicker";
 import { grey } from "../utils/colors"
+import { createNewProduct } from "../utils/api";
 
 const initialState = {
   name: "",
@@ -61,26 +62,16 @@ const NewProductForm = (props) => {
       console.log("error creating food:", err);
     }
   }
+
   async function addProductHandler() {
-    try {
-      const product = { ...formState };
-
-      // Retrieve List object
-      const { groceryListID, category } = props.route.params;
-      product.category = category;
-      const currentList = await DataStore.query(GroceryList, groceryListID);
-      // Add reference
-      product.groceryList = currentList;
-      // Convert Quantity to Int
-      product.quantity = parseInt(product.quantity, 10);
-
-      const productSaved = await DataStore.save(new Product(product));
-      dispatch(addProduct(productSaved));
-      props.navigation.goBack();
-      console.log("Product saved successfully!");
-    } catch (err) {
-      console.log("error creating food:", err);
-    }
+    const product = { ...formState };
+    const { groceryListID, category } = props.route.params;
+    product.category = category;
+    product.quantity = parseInt(product.quantity, 10);
+    console.log('product',product,'groceryListID',groceryListID)
+    const productSaved = await createNewProduct(product, groceryListID)
+    dispatch(addProduct(productSaved));
+    props.navigation.goBack();
   }
 
   return (

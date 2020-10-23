@@ -7,7 +7,6 @@ import { View, Text, StyleSheet, TouchableOpacity, Button } from "react-native";
 import RoundButton from "../components/RoundButton";
 import { removeGroceryListFromUser, fetchUserGroceryLists } from "../utils/api";
 import { blue } from "../utils/colors";
-import LoadingBar from "react-redux-loading-bar";
 
 const Home = (props) => {
   const dispatch = useDispatch();
@@ -36,7 +35,6 @@ const Home = (props) => {
 
   return (
     <View style={styles.container}>
-      <LoadingBar />
       {displayUserGroceryLists()}
       <RoundButton
         onPress={() => goToNewGroceryList()}

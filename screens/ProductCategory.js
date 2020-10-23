@@ -10,10 +10,8 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { connect, useDispatch } from "react-redux";
 import { loadProducts } from "../src/redux/actions/product";
-import store from "../src/redux/store";
 import { blue, grey } from "../utils/colors";
-import { DataStore } from "@aws-amplify/datastore";
-import { Product } from "../src/models";
+import { fetchProductsByGroceryList } from "../utils/api";
 
 const categories = [
   { name: "Fruits", img: "food-apple" },
@@ -32,26 +30,14 @@ const categories = [
 const ProductCategory = (props) => {
   const dispatch = useDispatch();
   const groceryListID = props.route.params.groceryList.id;
-  const { products } = store.getState();
+  const { products } = props;
   useEffect(() => {
     fetchProducts();
-    // const subscription = DataStore.observe(Product).subscribe((msg) => {
-    //   console.log(msg.model, msg.opType, msg.element);
-    //   fetchProducts();
-    // });
-    // return () => subscription.unsubscribe();
   }, []);
 
   async function fetchProducts() {
-    try {
-      const data = (await DataStore.query(Product)).filter(
-        (c) => c.groceryList.id === groceryListID
-      );
+      const data = await fetchProductsByGroceryList(groceryListID)
       data ? dispatch(loadProducts(data)) : dispatch(loadProducts([]));
-      console.log("products retrieved successfully!");
-    } catch (error) {
-      console.log("Error retrieving products", error);
-    }
   }
 
   function goToProductList(category) {
@@ -83,7 +69,7 @@ const ProductCategory = (props) => {
 
   return (
     <View>
-      {Platform.OS !== "default" ? (
+      {Platform.OS === "default" ? (
         <View>{showCategories()}</View>
       ) : (
         <ScrollView>{showCategories()}</ScrollView>

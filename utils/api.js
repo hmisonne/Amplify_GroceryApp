@@ -131,6 +131,7 @@ export async function updateProductDetails(product) {
     const original = await DataStore.query(Product, product.id);
     const updatedProduct =  await DataStore.save(
       Product.copyOf(original, (updated) => {
+        updated.checked = product.checked
         updated.name = product.name
         updated.unit = product.unit
         updated.quantity = product.quantity
@@ -139,5 +140,26 @@ export async function updateProductDetails(product) {
       return updatedProduct
    } catch (err) {
   console.log("error creating food:", err);
+  }
+}
+
+export async function  fetchProductsByGroceryList(groceryListID) {
+  try {
+    const data = (await DataStore.query(Product)).filter(
+      (c) => c.groceryList.id === groceryListID
+    );
+    console.log("products retrieved successfully!");
+    return data
+  } catch (error) {
+    console.log("Error retrieving products", error);
+  }
+}
+
+export async function removeProduct(id) {
+  try {
+    const todelete = await DataStore.query(Product, id);
+    DataStore.delete(todelete);
+  } catch (err) {
+    console.log("error deleting product", err);
   }
 }

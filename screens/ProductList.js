@@ -2,42 +2,27 @@ import React from "react";
 import { View, Text, StyleSheet, Switch, TouchableOpacity, Platform, ScrollView } from "react-native";
 import { connect, useDispatch } from "react-redux";
 import { deleteProduct, toggleProduct } from "../src/redux/actions/product";
-import { DataStore } from "@aws-amplify/datastore";
-import { Product } from "../src/models";
-import store from "../src/redux/store";
 import RoundButton from "../components/RoundButton";
 import { grey } from "../utils/colors";
+import { removeProduct, updateProductDetails } from "../utils/api";
 
 const ProductList = (props) => {
   const dispatch = useDispatch();
-  const { products } = store.getState();
-  const { category, groceryListID } = props.route.params;
+  const { products } = props;
+  const { category } = props.route.params;
   const productsByCat = products.filter(
     (product) => product.category === category
   );
 
-  async function onToggle(id) {
-    try {
-      dispatch(toggleProduct(id));
-      const original = await DataStore.query(Product, id);
-      await DataStore.save(
-        Product.copyOf(original, (updated) => {
-          updated.checked = !original.checked;
-        })
-      );
-    } catch (err) {
-      console.log("error toggling product", err);
-    }
+  async function onToggle(product) {
+    const updatedProduct = {...product, checked: !product.checked}
+    updateProductDetails(updatedProduct)
+    dispatch(toggleProduct(product.id));
   }
 
-  async function removeProduct(id) {
-    try {
-      dispatch(deleteProduct(id));
-      const todelete = await DataStore.query(Product, id);
-      DataStore.delete(todelete);
-    } catch (err) {
-      console.log("error deleting product", err);
-    }
+  function removeProductHandler(productID) {
+    removeProduct(productID)
+    dispatch(deleteProduct(productID));
   }
   function goToEditProduct(product){
     return props.navigation.push("AddProduct", { product });
@@ -51,7 +36,7 @@ const ProductList = (props) => {
             <View style={styles.subContainer}>
               <Switch
                 value={product.checked}
-                onValueChange={() => onToggle(product.id)}
+                onValueChange={() => onToggle(product)}
               />
               <TouchableOpacity style={styles.textAndQty} onPress={() => goToEditProduct(product)}>
                 <View>
@@ -65,7 +50,7 @@ const ProductList = (props) => {
               </TouchableOpacity>
             </View>
             <RoundButton
-              onPress={() => removeProduct(product.id)}
+              onPress={() => removeProductHandler(product.id)}
               name="minus-circle"
               color={grey}
             />

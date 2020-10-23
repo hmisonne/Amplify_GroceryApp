@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "borderColor": "#5c626b",
+      "borderRadius": 10,
+      "borderWidth": 2,
+      "height": 40,
+      "marginLeft": 30,
+      "marginRight": 30,
+      "marginTop": 10,
+      "paddingLeft": 15,
+    }
+  }
+>
+  <RCTPicker
+    items={
+      Array [
+        Object {
+          "label": "kg",
+          "textColor": undefined,
+          "value": "kg",
+        },
+        Object {
+          "label": "ct",
+          "textColor": undefined,
+          "value": "ct",
+        },
+      ]
+    }
+    onChange={[Function]}
+    selectedIndex={1}
+    style={
+      Array [
+        Object {
+          "height": 216,
+        },
+        undefined,
+      ]
+    }
+  />
+</View>
+`;

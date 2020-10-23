@@ -1,19 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import { connect, useDispatch } from "react-redux";
-import store from "../src/redux/store";
+import { addGroceryList } from "../src/redux/actions/groceryList";
 import { addGroceryListToUser, fetchAllGroceryLists } from '../utils/api'
 import { blue } from "../utils/colors";
 
 const AllGroceryLists = (props) => {
   const dispatch = useDispatch();
-  const { user } = store.getState();
+  const { user } = props
   const [groceryListsState, setGlistState] = useState([]);
   useEffect(() => {
-    fetchAllGroceryLists(setGlistState);
+    loadResources();
   }, []);
-
-
+  
+  async function loadResources() {
+    const groceryLists = await fetchAllGroceryLists();
+    setGlistState(groceryLists)
+  }
+  async function addGroceryListHandler(groceryListid) {
+    const groceryList = await addGroceryListToUser(groceryListid, user);
+    dispatch(addGroceryList(groceryList))
+  }
 
 
   return (
@@ -21,7 +28,7 @@ const AllGroceryLists = (props) => {
       {groceryListsState.map((list, index) => (
         <View key={list.id ? list.id : index} style={styles.list}>
           <Text style={styles.listName}>{list.name}</Text>
-          <Button title="Add" color={blue} onPress={() => addGroceryListToUser(list.id, user, dispatch)} disabled={user.groceryLists.includes(list.id)} />
+          <Button title="Add" color={blue} onPress={() => addGroceryListHandler(list.id)} disabled={user.groceryLists.includes(list.id)} />
         </View>
       ))}
     </View>

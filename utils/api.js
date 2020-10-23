@@ -39,11 +39,11 @@ async function createUser(userInfo) {
   }
 }
 
-export async function fetchAllGroceryLists(setGlistState) {
+export async function fetchAllGroceryLists() {
   try {
     const allGroceryLists = await DataStore.query(GroceryList);
-    setGlistState(allGroceryLists);
     console.log("grocery lists retrieved successfully!");
+    return allGroceryLists;
   } catch (error) {
     console.log("Error retrieving grocery lists", error);
   }
@@ -75,7 +75,7 @@ export async function removeGroceryListFromUser(id, user, dispatch) {
     }
   }
 
-  export async function addGroceryListToUser(groceryListID, currUser, dispatch) {
+  export async function addGroceryListToUser(groceryListID, currUser) {
     try {
       const user = await DataStore.query(User, currUser.id)
       const groceryList = await DataStore.query(GroceryList, groceryListID)
@@ -85,8 +85,8 @@ export async function removeGroceryListFromUser(id, user, dispatch) {
           groceryList
         })
       )
-      dispatch(addGroceryList(groceryList))
       console.log("Grocery list added to user successfully!");
+      return groceryList
     } catch (error) {
       console.log("Error adding grocery list to user", error);
     }

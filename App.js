@@ -3,8 +3,12 @@ import React from "react";
 import Amplify from "aws-amplify";
 import config from "./aws-exports";
 import { withAuthenticator } from "aws-amplify-react-native";
-import store from "./src/redux/store";
 import { Provider } from "react-redux";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { LogBox } from 'react-native';
+
 import NewProductForm from "./screens/NewProductForm";
 import ProductList from "./screens/ProductList";
 import ProductCategory from "./screens/ProductCategory";
@@ -12,14 +16,14 @@ import NewGroceryListForm from "./screens/NewGroceryListForm";
 import AllGroceryLists from "./screens/AllGroceryLists";
 import GroceryLists from "./screens/GroceryLists";
 import Home from "./screens/Home";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import prepareResources from "./hooks/prepareResources";
-import RoundButton from "./components/RoundButton";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Settings from "./screens/Settings";
 import LoadingScreen from "./screens/LoadingScreen"
-import {blue, green, blueGreen, grey } from "./utils/colors"
+
+import prepareResources from "./hooks/prepareResources";
+import RoundButton from "./components/RoundButton";
+import store from "./src/redux/store";
+
+import {blue } from "./utils/colors"
 
 Amplify.configure({
   ...config,
@@ -27,6 +31,8 @@ Amplify.configure({
     disabled: true,
   },
 });
+
+// LogBox.ignoreLogs(['Setting a timer'])
 
 const ProductStack = createStackNavigator();
 
@@ -60,6 +66,7 @@ const App = () => {
                 <MaterialCommunityIcons
                   onPress={() => goToSettings(props)}
                   name="settings-outline"
+                  color="#fff"
                   size={20}
                   style={{ marginRight: 20 }}
                 />
@@ -78,6 +85,7 @@ const App = () => {
             component={ProductCategory}
             options={(props) => ({
               title: `${props.route.params.groceryList.name}`,
+              headerTintColor: blue,
             })}
           />
           <ProductStack.Screen
@@ -90,7 +98,7 @@ const App = () => {
           <ProductStack.Screen
             name="AllGroceryLists"
             component={AllGroceryLists}
-            options={{ title: "All Grocery Lists" }}
+            options={{ title: "Browse Grocery Lists", headerTintColor: blue }}
           />
           <ProductStack.Screen
             name="GroceryLists"
@@ -102,11 +110,12 @@ const App = () => {
             component={ProductList}
             options={(props) => ({
               title: props.route.params.category,
+              headerTintColor: blue,
               headerRight: () => (
                 <RoundButton
                   onPress={() => goToNewProductScreen(props)}
                   name="plus-circle"
-                  color="green"
+                  color={blue}
                   style={{ marginRight: 20 }}
                 />
               ),
@@ -116,6 +125,7 @@ const App = () => {
             name="AddProduct"
             component={NewProductForm}
             options={(props) => ({
+              headerTintColor: blue,
               title: props.route.params.product?
               `Update ${props.route.params.product.name}`
               : `Add New ${props.route.params.category}`,
@@ -125,7 +135,8 @@ const App = () => {
             name="Settings"
             component={Settings}
             options={(props) => ({
-              title: "Settings"
+              title: "Settings",
+              headerTintColor: blue
             })}
           />
         </ProductStack.Navigator>

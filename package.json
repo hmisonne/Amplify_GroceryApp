@@ -33,6 +33,7 @@
     "react-native-screens": "~2.10.1",
     "react-native-web": "~0.13.12",
     "react-redux": "^7.2.1",
+    "react-redux-loading-bar": "^5.0.0",
     "react-test-renderer": "^16.13.1",
     "redux": "^4.0.5"
   },

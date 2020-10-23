@@ -14,6 +14,7 @@ import store from "../src/redux/store";
 import { grey } from "../utils/colors";
 import { DataStore } from "@aws-amplify/datastore";
 import { Product } from "../src/models";
+import { LoadingBar } from "react-redux-loading-bar";
 
 const categories = [
   { name: "Fruits", img: "food-apple" },
@@ -86,6 +87,7 @@ const ProductCategory = (props) => {
 
   return (
     <View>
+      <LoadingBar/>
       {Platform.OS !== "ios" && Platform.OS !== "android" ? (
         <View>{showCategories()}</View>
       ) : (

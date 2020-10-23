@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import _ from "lodash";
+import { loadingBarReducer } from 'react-redux-loading-bar'
 
 export const productReducer = (state = [], action) => {
   switch (action.type) {
@@ -76,4 +77,5 @@ export default combineReducers({
   products: productReducer,
   groceryLists: groceryListReducer,
   user: userReducer,
+  loadingBar: loadingBarReducer,
 });

@@ -1,7 +1,3 @@
-
-import {
-    addGroceryList
-  } from "../src/redux/actions/groceryList";
 import { DataStore } from "@aws-amplify/datastore";
 import { User, GroceryList, Product, UserGroceryListJoin } from "../src/models";
 import { Auth } from "aws-amplify";
@@ -48,7 +44,7 @@ export async function fetchAllGroceryLists() {
   }
 }
 
-export async function removeGroceryListFromUser(id, user, dispatch) {
+export async function removeGroceryListFromUser(id, user) {
     try {
       const result = (await DataStore.query(UserGroceryListJoin))
       .filter(c => c.groceryList.id === id)

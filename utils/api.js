@@ -1,6 +1,5 @@
 
 import {
-    deleteGroceryList,
     addGroceryList
   } from "../src/redux/actions/groceryList";
 import { DataStore } from "@aws-amplify/datastore";
@@ -51,7 +50,6 @@ export async function fetchAllGroceryLists() {
 
 export async function removeGroceryListFromUser(id, user, dispatch) {
     try {
-      dispatch(deleteGroceryList(id));
       const result = (await DataStore.query(UserGroceryListJoin))
       .filter(c => c.groceryList.id === id)
       .filter(c => c.user.id === user.id)
@@ -93,7 +91,7 @@ export async function removeGroceryListFromUser(id, user, dispatch) {
   }
 
 
-  export async function createNewGroceryList (groceryList, currentUser, dispatch) {
+  export async function createNewGroceryList (groceryList, currentUser) {
     try {
       const groceryListSaved = await DataStore.save(
       new GroceryList({
@@ -101,7 +99,7 @@ export async function removeGroceryListFromUser(id, user, dispatch) {
         description: groceryList.description,
       })
     );
-    dispatch(addGroceryList(groceryListSaved))
+    
     const user = await DataStore.query(User, currentUser.id)
 
     await DataStore.save(
@@ -111,6 +109,7 @@ export async function removeGroceryListFromUser(id, user, dispatch) {
       })
     )
     console.log("List saved successfully!");
+    return groceryListSaved
   } catch (err) {
     console.log("error creating list:", err);
   }

@@ -83,7 +83,7 @@ const ProductCategory = (props) => {
 
   return (
     <View>
-      {Platform.OS !== "ios" && Platform.OS !== "android" ? (
+      {Platform.OS !== "default" ? (
         <View>{showCategories()}</View>
       ) : (
         <ScrollView>{showCategories()}</ScrollView>

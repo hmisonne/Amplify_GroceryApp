@@ -3,8 +3,8 @@ import { View, StyleSheet } from "react-native";
 import { connect, useDispatch } from "react-redux";
 import SubmitBtn from "../components/SubmitBtn";
 import StyledTextInput from "../components/StyledTextInput";
-import store from "../src/redux/store";
 import { createNewGroceryList } from '../utils/api'
+import { addGroceryList } from "../src/redux/actions/groceryList";
 
 const initialState = {
   name: "",
@@ -13,15 +13,16 @@ const initialState = {
 
 const NewGroceryListForm = (props) => {
   const [formState, setFormState] = useState(initialState);
-  const { user } = store.getState();
+  const { user } = props
   const dispatch = useDispatch();
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
   }
 
-  function createListHandler() {
+  async function createListHandler() {
     const groceryList = { ...formState };
-    createNewGroceryList(groceryList, user, dispatch )
+    const groceryListSaved = await createNewGroceryList(groceryList, user)
+    dispatch(addGroceryList(groceryListSaved))
     props.navigation.goBack();
   }
 

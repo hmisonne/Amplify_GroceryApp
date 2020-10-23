@@ -3,7 +3,7 @@ import { connect, useDispatch } from "react-redux";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 import { authentificateUser } from "../src/redux/actions/user";
-import { loadGroceryLists } from "../src/redux/actions/groceryList";
+import { deleteGroceryList, loadGroceryLists } from "../src/redux/actions/groceryList";
 import RoundButton from "../components/RoundButton";
 import { removeGroceryListFromUser, fetchUserGroceryLists, identifyUser } from "../utils/api";
 import { blue } from "../utils/colors";
@@ -21,6 +21,11 @@ const Home = (props) => {
     const groceryListsPerUser = await fetchUserGroceryLists(currUser);
     dispatch(authentificateUser(currUser));
     dispatch(loadGroceryLists(groceryListsPerUser));
+  }
+
+  async function removeGroceryListHandler(groceryListID) {
+    await removeGroceryListFromUser(groceryListID, user)
+    dispatch(deleteGroceryList(groceryListID));
   }
 
   function goToAllGroceryList() {
@@ -79,7 +84,7 @@ const Home = (props) => {
             </TouchableOpacity>
             <RoundButton
               onPress={() =>
-                removeGroceryListFromUser(glist.id, user, dispatch)
+                removeGroceryListHandler(glist.id)
               }
               name="delete-outline"
               color="black"

@@ -11,10 +11,9 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { connect, useDispatch } from "react-redux";
 import { loadProducts } from "../src/redux/actions/product";
 import store from "../src/redux/store";
-import { grey } from "../utils/colors";
+import { blue, grey } from "../utils/colors";
 import { DataStore } from "@aws-amplify/datastore";
 import { Product } from "../src/models";
-import { LoadingBar } from "react-redux-loading-bar";
 
 const categories = [
   { name: "Fruits", img: "food-apple" },
@@ -75,10 +74,7 @@ const ProductCategory = (props) => {
             key={index}
           >
             <MaterialCommunityIcons name={cat.img} size={100} color={grey} />
-
-            <View style={styles.text}>
-        <Text style={{ fontSize: 18 }}> {cat.name.toUpperCase()} {productCheckedCountPerCat(cat.name)}/{productCountPerCat(cat.name)}</Text>
-            </View>
+            <Text style={styles.text}> {cat.name.toUpperCase()} <Text style={styles.innerText}>{productCheckedCountPerCat(cat.name)}/{productCountPerCat(cat.name)}</Text></Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -87,7 +83,6 @@ const ProductCategory = (props) => {
 
   return (
     <View>
-      <LoadingBar/>
       {Platform.OS !== "ios" && Platform.OS !== "android" ? (
         <View>{showCategories()}</View>
       ) : (
@@ -124,5 +119,9 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: "center",
+    fontSize: 18,
   },
+  innerText : {
+  color: blue
+  }
 });

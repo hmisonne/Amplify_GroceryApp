@@ -45,5 +45,8 @@
     "inquirer": "^6.5.1",
     "jest": "^26.4.2"
   },
+  "jest": {
+    "preset": "react-native"
+  },
   "private": true
 }

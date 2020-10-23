@@ -7,7 +7,7 @@ import StyledTextInput from "../components/StyledTextInput";
 import Stepper from "../components/Stepper";
 import UnitPicker from "../components/UnitPicker";
 import { grey } from "../utils/colors"
-import { createNewProduct } from "../utils/api";
+import { createNewProduct, updateProductDetails } from "../utils/api";
 
 const initialState = {
   name: "",

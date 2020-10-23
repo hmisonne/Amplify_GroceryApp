@@ -1,15 +1,13 @@
 
-import { authentificateUser } from "../src/redux/actions/user";
 import {
     deleteGroceryList,
-    loadGroceryLists,
     addGroceryList
   } from "../src/redux/actions/groceryList";
 import { DataStore } from "@aws-amplify/datastore";
 import { User, GroceryList, Product, UserGroceryListJoin } from "../src/models";
 import { Auth } from "aws-amplify";
 
-export async function identifyUser(dispatch) {
+export async function identifyUser() {
   try {
     const userInfo = await Auth.currentUserInfo();
     const result = await DataStore.query(User, (c) =>
@@ -21,7 +19,6 @@ export async function identifyUser(dispatch) {
       currentUser = await createUser(userInfo)
     }
     
-    currentUser && dispatch(authentificateUser(currentUser));
     console.log("User info retrieved successfully!");
     return currentUser
   } catch (error) {
@@ -67,12 +64,12 @@ export async function removeGroceryListFromUser(id, user, dispatch) {
 
   
 
-  export async function fetchUserGroceryLists(dispatch, user) {
+  export async function fetchUserGroceryLists(user) {
     try {
         const result = (await DataStore.query(UserGroceryListJoin)).filter(c => c.user.id === user.id)
         const groceryListsPerUser = result.map(element => element.groceryList) || []
-        dispatch(loadGroceryLists(groceryListsPerUser));
         console.log("grocery lists retrieved successfully!");
+        return groceryListsPerUser
     } catch (error) {
       console.log("Error retrieving grocery lists", error);
     }

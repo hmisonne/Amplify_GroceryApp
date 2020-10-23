@@ -1,29 +1,26 @@
 import React, { useEffect } from "react";
-import SubmitBtn from "../components/SubmitBtn";
-import { identifyUser } from "../utils/api";
 import { connect, useDispatch } from "react-redux";
-import store from "../src/redux/store";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+
+import { authentificateUser } from "../src/redux/actions/user";
+import { loadGroceryLists } from "../src/redux/actions/groceryList";
 import RoundButton from "../components/RoundButton";
-import { removeGroceryListFromUser, fetchUserGroceryLists } from "../utils/api";
+import { removeGroceryListFromUser, fetchUserGroceryLists, identifyUser } from "../utils/api";
 import { blue } from "../utils/colors";
+
 
 const Home = (props) => {
   const dispatch = useDispatch();
-  const { groceryLists, user } = store.getState();
+  const { groceryLists, user } = props;
   useEffect(() => {
     loadResources();
-    // const subscription = DataStore.observe(User).subscribe((msg) => {
-    //   console.log("sync users", msg.model, msg.opType, msg.element);
-    //   identifyUser(dispatch);
-    // });
-
-    // return () => subscription.unsubscribe();
   }, []);
 
   async function loadResources() {
-    const currUser = await identifyUser(dispatch);
-    fetchUserGroceryLists(dispatch, currUser);
+    const currUser = await identifyUser();
+    const groceryListsPerUser = await fetchUserGroceryLists(currUser);
+    dispatch(authentificateUser(currUser));
+    dispatch(loadGroceryLists(groceryListsPerUser));
   }
 
   function goToAllGroceryList() {
@@ -100,7 +97,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(Home);
-// export default Home;
 
 const styles = StyleSheet.create({
   centered: {

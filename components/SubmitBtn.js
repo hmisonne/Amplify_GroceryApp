@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
-import { grey } from "../utils/colors";
+import { blue, grey } from "../utils/colors";
 import PropTypes from "prop-types";
 
 export default function SubmitBtn({
@@ -26,7 +26,7 @@ export default function SubmitBtn({
 
 const styles = StyleSheet.create({
   btn: {
-    backgroundColor: grey,
+    backgroundColor: blue,
     borderRadius: 10,
     marginTop: 10,
     paddingTop: 15,

@@ -4,7 +4,7 @@ This project was made for all the grocery shoppers that needs a tool to organize
 
 🛠 Built with React Native, Expo, GraphQL, AWS Amplify, Amplify DataStore, AWS AppSync
 
-![Screenshots](./assets/screenshots.png)
+![Screenshots](./demo/screenshots.png)
 
 ### Features
 
@@ -21,7 +21,7 @@ To deploy the backend of this app, I chose to use Amplify.
 With Amplify, I was able to add Authentification to my app with AWS Cognito, build a GraphQL API that interacts with DynamoDB and add DataStore to offer offline synchronization.
 
 Here is an overview of the architecture deployed to allow offline synchronization:
-![Architecture](./assets/appsync-architecture.png)
+![Architecture](./demo/appsync-architecture.png)
 
 This architecture allowed me to only interact with the DataStore API using standard JavaScript function invocations. 
 

@@ -15,13 +15,6 @@ export const deleteGroceryList = (id) => ({
   id,
 });
 
-// export function handleAddGroceryList(){
-//   return (dispatch, getState) => {
-//     const {user} = getState()
-//     return createNewGroceryList(groceryList)
-//     .then((groceryList) => dispatch(addGroceryList(groceryList)))
-//   }
-// }
 
 export function handleLoadGroceryLists() {
   return (dispatch, getState) => {
@@ -44,6 +37,14 @@ export function handleAddGroceryList(id) {
   return (dispatch, getState) => {
 		const {user} = getState()
 		return addGroceryListToUser(id, user)
+			.then((groceryList)=> dispatch(addGroceryList(groceryList)))
+	}
+}
+
+export function handleCreateGroceryList(groceryList) {
+  return (dispatch, getState) => {
+		const {user} = getState()
+		return createNewGroceryList(groceryList, user)
 			.then((groceryList)=> dispatch(addGroceryList(groceryList)))
 	}
 }

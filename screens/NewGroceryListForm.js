@@ -3,8 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { connect, useDispatch } from "react-redux";
 import SubmitBtn from "../components/SubmitBtn";
 import StyledTextInput from "../components/StyledTextInput";
-import { createNewGroceryList } from '../utils/api'
-import { addGroceryList } from "../src/redux/actions/groceryList";
+import { handleCreateGroceryList } from "../src/redux/actions/groceryList";
 
 const initialState = {
   name: "",
@@ -19,10 +18,9 @@ const NewGroceryListForm = (props) => {
     setFormState({ ...formState, [key]: value });
   }
 
-  async function createListHandler() {
+  async function createGroceryList() {
     const groceryList = { ...formState };
-    const groceryListSaved = await createNewGroceryList(groceryList, user)
-    dispatch(addGroceryList(groceryListSaved))
+    dispatch(handleCreateGroceryList(groceryList))
     props.navigation.goBack();
   }
 
@@ -40,7 +38,7 @@ const NewGroceryListForm = (props) => {
         value={formState.description}
         placeholder="Description (optional)"
       />
-      <SubmitBtn title="Add to List" onPress={createListHandler} />
+      <SubmitBtn title="Add to List" onPress={createGroceryList} />
     </View>
   );
 };

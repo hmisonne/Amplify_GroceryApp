@@ -27,3 +27,10 @@ export const updateProduct = (updatedProduct) => ({
   type: "UPDATE_PRODUCT",
   updatedProduct
 });
+
+export function handleupdateProduct(){
+  return (dispatch, getState) => {
+    return identifyUser()
+    .then((user) => dispatch(authentificateUser(user)))
+  }
+}

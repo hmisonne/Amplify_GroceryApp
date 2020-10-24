@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import { connect, useDispatch } from "react-redux";
-import { addGroceryListHandler } from "../src/redux/actions/groceryList";
+import { handleAddGroceryList } from "../src/redux/actions/groceryList";
 import { fetchAllGroceryLists } from '../utils/api'
 import { blue } from "../utils/colors";
 
@@ -15,7 +15,7 @@ const AllGroceryLists = (props) => {
   }, []);
   
   function addGroceryList(groceryListid) {
-    dispatch(addGroceryListHandler(groceryListid))
+    dispatch(handleAddGroceryList(groceryListid))
   }
 
   return (

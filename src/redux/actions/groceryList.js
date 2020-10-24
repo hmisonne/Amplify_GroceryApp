@@ -40,7 +40,7 @@ export function handleDeleteGroceryList(id) {
 	}
 }
 
-export function addGroceryListHandler(id) {
+export function handleAddGroceryList(id) {
   return (dispatch, getState) => {
 		const {user} = getState()
 		return addGroceryListToUser(id, user)

@@ -10,13 +10,10 @@ const AllGroceryLists = (props) => {
   const { user } = props
   const [groceryListsState, setGlistState] = useState([]);
   useEffect(() => {
-    loadResources();
+    fetchAllGroceryLists()
+    .then((groceryLists)=> setGlistState(groceryLists))
   }, []);
   
-  async function loadResources() {
-    const groceryLists = await fetchAllGroceryLists();
-    setGlistState(groceryLists)
-  }
   function addGroceryList(groceryListid) {
     dispatch(addGroceryListHandler(groceryListid))
   }

@@ -1,4 +1,4 @@
-import { createNewProduct, fetchProductsByGroceryList, removeProduct, updateProductDetails } from "../../../utils/api";
+import { API } from "../../../utils/api";
 
 export const addProduct = (product) => ({
   type: "ADD_PRODUCT",
@@ -32,28 +32,28 @@ export const updateProduct = (updatedProduct) => ({
 
 export function handleUpdateProduct(product){
   return (dispatch) => {
-    return updateProductDetails(product)
+    return API.updateProductDetails(product)
     .then((product) => dispatch(updateProduct(product)))
   }
 }
 
 export function handleAddProduct(product, groceryListID){
   return (dispatch) => {
-    return createNewProduct(product, groceryListID)
+    return API.createNewProduct(product, groceryListID)
     .then((product) => dispatch(addProduct(product)))
   }
 }
 
 export function handleDeleteProduct(id){
   return (dispatch) => {
-    return removeProduct(id)
+    return API.removeProduct(id)
     .then(() => dispatch(deleteProduct(id)))
   }
 }
 
 export function handleLoadProducts(groceryListID){
   return (dispatch) => {
-    return fetchProductsByGroceryList(groceryListID)
+    return API.fetchProductsByGroceryList(groceryListID)
     .then((products) => dispatch(loadProducts(products)))
   }
 }
@@ -61,7 +61,7 @@ export function handleLoadProducts(groceryListID){
 export function handleToggleProduct(product){
   return (dispatch) => {
     const updatedProduct = {...product, checked: !product.checked}
-    return updateProductDetails(updatedProduct)
+    return API.updateProductDetails(updatedProduct)
     .then(() => dispatch(toggleProduct(product.id)))
   }
 }

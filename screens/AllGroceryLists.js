@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import { connect, useDispatch } from "react-redux";
 import { handleAddGroceryList } from "../src/redux/actions/groceryList";
-import { fetchAllGroceryLists } from '../utils/api'
+import { API } from '../utils/api'
 import { blue } from "../utils/helpers";
 
 const AllGroceryLists = (props) => {
@@ -10,7 +10,7 @@ const AllGroceryLists = (props) => {
   const { user } = props
   const [groceryListsState, setGlistState] = useState([]);
   useEffect(() => {
-    fetchAllGroceryLists()
+    API.fetchAllGroceryLists()
     .then((groceryLists)=> setGlistState(groceryLists))
   }, []);
   

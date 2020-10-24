@@ -1,4 +1,4 @@
-import { addGroceryListToUser, createNewGroceryList, fetchUserGroceryLists, removeGroceryListFromUser } from "../../../utils/api";
+import { API } from "../../../utils/api";
 
 export const addGroceryList = (groceryList) => ({
   type: "ADD_GROCERY_LIST",
@@ -20,7 +20,7 @@ export function handleLoadGroceryLists() {
   return (dispatch, getState) => {
 		const {user} = getState()
 
-		return fetchUserGroceryLists (user)
+		return API.fetchUserGroceryLists (user)
 			.then((groceryLists)=> dispatch(loadGroceryLists(groceryLists)))
 	}
 }
@@ -28,7 +28,7 @@ export function handleLoadGroceryLists() {
 export function handleDeleteGroceryList(id) {
   return (dispatch, getState) => {
 		const {user} = getState()
-		return removeGroceryListFromUser(id, user)
+		return API.removeGroceryListFromUser(id, user)
 			.then(()=> dispatch(deleteGroceryList(id)))
 	}
 }
@@ -36,7 +36,7 @@ export function handleDeleteGroceryList(id) {
 export function handleAddGroceryList(id) {
   return (dispatch, getState) => {
 		const {user} = getState()
-		return addGroceryListToUser(id, user)
+		return API.addGroceryListToUser(id, user)
 			.then((groceryList)=> dispatch(addGroceryList(groceryList)))
 	}
 }
@@ -44,7 +44,7 @@ export function handleAddGroceryList(id) {
 export function handleCreateGroceryList(groceryList) {
   return (dispatch, getState) => {
 		const {user} = getState()
-		return createNewGroceryList(groceryList, user)
+		return API.createNewGroceryList(groceryList, user)
 			.then((groceryList)=> dispatch(addGroceryList(groceryList)))
 	}
 }

@@ -1,4 +1,4 @@
-import { identifyUser } from "../../../utils/api";
+import { API } from "../../../utils/api";
 
 export const authentificateUser = (user) => ({
   type: "AUTHENTIFICATE_USER",
@@ -7,7 +7,7 @@ export const authentificateUser = (user) => ({
 
 export function handleAuthentificateUser(){
   return (dispatch) => {
-    return identifyUser()
+    return API.identifyUser()
     .then((user) => dispatch(authentificateUser(user)))
   }
 }

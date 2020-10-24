@@ -1,7 +1,7 @@
 import React from "react";
 import { View, TouchableOpacity, StyleSheet, Platform } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { blue, white, grey } from "../utils/colors";
+import { blue, white, grey } from "../utils/helpers";
 
 export default function Stepper({ onIncrement, onDecrement }) {
   return (

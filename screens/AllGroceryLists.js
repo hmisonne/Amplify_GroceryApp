@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Button } from "react-native";
 import { connect, useDispatch } from "react-redux";
 import { handleAddGroceryList } from "../src/redux/actions/groceryList";
 import { fetchAllGroceryLists } from '../utils/api'
-import { blue } from "../utils/colors";
+import { blue } from "../utils/helpers";
 
 const AllGroceryLists = (props) => {
   const dispatch = useDispatch();

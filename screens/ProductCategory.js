@@ -10,22 +10,8 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { connect, useDispatch } from "react-redux";
 import { loadProducts } from "../src/redux/actions/product";
-import { blue, grey } from "../utils/colors";
+import { blue, grey, categories } from "../utils/helpers";
 import { fetchProductsByGroceryList } from "../utils/api";
-
-const categories = [
-  { name: "Fruits", img: "food-apple" },
-  { name: "Veggies", img: "corn" },
-  { name: "Grains/Nuts", img: "barley" },
-  { name: "Dairy", img: "cup" },
-  { name: "Meat", img: "cow" },
-  { name: "Frozen", img: "cube-outline" },
-  { name: "Baking/Snacks", img: "muffin" },
-  { name: "Canned Food", img: "hockey-puck" },
-  { name: "Drinks", img: "glass-cocktail" },
-  { name: "Condiments/Oil", img: "food-variant" },
-  { name: "Cleaning", img: "broom" },
-];
 
 const ProductCategory = (props) => {
   const dispatch = useDispatch();

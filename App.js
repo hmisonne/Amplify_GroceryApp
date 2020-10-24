@@ -22,7 +22,7 @@ import prepareResources from "./hooks/prepareResources";
 import RoundButton from "./components/RoundButton";
 import store from "./src/redux/store";
 
-import {blue } from "./utils/colors"
+import {blue } from "./utils/helpers"
 
 Amplify.configure({
   ...config,

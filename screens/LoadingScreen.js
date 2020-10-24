@@ -2,7 +2,7 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { blueGreen } from "../utils/colors";
+import { blueGreen } from "../utils/helpers";
 
 const LoadingScreen = (props) => {
     return(

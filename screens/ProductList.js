@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Switch, TouchableOpacity, Platform, ScrollView 
 import { connect, useDispatch } from "react-redux";
 import { handleDeleteProduct, toggleProduct } from "../src/redux/actions/product";
 import RoundButton from "../components/RoundButton";
-import { grey } from "../utils/colors";
+import { grey } from "../utils/helpers";
 import { updateProductDetails } from "../utils/api";
 
 const ProductList = (props) => {

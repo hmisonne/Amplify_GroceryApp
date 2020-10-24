@@ -5,7 +5,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { handleAuthentificateUser } from "../src/redux/actions/user";
 import { handleDeleteGroceryList, handleLoadGroceryLists } from "../src/redux/actions/groceryList";
 import RoundButton from "../components/RoundButton";
-import { blue } from "../utils/colors";
+import { blue } from "../utils/helpers";
 
 
 const Home = (props) => {

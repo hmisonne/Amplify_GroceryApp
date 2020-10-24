@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Picker } from "react-native";
-import { grey } from "../utils/colors";
+import { grey } from "../utils/helpers";
 import PropTypes from "prop-types";
 
 export default function UnitPicker({

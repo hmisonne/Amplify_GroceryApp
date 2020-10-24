@@ -14,7 +14,6 @@ import ProductList from "./screens/ProductList";
 import ProductCategory from "./screens/ProductCategory";
 import NewGroceryListForm from "./screens/NewGroceryListForm";
 import AllGroceryLists from "./screens/AllGroceryLists";
-import GroceryLists from "./screens/GroceryLists";
 import Home from "./screens/Home";
 import Settings from "./screens/Settings";
 import LoadingScreen from "./screens/LoadingScreen"
@@ -99,11 +98,6 @@ const App = () => {
             name="AllGroceryLists"
             component={AllGroceryLists}
             options={{ title: "Browse Grocery Lists", headerTintColor: blue }}
-          />
-          <ProductStack.Screen
-            name="GroceryLists"
-            component={GroceryLists}
-            options={{ title: "My Saved Lists" }}
           />
           <ProductStack.Screen
             name="ProductList"

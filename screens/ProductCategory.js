@@ -9,22 +9,16 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { connect, useDispatch } from "react-redux";
-import { loadProducts } from "../src/redux/actions/product";
+import { handleLoadProducts } from "../src/redux/actions/product";
 import { blue, grey, categories } from "../utils/helpers";
-import { fetchProductsByGroceryList } from "../utils/api";
 
 const ProductCategory = (props) => {
   const dispatch = useDispatch();
   const groceryListID = props.route.params.groceryList.id;
   const { products } = props;
   useEffect(() => {
-    fetchProducts();
+    dispatch(handleLoadProducts(groceryListID))
   }, []);
-
-  async function fetchProducts() {
-      const data = await fetchProductsByGroceryList(groceryListID)
-      data ? dispatch(loadProducts(data)) : dispatch(loadProducts([]));
-  }
 
   function goToProductList(category) {
     return props.navigation.push("ProductList", { category, groceryListID });

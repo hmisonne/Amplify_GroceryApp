@@ -3,6 +3,10 @@ import { addProduct, deleteProduct, toggleProduct, loadProducts, filterProductsb
 import { loadGroceryLists, deleteGroceryList } from '../actions/groceryList'
 import { authentificateUser} from '../actions/user'
 
+jest.mock("../../../utils/api", () => {
+    return {API: true}
+  });
+
 describe('product reducer', () => {
     const product = { 
         name: 'Berry', 

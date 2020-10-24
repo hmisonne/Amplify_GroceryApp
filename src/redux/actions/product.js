@@ -1,3 +1,5 @@
+import { updateProductDetails } from "../../../utils/api";
+
 export const addProduct = (product) => ({
   type: "ADD_PRODUCT",
   product,
@@ -28,9 +30,9 @@ export const updateProduct = (updatedProduct) => ({
   updatedProduct
 });
 
-export function handleupdateProduct(){
-  return (dispatch, getState) => {
-    return identifyUser()
-    .then((user) => dispatch(authentificateUser(user)))
+export function handleUpdateProduct(product){
+  return (dispatch) => {
+    return updateProductDetails(product)
+    .then((product) => dispatch(updateProduct(product)))
   }
 }

@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { View, StyleSheet, TextInput } from "react-native";
 import { useDispatch } from "react-redux";
-import { addProduct, handleUpdateProduct } from "../src/redux/actions/product";
+import { handleAddProduct, handleUpdateProduct } from "../src/redux/actions/product";
 import SubmitBtn from "../components/SubmitBtn";
 import StyledTextInput from "../components/StyledTextInput";
 import Stepper from "../components/Stepper";
 import UnitPicker from "../components/UnitPicker";
 import { grey } from "../utils/colors"
-import { createNewProduct,  } from "../utils/api";
+import { createNewProduct } from "../utils/api";
 
 const initialState = {
   name: "",
@@ -53,9 +53,8 @@ const NewProductForm = (props) => {
     product.category = category;
     // Convert Quantity to Int
     product.quantity = parseInt(product.quantity, 10);
-    // Update DataStore
-    const productSaved = await createNewProduct(product, groceryListID)
-    dispatch(addProduct(productSaved));
+
+    dispatch(handleAddProduct(product, groceryListID));
     props.navigation.goBack();
   }
 

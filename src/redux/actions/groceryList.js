@@ -1,4 +1,4 @@
-import { createNewGroceryList, fetchUserGroceryLists } from "../../../utils/api";
+import { createNewGroceryList, fetchUserGroceryLists, removeGroceryListFromUser } from "../../../utils/api";
 
 export const addGroceryList = (groceryList) => ({
   type: "ADD_GROCERY_LIST",
@@ -29,5 +29,13 @@ export function handleLoadGroceryLists() {
 
 		return fetchUserGroceryLists (user)
 			.then((groceryLists)=> dispatch(loadGroceryLists(groceryLists)))
+	}
+}
+
+export function handleDeleteGroceryList(id) {
+  return (dispatch, getState) => {
+		const {user} = getState()
+		return removeGroceryListFromUser(id, user)
+			.then(()=> dispatch(deleteGroceryList(id)))
 	}
 }

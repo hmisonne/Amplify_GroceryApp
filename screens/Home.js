@@ -2,30 +2,23 @@ import React, { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
-import { authentificateUser } from "../src/redux/actions/user";
-import { deleteGroceryList, loadGroceryLists } from "../src/redux/actions/groceryList";
+import { handleAuthentificateUser } from "../src/redux/actions/user";
+import { handleDeleteGroceryList, handleLoadGroceryLists } from "../src/redux/actions/groceryList";
 import RoundButton from "../components/RoundButton";
-import { removeGroceryListFromUser, fetchUserGroceryLists, identifyUser } from "../utils/api";
 import { blue } from "../utils/colors";
 
 
 const Home = (props) => {
   const dispatch = useDispatch();
-  const { groceryLists, user } = props;
+  const { groceryLists } = props;
   useEffect(() => {
-    loadResources();
+    dispatch(handleAuthentificateUser())
+    .then(()=> dispatch(handleLoadGroceryLists()))
   }, []);
 
-  async function loadResources() {
-    const currUser = await identifyUser();
-    const groceryListsPerUser = await fetchUserGroceryLists(currUser);
-    dispatch(authentificateUser(currUser));
-    dispatch(loadGroceryLists(groceryListsPerUser));
-  }
 
-  async function removeGroceryListHandler(groceryListID) {
-    await removeGroceryListFromUser(groceryListID, user)
-    dispatch(deleteGroceryList(groceryListID));
+  function removeGroceryList(groceryListID) {
+    dispatch(handleDeleteGroceryList(groceryListID))
   }
 
   function goToAllGroceryList() {
@@ -84,7 +77,7 @@ const Home = (props) => {
             </TouchableOpacity>
             <RoundButton
               onPress={() =>
-                removeGroceryListHandler(glist.id)
+                removeGroceryList(glist.id)
               }
               name="delete-outline"
               color="black"

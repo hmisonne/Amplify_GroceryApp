@@ -1,4 +1,4 @@
-import { createNewProduct, updateProductDetails } from "../../../utils/api";
+import { createNewProduct, removeProduct, updateProductDetails } from "../../../utils/api";
 
 export const addProduct = (product) => ({
   type: "ADD_PRODUCT",
@@ -41,5 +41,12 @@ export function handleAddProduct(product, groceryListID){
   return (dispatch) => {
     return createNewProduct(product, groceryListID)
     .then((product) => dispatch(addProduct(product)))
+  }
+}
+
+export function handleDeleteProduct(id){
+  return (dispatch) => {
+    return removeProduct(id)
+    .then(() => dispatch(deleteProduct(id)))
   }
 }

@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet, Switch, TouchableOpacity, Platform, ScrollView } from "react-native";
 import { connect, useDispatch } from "react-redux";
-import { deleteProduct, toggleProduct } from "../src/redux/actions/product";
+import { handleDeleteProduct, toggleProduct } from "../src/redux/actions/product";
 import RoundButton from "../components/RoundButton";
 import { grey } from "../utils/colors";
-import { removeProduct, updateProductDetails } from "../utils/api";
+import { updateProductDetails } from "../utils/api";
 
 const ProductList = (props) => {
   const dispatch = useDispatch();
@@ -20,9 +20,8 @@ const ProductList = (props) => {
     dispatch(toggleProduct(product.id));
   }
 
-  function removeProductHandler(productID) {
-    removeProduct(productID)
-    dispatch(deleteProduct(productID));
+  function removeProduct(productID) {
+    dispatch(handleDeleteProduct(productID));
   }
   function goToEditProduct(product){
     return props.navigation.push("AddProduct", { product });
@@ -50,7 +49,7 @@ const ProductList = (props) => {
               </TouchableOpacity>
             </View>
             <RoundButton
-              onPress={() => removeProductHandler(product.id)}
+              onPress={() => removeProduct(product.id)}
               name="minus-circle"
               color={grey}
             />

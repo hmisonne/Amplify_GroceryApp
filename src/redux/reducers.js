@@ -77,5 +77,4 @@ export default combineReducers({
   products: productReducer,
   groceryLists: groceryListReducer,
   user: userReducer,
-  loadingBar: loadingBarReducer,
 });

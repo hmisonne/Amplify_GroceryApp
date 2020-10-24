@@ -1,4 +1,4 @@
-import { createNewProduct, removeProduct, updateProductDetails } from "../../../utils/api";
+import { createNewProduct, fetchProductsByGroceryList, removeProduct, updateProductDetails } from "../../../utils/api";
 
 export const addProduct = (product) => ({
   type: "ADD_PRODUCT",
@@ -48,5 +48,20 @@ export function handleDeleteProduct(id){
   return (dispatch) => {
     return removeProduct(id)
     .then(() => dispatch(deleteProduct(id)))
+  }
+}
+
+export function handleLoadProducts(groceryListID){
+  return (dispatch) => {
+    return fetchProductsByGroceryList(groceryListID)
+    .then((products) => dispatch(loadProducts(products)))
+  }
+}
+
+export function handleToggleProduct(product){
+  return (dispatch) => {
+    const updatedProduct = {...product, checked: !product.checked}
+    return updateProductDetails(updatedProduct)
+    .then(() => dispatch(toggleProduct(product.id)))
   }
 }

@@ -1,10 +1,9 @@
 import React from "react";
 import { View, Text, StyleSheet, Switch, TouchableOpacity, Platform, ScrollView } from "react-native";
 import { connect, useDispatch } from "react-redux";
-import { handleDeleteProduct, toggleProduct } from "../src/redux/actions/product";
+import { handleDeleteProduct, handleToggleProduct } from "../src/redux/actions/product";
 import RoundButton from "../components/RoundButton";
 import { grey } from "../utils/helpers";
-import { updateProductDetails } from "../utils/api";
 
 const ProductList = (props) => {
   const dispatch = useDispatch();
@@ -15,9 +14,7 @@ const ProductList = (props) => {
   );
 
   async function onToggle(product) {
-    const updatedProduct = {...product, checked: !product.checked}
-    updateProductDetails(updatedProduct)
-    dispatch(toggleProduct(product.id));
+    dispatch(handleToggleProduct(product));
   }
 
   function removeProduct(productID) {

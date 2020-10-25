@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "MyGroceryApp",
-    "slug": "MyGroceryApp",
+    "name": "ListBee",
+    "slug": "ListBee",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,6 +21,9 @@
     },
     "web": {
       "favicon": "./assets/icon.png"
+    },
+    "android": {
+      "package": "com.hmisonne.ListBee"
     }
   }
 }

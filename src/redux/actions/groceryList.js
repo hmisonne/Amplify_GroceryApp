@@ -17,34 +17,31 @@ export const deleteGroceryList = (id) => ({
 
 
 export function handleLoadGroceryLists() {
-  return (dispatch, getState) => {
-		const {user} = getState()
+  return (dispatch) => {
 
-		return API.fetchUserGroceryLists (user)
+		return API.fetchUserGroceryLists ()
 			.then((groceryLists)=> dispatch(loadGroceryLists(groceryLists)))
 	}
 }
 
 export function handleDeleteGroceryList(id) {
   return (dispatch, getState) => {
-		const {user} = getState()
-		return API.removeGroceryListFromUser(id, user)
+		return API.removeGroceryListFromUser(id)
 			.then(()=> dispatch(deleteGroceryList(id)))
 	}
 }
 
 export function handleAddGroceryList(id) {
-  return (dispatch, getState) => {
-		const {user} = getState()
-		return API.addGroceryListToUser(id, user)
+  return (dispatch) => {
+
+		return API.addGroceryListToUser(id)
 			.then((groceryList)=> dispatch(addGroceryList(groceryList)))
 	}
 }
 
 export function handleCreateGroceryList(groceryList) {
-  return (dispatch, getState) => {
-		const {user} = getState()
-		return API.createNewGroceryList(groceryList, user)
+  return (dispatch) => {
+		return API.createNewGroceryList(groceryList)
 			.then((groceryList)=> dispatch(addGroceryList(groceryList)))
 	}
 }

@@ -12,7 +12,6 @@ const initialState = {
 
 const NewGroceryListForm = (props) => {
   const [formState, setFormState] = useState(initialState);
-  const { user } = props
   const dispatch = useDispatch();
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
@@ -43,11 +42,9 @@ const NewGroceryListForm = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  user: state.user,
-});
 
-export default connect(mapStateToProps)(NewGroceryListForm);
+
+export default connect()(NewGroceryListForm);
 
 const styles = StyleSheet.create({
   container: {

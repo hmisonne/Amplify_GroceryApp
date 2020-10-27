@@ -99,15 +99,3 @@ describe('list reducer', () => {
         expect(stateTwo[0].id).toEqual('2')
     });
 })
-
-describe('user reducer', () => {
-    const user = { 
-        sub: '012350', 
-        id: '1'
-    };
-
-    it('should add the authed user to the state', () => {
-        const newState = userReducer(undefined, authentificateUser(user))
-        expect(newState).toEqual(user)
-    });
-})

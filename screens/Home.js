@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
-import { handleAuthentificateUser } from "../src/redux/actions/user";
 import { handleDeleteGroceryList, handleLoadGroceryLists } from "../src/redux/actions/groceryList";
 import RoundButton from "../components/RoundButton";
 import { blue } from "../utils/helpers";
@@ -12,8 +11,7 @@ const Home = (props) => {
   const dispatch = useDispatch();
   const { groceryLists } = props;
   useEffect(() => {
-    dispatch(handleAuthentificateUser())
-    .then(()=> dispatch(handleLoadGroceryLists()))
+    dispatch(handleLoadGroceryLists())
   }, []);
 
 
@@ -91,7 +89,6 @@ const Home = (props) => {
 
 const mapStateToProps = (state) => ({
   groceryLists: state.groceryLists,
-  user: state.user,
 });
 
 export default connect(mapStateToProps)(Home);

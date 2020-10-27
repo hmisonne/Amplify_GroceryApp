@@ -13,10 +13,12 @@ type Product @model
 
 type GroceryList @model 
  @auth(rules: [
-    { allow: owner },
+     { allow: owner, ownerField: "editors", operations: [update, read] },
   ]){
   id: ID!
   name: String!
   description: String
   products: [Product] @connection(name: "GroceryListProducts")
+  owner: String
+  editors: [String]
 }

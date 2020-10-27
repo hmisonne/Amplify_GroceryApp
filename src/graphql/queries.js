@@ -20,12 +20,13 @@ export const syncProducts = /* GraphQL */ `
           id
           name
           description
+          owner
+          editors
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
-          owner
         }
         name
         checked
@@ -56,12 +57,13 @@ export const getProduct = /* GraphQL */ `
           nextToken
           startedAt
         }
+        owner
+        editors
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
-        owner
       }
       name
       checked
@@ -90,12 +92,13 @@ export const listProducts = /* GraphQL */ `
           id
           name
           description
+          owner
+          editors
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
-          owner
         }
         name
         checked
@@ -135,12 +138,13 @@ export const syncGroceryLists = /* GraphQL */ `
           nextToken
           startedAt
         }
+        owner
+        editors
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
-        owner
       }
       nextToken
       startedAt
@@ -171,12 +175,13 @@ export const getGroceryList = /* GraphQL */ `
         nextToken
         startedAt
       }
+      owner
+      editors
       _version
       _deleted
       _lastChangedAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -195,12 +200,13 @@ export const listGroceryLists = /* GraphQL */ `
           nextToken
           startedAt
         }
+        owner
+        editors
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
-        owner
       }
       nextToken
       startedAt

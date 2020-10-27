@@ -13,12 +13,13 @@ export const onCreateProduct = /* GraphQL */ `
           nextToken
           startedAt
         }
+        owner
+        editors
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
-        owner
       }
       name
       checked
@@ -46,12 +47,13 @@ export const onUpdateProduct = /* GraphQL */ `
           nextToken
           startedAt
         }
+        owner
+        editors
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
-        owner
       }
       name
       checked
@@ -79,12 +81,13 @@ export const onDeleteProduct = /* GraphQL */ `
           nextToken
           startedAt
         }
+        owner
+        editors
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
-        owner
       }
       name
       checked
@@ -124,12 +127,13 @@ export const onCreateGroceryList = /* GraphQL */ `
         nextToken
         startedAt
       }
+      owner
+      editors
       _version
       _deleted
       _lastChangedAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -157,12 +161,13 @@ export const onUpdateGroceryList = /* GraphQL */ `
         nextToken
         startedAt
       }
+      owner
+      editors
       _version
       _deleted
       _lastChangedAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -190,12 +195,13 @@ export const onDeleteGroceryList = /* GraphQL */ `
         nextToken
         startedAt
       }
+      owner
+      editors
       _version
       _deleted
       _lastChangedAt
       createdAt
       updatedAt
-      owner
     }
   }
 `;

@@ -35,7 +35,6 @@ export function handleAddGroceryList(id) {
   return (dispatch) => {
 
 		return API.addGroceryListToUser(id)
-			.then((groceryList)=> dispatch(addGroceryList(groceryList)))
 	}
 }
 

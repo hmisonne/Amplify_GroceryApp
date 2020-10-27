@@ -28,10 +28,14 @@ export class BackendInterface {
   
    async addGroceryListToUser(groceryListID) {
       try {
-
-        const groceryList = await DataStore.query(GroceryList, groceryListID)
-        console.log("Grocery list added to user successfully!");
-        return groceryList
+// TEST ADD 
+        const original = await DataStore.query(GroceryList, groceryListID)
+        const updatedGroceryList =  await DataStore.save(
+          GroceryList.copyOf(original, (updated) => {
+            updated.editors = original.editors.push('jeanne')
+          }))
+        console.log("Grocery list added to user successfully!", updatedGroceryList);
+        return updatedGroceryList
       } catch (error) {
         console.log("Error adding grocery list to user", error);
       }

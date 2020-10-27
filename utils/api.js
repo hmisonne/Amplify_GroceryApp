@@ -15,7 +15,7 @@ export class BackendInterface {
   
       let currentUser = result[0]
       if (currentUser === undefined){
-        currentUser = await createUser(userInfo)
+        currentUser = await this.createUser(userInfo)
       }
       
       console.log("User info retrieved successfully!");

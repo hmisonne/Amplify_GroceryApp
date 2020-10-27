@@ -2,8 +2,8 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateProduct = /* GraphQL */ `
-  subscription OnCreateProduct {
-    onCreateProduct {
+  subscription OnCreateProduct($owner: String!) {
+    onCreateProduct(owner: $owner) {
       id
       groceryList {
         id
@@ -30,12 +30,13 @@ export const onCreateProduct = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onUpdateProduct = /* GraphQL */ `
-  subscription OnUpdateProduct {
-    onUpdateProduct {
+  subscription OnUpdateProduct($owner: String!) {
+    onUpdateProduct(owner: $owner) {
       id
       groceryList {
         id
@@ -62,12 +63,13 @@ export const onUpdateProduct = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onDeleteProduct = /* GraphQL */ `
-  subscription OnDeleteProduct {
-    onDeleteProduct {
+  subscription OnDeleteProduct($owner: String!) {
+    onDeleteProduct(owner: $owner) {
       id
       groceryList {
         id
@@ -94,6 +96,7 @@ export const onDeleteProduct = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -116,6 +119,7 @@ export const onCreateGroceryList = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
+          owner
         }
         nextToken
         startedAt
@@ -148,6 +152,7 @@ export const onUpdateGroceryList = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
+          owner
         }
         nextToken
         startedAt
@@ -180,6 +185,7 @@ export const onDeleteGroceryList = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
+          owner
         }
         nextToken
         startedAt
@@ -190,45 +196,6 @@ export const onDeleteGroceryList = /* GraphQL */ `
       createdAt
       updatedAt
       owner
-    }
-  }
-`;
-export const onCreateUser = /* GraphQL */ `
-  subscription OnCreateUser {
-    onCreateUser {
-      id
-      sub
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateUser = /* GraphQL */ `
-  subscription OnUpdateUser {
-    onUpdateUser {
-      id
-      sub
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteUser = /* GraphQL */ `
-  subscription OnDeleteUser {
-    onDeleteUser {
-      id
-      sub
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;

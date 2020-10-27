@@ -1,5 +1,7 @@
 type Product @model 
-{
+ @auth(rules: [
+    { allow: owner },
+  ]){
   id: ID!
   groceryList: GroceryList @connection(name: "GroceryListProducts")
   name: String!
@@ -11,16 +13,10 @@ type Product @model
 
 type GroceryList @model 
  @auth(rules: [
-    # Defaults to use the "owner" field.
     { allow: owner },
   ]){
   id: ID!
   name: String!
   description: String
   products: [Product] @connection(name: "GroceryListProducts")
-}
-
-type User @model {
-  id: ID!
-  sub: String!
 }

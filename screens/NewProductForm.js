@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { View, StyleSheet, TextInput } from "react-native";
 import { useDispatch } from "react-redux";
-import { handleAddProduct, handleUpdateProduct } from "../src/redux/actions/product";
+import {
+  handleAddProduct,
+  handleUpdateProduct,
+} from "../src/redux/actions/product";
 import SubmitBtn from "../components/SubmitBtn";
 import StyledTextInput from "../components/StyledTextInput";
 import Stepper from "../components/Stepper";
 import UnitPicker from "../components/UnitPicker";
-import { grey } from "../utils/helpers"
+import { grey } from "../utils/helpers";
 
 const initialState = {
   name: "",
@@ -18,10 +21,10 @@ const initialState = {
 const units = ["ct", "lb", "g", "kg", "L"];
 
 const NewProductForm = (props) => {
-  const productToUpdate= props.route.params.product
-  const [formState, setFormState] = useState(productToUpdate? 
-    productToUpdate
-    :initialState);
+  const productToUpdate = props.route.params.product;
+  const [formState, setFormState] = useState(
+    productToUpdate ? productToUpdate : initialState
+  );
   const dispatch = useDispatch();
 
   function setInput(key, value) {
@@ -59,11 +62,14 @@ const NewProductForm = (props) => {
 
   return (
     <View style={styles.container}>
-      <StyledTextInput
-        onChangeText={(val) => setInput("name", val)}
-        value={formState.name}
-        placeholder="Name"
-      />
+      <View>
+        <StyledTextInput
+          onChangeText={(val) => setInput("name", val)}
+          value={formState.name}
+          placeholder="Name"
+        />
+      </View>
+
       <View style={styles.stepperAndText}>
         <Stepper
           onIncrement={() => onIncrement("quantity")}
@@ -77,20 +83,23 @@ const NewProductForm = (props) => {
           placeholder="quantity"
         />
       </View>
+      <View>
+        <UnitPicker
+          selectedValue={formState.unit}
+          onValueChange={(val) => setInput("unit", val)}
+          label={formState.unit}
+          value={formState.unit}
+          units={units}
+        />
+      </View>
 
-      <UnitPicker
-        selectedValue={formState.unit}
-        onValueChange={(val) => setInput("unit", val)}
-        label={formState.unit}
-        value={formState.unit}
-        units={units}
-      />
-      {
-        productToUpdate?
-        <SubmitBtn title="Update" onPress={updateProductHandler} />
-        :
-        <SubmitBtn title="Add to List" onPress={addProductHandler} />
-      }
+      <View>
+        {productToUpdate ? (
+          <SubmitBtn title="Update" onPress={updateProductHandler} />
+        ) : (
+          <SubmitBtn title="Add to List" onPress={addProductHandler} />
+        )}
+      </View>
     </View>
   );
 };
@@ -109,14 +118,14 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 30,
     marginRight: 30,
-    alignItems: 'center',
+    alignItems: "center",
   },
   numInput: {
-    flex: 1,
     height: 40,
+    width: 50,
     borderColor: grey,
     borderWidth: 2,
     borderRadius: 10,
     paddingLeft: 15,
-  }
+  },
 });

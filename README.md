@@ -27,30 +27,44 @@ This architecture allowed me to only interact with the DataStore API using stand
 
 ## GraphQL Schema
 
+This app has 3 models Product, GroceryList and User. 
+ - A user can add to his dashboard multiple grocery lists which can be shared among multiple users. To create this **many-to-many** relationship, I added the UserGroceryListJoin table. 
+ - After creating a new grocery list, products can be added to this specific list. This is a **one-to-many** relationship. 
+
 ```graphql
-type Product @model {
+type Product @model 
+{
   id: ID!
+  groceryList: GroceryList @connection(name: "GroceryListProducts")
   name: String!
   checked: Boolean!
   unit: String!
   quantity: Int!
   category: String!
-  groceryList: GroceryList @connection(name: "GroceryListProducts")
 }
 
 type GroceryList @model {
   id: ID!
   name: String!
-  owner: User @connection(name: "UserGroceryLists")
   description: String
   products: [Product] @connection(name: "GroceryListProducts")
+  users: [UserGroceryListJoin] @connection(keyName: "byUser", fields: ["id"])
 }
 
 type User @model {
   id: ID!
-  name: String
-  email: String
-  grocerylists: [GroceryList] @connection(name: "UserGroceryLists")
+  sub: String!
+  groceryLists: [UserGroceryListJoin] @connection(keyName: "byGroceryList", fields: ["id"])
+}
+
+type UserGroceryListJoin @model(queries: null)
+  @key(name: "byUser", fields: ["userID", "groceryListID"])
+  @key(name: "byGroceryList", fields: ["groceryListID", "userID"]){
+  id: ID!
+  userID: ID!
+  groceryListID: ID!
+  user: User! @connection(fields: ["userID"])      
+  groceryList: GroceryList! @connection(fields: ["groceryListID"])  
 }
 ```
 
@@ -120,10 +134,9 @@ Start the app
 
 ## Resources
 
-AWS Amplify React tutorial: https://docs.amplify.aws/start/getting-started/installation/q/integration/react
-Category icons : https://iconify.design/icon-sets/mdi/
-Styled Buttons: https://icons.expo.fyi/
-AWS AppSync Resources: https://aws.amazon.com/appsync/resources/
-Point of Sale app: https://github.com/amazon-archives/aws-appsync-refarch-offline
-Amplify doc: https://docs.amplify.aws/lib/q/platform/js
-Caching Fonts: https://docs.expo.io/guides/preloading-and-caching-assets/
+* AWS Amplify React tutorial: https://docs.amplify.aws/start/getting-started/installation/q/integration/react
+* AWS AppSync Resources: https://aws.amazon.com/appsync/resources/
+* Point of Sale app: https://github.com/amazon-archives/aws-appsync-refarch-offline
+* Amplify doc: https://docs.amplify.aws/lib/q/platform/js
+* Caching Fonts: https://docs.expo.io/guides/preloading-and-caching-assets/
+* Icons used for buttons and design : https://icons.expo.fyi/

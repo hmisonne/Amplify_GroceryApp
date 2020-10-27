@@ -21,6 +21,7 @@ export const createProduct = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        owner
       }
       name
       checked
@@ -55,6 +56,7 @@ export const updateProduct = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        owner
       }
       name
       checked
@@ -89,6 +91,7 @@ export const deleteProduct = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        owner
       }
       name
       checked
@@ -134,6 +137,7 @@ export const createGroceryList = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -168,6 +172,7 @@ export const updateGroceryList = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -202,6 +207,7 @@ export const deleteGroceryList = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
+      owner
     }
   }
 `;

@@ -21,6 +21,7 @@ export declare class GroceryList {
   readonly name: string;
   readonly description?: string;
   readonly products?: (Product | null)[];
+  readonly owner?: string;
   constructor(init: ModelInit<GroceryList>);
   static copyOf(source: GroceryList, mutator: (draft: MutableModel<GroceryList>) => MutableModel<GroceryList> | void): GroceryList;
 }

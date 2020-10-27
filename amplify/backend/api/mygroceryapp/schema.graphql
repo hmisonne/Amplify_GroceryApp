@@ -9,7 +9,11 @@ type Product @model
   category: String!
 }
 
-type GroceryList @model {
+type GroceryList @model 
+ @auth(rules: [
+    # Defaults to use the "owner" field.
+    { allow: owner },
+  ]){
   id: ID!
   name: String!
   description: String

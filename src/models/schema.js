@@ -105,6 +105,13 @@ export const schema = {
                         "connectionType": "HAS_MANY",
                         "associatedWith": "groceryList"
                     }
+                },
+                "owner": {
+                    "name": "owner",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -113,6 +120,25 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "provider": "userPools",
+                                "ownerField": "owner",
+                                "allow": "owner",
+                                "identityClaim": "cognito:username",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
                 }
             ]
         },
@@ -146,5 +172,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "8fde4f2d7068e562e5beacab565b6ab5"
+    "version": "0d8921f04af63ca082041ccc8a3c3984"
 };

@@ -18,6 +18,7 @@ export const onCreateProduct = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        owner
       }
       name
       checked
@@ -49,6 +50,7 @@ export const onUpdateProduct = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        owner
       }
       name
       checked
@@ -80,6 +82,7 @@ export const onDeleteProduct = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        owner
       }
       name
       checked
@@ -95,8 +98,8 @@ export const onDeleteProduct = /* GraphQL */ `
   }
 `;
 export const onCreateGroceryList = /* GraphQL */ `
-  subscription OnCreateGroceryList {
-    onCreateGroceryList {
+  subscription OnCreateGroceryList($owner: String!) {
+    onCreateGroceryList(owner: $owner) {
       id
       name
       description
@@ -122,12 +125,13 @@ export const onCreateGroceryList = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onUpdateGroceryList = /* GraphQL */ `
-  subscription OnUpdateGroceryList {
-    onUpdateGroceryList {
+  subscription OnUpdateGroceryList($owner: String!) {
+    onUpdateGroceryList(owner: $owner) {
       id
       name
       description
@@ -153,12 +157,13 @@ export const onUpdateGroceryList = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onDeleteGroceryList = /* GraphQL */ `
-  subscription OnDeleteGroceryList {
-    onDeleteGroceryList {
+  subscription OnDeleteGroceryList($owner: String!) {
+    onDeleteGroceryList(owner: $owner) {
       id
       name
       description
@@ -184,6 +189,7 @@ export const onDeleteGroceryList = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
+      owner
     }
   }
 `;

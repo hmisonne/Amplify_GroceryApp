@@ -9,7 +9,7 @@ export class BackendInterface {
  async identifyUser() {
     try {
       const userInfo = await Auth.currentUserInfo();
-      const result = await DataStore.query(User, (c) =>
+      const result = await this._dataStore.query(User, (c) =>
         c.sub("eq", userInfo.attributes.sub,)
       );
   
@@ -30,7 +30,7 @@ export class BackendInterface {
       const userDetails = {
         sub: userInfo.attributes.sub,
       };
-      const newUser = await DataStore.save(new User(userDetails));
+      const newUser = await this._dataStore.save(new User(userDetails));
       console.log("new User created successfully", newUser);
       return newUser;
     } catch (err) {
@@ -40,7 +40,7 @@ export class BackendInterface {
   
  async fetchAllGroceryLists() {
     try {
-      const allGroceryLists = await DataStore.query(GroceryList);
+      const allGroceryLists = await this._dataStore.query(GroceryList);
       console.log("grocery lists retrieved successfully!");
       return allGroceryLists;
     } catch (error) {
@@ -50,7 +50,7 @@ export class BackendInterface {
   
  async removeGroceryListFromUser(id, user) {
       try {
-        const result = (await DataStore.query(UserGroceryListJoin))
+        const result = (await this._dataStore.query(UserGroceryListJoin))
         .filter(c => c.groceryList.id === id)
         .filter(c => c.user.id === user.id)
         DataStore.delete(result[0]);
@@ -62,7 +62,7 @@ export class BackendInterface {
   
    async fetchUserGroceryLists(user) {
       try {
-          const result = (await DataStore.query(UserGroceryListJoin)).filter(c => c.user.id === user.id)
+          const result = (await this._dataStore.query(UserGroceryListJoin)).filter(c => c.user.id === user.id)
           const groceryListsPerUser = result.map(element => element.groceryList) || []
           console.log("grocery lists retrieved successfully!");
           return groceryListsPerUser
@@ -73,9 +73,9 @@ export class BackendInterface {
   
    async addGroceryListToUser(groceryListID, currUser) {
       try {
-        const user = await DataStore.query(User, currUser.id)
-        const groceryList = await DataStore.query(GroceryList, groceryListID)
-        await DataStore.save(
+        const user = await this._dataStore.query(User, currUser.id)
+        const groceryList = await this._dataStore.query(GroceryList, groceryListID)
+        await this._dataStore.save(
           new UserGroceryListJoin({
             user,
             groceryList
@@ -91,16 +91,16 @@ export class BackendInterface {
   
    async createNewGroceryList (groceryList, currentUser) {
       try {
-        const groceryListSaved = await DataStore.save(
+        const groceryListSaved = await this._dataStore.save(
         new GroceryList({
           name: groceryList.name,
           description: groceryList.description,
         })
       );
       
-      const user = await DataStore.query(User, currentUser.id)
+      const user = await this._dataStore.query(User, currentUser.id)
   
-      await DataStore.save(
+      await this._dataStore.save(
         new UserGroceryListJoin({
           user,
           groceryList: groceryListSaved
@@ -115,10 +115,10 @@ export class BackendInterface {
  async createNewProduct(product, groceryListID) {
     try {
       // Retrieve List object
-      const currentList = await DataStore.query(GroceryList, groceryListID);
+      const currentList = await this._dataStore.query(GroceryList, groceryListID);
       // Add reference
       product.groceryList = currentList;
-      const productSaved = await DataStore.save(new Product(product));
+      const productSaved = await this._dataStore.save(new Product(product));
       console.log("Product saved successfully!", productSaved);
       return productSaved
     } catch (err) {
@@ -129,8 +129,8 @@ export class BackendInterface {
   
  async updateProductDetails(product) {
     try {
-      const original = await DataStore.query(Product, product.id);
-      const updatedProduct =  await DataStore.save(
+      const original = await this._dataStore.query(Product, product.id);
+      const updatedProduct =  await this._dataStore.save(
         Product.copyOf(original, (updated) => {
           updated.checked = product.checked
           updated.name = product.name
@@ -146,7 +146,7 @@ export class BackendInterface {
   
  async  fetchProductsByGroceryList(groceryListID) {
     try {
-      const data = (await DataStore.query(Product)).filter(
+      const data = (await this._dataStore.query(Product)).filter(
         (c) => c.groceryList.id === groceryListID
       );
       console.log("products retrieved successfully!");
@@ -158,7 +158,7 @@ export class BackendInterface {
   
  async removeProduct(id) {
     try {
-      const todelete = await DataStore.query(Product, id);
+      const todelete = await this._dataStore.query(Product, id);
       DataStore.delete(todelete);
     } catch (err) {
       console.log("error deleting product", err);

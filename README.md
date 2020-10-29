@@ -31,6 +31,8 @@ This app has 3 models Product, GroceryList and User.
  - A user can add to his dashboard multiple grocery lists which can be shared among multiple users. To create this **many-to-many** relationship, I added the UserGroceryListJoin table. 
  - After creating a new grocery list, products can be added to this specific list. This is a **one-to-many** relationship. 
 
+ NB: Ideally a user should only have access to the grocery lists he created or that I was given access to. Unfortunately, having an editors field populated with Authentification Data is not currently compatible with Amplify DataStore. See [Issue #7069](https://github.com/aws-amplify/amplify-js/issues/7069)
+
 ```graphql
 type Product @model 
 {

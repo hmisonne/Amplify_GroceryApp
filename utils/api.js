@@ -53,7 +53,7 @@ export class BackendInterface {
         const result = (await this._dataStore.query(UserGroceryListJoin))
         .filter(c => c.groceryList.id === id)
         .filter(c => c.user.id === user.id)
-        DataStore.delete(result[0]);
+        this._dataStore.delete(result[0]);
         console.log("Grocery list deleted from User successfully!");
       } catch (err) {
         console.log("error deleting list", err);
@@ -159,7 +159,7 @@ export class BackendInterface {
  async removeProduct(id) {
     try {
       const todelete = await this._dataStore.query(Product, id);
-      DataStore.delete(todelete);
+      this._dataStore.delete(todelete);
     } catch (err) {
       console.log("error deleting product", err);
     }

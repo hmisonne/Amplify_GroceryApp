@@ -23,7 +23,8 @@
       "favicon": "./assets/icon.png"
     },
     "android": {
-      "package": "com.hmisonne.ListBee"
+      "package": "com.hmisonne.ListBee",
+      "permissions": []
     }
   }
 }

@@ -8,19 +8,21 @@ import {
 import SubmitBtn from "../components/SubmitBtn";
 import StyledTextInput from "../components/StyledTextInput";
 import Stepper from "../components/Stepper";
-import UnitPicker from "../components/UnitPicker";
-import { grey } from "../utils/helpers";
+import SelectionPicker from "../components/SelectionPicker";
+import { categories, grey } from "../utils/helpers";
 
-const initialState = {
-  name: "",
-  checked: false,
-  unit: "ct",
-  quantity: 1,
-};
+
 
 const units = ["ct", "lb", "g", "kg", "L"];
 
 const NewProductForm = (props) => {
+  const initialState = {
+    name: "",
+    checked: false,
+    unit: "ct",
+    quantity: 1,
+    category: props.route.params.category
+  };
   const productToUpdate = props.route.params.product;
   const [formState, setFormState] = useState(
     productToUpdate ? productToUpdate : initialState
@@ -84,15 +86,23 @@ const NewProductForm = (props) => {
         />
       </View>
       <View>
-        <UnitPicker
+        <SelectionPicker
           selectedValue={formState.unit}
           onValueChange={(val) => setInput("unit", val)}
           label={formState.unit}
           value={formState.unit}
-          units={units}
+          selection={units}
         />
       </View>
-
+      <View>
+        <SelectionPicker
+          selectedValue={formState.category}
+          onValueChange={(val) => setInput("category", val)}
+          label={formState.category}
+          value={formState.category}
+          selection={categories.map(cat=>cat.name)}
+        />
+      </View>
       <View>
         {productToUpdate ? (
           <SubmitBtn title="Update" onPress={updateProductHandler} />

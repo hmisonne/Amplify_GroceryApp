@@ -3,11 +3,11 @@ import { StyleSheet, Picker } from "react-native";
 import { grey } from "../utils/helpers";
 import PropTypes from "prop-types";
 
-export default function UnitPicker({
+export default function SelectionPicker({
   selectedValue,
   onValueChange,
   value,
-  units,
+  selection,
 }) {
   return (
     <Picker
@@ -16,10 +16,10 @@ export default function UnitPicker({
       onValueChange={onValueChange}
     >
       <Picker.Item label={value} value={value} />
-      {units
-        .filter((unit) => unit !== value)
-        .map((unit) => (
-          <Picker.Item label={unit} value={unit} key={unit} />
+      {selection
+        .filter((element) => element !== value)
+        .map((element) => (
+          <Picker.Item label={element} value={element} key={element} />
         ))}
     </Picker>
   );
@@ -38,9 +38,9 @@ const styles = StyleSheet.create({
   },
 });
 
-UnitPicker.propTypes = {
+SelectionPicker.propTypes = {
   selectedValue: PropTypes.string.isRequired,
   onValueChange: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
-  units: PropTypes.array.isRequired,
+  selection: PropTypes.array.isRequired,
 };

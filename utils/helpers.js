@@ -8,13 +8,13 @@ export const blueGreen = '#04ccde'
 export const categories = [
     { name: "Fruits", img: "food-apple" },
     { name: "Veggies", img: "corn" },
-    { name: "Grains/Nuts", img: "barley" },
+    { name: "Grains", img: "barley" },
     { name: "Dairy", img: "cup" },
     { name: "Meat", img: "cow" },
     { name: "Frozen", img: "cube-outline" },
-    { name: "Baking/Snacks", img: "muffin" },
-    { name: "Canned Food", img: "hockey-puck" },
+    { name: "Baking", img: "muffin" },
+    { name: "Canned", img: "hockey-puck" },
     { name: "Drinks", img: "glass-cocktail" },
-    { name: "Condiments/Oil", img: "food-variant" },
+    { name: "Other", img: "food-variant" },
     { name: "Cleaning", img: "broom" },
   ];

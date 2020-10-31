@@ -11,6 +11,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { connect, useDispatch } from "react-redux";
 import { handleLoadProducts } from "../src/redux/actions/product";
 import { blue, grey, categories } from "../utils/helpers";
+import RoundButton from "../components/RoundButton";
 
 const ProductCategory = (props) => {
   const dispatch = useDispatch();
@@ -30,6 +31,9 @@ const ProductCategory = (props) => {
   function productCheckedCountPerCat(category) {
     return products.filter(product => product.category === category && product.checked === true).length
   }
+  function allProductChecked(category){
+    return productCheckedCountPerCat(category) === productCountPerCat(category)
+  }
   function showCategories() {
     return (
       <View style={styles.container}>
@@ -40,7 +44,26 @@ const ProductCategory = (props) => {
             key={index}
           >
             <MaterialCommunityIcons name={cat.img} size={100} color={grey} />
-            <Text style={styles.text}> {cat.name.toUpperCase()} <Text style={styles.innerText}>{productCheckedCountPerCat(cat.name)}/{productCountPerCat(cat.name)}</Text></Text>
+            <Text style={styles.text}> {cat.name.toUpperCase()} 
+            {productCountPerCat(cat.name)>0 && 
+              <Text style={{color: allProductChecked(cat.name) && blue}}> {productCheckedCountPerCat(cat.name)}/{productCountPerCat(cat.name)}</Text>
+            }
+            </Text>
+            {
+              productCountPerCat(cat.name)>0 &&
+                
+                <RoundButton
+                  name={allProductChecked(cat.name)? 
+                    "check-circle"
+                    :  "check-circle-outline"}
+                  color={allProductChecked(cat.name)? 
+                    blue
+                  : grey}
+                />
+                
+        
+          }
+            
           </TouchableOpacity>
         ))}
       </View>

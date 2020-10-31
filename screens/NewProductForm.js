@@ -53,8 +53,7 @@ const NewProductForm = (props) => {
 
   async function addProductHandler() {
     const product = { ...formState };
-    const { groceryListID, category } = props.route.params;
-    product.category = category;
+    const { groceryListID } = props.route.params;
     // Convert Quantity to Int
     product.quantity = parseInt(product.quantity, 10);
 

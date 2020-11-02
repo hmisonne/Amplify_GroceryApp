@@ -7,20 +7,21 @@ import { handleAddGroceryList } from "../src/redux/actions/groceryList";
 
 
 
-const JoinGroceryList = () => {
-  const [formState, setFormState] = useState('');
+const JoinGroceryList = (props) => {
+  const [groceryListID, setGroceryListID] = useState('');
   const dispatch = useDispatch();
 
-  function addGroceryList(formState) {
-    dispatch(handleAddGroceryList(formState))
+  function addGroceryList() {
+    dispatch(handleAddGroceryList(groceryListID))
+    props.navigation.goBack();
   }
 
   return (
     <View style={styles.container}>
       <StyledTextInput
-        onChangeText={(val) => setFormState(val)}
+        onChangeText={(val) => setGroceryListID(val)}
         style={styles.input}
-        value={formState}
+        value={groceryListID}
         placeholder="Grocery List ID"
       />
       <SubmitBtn title="Join List" onPress={addGroceryList} />

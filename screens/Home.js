@@ -3,10 +3,14 @@ import { connect, useDispatch } from "react-redux";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 import { handleAuthentificateUser } from "../src/redux/actions/user";
-import { handleDeleteGroceryList, handleLoadGroceryLists } from "../src/redux/actions/groceryList";
+import {
+  handleDeleteGroceryList,
+  handleLoadGroceryLists,
+} from "../src/redux/actions/groceryList";
 import RoundButton from "../components/RoundButton";
 import { blue } from "../utils/helpers";
-import ModalAddList from "../components/ModalAddList";
+import ModalWithNavButton from "../components/ModalWithNavButton";
+import { Provider } from "react-native-paper";
 
 
 const Home = (props) => {
@@ -17,41 +21,54 @@ const Home = (props) => {
   const hideModal = () => setModalVisible(false);
 
   useEffect(() => {
-    dispatch(handleAuthentificateUser())
-    .then(()=> dispatch(handleLoadGroceryLists()))
+    dispatch(handleAuthentificateUser()).then(() =>
+      dispatch(handleLoadGroceryLists())
+    );
   }, []);
 
-
   function removeGroceryList(groceryListID) {
-    dispatch(handleDeleteGroceryList(groceryListID))
+    dispatch(handleDeleteGroceryList(groceryListID));
   }
 
   function goToJoinGroceryList() {
-    hideModal()
+    hideModal();
     return props.navigation.push("JoinGroceryList");
   }
   function goToNewGroceryList() {
-    hideModal()
+    hideModal();
     return props.navigation.push("NewList");
   }
-
+  const navigationOptions = [{
+    onPress: goToNewGroceryList,
+    title:"New Grocery List"
+  },{
+    onPress: goToJoinGroceryList,
+    title:"Join Grocery List"
+  },
+]
   return (
-    <View style={styles.container}>
-      {groceryLists.length ===0 ?
-        displayInstructions()
-        :displayUserGroceryLists()
-      }
+    <Provider>
+      <View style={styles.container}>
+        {groceryLists.length === 0
+          ? displayInstructions()
+          : displayUserGroceryLists()}
 
-        <ModalAddList
-          showModal = {showModal}
-          visible = {modalVisible}
-          hideModal= {hideModal}
-          style = {styles.bottom2}
-          goToNewGroceryList={() => goToNewGroceryList()}
-          goToJoinGroceryList={() => goToJoinGroceryList()}
+        <ModalWithNavButton
+          navigationOptions={navigationOptions}
+          showModal={showModal}
+          visible={modalVisible}
+          hideModal={hideModal}
         />
 
-    </View>
+        <RoundButton
+          onPress={showModal}
+          name="plus-circle"
+          color={blue}
+          size={40}
+          style={styles.bottom}
+        />
+      </View>
+    </Provider>
   );
 
   function goToList(groceryList) {
@@ -60,7 +77,10 @@ const Home = (props) => {
   function displayInstructions() {
     return (
       <View style={styles.centered}>
-        <Text style={styles.text}> Create your first grocery list by clicking on the + icon or browse existing lists by pressing the Search icon !</Text>
+        <Text style={styles.text}>
+          Create your first grocery list by clicking on the + icon or browse
+          existing lists by pressing the Search icon !
+        </Text>
       </View>
     );
   }
@@ -79,9 +99,7 @@ const Home = (props) => {
               </View>
             </TouchableOpacity>
             <RoundButton
-              onPress={() =>
-                removeGroceryList(glist.id)
-              }
+              onPress={() => removeGroceryList(glist.id)}
               name="delete-outline"
               color="black"
             />
@@ -106,7 +124,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    textAlign: "center"
+    textAlign: "center",
   },
   container: {
     flex: 1,
@@ -129,10 +147,12 @@ const styles = StyleSheet.create({
   glistName: { fontSize: 18 },
 });
 
-{/* <RoundButton
+{
+  /* <RoundButton
         onPress={() => goToAllGroceryList()}
         name="feature-search-outline"
         color={blue}
         style={styles.bottom}
         size={40}
-      /> */}
+      /> */
+}

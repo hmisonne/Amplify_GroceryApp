@@ -12,8 +12,8 @@ const ModalWithNavButton = ({ navigationOptions, visible, hideModal }) => {
         onDismiss={hideModal}
         contentContainerStyle={containerStyle}
       >
-        {navigationOptions.map((option) => (
-          <SubmitBtn onPress={option.onPress} title={option.title} />
+        {navigationOptions.map((option, index) => (
+          <SubmitBtn key={index} onPress={option.onPress} title={option.title} />
         ))}
       </Modal>
     </Portal>

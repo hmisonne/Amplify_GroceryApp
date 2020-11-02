@@ -5,11 +5,8 @@ import RoundButton from './RoundButton';
 import SubmitBtn from './SubmitBtn';
 import { StyleSheet } from "react-native";
 
-const ModalAddList = ({goToNewGroceryList, goToJoinGroceryList}) => {
-  const [visible, setVisible] = React.useState(false);
+const ModalAddList = ({goToNewGroceryList, goToJoinGroceryList, showModal,visible, hideModal}) => {
 
-  const showModal = () => setVisible(true);
-  const hideModal = () => setVisible(false);
   const containerStyle = {backgroundColor: 'white', padding: 20};
 
   return (

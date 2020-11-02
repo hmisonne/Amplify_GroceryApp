@@ -12,6 +12,10 @@ import ModalAddList from "../components/ModalAddList";
 const Home = (props) => {
   const dispatch = useDispatch();
   const { groceryLists } = props;
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const showModal = () => setModalVisible(true);
+  const hideModal = () => setModalVisible(false);
+
   useEffect(() => {
     dispatch(handleAuthentificateUser())
     .then(()=> dispatch(handleLoadGroceryLists()))
@@ -23,9 +27,11 @@ const Home = (props) => {
   }
 
   function goToJoinGroceryList() {
+    hideModal()
     return props.navigation.push("JoinGroceryList");
   }
   function goToNewGroceryList() {
+    hideModal()
     return props.navigation.push("NewList");
   }
 
@@ -37,6 +43,9 @@ const Home = (props) => {
       }
 
         <ModalAddList
+          showModal = {showModal}
+          visible = {modalVisible}
+          hideModal= {hideModal}
           style = {styles.bottom2}
           goToNewGroceryList={() => goToNewGroceryList()}
           goToJoinGroceryList={() => goToJoinGroceryList()}

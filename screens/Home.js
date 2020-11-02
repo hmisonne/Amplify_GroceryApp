@@ -6,6 +6,7 @@ import { handleAuthentificateUser } from "../src/redux/actions/user";
 import { handleDeleteGroceryList, handleLoadGroceryLists } from "../src/redux/actions/groceryList";
 import RoundButton from "../components/RoundButton";
 import { blue } from "../utils/helpers";
+import ModalAddList from "../components/ModalAddList";
 
 
 const Home = (props) => {
@@ -21,8 +22,8 @@ const Home = (props) => {
     dispatch(handleDeleteGroceryList(groceryListID))
   }
 
-  function goToAllGroceryList() {
-    return props.navigation.push("AllGroceryLists");
+  function goToJoinGroceryList() {
+    return props.navigation.push("JoinGroceryList");
   }
   function goToNewGroceryList() {
     return props.navigation.push("NewList");
@@ -34,20 +35,13 @@ const Home = (props) => {
         displayInstructions()
         :displayUserGroceryLists()
       }
-      <RoundButton
-        onPress={() => goToNewGroceryList()}
-        name="plus-circle"
-        color={blue}
-        style={styles.bottom}
-        size={40}
-      />
-      <RoundButton
-        onPress={() => goToAllGroceryList()}
-        name="feature-search-outline"
-        color={blue}
-        style={styles.bottom}
-        size={40}
-      />
+
+        <ModalAddList
+          style = {styles.bottom2}
+          goToNewGroceryList={() => goToNewGroceryList()}
+          goToJoinGroceryList={() => goToJoinGroceryList()}
+        />
+
     </View>
   );
 
@@ -109,6 +103,10 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
+  bottom2: {
+    alignItems: "flex-end",
+    marginBottom: 46,
+  },
   bottom: {
     justifyContent: "flex-end",
     alignItems: "flex-end",
@@ -121,3 +119,11 @@ const styles = StyleSheet.create({
   },
   glistName: { fontSize: 18 },
 });
+
+{/* <RoundButton
+        onPress={() => goToAllGroceryList()}
+        name="feature-search-outline"
+        color={blue}
+        style={styles.bottom}
+        size={40}
+      /> */}

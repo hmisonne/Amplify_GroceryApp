@@ -12,14 +12,16 @@ import { blue } from "../utils/helpers";
 import ModalWithNavButton from "../components/ModalWithNavButton";
 import { Provider } from "react-native-paper";
 
+const initialState = {
+  plusButtonModal: false,
+};
 
 const Home = (props) => {
   const dispatch = useDispatch();
   const { groceryLists } = props;
-  const [modalVisible, setModalVisible] = React.useState(false);
-  const showModal = () => setModalVisible(true);
-  const hideModal = () => setModalVisible(false);
-
+  const [modalVisible, setModalVisible] = React.useState(initialState);
+  const showModal = (key) => setModalVisible({ ...modalVisible, [key]: true });
+  const resetModals = () => setModalVisible(initialState);
   useEffect(() => {
     dispatch(handleAuthentificateUser()).then(() =>
       dispatch(handleLoadGroceryLists())
@@ -31,11 +33,11 @@ const Home = (props) => {
   }
 
   function goToJoinGroceryList() {
-    hideModal();
+    resetModals();
     return props.navigation.push("JoinGroceryList");
   }
   function goToNewGroceryList() {
-    hideModal();
+    resetModals();
     return props.navigation.push("NewList");
   }
   const navigationOptions = [{
@@ -55,13 +57,12 @@ const Home = (props) => {
 
         <ModalWithNavButton
           navigationOptions={navigationOptions}
-          showModal={showModal}
-          visible={modalVisible}
-          hideModal={hideModal}
+          visible={modalVisible.plusButtonModal}
+          hideModal={resetModals}
         />
 
         <RoundButton
-          onPress={showModal}
+          onPress={() => showModal("plusButtonModal")}
           name="plus-circle"
           color={blue}
           size={40}

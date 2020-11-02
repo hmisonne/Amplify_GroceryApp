@@ -23,6 +23,7 @@ import RoundButton from "./components/RoundButton";
 import store from "./src/redux/store";
 
 import {blue } from "./utils/helpers"
+import JoinGroceryList from "./screens/JoinGroceryList";
 
 Amplify.configure({
   ...config,
@@ -98,6 +99,11 @@ const App = () => {
             name="AllGroceryLists"
             component={AllGroceryLists}
             options={{ title: "Browse Grocery Lists", headerTintColor: blue }}
+          />
+           <ProductStack.Screen
+            name="JoinGroceryList"
+            component={JoinGroceryList}
+            options={{ title: "Join Grocery List", headerTintColor: blue }}
           />
           <ProductStack.Screen
             name="ProductList"

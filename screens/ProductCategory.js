@@ -18,21 +18,23 @@ const ProductCategory = (props) => {
   const groceryListID = props.route.params.groceryList.id;
   const { products } = props;
   useEffect(() => {
-    dispatch(handleLoadProducts(groceryListID))
+    dispatch(handleLoadProducts(groceryListID));
   }, []);
 
   function goToProductList(category) {
     return props.navigation.push("ProductList", { category, groceryListID });
   }
   function productCountPerCat(category) {
-    return products.filter(product => product.category === category).length
+    return products.filter((product) => product.category === category).length;
   }
 
   function productCheckedCountPerCat(category) {
-    return products.filter(product => product.category === category && product.checked === true).length
+    return products.filter(
+      (product) => product.category === category && product.checked === true
+    ).length;
   }
-  function allProductChecked(category){
-    return productCheckedCountPerCat(category) === productCountPerCat(category)
+  function allProductChecked(category) {
+    return productCheckedCountPerCat(category) === productCountPerCat(category);
   }
   function showCategories() {
     return (
@@ -44,26 +46,25 @@ const ProductCategory = (props) => {
             key={index}
           >
             <MaterialCommunityIcons name={cat.img} size={100} color={grey} />
-            <Text style={styles.text}> {cat.name.toUpperCase()} 
-            {productCountPerCat(cat.name)>0 && 
-              <Text style={{color: allProductChecked(cat.name) && blue}}> {productCheckedCountPerCat(cat.name)}/{productCountPerCat(cat.name)}</Text>
-            }
+            <Text style={styles.text}>
+              {cat.name.toUpperCase()}
+              {productCountPerCat(cat.name) > 0 && (
+                <Text style={{ color: allProductChecked(cat.name) && blue }}>
+                  {productCheckedCountPerCat(cat.name)}/
+                  {productCountPerCat(cat.name)}
+                </Text>
+              )}
             </Text>
-            {
-              productCountPerCat(cat.name)>0 &&
-                
-                <RoundButton
-                  name={allProductChecked(cat.name)? 
-                    "check-circle"
-                    :  "check-circle-outline"}
-                  color={allProductChecked(cat.name)? 
-                    blue
-                  : grey}
-                />
-                
-        
-          }
-            
+            {productCountPerCat(cat.name) > 0 && (
+              <RoundButton
+                name={
+                  allProductChecked(cat.name)
+                    ? "check-circle"
+                    : "check-circle-outline"
+                }
+                color={allProductChecked(cat.name) ? blue : grey}
+              />
+            )}
           </TouchableOpacity>
         ))}
       </View>
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 18,
   },
-  innerText : {
-  color: blue
-  }
+  innerText: {
+    color: blue,
+  },
 });

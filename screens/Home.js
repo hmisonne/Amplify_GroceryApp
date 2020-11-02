@@ -32,6 +32,10 @@ const Home = (props) => {
     dispatch(handleDeleteGroceryList(groceryListID));
   }
 
+  function showGroceryListID(groceryListID) {
+    return props.navigation.push("ShareGroceryList", { groceryListID });
+  }
+
   const navigationOptions = [{
     onPress: () => {
       resetModals();
@@ -97,6 +101,11 @@ const Home = (props) => {
                 <Text style={styles.glistName}>{glist.name}</Text>
               </View>
             </TouchableOpacity>
+            <RoundButton
+              onPress={() => showGroceryListID(glist.id)}
+              name="share-variant"
+              color="black"
+            />
             <RoundButton
               onPress={() => removeGroceryList(glist.id)}
               name="delete-outline"

@@ -24,6 +24,7 @@ import store from "./src/redux/store";
 
 import {blue } from "./utils/helpers"
 import JoinGroceryList from "./screens/JoinGroceryList";
+import ShareGroceryList from "./screens/ShareGroceryList";
 
 Amplify.configure({
   ...config,
@@ -136,6 +137,14 @@ const App = () => {
             component={Settings}
             options={(props) => ({
               title: "Settings",
+              headerTintColor: blue
+            })}
+          />
+          <ProductStack.Screen
+            name="ShareGroceryList"
+            component={ShareGroceryList}
+            options={() => ({
+              title: "Share your list",
               headerTintColor: blue
             })}
           />

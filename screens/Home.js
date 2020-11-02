@@ -32,19 +32,17 @@ const Home = (props) => {
     dispatch(handleDeleteGroceryList(groceryListID));
   }
 
-  function goToJoinGroceryList() {
-    resetModals();
-    return props.navigation.push("JoinGroceryList");
-  }
-  function goToNewGroceryList() {
-    resetModals();
-    return props.navigation.push("NewList");
-  }
   const navigationOptions = [{
-    onPress: goToNewGroceryList,
+    onPress: () => {
+      resetModals();
+      return props.navigation.push("NewList");
+    },
     title:"New Grocery List"
   },{
-    onPress: goToJoinGroceryList,
+    onPress: () => {
+      resetModals();
+      return props.navigation.push("JoinGroceryList");
+    },
     title:"Join Grocery List"
   },
 ]

@@ -8,11 +8,14 @@ import {
   handleLoadGroceryLists,
 } from "../src/redux/actions/groceryList";
 import RoundButton from "../components/RoundButton";
-import { Provider } from "react-native-paper";
 import FabBar from "../components/FabBar";
-import { green } from "../utils/helpers";
+import UndoRedo from "../containers/UndoRedo";
 
 const Home = (props) => {
+  const [visible, setVisible] = React.useState(false);
+  const onToggleSnackBar = () => setVisible(!visible);
+  const onDismissSnackBar = () => setVisible(false);
+
   const dispatch = useDispatch();
   const { groceryLists } = props;
 
@@ -24,35 +27,37 @@ const Home = (props) => {
 
   function removeGroceryList(groceryListID) {
     dispatch(handleDeleteGroceryList(groceryListID));
+    onToggleSnackBar();
   }
 
   function showGroceryListID(groceryListID) {
     return props.navigation.push("ShareGroceryList", { groceryListID });
   }
 
-  const actions=[
+  const actions = [
     {
-      icon: 'format-list-checks',
-      label: 'New List',
+      icon: "format-list-checks",
+      label: "New List",
       onPress: () => props.navigation.push("NewList"),
     },
     {
-      icon: 'account-group',
-      label: 'Join List',
+      icon: "account-group",
+      label: "Join List",
       onPress: () => props.navigation.push("JoinGroceryList"),
     },
-  ]
+  ];
   return (
-    <Provider>
-      <View style={styles.container}>
-        {groceryLists.length === 0
-          ? displayInstructions()
-          : displayUserGroceryLists()}
-        <FabBar
-          actions={actions}
-        />
+    <View style={styles.container}>
+      {groceryLists.length === 0
+        ? displayInstructions()
+        : displayUserGroceryLists()}
+      <View>
+        <FabBar actions={actions} />
       </View>
-    </Provider>
+      <View>
+        <UndoRedo visible={visible} onDismissSnackBar={onDismissSnackBar} />
+      </View>
+    </View>
   );
 
   function goToList(groceryList) {
@@ -100,7 +105,7 @@ const Home = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  groceryLists: state.groceryLists,
+  groceryLists: state.groceryLists.present,
   user: state.user,
 });
 

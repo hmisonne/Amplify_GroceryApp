@@ -6,8 +6,7 @@ export const green = '#04e5d4'
 export const blueGreen = '#04ccde'
 
 export const categories = [
-    { name: "Fruits", img: "food-apple" },
-    { name: "Veggies", img: "corn" },
+    { name: "Produce", img: "food-apple" },
     { name: "Grains", img: "barley" },
     { name: "Dairy", img: "cup" },
     { name: "Meat", img: "cow" },
@@ -16,5 +15,4 @@ export const categories = [
     { name: "Canned", img: "hockey-puck" },
     { name: "Drinks", img: "glass-cocktail" },
     { name: "Other", img: "food-variant" },
-    { name: "Cleaning", img: "broom" },
   ];

@@ -47,7 +47,7 @@ const ProductCategory = (props) => {
           >
             <MaterialCommunityIcons name={cat.img} size={100} color={grey} />
             <Text style={styles.text}>
-              {cat.name.toUpperCase()}
+              {cat.name.toUpperCase()}{" "}
               {productCountPerCat(cat.name) > 0 && (
                 <Text style={{ color: allProductChecked(cat.name)? blue : "black" }}>
                   {productCheckedCountPerCat(cat.name)}/

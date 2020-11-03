@@ -8,20 +8,14 @@ import {
   handleLoadGroceryLists,
 } from "../src/redux/actions/groceryList";
 import RoundButton from "../components/RoundButton";
-import { blue } from "../utils/helpers";
-import ModalWithNavButton from "../components/ModalWithNavButton";
 import { Provider } from "react-native-paper";
-
-const initialState = {
-  plusButtonModal: false,
-};
+import FabBar from "../components/FabBar";
+import { green } from "../utils/helpers";
 
 const Home = (props) => {
   const dispatch = useDispatch();
   const { groceryLists } = props;
-  const [modalVisible, setModalVisible] = React.useState(initialState);
-  const showModal = (key) => setModalVisible({ ...modalVisible, [key]: true });
-  const resetModals = () => setModalVisible(initialState);
+
   useEffect(() => {
     dispatch(handleAuthentificateUser()).then(() =>
       dispatch(handleLoadGroceryLists())
@@ -36,39 +30,26 @@ const Home = (props) => {
     return props.navigation.push("ShareGroceryList", { groceryListID });
   }
 
-  const navigationOptions = [{
-    onPress: () => {
-      resetModals();
-      return props.navigation.push("NewList");
+  const actions=[
+    {
+      icon: 'format-list-checks',
+      label: 'New List',
+      onPress: () => props.navigation.push("NewList"),
     },
-    title:"New Grocery List"
-  },{
-    onPress: () => {
-      resetModals();
-      return props.navigation.push("JoinGroceryList");
+    {
+      icon: 'account-group',
+      label: 'Join List',
+      onPress: () => props.navigation.push("JoinGroceryList"),
     },
-    title:"Join Grocery List"
-  },
-]
+  ]
   return (
     <Provider>
       <View style={styles.container}>
         {groceryLists.length === 0
           ? displayInstructions()
           : displayUserGroceryLists()}
-
-        <ModalWithNavButton
-          navigationOptions={navigationOptions}
-          visible={modalVisible.plusButtonModal}
-          hideModal={resetModals}
-        />
-
-        <RoundButton
-          onPress={() => showModal("plusButtonModal")}
-          name="plus-circle"
-          color={blue}
-          size={40}
-          style={styles.bottom}
+        <FabBar
+          actions={actions}
         />
       </View>
     </Provider>
@@ -154,13 +135,3 @@ const styles = StyleSheet.create({
   },
   glistName: { fontSize: 18 },
 });
-
-{
-  /* <RoundButton
-        onPress={() => goToAllGroceryList()}
-        name="feature-search-outline"
-        color={blue}
-        style={styles.bottom}
-        size={40}
-      /> */
-}

@@ -1,12 +1,12 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import UnitPicker from '../UnitPicker';
+import SelectionPicker from '../SelectionPicker';
 
 test('renders correctly', () => {
-  const tree = renderer.create(<UnitPicker
+  const tree = renderer.create(<SelectionPicker
     selectedValue={'ct'}
     onValueChange={(x) => x}
     value={'kg'}
-    units={['ct','kg']} />).toJSON();
+    selection={['ct','kg']} />).toJSON();
   expect(tree).toMatchSnapshot();
 });

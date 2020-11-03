@@ -1,6 +1,6 @@
 import undoable from 'redux-undo'
 
-const groceryListReducer = (state = [], action) => {
+export const groceryListReducer = (state = [], action) => {
     switch (action.type) {
       case "LOAD_GROCERY_LIST":
         const groceryLists = action.groceryLists;

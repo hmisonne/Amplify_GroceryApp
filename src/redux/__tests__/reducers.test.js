@@ -1,4 +1,6 @@
-import { productReducer, groceryListReducer, userReducer } from '../reducers';
+import productReducer from '../reducers/products'
+import { groceryListReducer } from '../reducers/groceryLists'
+import userReducer from '../reducers/user'
 import { addProduct, deleteProduct, toggleProduct, loadProducts, filterProductsbyCat, updateProduct} from '../actions/product';
 import { loadGroceryLists, deleteGroceryList } from '../actions/groceryList'
 import { authentificateUser} from '../actions/user'

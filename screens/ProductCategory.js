@@ -49,7 +49,7 @@ const ProductCategory = (props) => {
             <Text style={styles.text}>
               {cat.name.toUpperCase()}
               {productCountPerCat(cat.name) > 0 && (
-                <Text style={{ color: allProductChecked(cat.name) && blue }}>
+                <Text style={{ color: allProductChecked(cat.name)? blue : "black" }}>
                   {productCheckedCountPerCat(cat.name)}/
                   {productCountPerCat(cat.name)}
                 </Text>

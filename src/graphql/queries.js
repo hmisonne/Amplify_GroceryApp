@@ -239,6 +239,7 @@ export const syncUsers = /* GraphQL */ `
       items {
         id
         sub
+        username
         groceryLists {
           nextToken
           startedAt
@@ -248,6 +249,7 @@ export const syncUsers = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        owner
       }
       nextToken
       startedAt
@@ -259,6 +261,7 @@ export const getUser = /* GraphQL */ `
     getUser(id: $id) {
       id
       sub
+      username
       groceryLists {
         items {
           id
@@ -278,6 +281,7 @@ export const getUser = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -291,6 +295,7 @@ export const listUsers = /* GraphQL */ `
       items {
         id
         sub
+        username
         groceryLists {
           nextToken
           startedAt
@@ -300,6 +305,7 @@ export const listUsers = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        owner
       }
       nextToken
       startedAt
@@ -326,11 +332,13 @@ export const syncUserGroceryListJoins = /* GraphQL */ `
         user {
           id
           sub
+          username
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          owner
         }
         groceryList {
           id

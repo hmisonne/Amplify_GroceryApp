@@ -267,6 +267,7 @@ export const createUser = /* GraphQL */ `
     createUser(input: $input, condition: $condition) {
       id
       sub
+      username
       groceryLists {
         items {
           id
@@ -286,6 +287,7 @@ export const createUser = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -297,6 +299,7 @@ export const updateUser = /* GraphQL */ `
     updateUser(input: $input, condition: $condition) {
       id
       sub
+      username
       groceryLists {
         items {
           id
@@ -316,6 +319,7 @@ export const updateUser = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -327,6 +331,7 @@ export const deleteUser = /* GraphQL */ `
     deleteUser(input: $input, condition: $condition) {
       id
       sub
+      username
       groceryLists {
         items {
           id
@@ -346,6 +351,7 @@ export const deleteUser = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -361,6 +367,7 @@ export const createUserGroceryListJoin = /* GraphQL */ `
       user {
         id
         sub
+        username
         groceryLists {
           nextToken
           startedAt
@@ -370,6 +377,7 @@ export const createUserGroceryListJoin = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        owner
       }
       groceryList {
         id
@@ -409,6 +417,7 @@ export const updateUserGroceryListJoin = /* GraphQL */ `
       user {
         id
         sub
+        username
         groceryLists {
           nextToken
           startedAt
@@ -418,6 +427,7 @@ export const updateUserGroceryListJoin = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        owner
       }
       groceryList {
         id
@@ -457,6 +467,7 @@ export const deleteUserGroceryListJoin = /* GraphQL */ `
       user {
         id
         sub
+        username
         groceryLists {
           nextToken
           startedAt
@@ -466,6 +477,7 @@ export const deleteUserGroceryListJoin = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        owner
       }
       groceryList {
         id

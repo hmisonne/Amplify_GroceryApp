@@ -242,10 +242,11 @@ export const onDeleteGroceryList = /* GraphQL */ `
   }
 `;
 export const onCreateUser = /* GraphQL */ `
-  subscription OnCreateUser {
-    onCreateUser {
+  subscription OnCreateUser($owner: String!) {
+    onCreateUser(owner: $owner) {
       id
       sub
+      username
       groceryLists {
         items {
           id
@@ -265,14 +266,16 @@ export const onCreateUser = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onUpdateUser = /* GraphQL */ `
-  subscription OnUpdateUser {
-    onUpdateUser {
+  subscription OnUpdateUser($owner: String!) {
+    onUpdateUser(owner: $owner) {
       id
       sub
+      username
       groceryLists {
         items {
           id
@@ -292,14 +295,16 @@ export const onUpdateUser = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onDeleteUser = /* GraphQL */ `
-  subscription OnDeleteUser {
-    onDeleteUser {
+  subscription OnDeleteUser($owner: String!) {
+    onDeleteUser(owner: $owner) {
       id
       sub
+      username
       groceryLists {
         items {
           id
@@ -319,6 +324,7 @@ export const onDeleteUser = /* GraphQL */ `
       _lastChangedAt
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -331,6 +337,7 @@ export const onCreateUserGroceryListJoin = /* GraphQL */ `
       user {
         id
         sub
+        username
         groceryLists {
           nextToken
           startedAt
@@ -340,6 +347,7 @@ export const onCreateUserGroceryListJoin = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        owner
       }
       groceryList {
         id
@@ -376,6 +384,7 @@ export const onUpdateUserGroceryListJoin = /* GraphQL */ `
       user {
         id
         sub
+        username
         groceryLists {
           nextToken
           startedAt
@@ -385,6 +394,7 @@ export const onUpdateUserGroceryListJoin = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        owner
       }
       groceryList {
         id
@@ -421,6 +431,7 @@ export const onDeleteUserGroceryListJoin = /* GraphQL */ `
       user {
         id
         sub
+        username
         groceryLists {
           nextToken
           startedAt
@@ -430,6 +441,7 @@ export const onDeleteUserGroceryListJoin = /* GraphQL */ `
         _lastChangedAt
         createdAt
         updatedAt
+        owner
       }
       groceryList {
         id

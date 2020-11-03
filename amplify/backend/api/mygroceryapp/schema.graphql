@@ -17,9 +17,10 @@ type GroceryList @model {
   users: [UserGroceryListJoin] @connection(keyName: "byUser", fields: ["id"])
 }
 
-type User @model {
+type User @model @auth(rules: [{ allow: owner }]){
   id: ID!
   sub: String!
+  username: String
   groceryLists: [UserGroceryListJoin] @connection(keyName: "byGroceryList", fields: ["id"])
 }
 

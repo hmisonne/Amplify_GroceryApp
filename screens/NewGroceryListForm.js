@@ -12,7 +12,6 @@ const initialState = {
 
 const NewGroceryListForm = (props) => {
   const [formState, setFormState] = useState(initialState);
-  const { user } = props
   const dispatch = useDispatch();
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
@@ -38,16 +37,13 @@ const NewGroceryListForm = (props) => {
         value={formState.description}
         placeholder="Description (optional)"
       />
-      <SubmitBtn title="Add to List" onPress={createGroceryList} />
+      <SubmitBtn title="Create" onPress={createGroceryList} />
     </View>
   );
 };
 
-const mapStateToProps = (state) => ({
-  user: state.user,
-});
 
-export default connect(mapStateToProps)(NewGroceryListForm);
+export default connect()(NewGroceryListForm);
 
 const styles = StyleSheet.create({
   container: {

@@ -1,6 +1,7 @@
-import { DataStore } from "@aws-amplify/datastore";
 import { User, GroceryList, Product, UserGroceryListJoin } from "../src/models";
-import { Auth } from "aws-amplify";
+import { DataStore, Auth } from 'aws-amplify'
+
+
 
 export class BackendInterface {
   constructor(dataStore) {
@@ -86,6 +87,15 @@ export class BackendInterface {
         return groceryList
       } catch (error) {
         console.log("Error adding grocery list to user", error);
+      }
+    }
+    async fetchGroceryListByID(groceryListID) {
+      try {
+        const groceryList = await this._dataStore.query(GroceryList, groceryListID)
+        console.log("Grocery list identified!", groceryList);
+        return groceryList
+      } catch (error) {
+        console.log("Error fetching grocery list by ID", error);
       }
     }
   

@@ -19,8 +19,7 @@ export const deleteGroceryList = (id) => ({
 export function handleLoadGroceryLists() {
   return (dispatch, getState) => {
 		const {user} = getState()
-
-		return API.fetchUserGroceryLists (user)
+		return API.fetchUserGroceryLists(user)
 			.then((groceryLists)=> dispatch(loadGroceryLists(groceryLists)))
 	}
 }

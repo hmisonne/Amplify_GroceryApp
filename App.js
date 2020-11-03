@@ -7,7 +7,6 @@ import { Provider } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { LogBox } from 'react-native';
 
 import NewProductForm from "./screens/NewProductForm";
 import ProductList from "./screens/ProductList";
@@ -32,8 +31,6 @@ Amplify.configure({
   },
 });
 
-
-// LogBox.ignoreLogs(['Setting a timer'])
 
 const ProductStack = createStackNavigator();
 

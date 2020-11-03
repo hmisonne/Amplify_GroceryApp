@@ -3,11 +3,13 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { blueGreen } from "../utils/helpers";
+import LoadingCircle from "../components/LoadingCircle";
 
-const LoadingScreen = (props) => {
+const LoadingScreen = () => {
     return(
         <View style={styles.container}>
-            <Text style={styles.text}> Welcome back ! </Text>
+            <Text style={styles.text}> ListBee ! </Text>
+            <LoadingCircle/>
             <MaterialCommunityIcons name="bee-flower" size={100} color="#fff" />
         </View>
     )

@@ -1,23 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import * as MailComposer from 'expo-mail-composer';
 import SubmitBtn from "../components/SubmitBtn";
-import { Auth } from "aws-amplify";
 import { connect } from "react-redux";
-// import { Auth } from '@aws-amplify/auth'
      
 const ShareGroceryList = (props) => {
   const { user } = props;
-  // const [userState, setUserState] = useState('')
-  // useEffect(() => {
-  //     fetchUserInfo()
-  //   }
-  // );
-  // async function fetchUserInfo() {
-  //   const userInfo = await Auth.currentUserInfo();
-  //   console.log(userInfo)
-  //   setUserState(userInfo)
-  // }
+  
   const { groceryListID } = props.route.params;
 
   const mailComposerOptions = {

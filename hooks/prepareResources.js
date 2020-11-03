@@ -4,7 +4,8 @@ import {
 import * as Font from "expo-font";
 import * as React from "react";
 import * as SplashScreen from "expo-splash-screen";
-import { Hub } from 'aws-amplify';
+// import { Hub } from 'aws-amplify';
+import { Hub } from '@aws-amplify/core';
 import { DataStore } from "@aws-amplify/datastore";
 
 export default function prepareResources() {

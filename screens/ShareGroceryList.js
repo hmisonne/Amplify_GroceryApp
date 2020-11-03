@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import * as MailComposer from 'expo-mail-composer';
 import SubmitBtn from "../components/SubmitBtn";
-import { Auth } from "aws-amplify";
 
      
 const ShareGroceryList = (props) => {

@@ -1,6 +1,7 @@
 import "babel-polyfill";
 import React from "react";
-import Amplify from "aws-amplify";
+// import Amplify from "aws-amplify";
+import Amplify from '@aws-amplify/core'
 import config from "./aws-exports";
 import { withAuthenticator } from "aws-amplify-react-native";
 import { Provider } from "react-redux";

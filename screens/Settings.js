@@ -1,7 +1,8 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import SubmitBtn from "../components/SubmitBtn";
-import { Auth, DataStore } from 'aws-amplify';
+import { Auth } from '@aws-amplify/auth'
+import { DataStore } from '@aws-amplify/datastore'
 
 const Settings = () => {
   async function signOut() {

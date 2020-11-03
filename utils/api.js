@@ -1,6 +1,7 @@
 import { DataStore } from "@aws-amplify/datastore";
 import { User, GroceryList, Product, UserGroceryListJoin } from "../src/models";
-import { Auth } from "aws-amplify";
+// import { Auth } from "aws-amplify";
+import { Auth } from '@aws-amplify/auth'
 
 export class BackendInterface {
   constructor(dataStore) {

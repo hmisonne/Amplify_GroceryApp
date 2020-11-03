@@ -8,7 +8,7 @@ import LoadingCircle from "../components/LoadingCircle";
 const LoadingScreen = () => {
     return(
         <View style={styles.container}>
-            <Text style={styles.text}> ListBee ! </Text>
+            <Text style={styles.text}> ListBee </Text>
             <LoadingCircle/>
             <MaterialCommunityIcons name="bee-flower" size={100} color="#fff" />
         </View>

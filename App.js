@@ -1,7 +1,6 @@
 import "babel-polyfill";
 import React from "react";
 import Amplify from "aws-amplify";
-// import Amplify from '@aws-amplify/core'
 import config from "./aws-exports";
 import { withAuthenticator } from "aws-amplify-react-native";
 import { Provider } from "react-redux";
@@ -14,7 +13,6 @@ import NewProductForm from "./screens/NewProductForm";
 import ProductList from "./screens/ProductList";
 import ProductCategory from "./screens/ProductCategory";
 import NewGroceryListForm from "./screens/NewGroceryListForm";
-import AllGroceryLists from "./screens/AllGroceryLists";
 import Home from "./screens/Home";
 import Settings from "./screens/Settings";
 import LoadingScreen from "./screens/LoadingScreen"
@@ -26,7 +24,6 @@ import store from "./src/redux/store";
 import {blue } from "./utils/helpers"
 import JoinGroceryList from "./screens/JoinGroceryList";
 import ShareGroceryList from "./screens/ShareGroceryList";
-// import { User } from "./src/models";
 
 Amplify.configure({
   ...config,
@@ -35,13 +32,6 @@ Amplify.configure({
   },
 });
 
-// DataStore.configure({
-//   syncExpressions: [
-//     syncExpression(User, () => {
-//       return (c) => c.id('eq', );
-//     }),
-//   ],
-// });
 
 // LogBox.ignoreLogs(['Setting a timer'])
 
@@ -105,11 +95,6 @@ const App = () => {
             options={{ 
               title: "My New List",
               headerTintColor: blue }}
-          />
-          <ProductStack.Screen
-            name="AllGroceryLists"
-            component={AllGroceryLists}
-            options={{ title: "Browse Grocery Lists", headerTintColor: blue }}
           />
            <ProductStack.Screen
             name="JoinGroceryList"

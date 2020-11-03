@@ -1,7 +1,6 @@
 import { DataStore } from "@aws-amplify/datastore";
 import { User, GroceryList, Product, UserGroceryListJoin } from "../src/models";
-// import { Auth } from "aws-amplify";
-import { Auth } from '@aws-amplify/auth'
+import { Auth } from "aws-amplify";
 
 export class BackendInterface {
   constructor(dataStore) {
@@ -30,6 +29,7 @@ export class BackendInterface {
     try {
       const userDetails = {
         sub: userInfo.attributes.sub,
+        username: userInfo.username,
       };
       const newUser = await this._dataStore.save(new User(userDetails));
       console.log("new User created successfully", newUser);

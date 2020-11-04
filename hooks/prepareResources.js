@@ -4,8 +4,7 @@ import {
 import * as Font from "expo-font";
 import * as React from "react";
 import * as SplashScreen from "expo-splash-screen";
-import { Hub } from 'aws-amplify';
-import { DataStore } from "@aws-amplify/datastore";
+import { Hub, DataStore } from 'aws-amplify';
 
 export default function prepareResources() {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);

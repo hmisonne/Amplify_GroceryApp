@@ -51,12 +51,11 @@ const Home = (props) => {
       {groceryLists.length === 0
         ? displayInstructions()
         : displayUserGroceryLists()}
-      <View>
+        
+
         <FabBar actions={actions} />
-      </View>
-      <View>
+
         <UndoRedo visible={visible} onDismissSnackBar={onDismissSnackBar} />
-      </View>
     </View>
   );
 

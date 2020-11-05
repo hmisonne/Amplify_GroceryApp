@@ -16,5 +16,23 @@
         "mygroceryapp4dbb6b4e": {}
       }
     }
+  },
+  "test": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-mygroceryapp-test-125507-authRole",
+      "UnauthRoleArn": "arn:aws:iam::376262390406:role/amplify-mygroceryapp-test-125507-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::376262390406:role/amplify-mygroceryapp-test-125507-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-mygroceryapp-test-125507-deployment",
+      "UnauthRoleName": "amplify-mygroceryapp-test-125507-unauthRole",
+      "StackName": "amplify-mygroceryapp-test-125507",
+      "StackId": "arn:aws:cloudformation:us-east-1:376262390406:stack/amplify-mygroceryapp-test-125507/31604960-1fa9-11eb-abd9-0ef7f3f34731",
+      "AmplifyAppId": "d22bl963x1qfmv"
+    },
+    "categories": {
+      "auth": {
+        "mygroceryapp4dbb6b4e": {}
+      }
+    }
   }
 }

@@ -10,18 +10,12 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "groceryList": {
-                    "name": "groceryList",
+                "groceryListID": {
+                    "name": "groceryListID",
                     "isArray": false,
-                    "type": {
-                        "model": "GroceryList"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetName": "productGroceryListId"
-                    }
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
                 },
                 "name": {
                     "name": "name",
@@ -65,6 +59,15 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "productByGroceryList",
+                        "fields": [
+                            "groceryListID"
+                        ]
+                    }
                 }
             ]
         },
@@ -103,7 +106,7 @@ export const schema = {
                     "isArrayNullable": true,
                     "association": {
                         "connectionType": "HAS_MANY",
-                        "associatedWith": "groceryList"
+                        "associatedWith": "groceryListID"
                     }
                 },
                 "users": {
@@ -235,13 +238,6 @@ export const schema = {
                         "connectionType": "HAS_MANY",
                         "associatedWith": "groceryList"
                     }
-                },
-                "owner": {
-                    "name": "owner",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
                 }
             },
             "syncable": true,
@@ -275,5 +271,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "be0f52355b56e2ce79d30ed4d90f269d"
+    "version": "0b99f187038e1b3750f5b52f9ed3f6c6"
 };

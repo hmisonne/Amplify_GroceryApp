@@ -16,16 +16,7 @@ export const syncProducts = /* GraphQL */ `
     ) {
       items {
         id
-        groceryList {
-          id
-          name
-          description
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
+        groceryListID
         name
         checked
         unit
@@ -46,24 +37,7 @@ export const getProduct = /* GraphQL */ `
   query GetProduct($id: ID!) {
     getProduct(id: $id) {
       id
-      groceryList {
-        id
-        name
-        description
-        products {
-          nextToken
-          startedAt
-        }
-        users {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
+      groceryListID
       name
       checked
       unit
@@ -86,16 +60,7 @@ export const listProducts = /* GraphQL */ `
     listProducts(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        groceryList {
-          id
-          name
-          description
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
+        groceryListID
         name
         checked
         unit
@@ -157,6 +122,7 @@ export const getGroceryList = /* GraphQL */ `
       products {
         items {
           id
+          groceryListID
           name
           checked
           unit

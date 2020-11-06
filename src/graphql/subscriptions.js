@@ -5,24 +5,7 @@ export const onCreateProduct = /* GraphQL */ `
   subscription OnCreateProduct {
     onCreateProduct {
       id
-      groceryList {
-        id
-        name
-        description
-        products {
-          nextToken
-          startedAt
-        }
-        users {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
+      groceryListID
       name
       checked
       unit
@@ -40,24 +23,7 @@ export const onUpdateProduct = /* GraphQL */ `
   subscription OnUpdateProduct {
     onUpdateProduct {
       id
-      groceryList {
-        id
-        name
-        description
-        products {
-          nextToken
-          startedAt
-        }
-        users {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
+      groceryListID
       name
       checked
       unit
@@ -75,24 +41,7 @@ export const onDeleteProduct = /* GraphQL */ `
   subscription OnDeleteProduct {
     onDeleteProduct {
       id
-      groceryList {
-        id
-        name
-        description
-        products {
-          nextToken
-          startedAt
-        }
-        users {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
+      groceryListID
       name
       checked
       unit
@@ -115,6 +64,7 @@ export const onCreateGroceryList = /* GraphQL */ `
       products {
         items {
           id
+          groceryListID
           name
           checked
           unit
@@ -160,6 +110,7 @@ export const onUpdateGroceryList = /* GraphQL */ `
       products {
         items {
           id
+          groceryListID
           name
           checked
           unit
@@ -205,6 +156,7 @@ export const onDeleteGroceryList = /* GraphQL */ `
       products {
         items {
           id
+          groceryListID
           name
           checked
           unit

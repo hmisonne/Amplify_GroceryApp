@@ -6,7 +6,7 @@ import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplif
 
 export declare class Product {
   readonly id: string;
-  readonly groceryList?: GroceryList;
+  readonly groceryListID: string;
   readonly name: string;
   readonly checked: boolean;
   readonly unit: string;
@@ -39,7 +39,6 @@ export declare class User {
   readonly sub: string;
   readonly username?: string;
   readonly groceryLists?: (UserGroceryListJoin | null)[];
-  readonly owner?: string;
   constructor(init: ModelInit<User>);
   static copyOf(source: User, mutator: (draft: MutableModel<User>) => MutableModel<User> | void): User;
 }

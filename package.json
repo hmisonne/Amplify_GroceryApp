@@ -17,7 +17,7 @@
     "@react-navigation/bottom-tabs": "^5.9.1",
     "@react-navigation/native": "^5.7.5",
     "@react-navigation/stack": "^5.9.2",
-    "aws-amplify": "^3.3.7",
+    "aws-amplify": "^3.3.8-unstable.1",
     "aws-amplify-react-native": "^4.2.8",
     "babel-polyfill": "^6.26.0",
     "expo": "~39.0.2",

@@ -140,13 +140,15 @@ export const getGroceryList = /* GraphQL */ `
       users {
         items {
           id
-          userID
+          sub
+          username
           groceryListID
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          owner
         }
         nextToken
         startedAt
@@ -206,10 +208,7 @@ export const syncUsers = /* GraphQL */ `
         id
         sub
         username
-        groceryLists {
-          nextToken
-          startedAt
-        }
+        groceryListID
         _version
         _deleted
         _lastChangedAt
@@ -228,20 +227,7 @@ export const getUser = /* GraphQL */ `
       id
       sub
       username
-      groceryLists {
-        items {
-          id
-          userID
-          groceryListID
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
+      groceryListID
       _version
       _deleted
       _lastChangedAt
@@ -262,65 +248,13 @@ export const listUsers = /* GraphQL */ `
         id
         sub
         username
-        groceryLists {
-          nextToken
-          startedAt
-        }
+        groceryListID
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
         owner
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const syncUserGroceryListJoins = /* GraphQL */ `
-  query SyncUserGroceryListJoins(
-    $filter: ModelUserGroceryListJoinFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncUserGroceryListJoins(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        userID
-        groceryListID
-        user {
-          id
-          sub
-          username
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          owner
-        }
-        groceryList {
-          id
-          name
-          description
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
       }
       nextToken
       startedAt

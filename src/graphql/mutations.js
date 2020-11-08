@@ -94,13 +94,15 @@ export const createGroceryList = /* GraphQL */ `
       users {
         items {
           id
-          userID
+          sub
+          username
           groceryListID
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          owner
         }
         nextToken
         startedAt
@@ -143,13 +145,15 @@ export const updateGroceryList = /* GraphQL */ `
       users {
         items {
           id
-          userID
+          sub
+          username
           groceryListID
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          owner
         }
         nextToken
         startedAt
@@ -192,13 +196,15 @@ export const deleteGroceryList = /* GraphQL */ `
       users {
         items {
           id
-          userID
+          sub
+          username
           groceryListID
           _version
           _deleted
           _lastChangedAt
           createdAt
           updatedAt
+          owner
         }
         nextToken
         startedAt
@@ -220,20 +226,7 @@ export const createUser = /* GraphQL */ `
       id
       sub
       username
-      groceryLists {
-        items {
-          id
-          userID
-          groceryListID
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
+      groceryListID
       _version
       _deleted
       _lastChangedAt
@@ -252,20 +245,7 @@ export const updateUser = /* GraphQL */ `
       id
       sub
       username
-      groceryLists {
-        items {
-          id
-          userID
-          groceryListID
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
+      groceryListID
       _version
       _deleted
       _lastChangedAt
@@ -284,176 +264,13 @@ export const deleteUser = /* GraphQL */ `
       id
       sub
       username
-      groceryLists {
-        items {
-          id
-          userID
-          groceryListID
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
+      groceryListID
       _version
       _deleted
       _lastChangedAt
       createdAt
       updatedAt
       owner
-    }
-  }
-`;
-export const createUserGroceryListJoin = /* GraphQL */ `
-  mutation CreateUserGroceryListJoin(
-    $input: CreateUserGroceryListJoinInput!
-    $condition: ModelUserGroceryListJoinConditionInput
-  ) {
-    createUserGroceryListJoin(input: $input, condition: $condition) {
-      id
-      userID
-      groceryListID
-      user {
-        id
-        sub
-        username
-        groceryLists {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        owner
-      }
-      groceryList {
-        id
-        name
-        description
-        products {
-          nextToken
-          startedAt
-        }
-        users {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateUserGroceryListJoin = /* GraphQL */ `
-  mutation UpdateUserGroceryListJoin(
-    $input: UpdateUserGroceryListJoinInput!
-    $condition: ModelUserGroceryListJoinConditionInput
-  ) {
-    updateUserGroceryListJoin(input: $input, condition: $condition) {
-      id
-      userID
-      groceryListID
-      user {
-        id
-        sub
-        username
-        groceryLists {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        owner
-      }
-      groceryList {
-        id
-        name
-        description
-        products {
-          nextToken
-          startedAt
-        }
-        users {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteUserGroceryListJoin = /* GraphQL */ `
-  mutation DeleteUserGroceryListJoin(
-    $input: DeleteUserGroceryListJoinInput!
-    $condition: ModelUserGroceryListJoinConditionInput
-  ) {
-    deleteUserGroceryListJoin(input: $input, condition: $condition) {
-      id
-      userID
-      groceryListID
-      user {
-        id
-        sub
-        username
-        groceryLists {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-        owner
-      }
-      groceryList {
-        id
-        name
-        description
-        products {
-          nextToken
-          startedAt
-        }
-        users {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      _version
-      _deleted
-      _lastChangedAt
-      createdAt
-      updatedAt
     }
   }
 `;

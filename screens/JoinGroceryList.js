@@ -26,14 +26,15 @@ const JoinGroceryList = ({navigation, userGroceryLists}) => {
       return setAlertVisible(true)
     }
     // Check if grocerylist exists:
-    const validityCheck = await API.fetchGroceryListByID(groceryListID)
-    if (!validityCheck){
-      setAlertText('Please enter a valid Grocery List ID')
-      setAlertVisible(true)
-    } else {
-      dispatch(handleAddGroceryList(groceryListID))
+    // const validityCheck = await API.fetchGroceryListByID(groceryListID)
+    // if (!validityCheck){
+    //   setAlertText('Please enter a valid Grocery List ID')
+    //   setAlertVisible(true)
+    // } else {
+      API.updateUser().then(()=>dispatch(handleAddGroceryList(groceryListID)))
+      
       navigation.goBack();
-    }
+    // }
    
   }
 

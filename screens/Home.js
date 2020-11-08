@@ -66,8 +66,7 @@ const Home = (props) => {
     return (
       <View style={styles.centered}>
         <Text style={styles.text}>
-          Create your first grocery list by clicking on the + icon or browse
-          existing lists by pressing the Search icon !
+        Create your first grocery list by clicking on the + icon !
         </Text>
       </View>
     );

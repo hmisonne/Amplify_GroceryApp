@@ -12,27 +12,10 @@ import { blue, categoryPictures } from "../utils/helpers";
 import { connect, useDispatch } from "react-redux";
 import { handleDeleteProduct } from "../src/redux/actions/product";
 
-// export const products = [
-//   { name: "Berry", category: "Produce", id: "1" },
-//   { name: "Apple", category: "Produce", id: "2" },
-//   { name: "Lamb", category: "Meat", id: "3" },
-// ];
-
 function SwipeSectionList(props) {
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const { listData } = props;
-//   const currCategories = new Set();
-//   products.forEach((product) => currCategories.add(product.category));
-//   let currListCategories = Array.from(currCategories);
 
-//   const [listData, setListData] = useState(
-//     currListCategories.map((cat) => ({
-//       title: cat,
-//       data: products
-//         .filter((product) => product.category === cat)
-//         .map((product) => ({ text: product.name, key: product.id })),
-//     }))
-//   );
   const closeRow = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {
       rowMap[rowKey].closeRow();
@@ -41,14 +24,7 @@ const dispatch = useDispatch();
 
   const deleteRow = (rowMap, rowKey) => {
     closeRow(rowMap, rowKey);
-    dispatch(handleDeleteProduct(rowKey))
-    // const [section] = rowKey.split(".");
-    // const newData = [...listData];
-    // const prevIndex = listData[section].data.findIndex(
-    //   (item) => item.key === rowKey
-    // );
-    // newData[section].data.splice(prevIndex, 1);
-    // setListData(newData);
+    dispatch(handleDeleteProduct(rowKey));
   };
 
   const onRowDidOpen = (rowKey) => {
@@ -123,8 +99,8 @@ function mapStateToProps(state) {
     data: products
       .filter((product) => product.category === cat)
       .map((product) => ({ text: product.name, key: product.id })),
-  })) ;
-  
+  }));
+
   return { listData: currListCategories };
 }
 export default connect(mapStateToProps)(SwipeSectionList);

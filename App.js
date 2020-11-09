@@ -39,7 +39,7 @@ const App = () => {
   const isAppReady = prepareResources();
   function goToNewProductScreen(props) {
     props.navigation.push("AddProduct", {
-      groceryListID: props.route.params.groceryListID,
+      groceryListID: props.route.params.groceryList.id,
     });
   }
 
@@ -129,7 +129,7 @@ const App = () => {
               headerTintColor: blue,
               title: props.route.params.product?
               `Update ${props.route.params.product.name}`
-              : `Add New ${props.route.params.category}`,
+              : `Add New Product`,
             })}
           />
           <ProductStack.Screen

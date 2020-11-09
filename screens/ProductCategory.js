@@ -9,9 +9,10 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { connect, useDispatch } from "react-redux";
-import { handleLoadProducts } from "../src/redux/actions/product";
+import { handleDeleteProduct, handleLoadProducts } from "../src/redux/actions/product";
 import { blue, grey, categories } from "../utils/helpers";
 import RoundButton from "../components/RoundButton";
+import SwipeSectionList from "../components/SwipeSectionList";
 
 const ProductCategory = (props) => {
   const dispatch = useDispatch();
@@ -20,6 +21,10 @@ const ProductCategory = (props) => {
   useEffect(() => {
     dispatch(handleLoadProducts(groceryListID));
   }, []);
+
+  function removeProduct(productID) {
+    dispatch(handleDeleteProduct(productID));
+  }
 
   function goToProductList(category) {
     return props.navigation.push("ProductList", { category, groceryListID });
@@ -72,16 +77,16 @@ const ProductCategory = (props) => {
   }
 
   return (
-    <View>
+    <SwipeSectionList/>
+  );
+};
+{/* <View>
       {Platform.OS === "default" ? (
         <View>{showCategories()}</View>
       ) : (
         <ScrollView>{showCategories()}</ScrollView>
       )}
-    </View>
-  );
-};
-
+    </View> */}
 const mapStateToProps = (state) => ({
   products: state.products,
 });

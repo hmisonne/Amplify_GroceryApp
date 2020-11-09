@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SwipeListView } from "react-native-swipe-list-view";
-import { categoryPictures } from "../utils/helpers";
+import { blue, categoryPictures } from "../utils/helpers";
 
 export const products = [
   { name: "Berry", category: "Produce", id: "1" },
@@ -76,7 +76,7 @@ export default function SwipeSectionList() {
             style={[styles.backRightBtn, styles.backRightBtnRight]}
             onPress={() => deleteRow(rowMap, data.item.key)}
         >
-            <Text style={styles.backTextWhite}>Delete</Text>
+            <MaterialCommunityIcons name='delete-outline' size={20} color='white'/>
         </TouchableOpacity>
     </View>
 );
@@ -112,6 +112,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     sectionText: {
+        color: blue,
         fontWeight: 'bold',
         marginLeft: 10,
     },
@@ -119,16 +120,17 @@ const styles = StyleSheet.create({
         color: '#FFF',
     },
     rowFront: {
-        alignItems: 'center',
-        backgroundColor: '#CCC',
-        borderBottomColor: 'black',
+        alignItems: 'flex-start',
+        paddingLeft: 20,
+        backgroundColor: '#F8F8FF',
+        borderBottomColor: '#DCDCDC',
         borderBottomWidth: 1,
         justifyContent: 'center',
         height: 50,
     },
     rowBack: {
         alignItems: 'center',
-        backgroundColor: '#DDD',
+        backgroundColor: '#F8F8FF',
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',

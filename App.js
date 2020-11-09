@@ -39,7 +39,6 @@ const App = () => {
   const isAppReady = prepareResources();
   function goToNewProductScreen(props) {
     props.navigation.push("AddProduct", {
-      category: props.route.params.category,
       groceryListID: props.route.params.groceryListID,
     });
   }
@@ -85,6 +84,14 @@ const App = () => {
             options={(props) => ({
               title: `${props.route.params.groceryList.name}`,
               headerTintColor: blue,
+              headerRight: () => (
+                <RoundButton
+                  onPress={() => goToNewProductScreen(props)}
+                  name="plus-circle"
+                  color={blue}
+                  style={{ marginRight: 20 }}
+                />
+              ),
             })}
           />
           <ProductStack.Screen

@@ -10,7 +10,7 @@ const LoadingScreen = () => {
         <View style={styles.container}>
             <Text style={styles.text}> ListBee </Text>
             <LoadingCircle/>
-            <MaterialCommunityIcons name="bee-flower" size={100} color="#fff" />
+            <MaterialCommunityIcons name="bee-flower" size={100} color="#585446" />
         </View>
     )
 }
@@ -22,11 +22,10 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: "space-around",
       alignItems: "center",
-      backgroundColor: blueGreen,
+      backgroundColor: "#ffca18",
     },
     text: {
-        fontSize: 18,
-        color: "#fff",
-        fontWeight: 'bold'
+        fontSize: 50,
+        color: "#585446",
     },
   });

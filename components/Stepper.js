@@ -1,7 +1,7 @@
 import React from "react";
 import { View, TouchableOpacity, StyleSheet, Platform } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { blue, white, grey } from "../utils/helpers";
+import { blue, white, grey, mainColor, secondaryColor } from "../utils/helpers";
 
 export default function Stepper({ onIncrement, onDecrement }) {
   return (
@@ -15,7 +15,7 @@ export default function Stepper({ onIncrement, onDecrement }) {
             ]}
             onPress={onDecrement}
           >
-            <MaterialCommunityIcons name="minus" size={30} color={blue} />
+            <MaterialCommunityIcons name="minus" size={30} color={mainColor} />
           </TouchableOpacity>
           <TouchableOpacity
             style={[
@@ -28,16 +28,16 @@ export default function Stepper({ onIncrement, onDecrement }) {
             ]}
             onPress={onIncrement}
           >
-            <MaterialCommunityIcons name="plus" size={30} color={blue} />
+            <MaterialCommunityIcons name="plus" size={30} color={mainColor} />
           </TouchableOpacity>
         </View>
       ) : (
         <View style={{ flexDirection: "row" }}>
           <TouchableOpacity style={styles.androidBtn} onPress={onDecrement}>
-            <MaterialCommunityIcons name="minus" size={30} color={white} />
+            <MaterialCommunityIcons name="minus" size={30} color={secondaryColor} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.androidBtn} onPress={onIncrement}>
-            <MaterialCommunityIcons name="plus" size={30} color={white} />
+            <MaterialCommunityIcons name="plus" size={30} color={secondaryColor} />
           </TouchableOpacity>
         </View>
       )}
@@ -53,13 +53,13 @@ const styles = StyleSheet.create({
   },
   androidBtn: {
     margin: 5,
-    backgroundColor: blue,
+    backgroundColor: mainColor,
     padding: 10,
     borderRadius: 10,
   },
   iosBtn: {
-    backgroundColor: white,
-    borderColor: blue,
+    backgroundColor: mainColor,
+    borderColor: mainColor,
     borderWidth: 1,
     borderRadius: 3,
     padding: 5,

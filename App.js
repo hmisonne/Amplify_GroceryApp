@@ -20,7 +20,7 @@ import prepareResources from "./hooks/prepareResources";
 import RoundButton from "./components/RoundButton";
 import store from "./src/redux/store";
 
-import {blue } from "./utils/helpers"
+import {blue, mainColor, secondaryColor } from "./utils/helpers"
 import JoinGroceryList from "./screens/JoinGroceryList";
 import ShareGroceryList from "./screens/ShareGroceryList";
 import SwipeSectionList from "./screens/SwipeSectionList";
@@ -64,15 +64,15 @@ const App = () => {
                 <MaterialCommunityIcons
                   onPress={() => goToSettings(props)}
                   name="settings-outline"
-                  color="#fff"
+                  color= {secondaryColor}
                   size={20}
                   style={{ marginRight: 20 }}
                 />
               ),
               headerStyle: {
-                backgroundColor: blue,
+                backgroundColor: mainColor,
               },
-              headerTintColor: '#fff',
+              headerTintColor: secondaryColor,
               headerTitleStyle: {
                 // fontWeight: 'bold',
               },
@@ -83,12 +83,12 @@ const App = () => {
             component={SwipeSectionList}
             options={(props) => ({
               title: `${props.route.params.groceryList.name}`,
-              headerTintColor: blue,
+              headerTintColor: secondaryColor,
               headerRight: () => (
                 <RoundButton
                   onPress={() => goToNewProductScreen(props)}
                   name="plus-circle"
-                  color={blue}
+                  color={mainColor}
                   style={{ marginRight: 20 }}
                 />
               ),
@@ -99,12 +99,12 @@ const App = () => {
             component={NewGroceryListForm}
             options={{ 
               title: "My New List",
-              headerTintColor: blue }}
+              headerTintColor: secondaryColor }}
           />
            <ProductStack.Screen
             name="JoinGroceryList"
             component={JoinGroceryList}
-            options={{ title: "Join Grocery List", headerTintColor: blue }}
+            options={{ title: "Join Grocery List", headerTintColor: secondaryColor }}
           />
           <ProductStack.Screen
             name="ProductList"
@@ -126,7 +126,7 @@ const App = () => {
             name="AddProduct"
             component={NewProductForm}
             options={(props) => ({
-              headerTintColor: blue,
+              headerTintColor: secondaryColor,
               title: props.route.params.product?
               `Update ${props.route.params.product.name}`
               : `Add New Product`,
@@ -137,7 +137,7 @@ const App = () => {
             component={Settings}
             options={(props) => ({
               title: "Settings",
-              headerTintColor: blue
+              headerTintColor: secondaryColor
             })}
           />
           <ProductStack.Screen
@@ -145,7 +145,7 @@ const App = () => {
             component={ShareGroceryList}
             options={() => ({
               title: "Share your list",
-              headerTintColor: blue
+              headerTintColor: secondaryColor
             })}
           />
         </ProductStack.Navigator>

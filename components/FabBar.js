@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import { FAB, Portal, Provider } from 'react-native-paper';
+import { mainColor, secondaryColor } from '../utils/helpers';
 
 
 const FabBar = ({actions}) => {
@@ -30,6 +31,7 @@ const styles = StyleSheet.create({
     fab: {
       position: 'absolute',
       right: 0,
+      color: secondaryColor,
       bottom: 0,
     },
   })

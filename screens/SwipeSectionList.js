@@ -45,7 +45,11 @@ function SwipeSectionList(props) {
       style={styles.rowFront}
       underlayColor={"#AAA"}
     >
-      <View>
+      <View style={styles.rowAlign}>
+        <MaterialCommunityIcons 
+        name={data.item.checked ? 
+          "checkbox-marked-circle"
+          : "checkbox-blank-circle-outline"} size={20} color={blue} />
         <Text> {data.item.name} </Text>
       </View>
     </TouchableHighlight>
@@ -125,6 +129,9 @@ const styles = StyleSheet.create({
   },
   backTextWhite: {
     color: "#FFF",
+  },
+  rowAlign:{
+    flexDirection: 'row'
   },
   rowFront: {
     alignItems: "flex-start",

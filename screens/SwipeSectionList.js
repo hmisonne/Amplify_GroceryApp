@@ -10,7 +10,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SwipeListView } from "react-native-swipe-list-view";
 import { blue, categoryPictures } from "../utils/helpers";
 import { connect, useDispatch } from "react-redux";
-import { handleDeleteProduct, handleLoadProducts } from "../src/redux/actions/product";
+import { handleDeleteProduct, handleLoadProducts, handleToggleProduct } from "../src/redux/actions/product";
 
 function SwipeSectionList(props) {
   const dispatch = useDispatch();
@@ -34,14 +34,16 @@ function SwipeSectionList(props) {
     closeRow(rowMap, product.key);
     return props.navigation.push("AddProduct", { product });
   }
-
+  const onToggle = async(product) => {
+    dispatch(handleToggleProduct(product));
+  }
   const onRowDidOpen = (rowKey) => {
     console.log("This row opened", rowKey);
   };
 
   const renderItem = (data) => (
     <TouchableHighlight
-      onPress={() => console.log("You touched me")}
+      onPress={() => onToggle(data.item)}
       style={styles.rowFront}
       underlayColor={"#AAA"}
     >
@@ -159,7 +161,7 @@ const styles = StyleSheet.create({
     width: 75,
   },
   backRightBtnLeft: {
-    backgroundColor: "blue",
+    backgroundColor: blue,
     right: 75,
   },
   backRightBtnRight: {

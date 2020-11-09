@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SwipeListView } from "react-native-swipe-list-view";
-import { blue, categoryPictures } from "../utils/helpers";
+import { blue, mainColor, categoryPictures, secondaryColor } from "../utils/helpers";
 import { connect, useDispatch } from "react-redux";
 import { handleDeleteProduct, handleLoadProducts, handleToggleProduct } from "../src/redux/actions/product";
 
@@ -51,7 +51,7 @@ function SwipeSectionList(props) {
         <MaterialCommunityIcons 
         name={data.item.checked ? 
           "checkbox-marked-circle"
-          : "checkbox-blank-circle-outline"} size={20} color={blue} />
+          : "checkbox-blank-circle-outline"} size={20} color={mainColor} />
         <Text> {data.item.name} </Text>
       </View>
     </TouchableHighlight>
@@ -59,7 +59,6 @@ function SwipeSectionList(props) {
 
   const renderHiddenItem = (data, rowMap) => (
     <View style={styles.rowBack}>
-      <Text>Left</Text>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnLeft]}
         onPress={() => goToEditProduct(rowMap, data.item)}
@@ -125,7 +124,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   sectionText: {
-    color: blue,
+    color: secondaryColor,
     fontWeight: "bold",
     marginLeft: 10,
   },
@@ -161,7 +160,7 @@ const styles = StyleSheet.create({
     width: 75,
   },
   backRightBtnLeft: {
-    backgroundColor: blue,
+    backgroundColor: mainColor,
     right: 75,
   },
   backRightBtnRight: {

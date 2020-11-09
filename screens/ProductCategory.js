@@ -12,7 +12,7 @@ import { connect, useDispatch } from "react-redux";
 import { handleDeleteProduct, handleLoadProducts } from "../src/redux/actions/product";
 import { blue, grey, categories } from "../utils/helpers";
 import RoundButton from "../components/RoundButton";
-import SwipeSectionList from "../components/SwipeSectionList";
+import SwipeSectionList from "./SwipeSectionList";
 
 const ProductCategory = (props) => {
   const dispatch = useDispatch();

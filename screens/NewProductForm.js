@@ -21,7 +21,7 @@ const NewProductForm = (props) => {
     checked: false,
     unit: "ct",
     quantity: 1,
-    category: props.route.params.category
+    category: "Produce"
   };
   const productToUpdate = props.route.params.product;
   const [formState, setFormState] = useState(

@@ -16,3 +16,15 @@ export const categories = [
     { name: "Drinks", img: "glass-cocktail" },
     { name: "Other", img: "food-variant" },
   ];
+
+export const categoryPictures = {
+  'Produce': "food-apple",
+  'Grains': "barley",
+  'Dairy': "cup",
+  'Meat': "cow",
+  'Frozen': "cube-outline",
+  'Baking': "muffin",
+  'Canned': "hockey-puck",
+  'Drinks': "glass-cocktail" ,
+  'Other': "food-variant",
+}

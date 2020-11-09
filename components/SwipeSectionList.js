@@ -6,12 +6,13 @@ import {
   TouchableHighlight,
   View,
 } from "react-native";
-
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SwipeListView } from "react-native-swipe-list-view";
+import { categoryPictures } from "../utils/helpers";
 
 export const products = [
-  { name: "Berry", category: "Product", id: "1" },
-  { name: "Apple", category: "Product", id: "2" },
+  { name: "Berry", category: "Produce", id: "1" },
+  { name: "Apple", category: "Produce", id: "2" },
   { name: "Lamb", category: "Meat", id: "3" },
 ];
 
@@ -80,7 +81,11 @@ export default function SwipeSectionList() {
     </View>
 );
 
-  const renderSectionHeader = ({ section }) => <Text>{section.title}</Text>;
+  const renderSectionHeader = ({ section }) => 
+    <Text style={styles.sectionText}>
+      <MaterialCommunityIcons name={categoryPictures[section.title]} size={20} />
+      {section.title}
+    </Text>;
 
   return (
     <View style={styles.container}>
@@ -105,6 +110,10 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: 'white',
         flex: 1,
+    },
+    sectionText: {
+        fontWeight: 'bold',
+        marginLeft: 10,
     },
     backTextWhite: {
         color: '#FFF',

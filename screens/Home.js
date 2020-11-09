@@ -10,6 +10,7 @@ import {
 import RoundButton from "../components/RoundButton";
 import FabBar from "../components/FabBar";
 import UndoRedo from "../containers/UndoRedo";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const Home = (props) => {
   const [visible, setVisible] = React.useState(false);
@@ -82,6 +83,7 @@ const Home = (props) => {
               onPress={() => goToList(glist)}
             >
               <View style={styles.subContainer}>
+              <MaterialCommunityIcons name="format-list-checks" size={24} color="black" />
                 <Text style={styles.glistName}>{glist.name}</Text>
               </View>
             </TouchableOpacity>
@@ -114,6 +116,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  subContainer: {
+    flexDirection: "row",
   },
   text: {
     textAlign: "center",

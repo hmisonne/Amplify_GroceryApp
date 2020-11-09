@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -10,10 +10,14 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SwipeListView } from "react-native-swipe-list-view";
 import { blue, categoryPictures } from "../utils/helpers";
 import { connect, useDispatch } from "react-redux";
-import { handleDeleteProduct } from "../src/redux/actions/product";
+import { handleDeleteProduct, handleLoadProducts } from "../src/redux/actions/product";
 
 function SwipeSectionList(props) {
   const dispatch = useDispatch();
+  const groceryListID = props.route.params.groceryList.id;
+  useEffect(() => {
+    dispatch(handleLoadProducts(groceryListID));
+  }, []);
   const { listData } = props;
 
   const closeRow = (rowMap, rowKey) => {
@@ -26,6 +30,10 @@ function SwipeSectionList(props) {
     closeRow(rowMap, rowKey);
     dispatch(handleDeleteProduct(rowKey));
   };
+  const goToEditProduct = (rowMap, product) => {
+    closeRow(rowMap, product.key);
+    return props.navigation.push("AddProduct", { product });
+  }
 
   const onRowDidOpen = (rowKey) => {
     console.log("This row opened", rowKey);
@@ -38,7 +46,7 @@ function SwipeSectionList(props) {
       underlayColor={"#AAA"}
     >
       <View>
-        <Text> {data.item.text} </Text>
+        <Text> {data.item.name} </Text>
       </View>
     </TouchableHighlight>
   );
@@ -48,9 +56,9 @@ function SwipeSectionList(props) {
       <Text>Left</Text>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnLeft]}
-        onPress={() => closeRow(rowMap, data.item.key)}
+        onPress={() => goToEditProduct(rowMap, data.item)}
       >
-        <Text style={styles.backTextWhite}>Close</Text>
+        <MaterialCommunityIcons name="pencil" size={20} color="white" />
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnRight]}
@@ -98,7 +106,7 @@ function mapStateToProps(state) {
     title: cat,
     data: products
       .filter((product) => product.category === cat)
-      .map((product) => ({ text: product.name, key: product.id })),
+      .map((product) => ({ ...product, key: product.id })),
   }));
 
   return { listData: currListCategories };

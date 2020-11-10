@@ -24,7 +24,7 @@ const PopUpMenu = ({actionsMenu, groceryListID}) => {
           </TouchableOpacity>
           }>
             {actionsMenu.map(action=>
-              <Menu.Item key={action.title}icon={action.icon} onPress={() => {action.onPress(groceryListID)}} title={action.title} />
+              <Menu.Item key={action.title}icon={action.icon} title={action.name} onPress={() => action.onPress(groceryListID)} title={action.title} />
               )}
           
         </Menu>

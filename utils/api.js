@@ -1,14 +1,20 @@
 import { User, GroceryList, Product } from "../src/models";
 import { DataStore, Auth, syncExpression, Hub } from 'aws-amplify'
 
-let groceryListID = ''
+// let groceryListIDs = ['1b2c6e03-241a-4205-b884-5dfe132b526d','306ac6f3-ea62-4d5f-aee7-f7112d716db3']
+let groceryListIDs = ['']
+
+const listPredicate = (c, list, field) => {
+  return c.or((c) => list.reduce((_c, operand) => _c[field]('eq', operand), c));
+};
+
 DataStore.configure({
   syncExpressions: [
     syncExpression(Product, () => {
-      return (c) => c.groceryListID('eq', groceryListID);
+      return (c) => listPredicate(c, groceryListIDs, 'groceryListID');
     }),
     syncExpression(GroceryList, () => {
-      return (c) => c.id('eq', groceryListID);
+      return (c) => listPredicate(c, groceryListIDs, 'id');
     }),
   ],
 });
@@ -16,6 +22,7 @@ DataStore.configure({
 export class BackendInterface {
   constructor(dataStore) {
       this._dataStore = dataStore
+      this.syncReady = false
   }
  async identifyUser() {
     try {
@@ -83,7 +90,7 @@ export class BackendInterface {
       const userGroceryListID = users[0].groceryListID
       // const groceryLists = await this.fetchUserGroceryLists(userID)
       if (userGroceryListID) {
-        groceryListID = userGroceryListID
+        groceryListID.push(userGroceryListID)
         await DataStore.stop();
         await DataStore.start();
       }

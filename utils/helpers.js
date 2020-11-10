@@ -4,6 +4,8 @@ export const white = '#fff'
 export const blue = '#04afea'
 export const green = '#04e5d4'
 export const blueGreen = '#04ccde'
+export const mainColor = "#ffca18"
+export const secondaryColor = "#585446"
 
 export const categories = [
     { name: "Produce", img: "food-apple" },

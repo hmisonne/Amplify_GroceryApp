@@ -16,11 +16,12 @@ const FabBar = ({actions}) => {
       <Portal>
         <FAB.Group
           open={open}
-          icon={open ? '' : 'plus'}
+          icon={ 'plus'}
           style={styles.fab}
           actions={actions}
           onStateChange={onStateChange}
-          color="white"
+          fabStyle={{backgroundColor: mainColor}}
+        
         />
       </Portal>
     </Provider>
@@ -31,7 +32,6 @@ const styles = StyleSheet.create({
     fab: {
       position: 'absolute',
       right: 0,
-      color: secondaryColor,
       bottom: 0,
     },
   })

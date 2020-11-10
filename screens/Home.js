@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Platform } from "react-native";
 
 import { handleAuthentificateUser } from "../src/redux/actions/user";
 import {
@@ -107,13 +107,13 @@ const Home = (props) => {
                 <Text style={styles.glistName}>{glist.name}</Text>
               </View>
             </TouchableOpacity>
-            {Platform.OS === "default" ? (
-              <PopUpMenu
+            {Platform.OS === "ios" || Platform.OS === "android" ? (
+              <PopUpMenuMobile
                 actionsMenu={actionsMenu}
                 groceryListID={glist.id}
               />
             ) : (
-              <PopUpMenuMobile
+              <PopUpMenu
                 actionsMenu={actionsMenu}
                 groceryListID={glist.id}
               />

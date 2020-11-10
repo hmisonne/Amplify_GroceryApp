@@ -9,8 +9,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import NewProductForm from "./screens/NewProductForm";
-import ProductList from "./screens/ProductList";
-import ProductCategory from "./screens/ProductCategory";
 import NewGroceryListForm from "./screens/NewGroceryListForm";
 import Home from "./screens/Home";
 import Settings from "./screens/Settings";
@@ -105,22 +103,6 @@ const App = () => {
             name="JoinGroceryList"
             component={JoinGroceryList}
             options={{ title: "Join Grocery List", headerTintColor: secondaryColor }}
-          />
-          <ProductStack.Screen
-            name="ProductList"
-            component={ProductList}
-            options={(props) => ({
-              title: props.route.params.category,
-              headerTintColor: blue,
-              headerRight: () => (
-                <RoundButton
-                  onPress={() => goToNewProductScreen(props)}
-                  name="plus-circle"
-                  color={blue}
-                  style={{ marginRight: 20 }}
-                />
-              ),
-            })}
           />
           <ProductStack.Screen
             name="AddProduct"

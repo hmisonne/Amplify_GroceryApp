@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Button } from "react-native";
 
 import { handleAuthentificateUser } from "../src/redux/actions/user";
 import {
@@ -10,6 +10,7 @@ import {
 import RoundButton from "../components/RoundButton";
 import FabBar from "../components/FabBar";
 import UndoRedo from "../containers/UndoRedo";
+
 
 const Home = (props) => {
   const [visible, setVisible] = React.useState(false);
@@ -34,6 +35,9 @@ const Home = (props) => {
     return props.navigation.push("ShareGroceryList", { groceryListID });
   }
 
+  function load(){
+    dispatch(handleLoadGroceryLists())
+  }
   const actions = [
     {
       icon: "format-list-checks",
@@ -48,6 +52,7 @@ const Home = (props) => {
   ];
   return (
     <View style={styles.container}>
+      <Button title='Refresh' onPress={load}/>
       {groceryLists.length === 0
         ? displayInstructions()
         : displayUserGroceryLists()}

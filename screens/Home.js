@@ -55,11 +55,11 @@ const Home = (props) => {
       title: "Share",
       onPress: (groceryListID) => props.navigation.push("ShareGroceryList", { groceryListID }),
     },
-    {
-      icon:"pencil-box-outline",
-      title: "Update",
-      onPress: () => {},
-    },
+    // {
+    //   icon:"pencil-box-outline",
+    //   title: "Update",
+    //   onPress: () => {},
+    // },
     {
       icon:"delete-outline",
       title: "Delete",

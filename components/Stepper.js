@@ -15,7 +15,7 @@ export default function Stepper({ onIncrement, onDecrement }) {
             ]}
             onPress={onDecrement}
           >
-            <MaterialCommunityIcons name="minus" size={30} color={mainColor} />
+            <MaterialCommunityIcons name="minus" size={30} color={secondaryColor} />
           </TouchableOpacity>
           <TouchableOpacity
             style={[
@@ -28,7 +28,7 @@ export default function Stepper({ onIncrement, onDecrement }) {
             ]}
             onPress={onIncrement}
           >
-            <MaterialCommunityIcons name="plus" size={30} color={mainColor} />
+            <MaterialCommunityIcons name="plus" size={30} color={secondaryColor} />
           </TouchableOpacity>
         </View>
       ) : (

@@ -11,7 +11,8 @@ import RoundButton from "../components/RoundButton";
 import FabBar from "../components/FabBar";
 import UndoRedo from "../containers/UndoRedo";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import PopUpMenu from "../components/popUpMenu";
+import PopUpMenu from "../components/PopUpMenu";
+import PopUpMenuMobile from "../components/PopUpMenuMobile";
 
 const Home = (props) => {
   const [visible, setVisible] = React.useState(false);
@@ -32,10 +33,6 @@ const Home = (props) => {
     onToggleSnackBar();
   }
 
-  function showGroceryListID(groceryListID) {
-    return props.navigation.push("ShareGroceryList", { groceryListID });
-  }
-
   const actions = [
     {
       icon: "format-list-checks",
@@ -53,7 +50,8 @@ const Home = (props) => {
     {
       icon: "share-variant",
       title: "Share",
-      onPress: (groceryListID) => props.navigation.push("ShareGroceryList", { groceryListID }),
+      onPress: (groceryListID) =>
+        props.navigation.push("ShareGroceryList", { groceryListID }),
     },
     // {
     //   icon:"pencil-box-outline",
@@ -61,7 +59,7 @@ const Home = (props) => {
     //   onPress: () => {},
     // },
     {
-      icon:"delete-outline",
+      icon: "delete-outline",
       title: "Delete",
       onPress: (groceryListID) => removeGroceryList(groceryListID),
     },
@@ -98,7 +96,6 @@ const Home = (props) => {
         {groceryLists.map((glist, index) => (
           <View style={styles.glist} key={glist.id ? glist.id : index}>
             <TouchableOpacity
-              style={styles.product}
               onPress={() => goToList(glist)}
             >
               <View style={styles.subContainer}>
@@ -110,7 +107,17 @@ const Home = (props) => {
                 <Text style={styles.glistName}>{glist.name}</Text>
               </View>
             </TouchableOpacity>
-            <PopUpMenu actionsMenu={actionsMenu} groceryListID = {glist.id}/>
+            {Platform.OS === "default" ? (
+              <PopUpMenu
+                actionsMenu={actionsMenu}
+                groceryListID={glist.id}
+              />
+            ) : (
+              <PopUpMenuMobile
+                actionsMenu={actionsMenu}
+                groceryListID={glist.id}
+              />
+            )}
           </View>
         ))}
       </View>
@@ -153,15 +160,17 @@ const styles = StyleSheet.create({
   glist: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 15,
   },
-  glistName: { 
+  glistName: {
     fontSize: 18,
-    paddingLeft:15
-   },
+    paddingLeft: 15,
+  },
 });
 
-{/* <RoundButton
+{
+  /* <RoundButton
               onPress={() => showGroceryListID(glist.id)}
               name="share-variant"
               color="black"
@@ -170,4 +179,5 @@ const styles = StyleSheet.create({
               onPress={() => removeGroceryList(glist.id)}
               name="delete-outline"
               color="black"
-            /> */}
+            /> */
+}

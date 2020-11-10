@@ -11,6 +11,7 @@ import RoundButton from "../components/RoundButton";
 import FabBar from "../components/FabBar";
 import UndoRedo from "../containers/UndoRedo";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import PopUpMenu from "../components/popUpMenu";
 
 const Home = (props) => {
   const [visible, setVisible] = React.useState(false);
@@ -47,16 +48,34 @@ const Home = (props) => {
       onPress: () => props.navigation.push("JoinGroceryList"),
     },
   ];
+
+  const actionsMenu = [
+    {
+      icon: "share-variant",
+      title: "Share",
+      onPress: (groceryListID) => props.navigation.push("ShareGroceryList", { groceryListID }),
+    },
+    {
+      icon:"pencil-box-outline",
+      title: "Update",
+      onPress: () => {},
+    },
+    {
+      icon:"delete-outline",
+      title: "Delete",
+      onPress: (groceryListID) => removeGroceryList(groceryListID),
+    },
+  ];
+
   return (
     <View style={styles.container}>
       {groceryLists.length === 0
         ? displayInstructions()
         : displayUserGroceryLists()}
-        
 
-        <FabBar actions={actions} />
+      <FabBar actions={actions} />
 
-        <UndoRedo visible={visible} onDismissSnackBar={onDismissSnackBar} />
+      <UndoRedo visible={visible} onDismissSnackBar={onDismissSnackBar} />
     </View>
   );
 
@@ -67,7 +86,7 @@ const Home = (props) => {
     return (
       <View style={styles.centered}>
         <Text style={styles.text}>
-        Create your first grocery list by clicking on the + icon !
+          Create your first grocery list by clicking on the + icon !
         </Text>
       </View>
     );
@@ -83,20 +102,15 @@ const Home = (props) => {
               onPress={() => goToList(glist)}
             >
               <View style={styles.subContainer}>
-              <MaterialCommunityIcons name="format-list-checks" size={24} color="black" />
+                <MaterialCommunityIcons
+                  name="format-list-checks"
+                  size={24}
+                  color="black"
+                />
                 <Text style={styles.glistName}>{glist.name}</Text>
               </View>
             </TouchableOpacity>
-            <RoundButton
-              onPress={() => showGroceryListID(glist.id)}
-              name="share-variant"
-              color="black"
-            />
-            <RoundButton
-              onPress={() => removeGroceryList(glist.id)}
-              name="delete-outline"
-              color="black"
-            />
+            <PopUpMenu actionsMenu={actionsMenu} groceryListID = {glist.id}/>
           </View>
         ))}
       </View>
@@ -141,5 +155,19 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 15,
   },
-  glistName: { fontSize: 18 },
+  glistName: { 
+    fontSize: 18,
+    paddingLeft:15
+   },
 });
+
+{/* <RoundButton
+              onPress={() => showGroceryListID(glist.id)}
+              name="share-variant"
+              color="black"
+            />
+            <RoundButton
+              onPress={() => removeGroceryList(glist.id)}
+              name="delete-outline"
+              color="black"
+            /> */}

@@ -2,7 +2,7 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { blueGreen } from "../utils/helpers";
+import { blueGreen, mainColor, secondaryColor } from "../utils/helpers";
 import LoadingCircle from "../components/LoadingCircle";
 
 const LoadingScreen = () => {
@@ -10,7 +10,7 @@ const LoadingScreen = () => {
         <View style={styles.container}>
             <Text style={styles.text}> ListBee </Text>
             <LoadingCircle/>
-            <MaterialCommunityIcons name="bee-flower" size={100} color="#585446" />
+            <MaterialCommunityIcons name="bee-flower" size={100} color={mainColor} />
         </View>
     )
 }
@@ -22,10 +22,10 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: "space-around",
       alignItems: "center",
-      backgroundColor: "#ffca18",
+      backgroundColor: secondaryColor,
     },
     text: {
         fontSize: 50,
-        color: "#585446",
+        color: mainColor,
     },
   });

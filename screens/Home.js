@@ -6,11 +6,12 @@ import { handleAuthentificateUser } from "../src/redux/actions/user";
 import {
   handleDeleteGroceryList,
   handleLoadGroceryLists,
+  syncDatastore,
 } from "../src/redux/actions/groceryList";
 import RoundButton from "../components/RoundButton";
 import FabBar from "../components/FabBar";
 import UndoRedo from "../containers/UndoRedo";
-
+import { Hub } from "aws-amplify";
 
 const Home = (props) => {
   const [visible, setVisible] = React.useState(false);
@@ -20,14 +21,34 @@ const Home = (props) => {
   const dispatch = useDispatch();
   const { groceryLists } = props;
 
+  // useEffect(() => {
+  //   dispatch(handleAuthentificateUser()).then(() =>
+  //     dispatch(handleLoadGroceryLists())
+  //   );
+  // }, []);
   useEffect(() => {
-    dispatch(handleAuthentificateUser()).then(() =>
-      dispatch(handleLoadGroceryLists())
-    );
+    dispatch(handleAuthentificateUser()).then((groceryListID) => {
+      if (groceryListID) {
+        console.log('groceryListID',groceryListID)
+        syncDatastore(groceryListID);
+        ;
+      }
+    });
+    listener()
   }, []);
 
+  const listener = Hub.listen("datastore", async (hubData) => {
+    const { event, data } = hubData.payload;
+    if (event === "ready") {
+      console.log("Ready load grocery list");
+      dispatch(handleLoadGroceryLists());
+    }
+  });
+
   function removeGroceryList(groceryListID) {
-    dispatch(handleDeleteGroceryList(groceryListID));
+    syncDatastore(groceryListID, "REMOVE")
+    listener()
+    // dispatch(handleDeleteGroceryList(groceryListID));
     onToggleSnackBar();
   }
 
@@ -35,8 +56,8 @@ const Home = (props) => {
     return props.navigation.push("ShareGroceryList", { groceryListID });
   }
 
-  function load(){
-    dispatch(handleLoadGroceryLists())
+  function load() {
+    dispatch(handleLoadGroceryLists());
   }
   const actions = [
     {
@@ -52,7 +73,7 @@ const Home = (props) => {
   ];
   return (
     <View style={styles.container}>
-      <Button title='Refresh' onPress={load}/>
+      <Button title="Refresh" onPress={load} />
       {groceryLists.length === 0
         ? displayInstructions()
         : displayUserGroceryLists()}

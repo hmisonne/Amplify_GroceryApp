@@ -4,9 +4,8 @@ import { connect, useDispatch } from "react-redux";
 import { HelperText } from 'react-native-paper';
 import SubmitBtn from "../components/SubmitBtn";
 import StyledTextInput from "../components/StyledTextInput";
-import { handleAddGroceryList } from "../src/redux/actions/groceryList";
-import { API } from "../utils/api";
-
+import { handleAddGroceryList, handleLoadGroceryLists, syncDatastore } from "../src/redux/actions/groceryList";
+import { Hub } from 'aws-amplify'
 
 
 const JoinGroceryList = ({navigation, userGroceryLists}) => {
@@ -19,20 +18,24 @@ const JoinGroceryList = ({navigation, userGroceryLists}) => {
   const incorrectLength = () => {
     return groceryListID.length !== 36;
   };
+
+
   async function addGroceryList() {
     // Check if user has already access to the grocery list:
-    if (userGroceryLists.includes(groceryListID)){
-      setAlertText('This Grocery List has already been added')
-      return setAlertVisible(true)
-    }
+    // if (userGroceryLists.includes(groceryListID)){
+    //   setAlertText('This Grocery List has already been added')
+    //   return setAlertVisible(true)
+    // }
     // Check if grocerylist exists:
     // const validityCheck = await API.fetchGroceryListByID(groceryListID)
     // if (!validityCheck){
     //   setAlertText('Please enter a valid Grocery List ID')
     //   setAlertVisible(true)
     // } else {
-      API.updateUser().then(()=>dispatch(handleAddGroceryList(groceryListID)))
-      
+      // API.updateUser().then(()=>dispatch(handleAddGroceryList(groceryListID)))
+      syncDatastore(groceryListID, "ADD")
+      // listener()
+
       navigation.goBack();
     // }
    

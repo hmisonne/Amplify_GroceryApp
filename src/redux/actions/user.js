@@ -8,6 +8,10 @@ export const authentificateUser = (user) => ({
 export function handleAuthentificateUser(){
   return (dispatch) => {
     return API.identifyUser()
-    .then((user) => dispatch(authentificateUser(user)))
+    .then((user) => {
+      dispatch(authentificateUser(user))
+      console.log('result', user.groceryListID)
+      return user.groceryListID
+    })
   }
 }

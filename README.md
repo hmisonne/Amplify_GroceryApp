@@ -1,4 +1,4 @@
-# MyGroceryApp
+# ListBee - Grocery List App
 
 This project was made for all the grocery shoppers that needs a tool to organize their shopping list and share it among friends. 
 
@@ -6,11 +6,11 @@ This project was made for all the grocery shoppers that needs a tool to organize
 
 ### Platform Compatibility
 
-| Android | iOS | Web |
+| Web | Android | iOS |
 | --- | --- | --- |
-| ✔️ | ❌ | ✔️ |
+| ✔️ |✔️ | ❌ |
+| [Web Listing](https://master.d22bl963x1qfmv.amplifyapp.com/)| [Play Store Listing](https://play.google.com/store/apps/details?id=com.hmisonne.ListBee) | |
 
-| [Play Store Listing](https://play.google.com/store/apps/details?id=com.hmisonne.ListBee) | | [Web Listing](https://master.d22bl963x1qfmv.amplifyapp.com/)|
 ![Screenshots](./demo/ListBeeAppListing.JPG)
 
 ### Features

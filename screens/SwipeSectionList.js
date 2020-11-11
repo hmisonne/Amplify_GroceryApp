@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
   rowFront: {
     alignItems: "flex-start",
     paddingLeft: 20,
-    backgroundColor: "#F8F8FF",
+    backgroundColor: "#F1F1F0",
     borderBottomColor: "#DCDCDC",
     borderBottomWidth: 1,
     justifyContent: "center",

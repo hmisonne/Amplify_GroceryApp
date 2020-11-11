@@ -8,6 +8,7 @@ import {
   View
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import PropTypes from "prop-types";
 
 const PopUpMenuMobile = ({actionsMenu, groceryListID}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -95,3 +96,7 @@ const styles = StyleSheet.create({
 
 export default PopUpMenuMobile;
 
+PopUpMenuMobile.propTypes = {
+  actionsMenu: PropTypes.object.isRequired,
+  groceryListID: PropTypes.string.isRequired,
+};

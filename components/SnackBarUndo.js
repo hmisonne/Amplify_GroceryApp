@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Snackbar } from 'react-native-paper';
+import PropTypes from "prop-types";
 
 const SnackbarUndo = ({visible, onDismissSnackBar, undoAction, snackContent}) => {
 
@@ -27,3 +28,10 @@ const styles = StyleSheet.create({
 });
 
 export default SnackbarUndo;
+
+SnackbarUndo.propTypes = {
+  visible: PropTypes.bool.isRequired,
+  onDismissSnackBar:PropTypes.func.isRequired, 
+  undoAction: PropTypes.func.isRequired, 
+  snackContent: PropTypes.string.isRequired,
+};

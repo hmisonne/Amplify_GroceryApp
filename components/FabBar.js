@@ -2,7 +2,7 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import { FAB, Portal, Provider } from 'react-native-paper';
 import { mainColor, secondaryColor } from '../utils/helpers';
-
+import PropTypes from "prop-types";
 
 const FabBar = ({actions}) => {
   const [state, setState] = React.useState({ open: false });
@@ -37,3 +37,7 @@ const styles = StyleSheet.create({
   })
 
 export default FabBar;
+
+FabBar.propTypes = {
+  actions: PropTypes.array.isRequired,
+};

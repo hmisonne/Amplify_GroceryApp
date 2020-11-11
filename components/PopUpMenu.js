@@ -2,6 +2,7 @@ import * as React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { Button, Menu, Divider, Provider } from 'react-native-paper';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import PropTypes from "prop-types";
 
 const PopUpMenu = ({actionsMenu, groceryListID}) => {
   const [visible, setVisible] = React.useState(false);
@@ -34,3 +35,9 @@ const PopUpMenu = ({actionsMenu, groceryListID}) => {
 };
 
 export default PopUpMenu;
+
+
+PopUpMenu.propTypes = {
+  actionsMenu: PropTypes.array.isRequired,
+  groceryListID: PropTypes.string.isRequired,
+};

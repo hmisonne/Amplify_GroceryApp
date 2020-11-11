@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Modal, Portal } from "react-native-paper";
 import SubmitBtn from "./SubmitBtn";
+import PropTypes from "prop-types";
 
 const ModalWithNavButton = ({ navigationOptions, visible, hideModal }) => {
   const containerStyle = { backgroundColor: "white", padding: 20 };
@@ -21,3 +22,9 @@ const ModalWithNavButton = ({ navigationOptions, visible, hideModal }) => {
 };
 
 export default ModalWithNavButton;
+
+ModalWithNavButton.propTypes = {
+  navigationOptions: PropTypes.array.isRequired,
+  visible: PropTypes.bool.isRequired,
+  hideModal: PropTypes.func.isRequired,
+};

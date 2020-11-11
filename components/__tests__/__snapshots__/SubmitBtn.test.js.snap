@@ -13,7 +13,7 @@ exports[`renders correctly 1`] = `
   onStartShouldSetResponder={[Function]}
   style={
     Object {
-      "backgroundColor": "#04afea",
+      "backgroundColor": "#ffca18",
       "borderRadius": 10,
       "marginLeft": 100,
       "marginRight": 100,
@@ -27,7 +27,7 @@ exports[`renders correctly 1`] = `
   <Text
     style={
       Object {
-        "color": "#fff",
+        "color": "#525252",
         "textAlign": "center",
       }
     }

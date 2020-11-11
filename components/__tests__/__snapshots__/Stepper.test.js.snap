@@ -34,9 +34,9 @@ exports[`renders correctly 1`] = `
       onStartShouldSetResponder={[Function]}
       style={
         Object {
-          "backgroundColor": "#fff",
+          "backgroundColor": "#ffca18",
           "borderBottomRightRadius": 0,
-          "borderColor": "#04afea",
+          "borderColor": "#ffca18",
           "borderRadius": 3,
           "borderTopRightRadius": 0,
           "borderWidth": 1,
@@ -59,9 +59,9 @@ exports[`renders correctly 1`] = `
       onStartShouldSetResponder={[Function]}
       style={
         Object {
-          "backgroundColor": "#fff",
+          "backgroundColor": "#ffca18",
           "borderBottomLeftRadius": 0,
-          "borderColor": "#04afea",
+          "borderColor": "#ffca18",
           "borderLeftWidth": 0,
           "borderRadius": 3,
           "borderTopLeftRadius": 0,

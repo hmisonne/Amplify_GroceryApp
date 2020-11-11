@@ -2,6 +2,7 @@ import React from "react";
 import { View, TouchableOpacity, StyleSheet, Platform } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { blue, white, grey, mainColor, secondaryColor } from "../utils/helpers";
+import PropTypes from "prop-types";
 
 export default function Stepper({ onIncrement, onDecrement }) {
   return (
@@ -67,3 +68,8 @@ const styles = StyleSheet.create({
     paddingRight: 25,
   },
 });
+
+Stepper.propTypes = {
+  onIncrement: PropTypes.func.isRequired,
+  onDecrement: PropTypes.func.isRequired,
+};

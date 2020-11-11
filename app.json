@@ -24,7 +24,7 @@
     },
     "android": {
       "package": "com.hmisonne.ListBee",
-      "versionCode": 4,
+      "versionCode": 6,
       "permissions": []
     }
   }

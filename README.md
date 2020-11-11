@@ -4,7 +4,14 @@ This project was made for all the grocery shoppers that needs a tool to organize
 
 🛠 Built with React Native, Expo, GraphQL, AWS Amplify, Amplify DataStore, AWS AppSync
 
-![Screenshots](./demo/screenshots.png)
+### Platform Compatibility
+
+| Android | iOS | Web |
+| --- | --- | --- |
+| ✔️ | ❌ | ✔️ |
+
+| [Play Store Listing](https://play.google.com/store/apps/details?id=com.hmisonne.ListBee) | | [Web Listing](https://master.d22bl963x1qfmv.amplifyapp.com/)|
+![Screenshots](./demo/ListBeeAppListing.JPG)
 
 ### Features
 

@@ -2,7 +2,7 @@ import productReducer from '../reducers/products'
 import { groceryListReducer } from '../reducers/groceryLists'
 import userReducer from '../reducers/user'
 import { addProduct, deleteProduct, toggleProduct, loadProducts, filterProductsbyCat, updateProduct} from '../actions/product';
-import { loadGroceryLists, deleteGroceryList } from '../actions/groceryList'
+import { loadGroceryLists, deleteGroceryList, addGroceryList } from '../actions/groceryList'
 import { authentificateUser} from '../actions/user'
 
 jest.mock("../../../utils/api", () => {
@@ -99,6 +99,11 @@ describe('list reducer', () => {
         const stateTwo = groceryListReducer(stateOne, deleteGroceryList('1'))
         expect(stateTwo.length).toEqual(stateOne.length -1)
         expect(stateTwo[0].id).toEqual('2')
+    });
+    it('should add 1 grocery list', () => {
+        const newState = groceryListReducer(undefined, addGroceryList(groceryList))
+        expect(newState.length).toEqual(1)
+        expect(newState[0]).toEqual(groceryList)
     });
 })
 

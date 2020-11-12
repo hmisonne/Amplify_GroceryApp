@@ -21,7 +21,6 @@ export declare class GroceryList {
   readonly name: string;
   readonly description?: string;
   readonly products?: (Product | null)[];
-  readonly users?: (User | null)[];
   constructor(init: ModelInit<GroceryList>);
   static copyOf(source: GroceryList, mutator: (draft: MutableModel<GroceryList>) => MutableModel<GroceryList> | void): GroceryList;
 }
@@ -30,7 +29,7 @@ export declare class User {
   readonly id: string;
   readonly sub: string;
   readonly username?: string;
-  readonly groceryListID?: string;
+  readonly groceryLists?: (string | null)[];
   constructor(init: ModelInit<User>);
   static copyOf(source: User, mutator: (draft: MutableModel<User>) => MutableModel<User> | void): User;
 }

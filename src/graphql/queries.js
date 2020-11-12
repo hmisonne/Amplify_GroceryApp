@@ -98,10 +98,6 @@ export const syncGroceryLists = /* GraphQL */ `
           nextToken
           startedAt
         }
-        users {
-          nextToken
-          startedAt
-        }
         _version
         _deleted
         _lastChangedAt
@@ -137,22 +133,6 @@ export const getGroceryList = /* GraphQL */ `
         nextToken
         startedAt
       }
-      users {
-        items {
-          id
-          sub
-          username
-          groceryListID
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-        startedAt
-      }
       _version
       _deleted
       _lastChangedAt
@@ -173,10 +153,6 @@ export const listGroceryLists = /* GraphQL */ `
         name
         description
         products {
-          nextToken
-          startedAt
-        }
-        users {
           nextToken
           startedAt
         }
@@ -208,7 +184,7 @@ export const syncUsers = /* GraphQL */ `
         id
         sub
         username
-        groceryListID
+        groceryLists
         _version
         _deleted
         _lastChangedAt
@@ -227,7 +203,7 @@ export const getUser = /* GraphQL */ `
       id
       sub
       username
-      groceryListID
+      groceryLists
       _version
       _deleted
       _lastChangedAt
@@ -248,7 +224,7 @@ export const listUsers = /* GraphQL */ `
         id
         sub
         username
-        groceryListID
+        groceryLists
         _version
         _deleted
         _lastChangedAt

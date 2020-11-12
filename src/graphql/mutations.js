@@ -91,22 +91,6 @@ export const createGroceryList = /* GraphQL */ `
         nextToken
         startedAt
       }
-      users {
-        items {
-          id
-          sub
-          username
-          groceryListID
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-        startedAt
-      }
       _version
       _deleted
       _lastChangedAt
@@ -138,22 +122,6 @@ export const updateGroceryList = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
-        }
-        nextToken
-        startedAt
-      }
-      users {
-        items {
-          id
-          sub
-          username
-          groceryListID
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          owner
         }
         nextToken
         startedAt
@@ -193,22 +161,6 @@ export const deleteGroceryList = /* GraphQL */ `
         nextToken
         startedAt
       }
-      users {
-        items {
-          id
-          sub
-          username
-          groceryListID
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-        startedAt
-      }
       _version
       _deleted
       _lastChangedAt
@@ -226,7 +178,7 @@ export const createUser = /* GraphQL */ `
       id
       sub
       username
-      groceryListID
+      groceryLists
       _version
       _deleted
       _lastChangedAt
@@ -245,7 +197,7 @@ export const updateUser = /* GraphQL */ `
       id
       sub
       username
-      groceryListID
+      groceryLists
       _version
       _deleted
       _lastChangedAt
@@ -264,7 +216,7 @@ export const deleteUser = /* GraphQL */ `
       id
       sub
       username
-      groceryListID
+      groceryLists
       _version
       _deleted
       _lastChangedAt

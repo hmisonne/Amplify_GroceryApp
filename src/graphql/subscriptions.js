@@ -79,22 +79,6 @@ export const onCreateGroceryList = /* GraphQL */ `
         nextToken
         startedAt
       }
-      users {
-        items {
-          id
-          sub
-          username
-          groceryListID
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-        startedAt
-      }
       _version
       _deleted
       _lastChangedAt
@@ -123,22 +107,6 @@ export const onUpdateGroceryList = /* GraphQL */ `
           _lastChangedAt
           createdAt
           updatedAt
-        }
-        nextToken
-        startedAt
-      }
-      users {
-        items {
-          id
-          sub
-          username
-          groceryListID
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          owner
         }
         nextToken
         startedAt
@@ -175,22 +143,6 @@ export const onDeleteGroceryList = /* GraphQL */ `
         nextToken
         startedAt
       }
-      users {
-        items {
-          id
-          sub
-          username
-          groceryListID
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-        startedAt
-      }
       _version
       _deleted
       _lastChangedAt
@@ -205,7 +157,7 @@ export const onCreateUser = /* GraphQL */ `
       id
       sub
       username
-      groceryListID
+      groceryLists
       _version
       _deleted
       _lastChangedAt
@@ -221,7 +173,7 @@ export const onUpdateUser = /* GraphQL */ `
       id
       sub
       username
-      groceryListID
+      groceryLists
       _version
       _deleted
       _lastChangedAt
@@ -237,7 +189,7 @@ export const onDeleteUser = /* GraphQL */ `
       id
       sub
       username
-      groceryListID
+      groceryLists
       _version
       _deleted
       _lastChangedAt

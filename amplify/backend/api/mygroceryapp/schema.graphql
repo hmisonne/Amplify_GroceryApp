@@ -16,18 +16,18 @@ type GroceryList @model {
   description: String
   products: [Product] @connection(keyName: "productByGroceryList", fields: ["id"])
   # users: [UserGroceryListJoin] @connection(keyName: "byUser", fields: ["id"])
-  users: [User] @connection(keyName: "byUser", fields: ["id"])
+  # users: [User] @connection(keyName: "byUser", fields: ["id"])
 }
 
 type User @model 
 @auth(rules: [{ allow: owner }])
-@key(name: "byUser", fields: ["groceryListID"])
+# @key(name: "byUser", fields: ["groceryListID"])
 {
   id: ID!
   sub: String!
   username: String
-  groceryListID: ID
-  # groceryLists: [UserGroceryListJoin] @connection(keyName: "byGroceryList", fields: ["id"])
+  # groceryListID: ID
+  groceryLists: [String]
 }
 
 # type UserGroceryListJoin @model(queries: null)

@@ -108,20 +108,6 @@ export const schema = {
                         "connectionType": "HAS_MANY",
                         "associatedWith": "groceryListID"
                     }
-                },
-                "users": {
-                    "name": "users",
-                    "isArray": true,
-                    "type": {
-                        "model": "User"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "groceryListID"
-                    }
                 }
             },
             "syncable": true,
@@ -157,12 +143,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "groceryListID": {
-                    "name": "groceryListID",
-                    "isArray": false,
-                    "type": "ID",
+                "groceryLists": {
+                    "name": "groceryLists",
+                    "isArray": true,
+                    "type": "String",
                     "isRequired": false,
-                    "attributes": []
+                    "attributes": [],
+                    "isArrayNullable": true
                 }
             },
             "syncable": true,
@@ -171,15 +158,6 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byUser",
-                        "fields": [
-                            "groceryListID"
-                        ]
-                    }
                 },
                 {
                     "type": "auth",
@@ -205,5 +183,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "17a70b55f618fef234b8238129207d01"
+    "version": "f156db866a6f9e1e86f0d1c8d6d9d0e9"
 };

@@ -4,28 +4,34 @@ import { connect, useDispatch } from "react-redux";
 import { HelperText } from 'react-native-paper';
 import SubmitBtn from "../components/SubmitBtn";
 import StyledTextInput from "../components/StyledTextInput";
-import { handleAddGroceryList, handleLoadGroceryLists, syncDatastore } from "../src/redux/actions/groceryList";
+import { handleAddGroceryList, handleLoadGroceryLists } from "../src/redux/actions/groceryList";
 import { Hub } from 'aws-amplify'
+
 
 
 const JoinGroceryList = ({navigation, userGroceryLists}) => {
   const [groceryListID, setGroceryListID] = useState('');
   const [alertVisible, setAlertVisible] = useState(false)
   const [alertText, setAlertText] = useState('')
-
   const dispatch = useDispatch();
 
   const incorrectLength = () => {
     return groceryListID.length !== 36;
   };
 
-
+  // const listener = (action, groceryListID) => {
+    
+  //     Hub.listen("datastore", async (hubData) => {
+  //       console.log("JOIN",action, groceryListID)
+  //       const { event, data } = hubData.payload;
+  //     });
+  //   }
   async function addGroceryList() {
     // Check if user has already access to the grocery list:
-    // if (userGroceryLists.includes(groceryListID)){
-    //   setAlertText('This Grocery List has already been added')
-    //   return setAlertVisible(true)
-    // }
+    if (userGroceryLists && userGroceryLists.includes(groceryListID)){
+      setAlertText('This Grocery List has already been added')
+      return setAlertVisible(true)
+    }
     // Check if grocerylist exists:
     // const validityCheck = await API.fetchGroceryListByID(groceryListID)
     // if (!validityCheck){
@@ -33,9 +39,19 @@ const JoinGroceryList = ({navigation, userGroceryLists}) => {
     //   setAlertVisible(true)
     // } else {
       // API.updateUser().then(()=>dispatch(handleAddGroceryList(groceryListID)))
-      syncDatastore(groceryListID, "ADD")
-      // listener()
 
+      
+      dispatch(handleAddGroceryList(groceryListID))
+      const removeListener =
+        Hub.listen("datastore", async (hubData) => {
+          const { event, data } = hubData.payload;
+          if ( event === "ready") {
+            console.log("Ready load grocery list JOIN");
+            dispatch(handleLoadGroceryLists());
+            removeListener();
+          }
+        });
+      // listener("JOIN", groceryListID)
       navigation.goBack();
     // }
    

@@ -10,8 +10,7 @@ export function handleAuthentificateUser(){
     return API.identifyUser()
     .then((user) => {
       dispatch(authentificateUser(user))
-      console.log('result', user.groceryListID)
-      return user.groceryListID
+      return user.groceryLists
     })
   }
 }

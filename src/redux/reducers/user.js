@@ -14,6 +14,14 @@ export const userReducer = (state = {}, action) => {
           ...state,
           groceryLists: [...state.groceryLists, newGroceryListID]
         };
+      case "ADD_GROCERY_LIST_TO_USER":
+        const glistID = action.id;
+        return {
+          ...state,
+          groceryLists: state.groceryLists?
+          [...state.groceryLists, glistID]
+          : [glistID]
+        };
       case "DELETE_GROCERY_LIST":
         return {
           ...state,

@@ -22,7 +22,7 @@ DataStore.configure({
   ],
 });
 
-export const addGroceryList = (groceryList) => ({
+export const createGroceryList = (groceryList) => ({
   type: "ADD_GROCERY_LIST",
   groceryList,
 });
@@ -37,11 +37,15 @@ export const deleteGroceryList = (id) => ({
   id,
 });
 
+export const addGroceryListToUser = (id) => ({
+	type: "ADD_GROCERY_LIST_TO_USER",
+	id,
+  });
 
 export function handleLoadGroceryLists() {
   return (dispatch, getState) => {
 		const {user} = getState()
-		return API.fetchUserGroceryLists(user.id)
+		return API.fetchUserGroceryLists(user)
 			.then((groceryLists)=> dispatch(loadGroceryLists(groceryLists)))
 	}
 }
@@ -50,15 +54,19 @@ export function handleDeleteGroceryList(id) {
   return (dispatch, getState) => {
 		const {user} = getState()
 		return API.removeGroceryListFromUser(id, user)
-			.then(()=> dispatch(deleteGroceryList(id)))
+			.then(()=> {
+				syncDatastore(id, "REMOVE")
+				dispatch(deleteGroceryList(id))})
 	}
 }
 
-export function handleAddGroceryList() {
+export function handleAddGroceryList(id) {
   return (dispatch, getState) => {
 		const {user} = getState()
-		return API.addGroceryListToUser()
-			.then((groceryList)=> dispatch(addGroceryList(groceryList)))
+		return API.addGroceryListToUser(id)
+			.then(()=> {
+				syncDatastore(id, "ADD")
+				dispatch(addGroceryListToUser(id))})
 	}
 }
 
@@ -66,24 +74,32 @@ export function handleCreateGroceryList(groceryList) {
   return (dispatch, getState) => {
 		const {user} = getState()
 		return API.createNewGroceryList(groceryList, user)
-			.then((groceryList)=> dispatch(addGroceryList(groceryList)))
+			.then((groceryList)=> {
+				syncDatastore(groceryList.id, "ADD")
+				dispatch(addGroceryListToUser(groceryList.id))
+			})
 	}
 }
 
 
-export async function syncDatastore(id, action){
-	console.log('sync DS', id, action)
+export async function syncDatastore(payload, action){
 	switch (action){
+		case "LOAD":
+			console.log('syncDatastore LOAD', payload)
+			groceryListIDs = payload
+			return restartDataStore()
 		case "ADD":
-			console.log('ADD')
-			groceryListIDs[0] === '' ?
-			groceryListIDs[0] = id
-			: groceryListIDs.push(id)
+			console.log('syncDatastore ADD', payload)
+			if(groceryListIDs[0] === ''){
+				groceryListIDs[0] = payload
+			} else {
+				groceryListIDs = [...groceryListIDs, payload]
+			}
 			return restartDataStore()
 		case "REMOVE":
-			console.log('REMOVE')
-			if (groceryListIDs.includes(id)){
-				groceryListIDs = groceryListIDs.filter(groceryListID=> groceryListID !== id)
+			console.log('syncDatastore REMOVE')
+			if (groceryListIDs.includes(payload)){
+				groceryListIDs = groceryListIDs.filter(groceryListID=> groceryListID !== payload)
 				if(groceryListIDs.length === 0){
 					groceryListIDs[0] = ''
 				}
@@ -91,8 +107,9 @@ export async function syncDatastore(id, action){
 			}
 			return
 		default:
-			console.log('default')
-			return restartDataStore();
+			// console.log('default')
+			// return restartDataStore();
+			return
 	}
   }
 

@@ -40,15 +40,11 @@ export class BackendInterface {
   
  async removeGroceryListFromUser(id, user) {
       try {
-        // const result = (await this._dataStore.query(UserGroceryListJoin))
-        // .filter(c => c.groceryList.id === id)
-        // .filter(c => c.user.id === user.id)
         const original = await this._dataStore.query(User)
         const newUser = await this._dataStore.save(
           User.copyOf(original[0], (updated) => {
             updated.groceryLists = updated.groceryLists.filter(item=> item !==id)
           }))
-        // this._dataStore.delete(result[0]);
         console.log("Grocery list deleted from User successfully!",newUser);
       } catch (err) {
         console.log("error deleting list", err);
@@ -57,21 +53,15 @@ export class BackendInterface {
 
    async fetchUserGroceryLists(user) {
       try {
+        // Filter DataStore GroceryList by User grocery lists in redux state since SelectiveSync will not update with removed ref
           const groceryListIDs = user.groceryLists
-          const result = await this._dataStore.query(GroceryList)
-          console.log('Redux glist',groceryListIDs)
-          console.log('datastore glist',result)
-          // const result = await this._dataStore.query(GroceryList)
-          const result2 = await this._dataStore.query(GroceryList, c => c.or((c) => {
+          const result = await this._dataStore.query(GroceryList, c => c.or((c) => {
             return groceryListIDs.reduce((acc, curVal) => {
               return acc.id('eq', curVal);
             }, c);
           }))
-          
-          // const result = (await this._dataStore.query(UserGroceryListJoin)).filter(c => c.user.id === userID)
-          // const groceryListsPerUser = result.map(element => element.groceryList) || []
-          console.log("grocery lists retrieved successfully!", result2);
-          return result2
+          console.log("grocery lists retrieved successfully!", result);
+          return result
       } catch (error) {
         console.log("Error retrieving grocery lists", error);
       }
@@ -80,9 +70,6 @@ export class BackendInterface {
   async addGroceryListToUser(id) {
     try {
 
-      // const groceryList = await this._dataStore.query(GroceryList, id)
-      // const groceryList = await this._dataStore.query(GroceryList)
-      // const groceryList = result[result.length - 1]
       const user = await this._dataStore.query(User)
       const newUser = await this._dataStore.save(
         User.copyOf(user[0], (updated) => {
@@ -90,29 +77,11 @@ export class BackendInterface {
           [...updated.groceryLists, id]
           : [id]
         }))
-      // console.log('groceryList',groceryList,'user',user)
-      // await this._dataStore.save(
-      //   new UserGroceryListJoin({
-      //     user: user[0],
-      //     groceryList
-      //   })
-      // )
       console.log("Grocery list added to user successfully!", newUser);
-      // return groceryList
     } catch (error) {
       console.log("Error adding grocery list to user", error);
     }
   }
-    async fetchGroceryListByID(groceryListID) {
-      try {
-        const groceryList = await this._dataStore.query(GroceryList, groceryListID)
-        console.log("Grocery list identified!", groceryList);
-        return groceryList
-      } catch (error) {
-        console.log("Error fetching grocery list by ID", error);
-      }
-    }
-  
   
    async createNewGroceryList (groceryList, currentUser) {
       try {
@@ -129,14 +98,6 @@ export class BackendInterface {
           [...updated.groceryLists, groceryListSaved.id]
           : [id]
         }))
-      // const user = await this._dataStore.query(User, currentUser.id)
-  
-      // await this._dataStore.save(
-      //   new UserGroceryListJoin({
-      //     user: user[0],
-      //     groceryList: groceryListSaved
-      //   })
-      // )
       console.log("List saved successfully!");
       return groceryListSaved
     } catch (err) {

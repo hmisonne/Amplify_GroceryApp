@@ -3,7 +3,8 @@ import { View, StyleSheet } from "react-native";
 import { connect, useDispatch } from "react-redux";
 import SubmitBtn from "../components/SubmitBtn";
 import StyledTextInput from "../components/StyledTextInput";
-import { handleCreateGroceryList } from "../src/redux/actions/groceryList";
+import { handleCreateGroceryList, handleLoadGroceryLists } from "../src/redux/actions/groceryList";
+import { Hub } from 'aws-amplify'
 
 const initialState = {
   name: "",
@@ -20,6 +21,15 @@ const NewGroceryListForm = (props) => {
   async function createGroceryList() {
     const groceryList = { ...formState };
     dispatch(handleCreateGroceryList(groceryList))
+    const removeListener =
+    Hub.listen("datastore", async (hubData) => {
+      const { event, data } = hubData.payload;
+      if ( event === "ready") {
+        console.log("Ready load grocery list NEW");
+        dispatch(handleLoadGroceryLists());
+        removeListener();
+      }
+    });
     props.navigation.goBack();
   }
 

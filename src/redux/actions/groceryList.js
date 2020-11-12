@@ -3,11 +3,9 @@ import { DataStore, syncExpression } from 'aws-amplify'
 import {  GroceryList, Product } from "../../models";
 
 
-// let groceryListIDs = ['1b2c6e03-241a-4205-b884-5dfe132b526d','306ac6f3-ea62-4d5f-aee7-f7112d716db3']
 let groceryListIDs = ['']
 
 const listPredicate = (c, list, field) => {
-  console.log('groceryListIDs',groceryListIDs)
   return c.or((c) => list.reduce((_c, operand) => _c[field]('eq', operand), c));
 };
 
@@ -107,8 +105,6 @@ export async function syncDatastore(payload, action){
 			}
 			return
 		default:
-			// console.log('default')
-			// return restartDataStore();
 			return
 	}
   }

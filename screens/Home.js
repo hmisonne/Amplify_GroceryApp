@@ -21,34 +21,40 @@ const Home = (props) => {
   const dispatch = useDispatch();
   const { groceryLists } = props;
 
-  // useEffect(() => {
-  //   dispatch(handleAuthentificateUser()).then(() =>
-  //     dispatch(handleLoadGroceryLists())
-  //   );
-  // }, []);
   useEffect(() => {
-    dispatch(handleAuthentificateUser()).then((groceryListID) => {
-      if (groceryListID) {
-        console.log('groceryListID',groceryListID)
-        syncDatastore(groceryListID);
+    dispatch(handleAuthentificateUser()).then((groceryLists) => {
+      if (groceryLists && groceryLists.length !== 0) {
+        syncDatastore(groceryLists, 'LOAD');
         ;
       }
     });
-    listener()
+
+    // listener()
+    const removeListener =
+    Hub.listen("datastore", async (hubData) => {
+      const { event, data } = hubData.payload;
+      if ( event === "ready") {
+        console.log("Ready load grocery list HOME");
+        dispatch(handleLoadGroceryLists());
+        removeListener();
+      }
+    });
   }, []);
 
-  const listener = Hub.listen("datastore", async (hubData) => {
-    const { event, data } = hubData.payload;
-    if (event === "ready") {
-      console.log("Ready load grocery list");
-      dispatch(handleLoadGroceryLists());
-    }
-  });
+  // const removeListener =
+  //   Hub.listen("datastore", async (hubData) => {
+  //     const { event, data } = hubData.payload;
+  //     if ( event === "ready") {
+  //       console.log("Ready load grocery list HOME");
+  //       dispatch(handleLoadGroceryLists());
+  //       removeListener();
+  //     }
+  //   });
 
   function removeGroceryList(groceryListID) {
-    syncDatastore(groceryListID, "REMOVE")
-    listener()
-    // dispatch(handleDeleteGroceryList(groceryListID));
+    // syncDatastore(groceryListID, "REMOVE")
+    // listener()
+    dispatch(handleDeleteGroceryList(groceryListID));
     onToggleSnackBar();
   }
 

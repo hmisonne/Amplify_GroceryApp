@@ -29,7 +29,6 @@ const Home = (props) => {
       }
     });
 
-    // listener()
     const removeListener =
     Hub.listen("datastore", async (hubData) => {
       const { event, data } = hubData.payload;
@@ -41,19 +40,8 @@ const Home = (props) => {
     });
   }, []);
 
-  // const removeListener =
-  //   Hub.listen("datastore", async (hubData) => {
-  //     const { event, data } = hubData.payload;
-  //     if ( event === "ready") {
-  //       console.log("Ready load grocery list HOME");
-  //       dispatch(handleLoadGroceryLists());
-  //       removeListener();
-  //     }
-  //   });
 
   function removeGroceryList(groceryListID) {
-    // syncDatastore(groceryListID, "REMOVE")
-    // listener()
     dispatch(handleDeleteGroceryList(groceryListID));
     onToggleSnackBar();
   }
@@ -62,9 +50,6 @@ const Home = (props) => {
     return props.navigation.push("ShareGroceryList", { groceryListID });
   }
 
-  function load() {
-    dispatch(handleLoadGroceryLists());
-  }
   const actions = [
     {
       icon: "format-list-checks",
@@ -79,7 +64,6 @@ const Home = (props) => {
   ];
   return (
     <View style={styles.container}>
-      <Button title="Refresh" onPress={load} />
       {groceryLists.length === 0
         ? displayInstructions()
         : displayUserGroceryLists()}

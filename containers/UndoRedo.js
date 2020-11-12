@@ -8,8 +8,10 @@ import SnackbarUndo from '../components/SnackBarUndo'
 
 let UndoRedo = ({ canUndo, canRedo, onUndo, onRedo, groceryList, user, visible, onDismissSnackBar }) => {
     function addGroceryListBack() {
-        const recoveredGroceryList = groceryList[groceryList.length-1][0]
-        API.addGroceryListToUser(recoveredGroceryList.id, user)
+        const firstIndex = groceryList.length-1
+        const lastIndex = groceryList[firstIndex].length-1
+        const recoveredGroceryList = groceryList[firstIndex][lastIndex]
+        API.addGroceryListToUser(recoveredGroceryList.id)
         onUndo()
     }
     

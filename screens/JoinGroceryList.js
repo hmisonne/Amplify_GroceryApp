@@ -6,8 +6,8 @@ import SubmitBtn from "../components/SubmitBtn";
 import StyledTextInput from "../components/StyledTextInput";
 import { handleAddGroceryList, handleLoadGroceryLists } from "../src/redux/actions/groceryList";
 import { Hub } from 'aws-amplify'
-
-
+import * as queries from '../src/graphql/queries'
+import { API } from 'aws-amplify';
 
 const JoinGroceryList = ({navigation, userGroceryLists}) => {
   const [groceryListID, setGroceryListID] = useState('');
@@ -19,13 +19,6 @@ const JoinGroceryList = ({navigation, userGroceryLists}) => {
     return groceryListID.length !== 36;
   };
 
-  // const listener = (action, groceryListID) => {
-    
-  //     Hub.listen("datastore", async (hubData) => {
-  //       console.log("JOIN",action, groceryListID)
-  //       const { event, data } = hubData.payload;
-  //     });
-  //   }
   async function addGroceryList() {
     // Check if user has already access to the grocery list:
     if (userGroceryLists && userGroceryLists.includes(groceryListID)){
@@ -33,14 +26,12 @@ const JoinGroceryList = ({navigation, userGroceryLists}) => {
       return setAlertVisible(true)
     }
     // Check if grocerylist exists:
-    // const validityCheck = await API.fetchGroceryListByID(groceryListID)
-    // if (!validityCheck){
-    //   setAlertText('Please enter a valid Grocery List ID')
-    //   setAlertVisible(true)
-    // } else {
+    const validityCheck = await API.graphql({ query: queries.getGroceryList, variables: { id: groceryListID }});
+    if (!validityCheck.data.getGroceryList){
+      setAlertText('Please enter a valid Grocery List ID')
+      setAlertVisible(true)
+    } else {
       // API.updateUser().then(()=>dispatch(handleAddGroceryList(groceryListID)))
-
-      
       dispatch(handleAddGroceryList(groceryListID))
       const removeListener =
         Hub.listen("datastore", async (hubData) => {
@@ -51,9 +42,8 @@ const JoinGroceryList = ({navigation, userGroceryLists}) => {
             removeListener();
           }
         });
-      // listener("JOIN", groceryListID)
       navigation.goBack();
-    // }
+    }
    
   }
 

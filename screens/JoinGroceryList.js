@@ -24,7 +24,7 @@ const JoinGroceryList = ({ navigation, userGroceryLists }) => {
   };
   async function addGroceryList() {
     // Check if user has already access to the grocery list:
-    if (userGroceryLists.includes(groceryListID)) {
+    if (userGroceryLists && userGroceryLists.includes(groceryListID)) {
       setAlertText("This Grocery List has already been added");
       return setAlertVisible(true);
     }

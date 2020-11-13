@@ -16,16 +16,7 @@ export const syncProducts = /* GraphQL */ `
     ) {
       items {
         id
-        groceryList {
-          id
-          name
-          description
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
+        groceryListID
         name
         checked
         unit
@@ -46,24 +37,7 @@ export const getProduct = /* GraphQL */ `
   query GetProduct($id: ID!) {
     getProduct(id: $id) {
       id
-      groceryList {
-        id
-        name
-        description
-        products {
-          nextToken
-          startedAt
-        }
-        users {
-          nextToken
-          startedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
+      groceryListID
       name
       checked
       unit
@@ -86,16 +60,7 @@ export const listProducts = /* GraphQL */ `
     listProducts(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        groceryList {
-          id
-          name
-          description
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
+        groceryListID
         name
         checked
         unit
@@ -133,10 +98,6 @@ export const syncGroceryLists = /* GraphQL */ `
           nextToken
           startedAt
         }
-        users {
-          nextToken
-          startedAt
-        }
         _version
         _deleted
         _lastChangedAt
@@ -157,25 +118,12 @@ export const getGroceryList = /* GraphQL */ `
       products {
         items {
           id
+          groceryListID
           name
           checked
           unit
           quantity
           category
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
-      users {
-        items {
-          id
-          userID
-          groceryListID
           _version
           _deleted
           _lastChangedAt
@@ -208,10 +156,6 @@ export const listGroceryLists = /* GraphQL */ `
           nextToken
           startedAt
         }
-        users {
-          nextToken
-          startedAt
-        }
         _version
         _deleted
         _lastChangedAt
@@ -240,10 +184,7 @@ export const syncUsers = /* GraphQL */ `
         id
         sub
         username
-        groceryLists {
-          nextToken
-          startedAt
-        }
+        groceryLists
         _version
         _deleted
         _lastChangedAt
@@ -262,20 +203,7 @@ export const getUser = /* GraphQL */ `
       id
       sub
       username
-      groceryLists {
-        items {
-          id
-          userID
-          groceryListID
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        nextToken
-        startedAt
-      }
+      groceryLists
       _version
       _deleted
       _lastChangedAt
@@ -296,65 +224,13 @@ export const listUsers = /* GraphQL */ `
         id
         sub
         username
-        groceryLists {
-          nextToken
-          startedAt
-        }
+        groceryLists
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
         owner
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const syncUserGroceryListJoins = /* GraphQL */ `
-  query SyncUserGroceryListJoins(
-    $filter: ModelUserGroceryListJoinFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncUserGroceryListJoins(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        userID
-        groceryListID
-        user {
-          id
-          sub
-          username
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-          owner
-        }
-        groceryList {
-          id
-          name
-          description
-          _version
-          _deleted
-          _lastChangedAt
-          createdAt
-          updatedAt
-        }
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
       }
       nextToken
       startedAt

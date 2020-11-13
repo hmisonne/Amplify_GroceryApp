@@ -10,18 +10,12 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "groceryList": {
-                    "name": "groceryList",
+                "groceryListID": {
+                    "name": "groceryListID",
                     "isArray": false,
-                    "type": {
-                        "model": "GroceryList"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetName": "productGroceryListId"
-                    }
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
                 },
                 "name": {
                     "name": "name",
@@ -65,6 +59,15 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "productByGroceryList",
+                        "fields": [
+                            "groceryListID"
+                        ]
+                    }
                 }
             ]
         },
@@ -103,21 +106,7 @@ export const schema = {
                     "isArrayNullable": true,
                     "association": {
                         "connectionType": "HAS_MANY",
-                        "associatedWith": "groceryList"
-                    }
-                },
-                "users": {
-                    "name": "users",
-                    "isArray": true,
-                    "type": {
-                        "model": "UserGroceryListJoin"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "user"
+                        "associatedWith": "groceryListID"
                     }
                 }
             },
@@ -127,74 +116,6 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
-                }
-            ]
-        },
-        "UserGroceryListJoin": {
-            "name": "UserGroceryListJoin",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "user": {
-                    "name": "user",
-                    "isArray": false,
-                    "type": {
-                        "model": "User"
-                    },
-                    "isRequired": true,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetName": "userID"
-                    }
-                },
-                "groceryList": {
-                    "name": "groceryList",
-                    "isArray": false,
-                    "type": {
-                        "model": "GroceryList"
-                    },
-                    "isRequired": true,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetName": "groceryListID"
-                    }
-                }
-            },
-            "syncable": true,
-            "pluralName": "UserGroceryListJoins",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {
-                        "queries": null
-                    }
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byUser",
-                        "fields": [
-                            "userID",
-                            "groceryListID"
-                        ]
-                    }
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byGroceryList",
-                        "fields": [
-                            "groceryListID",
-                            "userID"
-                        ]
-                    }
                 }
             ]
         },
@@ -225,23 +146,10 @@ export const schema = {
                 "groceryLists": {
                     "name": "groceryLists",
                     "isArray": true,
-                    "type": {
-                        "model": "UserGroceryListJoin"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "groceryList"
-                    }
-                },
-                "owner": {
-                    "name": "owner",
-                    "isArray": false,
                     "type": "String",
                     "isRequired": false,
-                    "attributes": []
+                    "attributes": [],
+                    "isArrayNullable": true
                 }
             },
             "syncable": true,
@@ -275,5 +183,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "be0f52355b56e2ce79d30ed4d90f269d"
+    "version": "f156db866a6f9e1e86f0d1c8d6d9d0e9"
 };

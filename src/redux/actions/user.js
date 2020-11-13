@@ -1,3 +1,4 @@
+
 import { API } from "../../../utils/api";
 
 export const authentificateUser = (user) => ({
@@ -8,6 +9,9 @@ export const authentificateUser = (user) => ({
 export function handleAuthentificateUser(){
   return (dispatch) => {
     return API.identifyUser()
-    .then((user) => dispatch(authentificateUser(user)))
+    .then((user) => {
+      dispatch(authentificateUser(user))
+      return user.groceryLists
+    })
   }
 }

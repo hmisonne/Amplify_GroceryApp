@@ -6,6 +6,7 @@ import { handleAuthentificateUser } from "../src/redux/actions/user";
 import {
   handleDeleteGroceryList,
   handleLoadGroceryLists,
+  syncDatastore,
 } from "../src/redux/actions/groceryList";
 import RoundButton from "../components/RoundButton";
 import FabBar from "../components/FabBar";
@@ -13,6 +14,7 @@ import UndoRedo from "../containers/UndoRedo";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import PopUpMenu from "../components/PopUpMenu";
 import PopUpMenuMobile from "../components/PopUpMenuMobile";
+import { Hub } from "aws-amplify";
 
 const Home = (props) => {
   const [visible, setVisible] = React.useState(false);
@@ -23,9 +25,22 @@ const Home = (props) => {
   const { groceryLists } = props;
 
   useEffect(() => {
-    dispatch(handleAuthentificateUser()).then(() =>
-      dispatch(handleLoadGroceryLists())
-    );
+    dispatch(handleAuthentificateUser()).then((groceryLists) => {
+      if (groceryLists && groceryLists.length !== 0) {
+        syncDatastore(groceryLists, 'LOAD');
+        ;
+      }
+    });
+
+    const removeListener =
+    Hub.listen("datastore", async (hubData) => {
+      const { event, data } = hubData.payload;
+      if ( event === "ready") {
+        console.log("Ready load grocery list HOME");
+        dispatch(handleLoadGroceryLists());
+        removeListener();
+      }
+    });
   }, []);
 
   function removeGroceryList(groceryListID) {

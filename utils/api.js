@@ -96,7 +96,7 @@ export class BackendInterface {
         User.copyOf(user[0], (updated) => {
           updated.groceryLists = updated.groceryLists ? 
           [...updated.groceryLists, groceryListSaved.id]
-          : [id]
+          : [groceryListSaved.id]
         }))
       console.log("List saved successfully!");
       return groceryListSaved

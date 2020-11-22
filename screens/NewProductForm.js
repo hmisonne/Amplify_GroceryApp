@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TextInput } from "react-native";
+import { View, StyleSheet, TextInput, Text, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {
   handleAddProduct,
   handleUpdateProduct,
@@ -9,7 +10,7 @@ import SubmitBtn from "../components/SubmitBtn";
 import StyledTextInput from "../components/StyledTextInput";
 import Stepper from "../components/Stepper";
 import SelectionPicker from "../components/SelectionPicker";
-import { categories, grey } from "../utils/helpers";
+import { grey, productCategory } from "../utils/helpers";
 
 
 
@@ -20,13 +21,16 @@ const NewProductForm = (props) => {
     name: "",
     checked: false,
     unit: "ct",
-    quantity: 1,
+    quantity: 0,
     category: "Produce"
   };
   const productToUpdate = props.route.params.product;
   const [formState, setFormState] = useState(
     productToUpdate ? productToUpdate : initialState
   );
+  const [expanded, setExpanded] = React.useState(false);
+  const handlePress = () => setExpanded(!expanded);
+
   const dispatch = useDispatch();
 
   function setInput(key, value) {
@@ -61,6 +65,35 @@ const NewProductForm = (props) => {
     props.navigation.goBack();
   }
 
+  function showQuantityUnit() {
+    return(
+      <View>
+        <View style={styles.stepperAndText}>
+          <Stepper
+            onIncrement={() => onIncrement("quantity")}
+            onDecrement={() => onDecrement("quantity")}
+          />
+          <TextInput
+            style={styles.numInput}
+            onChangeText={(val) => setInput("quantity", val)}
+            keyboardType="numeric"
+            value={`${formState.quantity}`}
+            placeholder="quantity"
+          />
+        </View>
+        <View>
+          <SelectionPicker
+            selectedValue={formState.unit}
+            onValueChange={(val) => setInput("unit", val)}
+            label={formState.unit}
+            value={formState.unit}
+            selection={units}
+          />
+        </View>
+      </View>
+    )
+  }
+
   return (
     <View style={styles.container}>
       <View>
@@ -71,37 +104,25 @@ const NewProductForm = (props) => {
         />
       </View>
 
-      <View style={styles.stepperAndText}>
-        <Stepper
-          onIncrement={() => onIncrement("quantity")}
-          onDecrement={() => onDecrement("quantity")}
-        />
-        <TextInput
-          style={styles.numInput}
-          onChangeText={(val) => setInput("quantity", val)}
-          keyboardType="numeric"
-          value={`${formState.quantity}`}
-          placeholder="quantity"
-        />
-      </View>
-      <View>
-        <SelectionPicker
-          selectedValue={formState.unit}
-          onValueChange={(val) => setInput("unit", val)}
-          label={formState.unit}
-          value={formState.unit}
-          selection={units}
-        />
-      </View>
       <View>
         <SelectionPicker
           selectedValue={formState.category}
           onValueChange={(val) => setInput("category", val)}
           label={formState.category}
           value={formState.category}
-          selection={categories.map(cat=>cat.name)}
+          selection={Object.keys(productCategory)}
         />
       </View>
+      <TouchableOpacity 
+        onPress={handlePress}
+        style={styles.rowAligned}>
+        <Text>Optional: Specify quantity & package size</Text>
+        <MaterialCommunityIcons 
+          name={expanded ? "arrow-collapse-up" : "arrow-collapse-down"} 
+          size={14} 
+          color="black" />
+      </TouchableOpacity>
+      {expanded && showQuantityUnit()}
       <View>
         {productToUpdate ? (
           <SubmitBtn title="Update" onPress={updateProductHandler} />
@@ -120,6 +141,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-around",
     padding: 20,
+  },
+  rowAligned : {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginLeft: 30,
+    marginRight: 30,
   },
   stepperAndText: {
     flexDirection: "row",

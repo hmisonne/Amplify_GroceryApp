@@ -118,8 +118,8 @@ const NewProductForm = (props) => {
         style={styles.rowAligned}>
         <Text>Optional: Specify quantity & package size</Text>
         <MaterialCommunityIcons 
-          name={expanded ? "arrow-collapse-up" : "arrow-collapse-down"} 
-          size={14} 
+          name={expanded ? "arrow-up-drop-circle-outline" : "arrow-down-drop-circle-outline"} 
+          size={24} 
           color="black" />
       </TouchableOpacity>
       {expanded && showQuantityUnit()}

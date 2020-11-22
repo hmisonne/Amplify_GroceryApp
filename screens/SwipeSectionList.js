@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SwipeListView } from "react-native-swipe-list-view";
-import { blue, mainColor, categoryPictures, secondaryColor } from "../utils/helpers";
+import { blue, mainColor, productCategory, secondaryColor } from "../utils/helpers";
 import { connect, useDispatch } from "react-redux";
 import { handleDeleteProduct, handleLoadProducts, handleToggleProduct } from "../src/redux/actions/product";
 
@@ -52,8 +52,12 @@ function SwipeSectionList(props) {
         name={data.item.checked ? 
           "checkbox-marked-circle"
           : "checkbox-blank-circle-outline"} size={20} color={mainColor} />
-        <Text> {data.item.name} </Text>
+        <Text> {data.item.name} {data.item.quantity !==0 && (
+          <Text> ({data.item.quantity} {data.item.unit}) </Text>)}
+        </Text>
+
       </View>
+      
     </TouchableHighlight>
   );
 
@@ -77,7 +81,7 @@ function SwipeSectionList(props) {
   const renderSectionHeader = ({ section }) => (
     <Text style={styles.sectionText}>
       <MaterialCommunityIcons
-        name={categoryPictures[section.title]}
+        name={productCategory[section.title].picture}
         size={20}
       />
       {section.title}
@@ -109,10 +113,11 @@ function mapStateToProps(state) {
   products.forEach((product) => currCategories.add(product.category));
   let currListCategories = Array.from(currCategories).map((cat) => ({
     title: cat,
+    key: productCategory[cat].key,
     data: products
       .filter((product) => product.category === cat)
       .map((product) => ({ ...product, key: product.id })),
-  }));
+  })).sort((a,b)=>a.key-b.key);
 
   return { listData: currListCategories };
 }
@@ -135,7 +140,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   rowFront: {
-    alignItems: "flex-start",
+    alignItems: "space-between",
     paddingLeft: 20,
     backgroundColor: "#F1F1F0",
     borderBottomColor: "#DCDCDC",

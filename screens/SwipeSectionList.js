@@ -11,9 +11,15 @@ import { SwipeListView } from "react-native-swipe-list-view";
 import { blue, mainColor, productCategory, secondaryColor } from "../utils/helpers";
 import { connect, useDispatch } from "react-redux";
 import { handleDeleteProduct, handleLoadProducts, handleToggleProduct } from "../src/redux/actions/product";
+import HeaderButtons from "../components/HeaderButtons"
 
 function SwipeSectionList(props) {
   const dispatch = useDispatch();
+  const [visibleProducts, setVisibleProducts] = useState(false)
+  function toggleProducts(bool) {
+    return setVisibleProducts(bool)
+  }
+
   const groceryListID = props.route.params.groceryList.id;
   useEffect(() => {
     dispatch(handleLoadProducts(groceryListID));
@@ -90,6 +96,10 @@ function SwipeSectionList(props) {
 
   return (
     <View style={styles.container}>
+      <HeaderButtons 
+        visibleProducts={visibleProducts} 
+        toggleProducts = {toggleProducts}
+      />
       <SwipeListView
         useSectionList
         sections={listData}

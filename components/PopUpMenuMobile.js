@@ -97,6 +97,6 @@ const styles = StyleSheet.create({
 export default PopUpMenuMobile;
 
 PopUpMenuMobile.propTypes = {
-  actionsMenu: PropTypes.object.isRequired,
+  actionsMenu: PropTypes.array.isRequired,
   groceryListID: PropTypes.string.isRequired,
 };

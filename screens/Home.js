@@ -93,7 +93,7 @@ const Home = (props) => {
   );
 
   function goToList(groceryList) {
-    return props.navigation.push("ProductCategory", { groceryList });
+    return props.navigation.push("ProductList", { groceryList });
   }
   function displayInstructions() {
     return (

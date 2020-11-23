@@ -21,7 +21,7 @@ import store from "./src/redux/store";
 import {blue, mainColor, secondaryColor } from "./utils/helpers"
 import JoinGroceryList from "./screens/JoinGroceryList";
 import ShareGroceryList from "./screens/ShareGroceryList";
-import SwipeSectionList from "./screens/SwipeSectionList";
+import ProductList from "./screens/ProductList";
 
 Amplify.configure({
   ...config,
@@ -77,8 +77,8 @@ const App = () => {
             })}
           />
           <ProductStack.Screen
-            name="ProductCategory"
-            component={SwipeSectionList}
+            name="ProductList"
+            component={ProductList}
             options={(props) => ({
               title: `${props.route.params.groceryList.name}`,
               headerTintColor: secondaryColor,

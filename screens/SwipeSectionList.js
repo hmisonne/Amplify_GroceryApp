@@ -150,7 +150,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   rowFront: {
-    alignItems: "space-between",
     paddingLeft: 20,
     backgroundColor: "#F1F1F0",
     borderBottomColor: "#DCDCDC",

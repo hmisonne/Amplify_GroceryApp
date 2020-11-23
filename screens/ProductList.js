@@ -1,111 +1,75 @@
-import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Switch,
-  TouchableOpacity,
-  Platform,
-  ScrollView,
-} from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View } from "react-native";
+import { productCategory } from "../utils/helpers";
 import { connect, useDispatch } from "react-redux";
 import {
   handleDeleteProduct,
+  handleLoadProducts,
   handleToggleProduct,
 } from "../src/redux/actions/product";
-import RoundButton from "../components/RoundButton";
-import { grey } from "../utils/helpers";
+import HeaderButtons from "../components/HeaderButtons";
+import SwipeSectionList from "./SwipeSectionList";
 
-const ProductList = (props) => {
+function ProductList(props) {
   const dispatch = useDispatch();
-  const { products } = props;
-  const { category } = props.route.params;
-  const productsByCat = products.filter(
-    (product) => product.category === category
-  );
-
-  async function onToggle(product) {
-    dispatch(handleToggleProduct(product));
+  const [visibleProducts, setVisibleProducts] = useState(false);
+  function toggleProducts(bool) {
+    return setVisibleProducts(bool);
   }
 
-  function removeProduct(productID) {
+  const groceryListID = props.route.params.groceryList.id;
+  useEffect(() => {
+    dispatch(handleLoadProducts(groceryListID));
+  }, []);
+  const { listData } = props;
+
+  function deleteProduct(productID) {
     dispatch(handleDeleteProduct(productID));
   }
-  function goToEditProduct(product) {
+  function navigateToEditProduct(product) {
     return props.navigation.push("AddProduct", { product });
   }
-
-  function showProductList() {
-    return (
-      <View style={styles.container}>
-        {productsByCat.map((product, index) => (
-          <View
-            style={[styles.subContainer, styles.marginBottom]}
-            key={product.id ? product.id : index}
-          >
-            <View style={styles.subContainer}>
-              <Switch
-                value={product.checked}
-                onValueChange={() => onToggle(product)}
-              />
-              <TouchableOpacity
-                style={styles.textAndQty}
-                onPress={() => goToEditProduct(product)}
-              >
-                <View>
-                  <Text>{product.name}</Text>
-                </View>
-                <View>
-                  <Text>
-                    {product.quantity} {product.unit}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-            <RoundButton
-              onPress={() => removeProduct(product.id)}
-              name="minus-circle"
-              color={grey}
-            />
-          </View>
-        ))}
-      </View>
-    );
+  async function toggleProduct(product) {
+    return dispatch(handleToggleProduct(product));
   }
+
   return (
-    <View>
-      {Platform.OS !== "ios" && Platform.OS !== "android" ? (
-        <View>{showProductList()}</View>
-      ) : (
-        <ScrollView>{showProductList()}</ScrollView>
-      )}
+    <View style={styles.container}>
+      <HeaderButtons
+        visibleProducts={visibleProducts}
+        toggleProducts={toggleProducts}
+      />
+      <SwipeSectionList
+        listData={listData}
+        deleteProduct={(productID) => deleteProduct(productID)}
+        navigateToEditProduct={(product) => navigateToEditProduct(product)}
+        toggleProduct={(product) => toggleProduct(product)}
+      />
     </View>
   );
-};
-const mapStateToProps = (state) => ({
-  products: state.products,
-});
+}
 
+function mapStateToProps(state) {
+  const { products } = state;
+  const currCategories = new Set();
+  products.forEach((product) => currCategories.add(product.category));
+  let currListCategories = Array.from(currCategories)
+    .map((cat) => ({
+      title: cat,
+      key: productCategory[cat].key,
+      data: products
+        .filter((product) => product.category === cat)
+        .map((product) => ({ ...product, key: product.id })),
+    }))
+    .sort((a, b) => a.key - b.key);
+
+  return { listData: currListCategories };
+}
 export default connect(mapStateToProps)(ProductList);
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "white",
     flex: 1,
-    padding: 20,
-  },
-  textAndQty: {
-    flex: 1,
-    justifyContent: "space-between",
-    flexDirection: "row",
-    marginRight: 15,
-    marginLeft: 15,
-    fontSize: 18,
-  },
-  subContainer: {
-    flex: 1,
-    flexDirection: "row",
-  },
-  marginBottom: {
-    marginBottom: 15,
   },
 });

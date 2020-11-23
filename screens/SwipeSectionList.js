@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   StyleSheet,
   Text,
@@ -8,24 +8,14 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SwipeListView } from "react-native-swipe-list-view";
-import { blue, mainColor, productCategory, secondaryColor } from "../utils/helpers";
-import { connect, useDispatch } from "react-redux";
-import { handleDeleteProduct, handleLoadProducts, handleToggleProduct } from "../src/redux/actions/product";
-import HeaderButtons from "../components/HeaderButtons"
+import { mainColor, productCategory, secondaryColor } from "../utils/helpers";
 
-function SwipeSectionList(props) {
-  const dispatch = useDispatch();
-  const [visibleProducts, setVisibleProducts] = useState(false)
-  function toggleProducts(bool) {
-    return setVisibleProducts(bool)
-  }
-
-  const groceryListID = props.route.params.groceryList.id;
-  useEffect(() => {
-    dispatch(handleLoadProducts(groceryListID));
-  }, []);
-  const { listData } = props;
-
+function SwipeSectionList({
+  listData,
+  deleteProduct,
+  navigateToEditProduct,
+  toggleProduct,
+}) {
   const closeRow = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {
       rowMap[rowKey].closeRow();
@@ -34,15 +24,15 @@ function SwipeSectionList(props) {
 
   const deleteRow = (rowMap, rowKey) => {
     closeRow(rowMap, rowKey);
-    dispatch(handleDeleteProduct(rowKey));
+    deleteProduct(rowKey);
   };
   const goToEditProduct = (rowMap, product) => {
     closeRow(rowMap, product.key);
-    return props.navigation.push("AddProduct", { product });
-  }
-  const onToggle = async(product) => {
-    dispatch(handleToggleProduct(product));
-  }
+    navigateToEditProduct(product);
+  };
+  const onToggle = async (product) => {
+    toggleProduct(product);
+  };
   const onRowDidOpen = (rowKey) => {
     console.log("This row opened", rowKey);
   };
@@ -95,43 +85,23 @@ function SwipeSectionList(props) {
   );
 
   return (
-    <View style={styles.container}>
-      <HeaderButtons 
-        visibleProducts={visibleProducts} 
-        toggleProducts = {toggleProducts}
-      />
-      <SwipeListView
-        useSectionList
-        sections={listData}
-        renderItem={renderItem}
-        renderHiddenItem={renderHiddenItem}
-        renderSectionHeader={renderSectionHeader}
-        leftOpenValue={75}
-        rightOpenValue={-150}
-        previewRowKey={"0"}
-        previewOpenValue={-40}
-        previewOpenDelay={3000}
-        onRowDidOpen={onRowDidOpen}
-      />
-    </View>
+    <SwipeListView
+      useSectionList
+      sections={listData}
+      renderItem={renderItem}
+      renderHiddenItem={renderHiddenItem}
+      renderSectionHeader={renderSectionHeader}
+      leftOpenValue={75}
+      rightOpenValue={-150}
+      previewRowKey={"0"}
+      previewOpenValue={-40}
+      previewOpenDelay={3000}
+      onRowDidOpen={onRowDidOpen}
+    />
   );
 }
 
-function mapStateToProps(state) {
-  const { products } = state;
-  const currCategories = new Set();
-  products.forEach((product) => currCategories.add(product.category));
-  let currListCategories = Array.from(currCategories).map((cat) => ({
-    title: cat,
-    key: productCategory[cat].key,
-    data: products
-      .filter((product) => product.category === cat)
-      .map((product) => ({ ...product, key: product.id })),
-  })).sort((a,b)=>a.key-b.key);
-
-  return { listData: currListCategories };
-}
-export default connect(mapStateToProps)(SwipeSectionList);
+export default SwipeSectionList;
 
 const styles = StyleSheet.create({
   container: {
@@ -146,8 +116,8 @@ const styles = StyleSheet.create({
   backTextWhite: {
     color: "#FFF",
   },
-  rowAlign:{
-    flexDirection: 'row'
+  rowAlign: {
+    flexDirection: "row",
   },
   rowFront: {
     paddingLeft: 20,

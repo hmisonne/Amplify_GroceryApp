@@ -45,6 +45,7 @@ function SwipeSectionList({
     >
       <View style={styles.rowAlign}>
         <MaterialCommunityIcons 
+        style={styles.rowIcon}
         name={data.item.checked ? 
           "checkbox-marked-circle"
           : "checkbox-blank-circle-outline"} size={20} color={mainColor} />
@@ -75,13 +76,16 @@ function SwipeSectionList({
   );
 
   const renderSectionHeader = ({ section }) => (
-    <Text style={styles.sectionText}>
+    <View style={styles.sectionHeader}>
       <MaterialCommunityIcons
+        style={styles.sectionIcon}
         name={productCategory[section.title].picture}
         size={20}
       />
+      <Text style={styles.sectionText}>
       {section.title}
-    </Text>
+      </Text>
+    </View>
   );
 
   return (
@@ -108,10 +112,16 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     flex: 1,
   },
+  sectionHeader:{
+    flexDirection: "row",
+    marginLeft: 10,
+  },
   sectionText: {
     color: secondaryColor,
     fontWeight: "bold",
-    marginLeft: 10,
+  },
+  sectionIcon: {
+    marginRight: 7,
   },
   backTextWhite: {
     color: "#FFF",
@@ -126,6 +136,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     justifyContent: "center",
     height: 50,
+  },
+  rowIcon: {
+    marginRight:12,
   },
   rowBack: {
     alignItems: "center",

@@ -116,8 +116,8 @@ const styles = StyleSheet.create({
   backTextWhite: {
     color: "#FFF",
   },
-  rowAlign: {
-    flexDirection: "row",
+  rowAlign:{
+    flexDirection: 'row'
   },
   rowFront: {
     paddingLeft: 20,

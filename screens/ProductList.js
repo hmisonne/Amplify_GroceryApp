@@ -8,7 +8,7 @@ import {
   handleToggleProduct,
 } from "../src/redux/actions/product";
 import HeaderButtons from "../components/HeaderButtons";
-import SwipeSectionList from "./SwipeSectionList";
+import SwipeSectionList from "../components/SwipeSectionList";
 
 function ProductList(props) {
   const dispatch = useDispatch();

@@ -51,6 +51,13 @@ export const schema = {
                     "type": "String",
                     "isRequired": true,
                     "attributes": []
+                },
+                "toBuy": {
+                    "name": "toBuy",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
                 }
             },
             "syncable": true,
@@ -183,5 +190,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "f156db866a6f9e1e86f0d1c8d6d9d0e9"
+    "version": "f9c46c8274a6433660e5a7e13f004406"
 };

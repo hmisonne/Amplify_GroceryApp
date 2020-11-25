@@ -20,9 +20,10 @@ export const filterProductsbyCat = (category) => ({
   category,
 });
 
-export const toggleProduct = (id) => ({
+export const toggleProduct = (id, attribute) => ({
   type: "TOGGLE_PRODUCT",
   id,
+  attribute
 });
 
 export const updateProduct = (updatedProduct) => ({
@@ -58,10 +59,12 @@ export function handleLoadProducts(groceryListID){
   }
 }
 
-export function handleToggleProduct(product){
+export function handleToggleProduct(product, attribute='checked'){
   return (dispatch) => {
-    const updatedProduct = {...product, checked: !product.checked}
+    const updatedProduct = {...product, [attribute]: attribute === 'checked'? 
+      !product.checked
+    : !product.toBuy}
     return API.updateProductDetails(updatedProduct)
-    .then(() => dispatch(toggleProduct(product.id)))
+    .then(() => dispatch(toggleProduct(product.id, attribute)))
   }
 }

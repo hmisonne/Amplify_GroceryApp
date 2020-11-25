@@ -8,25 +8,53 @@ export const mainColor = "#ffca18"
 export const secondaryColor = "#525252"
 
 export const categories = [
-    { name: "Produce", img: "food-apple" },
-    { name: "Grains", img: "barley" },
-    { name: "Dairy", img: "cup" },
-    { name: "Meat", img: "cow" },
-    { name: "Frozen", img: "cube-outline" },
-    { name: "Baking", img: "muffin" },
-    { name: "Canned", img: "hockey-puck" },
-    { name: "Drinks", img: "glass-cocktail" },
-    { name: "Other", img: "food-variant" },
+    { name: "Produce", img: "food-apple", key:1 },
+    { name: "Grains", img: "barley", key:2 },
+    { name: "Dairy", img: "cup", key:3 },
+    { name: "Meat", img: "cow", key:4 },
+    { name: "Frozen", img: "cube-outline", key:5 },
+    { name: "Baking", img: "muffin" , key:6},
+    { name: "Canned", img: "hockey-puck", key:7 },
+    { name: "Drinks", img: "glass-cocktail", key:8 },
+    { name: "Other", img: "food-variant" , key:9},
   ];
 
-export const categoryPictures = {
-  'Produce': "food-apple",
-  'Grains': "barley",
-  'Dairy': "cup",
-  'Meat': "cow",
-  'Frozen': "cube-outline",
-  'Baking': "muffin",
-  'Canned': "hockey-puck",
-  'Drinks': "glass-cocktail" ,
-  'Other': "food-variant",
+
+export const productCategory = {
+  Produce:{
+    picture: "food-apple",
+    key: 1
+  },
+  Grains: {
+    picture: "barley",
+    key: 2
+  },
+  Dairy: {
+    picture: "cup",
+    key: 3
+  },
+  Meat: {
+    picture: "cow",
+    key: 4
+  },
+  Frozen: {
+    picture: "cube-outline",
+    key: 5
+  },
+  Baking: {
+    picture: "muffin",
+    key: 6
+  },
+  Canned: {
+    picture: "hockey-puck",
+    key: 7
+  },
+  Drinks: {
+    picture: "glass-cocktail",
+    key: 8
+  },
+  Other: {
+    picture: "food-variant",
+    key: 9
+  },
 }

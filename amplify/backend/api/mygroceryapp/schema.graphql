@@ -8,6 +8,7 @@ type Product @model
   unit: String!
   quantity: Int!
   category: String!
+  toBuy: Boolean
 }
 
 type GroceryList @model {

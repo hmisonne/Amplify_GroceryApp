@@ -20,6 +20,7 @@ const NewProductForm = (props) => {
   const initialState = {
     name: "",
     checked: false,
+    toBuy: true,
     unit: "ct",
     quantity: 0,
     category: "Produce"

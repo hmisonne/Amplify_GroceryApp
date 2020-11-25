@@ -46,8 +46,8 @@ function ProductList(props) {
         listData={toBuyView? productsToBuy : allProducts}
         deleteProduct={(productID) => deleteProduct(productID)}
         navigateToEditProduct={(product) => navigateToEditProduct(product)}
-        toggleProduct={(product) => toggleProduct(product)}
-        toggleProductToBuy={(product) => toggleProductToBuy(product)}
+        toggleProduct={toBuyView? (product) => toggleProduct(product): (product) => toggleProductToBuy(product)}
+        toBuyView={toBuyView}
       />
     </View>
   );

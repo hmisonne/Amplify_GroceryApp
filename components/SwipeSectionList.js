@@ -16,7 +16,7 @@ function SwipeSectionList({
   deleteProduct,
   navigateToEditProduct,
   toggleProduct,
-  toggleProductToBuy
+  toBuyView,
 }) {
   const closeRow = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {
@@ -35,37 +35,55 @@ function SwipeSectionList({
   const onToggle = async (product) => {
     toggleProduct(product);
   };
-  const onToggleToBuy = async (product) => {
-    toggleProductToBuy(product);
-  };
   const onRowDidOpen = (rowKey) => {
-    console.log("This row opened", rowKey);
+    // console.log("This row opened", rowKey);
   };
 
   const renderItem = (data) => (
     <View>
-       <TouchableHighlight
-      onPress={() => onToggle(data.item)}
-      style={styles.rowFront}
-      underlayColor={"#AAA"}
-    >
-      <View style={styles.rowAlign}>
-        <MaterialCommunityIcons 
-        style={styles.rowIcon}
-        name={data.item.checked ? 
-          "checkbox-marked-circle"
-          : "checkbox-blank-circle-outline"} size={20} color={mainColor} />
-        <Text> {data.item.name} {data.item.quantity !==0 && (
-          <Text> ({data.item.quantity} {data.item.unit}) </Text>)}
-        </Text>
+      <TouchableHighlight
+        onPress={() => onToggle(data.item)}
+        style={data.item.toBuy? styles.rowFront : [styles.rowFront, styles.notSelected]}
+        underlayColor={"#AAA"}
+      >
+        <View style={styles.rowAlign}>
+          {toBuyView ? (
+            <MaterialCommunityIcons
+              style={styles.rowIcon}
+              name={
+                data.item.checked
+                  ? "checkbox-marked-circle"
+                  : "checkbox-blank-circle-outline"
+              }
+              size={20}
+              color={mainColor}
+            />
+          ) : (
+            <MaterialCommunityIcons
+              style={styles.rowIcon}
+              name={
+                data.item.toBuy
+                  ? "cart-outline"
+                  : "cart-off"
+              }
+              size={20}
+              color={'grey'}
+            />
+          )}
 
-      </View>
-      
-    </TouchableHighlight>
-    <Button title={data.item.toBuy ? "Remove":"Add"} onPress={()=>onToggleToBuy(data.item)} />
-
+          <Text style={!data.item.toBuy && {color: '#4d4c4c'}}>
+            {" "}
+            {data.item.name}{" "}
+            {data.item.quantity !== 0 && (
+              <Text>
+                {" "}
+                ({data.item.quantity} {data.item.unit}){" "}
+              </Text>
+            )}
+          </Text>
+        </View>
+      </TouchableHighlight>
     </View>
-   
   );
 
   const renderHiddenItem = (data, rowMap) => (
@@ -92,9 +110,7 @@ function SwipeSectionList({
         name={productCategory[section.title].picture}
         size={20}
       />
-      <Text style={styles.sectionText}>
-      {section.title}
-      </Text>
+      <Text style={styles.sectionText}>{section.title}</Text>
     </View>
   );
 
@@ -122,7 +138,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     flex: 1,
   },
-  sectionHeader:{
+  sectionHeader: {
     flexDirection: "row",
     marginLeft: 10,
   },
@@ -136,8 +152,8 @@ const styles = StyleSheet.create({
   backTextWhite: {
     color: "#FFF",
   },
-  rowAlign:{
-    flexDirection: 'row'
+  rowAlign: {
+    flexDirection: "row",
   },
   rowFront: {
     paddingLeft: 20,
@@ -147,8 +163,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     height: 50,
   },
+  notSelected:{
+    backgroundColor: "#adadad",
+  },
   rowIcon: {
-    marginRight:12,
+    marginRight: 12,
   },
   rowBack: {
     alignItems: "center",

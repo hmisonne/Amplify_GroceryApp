@@ -62,7 +62,7 @@ function SwipeSectionList({
       </View>
       
     </TouchableHighlight>
-    <Button title={data.item.toBuy ? "Add":"Remove"} onPress={()=>onToggleToBuy(data.item)} />
+    <Button title={data.item.toBuy ? "Remove":"Add"} onPress={()=>onToggleToBuy(data.item)} />
 
     </View>
    

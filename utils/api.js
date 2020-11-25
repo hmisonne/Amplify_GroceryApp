@@ -125,6 +125,7 @@ export class BackendInterface {
       const updatedProduct =  await this._dataStore.save(
         Product.copyOf(original, (updated) => {
           updated.checked = product.checked
+          updated.toBuy = product.toBuy
           updated.category = product.category
           updated.name = product.name
           updated.unit = product.unit

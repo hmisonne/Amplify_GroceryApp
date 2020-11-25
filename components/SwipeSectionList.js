@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     height: 50,
   },
   notSelected:{
-    backgroundColor: "#adadad",
+    backgroundColor: "#c9c7c7",
   },
   rowIcon: {
     marginRight: 12,

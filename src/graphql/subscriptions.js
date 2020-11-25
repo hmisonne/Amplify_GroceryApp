@@ -11,6 +11,7 @@ export const onCreateProduct = /* GraphQL */ `
       unit
       quantity
       category
+      toBuy
       _version
       _deleted
       _lastChangedAt
@@ -29,6 +30,7 @@ export const onUpdateProduct = /* GraphQL */ `
       unit
       quantity
       category
+      toBuy
       _version
       _deleted
       _lastChangedAt
@@ -47,6 +49,7 @@ export const onDeleteProduct = /* GraphQL */ `
       unit
       quantity
       category
+      toBuy
       _version
       _deleted
       _lastChangedAt
@@ -70,6 +73,7 @@ export const onCreateGroceryList = /* GraphQL */ `
           unit
           quantity
           category
+          toBuy
           _version
           _deleted
           _lastChangedAt
@@ -102,6 +106,7 @@ export const onUpdateGroceryList = /* GraphQL */ `
           unit
           quantity
           category
+          toBuy
           _version
           _deleted
           _lastChangedAt
@@ -134,6 +139,7 @@ export const onDeleteGroceryList = /* GraphQL */ `
           unit
           quantity
           category
+          toBuy
           _version
           _deleted
           _lastChangedAt

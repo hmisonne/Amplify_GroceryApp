@@ -22,6 +22,7 @@ export const syncProducts = /* GraphQL */ `
         unit
         quantity
         category
+        toBuy
         _version
         _deleted
         _lastChangedAt
@@ -43,6 +44,7 @@ export const getProduct = /* GraphQL */ `
       unit
       quantity
       category
+      toBuy
       _version
       _deleted
       _lastChangedAt
@@ -66,6 +68,7 @@ export const listProducts = /* GraphQL */ `
         unit
         quantity
         category
+        toBuy
         _version
         _deleted
         _lastChangedAt
@@ -124,6 +127,7 @@ export const getGroceryList = /* GraphQL */ `
           unit
           quantity
           category
+          toBuy
           _version
           _deleted
           _lastChangedAt

@@ -12,6 +12,7 @@ export declare class Product {
   readonly unit: string;
   readonly quantity: number;
   readonly category: string;
+  readonly toBuy?: boolean;
   constructor(init: ModelInit<Product>);
   static copyOf(source: Product, mutator: (draft: MutableModel<Product>) => MutableModel<Product> | void): Product;
 }

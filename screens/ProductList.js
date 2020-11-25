@@ -55,6 +55,7 @@ function ProductList(props) {
 
 function mapStateToProps(state) {
   const { products } = state;
+  // Format products for ALL product view
   const currCategories = new Set();
   products.forEach((product) => currCategories.add(product.category));
   let currListCategories = Array.from(currCategories).map((cat) => ({
@@ -64,7 +65,7 @@ function mapStateToProps(state) {
       .filter((product) => product.category === cat)
       .map((product) => ({ ...product, key: product.id })),
   })).sort((a,b)=>a.key-b.key);
-
+// Format products for TO BUY product view
   const filteredProducts = products.filter((product) => product.toBuy === true)
   const filteredCurrCategories = new Set();
   filteredProducts.forEach((product) => filteredCurrCategories.add(product.category));

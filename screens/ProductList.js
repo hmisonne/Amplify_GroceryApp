@@ -7,14 +7,14 @@ import {
   handleLoadProducts,
   handleToggleProduct,
 } from "../src/redux/actions/product";
-import HeaderButtons from "../components/HeaderButtons";
+import HeaderTab from "../components/HeaderTab";
 import SwipeSectionList from "../components/SwipeSectionList";
 
 function ProductList(props) {
   const dispatch = useDispatch();
-  const [visibleProducts, setVisibleProducts] = useState(false);
-  function toggleProducts(bool) {
-    return setVisibleProducts(bool);
+  const [toBuyView, setToBuyView] = useState(true);
+  function toggleToBuyView(bool) {
+    return setToBuyView(bool);
   }
 
   const groceryListID = props.route.params.groceryList.id;
@@ -38,12 +38,12 @@ function ProductList(props) {
 
   return (
     <View style={styles.container}>
-      <HeaderButtons
-        visibleProducts={visibleProducts}
-        toggleProducts={toggleProducts}
+      <HeaderTab
+        firstTabSelected={toBuyView}
+        switchToSecondTab={toggleToBuyView}
       />
       <SwipeSectionList
-        listData={visibleProducts? allProducts: productsToBuy}
+        listData={toBuyView? productsToBuy : allProducts}
         deleteProduct={(productID) => deleteProduct(productID)}
         navigateToEditProduct={(product) => navigateToEditProduct(product)}
         toggleProduct={(product) => toggleProduct(product)}

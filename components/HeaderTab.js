@@ -2,30 +2,30 @@ import * as React from "react";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 import { secondaryColor, lightGrey, mainColor } from "../utils/helpers";
 
-const HeaderButtons = ({ visibleProducts, toggleProducts }) => (
+const HeaderTab = ({ firstTabSelected, switchToSecondTab }) => (
   <View style={styles.rowAligned}>
     <TouchableOpacity
-      style={!visibleProducts && styles.bottomLine}
-      disabled={!visibleProducts}
-      onPress={() => toggleProducts(false)}
+      style={firstTabSelected && styles.bottomLine}
+      disabled={firstTabSelected}
+      onPress={() => switchToSecondTab(true)}
     >
-      <Text style={{ color: visibleProducts ? lightGrey : secondaryColor }}>
+      <Text style={{ color: firstTabSelected ? secondaryColor : lightGrey }}>
         TO BUY
       </Text>
     </TouchableOpacity>
     <TouchableOpacity
-      style={visibleProducts && styles.bottomLine}
-      disabled={visibleProducts}
-      onPress={() => toggleProducts(true)}
+      style={!firstTabSelected && styles.bottomLine}
+      disabled={!firstTabSelected}
+      onPress={() => switchToSecondTab(false)}
     >
-      <Text style={{ color: visibleProducts ? secondaryColor : lightGrey }}>
+      <Text style={{ color: firstTabSelected ? lightGrey: secondaryColor }}>
         ALL
       </Text>
     </TouchableOpacity>
   </View>
 );
 
-export default HeaderButtons;
+export default HeaderTab;
 
 const styles = StyleSheet.create({
   rowAligned: {

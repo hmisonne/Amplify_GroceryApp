@@ -128,7 +128,7 @@ const NewProductForm = (props) => {
           value={formState.toBuy}
           onValueChange={onToggleSwitch}
         />
-        <Text>To Buy?</Text>
+        <Text style={{marginLeft: 10}}>To Buy?</Text>
       </View>
       <TouchableOpacity onPress={handlePress} style={[styles.rowAligned, styles.spaceBetween]}>
         <Text>Optional: Specify quantity & package size</Text>

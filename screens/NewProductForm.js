@@ -1,7 +1,13 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TextInput, Text, TouchableOpacity } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import { useDispatch } from "react-redux";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {
   handleAddProduct,
   handleUpdateProduct,
@@ -10,9 +16,8 @@ import SubmitBtn from "../components/SubmitBtn";
 import StyledTextInput from "../components/StyledTextInput";
 import Stepper from "../components/Stepper";
 import SelectionPicker from "../components/SelectionPicker";
-import { grey, productCategory } from "../utils/helpers";
-
-
+import { grey, mainColor, productCategory } from "../utils/helpers";
+import { Switch } from "react-native-paper";
 
 const units = ["ct", "lb", "g", "kg", "L"];
 
@@ -23,7 +28,7 @@ const NewProductForm = (props) => {
     toBuy: true,
     unit: "ct",
     quantity: 0,
-    category: "Produce"
+    category: "Produce",
   };
   const productToUpdate = props.route.params.product;
   const [formState, setFormState] = useState(
@@ -37,6 +42,9 @@ const NewProductForm = (props) => {
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
   }
+
+  const onToggleSwitch = () =>
+    setFormState({ ...formState, toBuy: !formState.toBuy });
 
   function onIncrement(key) {
     const count = parseInt(formState[key], 10) + 1;
@@ -67,7 +75,7 @@ const NewProductForm = (props) => {
   }
 
   function showQuantityUnit() {
-    return(
+    return (
       <View>
         <View style={styles.stepperAndText}>
           <Stepper
@@ -92,7 +100,7 @@ const NewProductForm = (props) => {
           />
         </View>
       </View>
-    )
+    );
   }
 
   return (
@@ -114,15 +122,27 @@ const NewProductForm = (props) => {
           selection={Object.keys(productCategory)}
         />
       </View>
-      <TouchableOpacity 
-        onPress={handlePress}
-        style={styles.rowAligned}>
+      <View style={styles.rowAligned}>
+        <Switch
+          color={mainColor}
+          value={formState.toBuy}
+          onValueChange={onToggleSwitch}
+        />
+        <Text>To Buy?</Text>
+      </View>
+      <TouchableOpacity onPress={handlePress} style={[styles.rowAligned, styles.spaceBetween]}>
         <Text>Optional: Specify quantity & package size</Text>
-        <MaterialCommunityIcons 
-          name={expanded ? "arrow-up-drop-circle-outline" : "arrow-down-drop-circle-outline"} 
-          size={24} 
-          color="black" />
+        <MaterialCommunityIcons
+          name={
+            expanded
+              ? "arrow-up-drop-circle-outline"
+              : "arrow-down-drop-circle-outline"
+          }
+          size={24}
+          color="black"
+        />
       </TouchableOpacity>
+
       {expanded && showQuantityUnit()}
       <View>
         {productToUpdate ? (
@@ -143,11 +163,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     padding: 20,
   },
-  rowAligned : {
+  rowAligned: {
     flexDirection: "row",
-    justifyContent: "space-between",
     marginLeft: 30,
     marginRight: 30,
+  },
+  spaceBetween: {
+    justifyContent: "space-between",
   },
   stepperAndText: {
     flexDirection: "row",

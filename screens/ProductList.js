@@ -32,6 +32,9 @@ function ProductList(props) {
   async function toggleProduct(product) {
     return dispatch(handleToggleProduct(product));
   }
+  async function toggleProductToBuy(product) {
+    return dispatch(handleToggleProduct(product, 'toBuy'));
+  }
 
   return (
     <View style={styles.container}>
@@ -44,6 +47,7 @@ function ProductList(props) {
         deleteProduct={(productID) => deleteProduct(productID)}
         navigateToEditProduct={(product) => navigateToEditProduct(product)}
         toggleProduct={(product) => toggleProduct(product)}
+        toggleProductToBuy={(product) => toggleProductToBuy(product)}
       />
     </View>
   );

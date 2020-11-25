@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   View,
+  Button,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SwipeListView } from "react-native-swipe-list-view";
@@ -15,6 +16,7 @@ function SwipeSectionList({
   deleteProduct,
   navigateToEditProduct,
   toggleProduct,
+  toggleProductToBuy
 }) {
   const closeRow = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {
@@ -33,12 +35,16 @@ function SwipeSectionList({
   const onToggle = async (product) => {
     toggleProduct(product);
   };
+  const onToggleToBuy = async (product) => {
+    toggleProductToBuy(product);
+  };
   const onRowDidOpen = (rowKey) => {
     console.log("This row opened", rowKey);
   };
 
   const renderItem = (data) => (
-    <TouchableHighlight
+    <View>
+       <TouchableHighlight
       onPress={() => onToggle(data.item)}
       style={styles.rowFront}
       underlayColor={"#AAA"}
@@ -56,6 +62,10 @@ function SwipeSectionList({
       </View>
       
     </TouchableHighlight>
+    <Button title={data.item.toBuy ? "Add":"Remove"} onPress={()=>onToggleToBuy(data.item)} />
+
+    </View>
+   
   );
 
   const renderHiddenItem = (data, rowMap) => (

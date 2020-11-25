@@ -13,7 +13,9 @@ export const productReducer = (state = [], action) => {
       case "TOGGLE_PRODUCT":
         return state.map((product) =>
           product.id === action.id
-            ? { ...product, checked: !product.checked }
+            ? { ...product, [action.attribute]: action.attribute === 'checked'? 
+            !product.checked
+          : !product.toBuy}
             : product
         );
         case "UPDATE_PRODUCT":

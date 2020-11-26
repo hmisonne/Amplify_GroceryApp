@@ -71,7 +71,7 @@ function SwipeSectionList({
             />
           )}
 
-          <Text style={!data.item.toBuy && {color: '#4d4c4c'}}>
+          <Text style={!data.item.toBuy ? {color: '#4d4c4c'}: {color: 'black'}}>
             {" "}
             {data.item.name}{" "}
             {data.item.quantity !== 0 && (

@@ -1,6 +1,6 @@
 import React from "react";
-import { StyleSheet, Picker } from "react-native";
-
+import { StyleSheet, View } from "react-native";
+import {Picker} from '@react-native-picker/picker';
 import { grey } from "../utils/helpers";
 import PropTypes from "prop-types";
 
@@ -11,18 +11,19 @@ export default function SelectionPicker({
   selection,
 }) {
   return (
-    <Picker
-      selectedValue={selectedValue}
-      style={styles.picker}
-      onValueChange={onValueChange}
-    >
-      <Picker.Item label={value} value={value} />
-      {selection
-        .filter((element) => element !== value)
-        .map((element) => (
-          <Picker.Item label={element} value={element} key={element} />
-        ))}
-    </Picker>
+      <Picker
+        selectedValue={selectedValue}
+        // style={styles.picker}
+        onValueChange={onValueChange}
+      >
+        <Picker.Item label={value} value={value} />
+        {selection
+          .filter((element) => element !== value)
+          .map((element) => (
+            <Picker.Item label={element} value={element} key={element} />
+          ))}
+      </Picker>
+    
   );
 }
 

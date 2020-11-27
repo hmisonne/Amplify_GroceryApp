@@ -14,7 +14,7 @@ export default function prepareResources() {
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
-        SplashScreen.preventAutoHideAsync();
+        // SplashScreen.preventAutoHideAsync();
         // Load datastore
         await DataStore.start();
         // Load fonts
@@ -30,7 +30,7 @@ export default function prepareResources() {
           payload.event === 'ready' && setSyncComplete(true);       
         })
         setLoadingComplete(true);
-        SplashScreen.hideAsync();
+        // SplashScreen.hideAsync();
       }
     }
 

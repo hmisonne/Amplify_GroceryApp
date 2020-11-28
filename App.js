@@ -8,6 +8,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { StatusBar } from 'expo-status-bar';
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 
 import NewProductForm from "./screens/NewProductForm";
 import NewGroceryListForm from "./screens/NewGroceryListForm";
@@ -31,6 +32,15 @@ Amplify.configure({
   },
 });
 
+const theme = {
+  ...DefaultTheme,
+  roundness: 2,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: mainColor,
+    accent: secondaryColor,
+  },
+};
 
 const ProductStack = createStackNavigator();
 
@@ -52,6 +62,7 @@ const App = () => {
   }
   return (
     <Provider store={store}>
+       <PaperProvider theme={theme}>
       <NavigationContainer>
         <ProductStack.Navigator>
           <ProductStack.Screen
@@ -134,6 +145,7 @@ const App = () => {
         </ProductStack.Navigator>
       </NavigationContainer>
       <StatusBar style="dark" />
+    </PaperProvider>
     </Provider>
   );
 };

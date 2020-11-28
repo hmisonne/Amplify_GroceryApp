@@ -1,5 +1,6 @@
 import {
   MaterialCommunityIcons,
+  Ionicons
 } from "@expo/vector-icons";
 import * as Font from "expo-font";
 import * as React from "react";
@@ -20,6 +21,7 @@ export default function prepareResources() {
         // Load fonts
         await Font.loadAsync({
           ...MaterialCommunityIcons.font,
+          ...Ionicons.font,
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service

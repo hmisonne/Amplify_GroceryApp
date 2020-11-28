@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
-import { View, Text, StyleSheet, TouchableOpacity, Platform } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 
 import { handleAuthentificateUser } from "../src/redux/actions/user";
 import {
@@ -15,27 +21,25 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import PopUpMenu from "../components/PopUpMenu";
 import PopUpMenuMobile from "../components/PopUpMenuMobile";
 import { Hub } from "aws-amplify";
+import { Divider } from "react-native-paper";
 
-const Home = (props) => {
+const Home = ({groceryLists, navigation}) => {
   const [visible, setVisible] = React.useState(false);
   const onToggleSnackBar = () => setVisible(!visible);
   const onDismissSnackBar = () => setVisible(false);
 
   const dispatch = useDispatch();
-  const { groceryLists } = props;
 
   useEffect(() => {
     dispatch(handleAuthentificateUser()).then((groceryLists) => {
       if (groceryLists && groceryLists.length !== 0) {
-        syncDatastore(groceryLists, 'LOAD');
-        ;
+        syncDatastore(groceryLists, "LOAD");
       }
     });
 
-    const removeListener =
-    Hub.listen("datastore", async (hubData) => {
+    const removeListener = Hub.listen("datastore", async (hubData) => {
       const { event, data } = hubData.payload;
-      if ( event === "ready") {
+      if (event === "ready") {
         console.log("Ready load grocery list HOME");
         dispatch(handleLoadGroceryLists());
         removeListener();
@@ -52,12 +56,12 @@ const Home = (props) => {
     {
       icon: "format-list-checks",
       label: "New List",
-      onPress: () => props.navigation.push("NewList"),
+      onPress: () => navigation.push("NewList"),
     },
     {
       icon: "account-group",
       label: "Join List",
-      onPress: () => props.navigation.push("JoinGroceryList"),
+      onPress: () => navigation.push("JoinGroceryList"),
     },
   ];
 
@@ -66,7 +70,7 @@ const Home = (props) => {
       icon: "share-variant",
       title: "Share",
       onPress: (groceryListID) =>
-        props.navigation.push("ShareGroceryList", { groceryListID }),
+        navigation.push("ShareGroceryList", { groceryListID }),
     },
     // {
     //   icon:"pencil-box-outline",
@@ -93,7 +97,7 @@ const Home = (props) => {
   );
 
   function goToList(groceryList) {
-    return props.navigation.push("ProductList", { groceryList });
+    return navigation.push("ProductList", { groceryList });
   }
   function displayInstructions() {
     return (
@@ -109,30 +113,28 @@ const Home = (props) => {
     return (
       <View style={styles.container}>
         {groceryLists.map((glist, index) => (
-          <View style={styles.glist} key={glist.id ? glist.id : index}>
-            <TouchableOpacity
-              onPress={() => goToList(glist)}
-            >
-              <View style={styles.subContainer}>
-                <MaterialCommunityIcons
-                  name="format-list-checks"
-                  size={24}
-                  color="black"
+          <View>
+            <View style={styles.glist} key={glist.id}>
+              <TouchableOpacity onPress={() => goToList(glist)}>
+                <View style={styles.subContainer}>
+                  <MaterialCommunityIcons
+                    name="format-list-checks"
+                    size={24}
+                    color="black"
+                  />
+                  <Text style={styles.glistName}>{glist.name}</Text>
+                </View>
+              </TouchableOpacity>
+              {Platform.OS === "ios" || Platform.OS === "android" ? (
+                <PopUpMenuMobile
+                  actionsMenu={actionsMenu}
+                  groceryListID={glist.id}
                 />
-                <Text style={styles.glistName}>{glist.name}</Text>
-              </View>
-            </TouchableOpacity>
-            {Platform.OS === "ios" || Platform.OS === "android" ? (
-              <PopUpMenuMobile
-                actionsMenu={actionsMenu}
-                groceryListID={glist.id}
-              />
-            ) : (
-              <PopUpMenu
-                actionsMenu={actionsMenu}
-                groceryListID={glist.id}
-              />
-            )}
+              ) : (
+                <PopUpMenu actionsMenu={actionsMenu} groceryListID={glist.id} />
+              )}
+            </View>
+            <Divider style={{height:1}} key={index} />
           </View>
         ))}
       </View>
@@ -140,10 +142,11 @@ const Home = (props) => {
   }
 };
 
-const mapStateToProps = (state) => ({
-  groceryLists: state.groceryLists.present,
-  user: state.user,
-});
+function mapStateToProps(state) {
+  return {
+    groceryLists: state.groceryLists.present,
+  }
+};
 
 export default connect(mapStateToProps)(Home);
 
@@ -176,6 +179,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginTop: 15,
     marginBottom: 15,
   },
   glistName: {

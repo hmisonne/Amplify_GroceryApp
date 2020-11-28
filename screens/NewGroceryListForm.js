@@ -39,13 +39,15 @@ const NewGroceryListForm = (props) => {
         onChangeText={(val) => setInput("name", val)}
         style={styles.input}
         value={formState.name}
-        placeholder="Name"
+        label="Name"
+        placeholder="My List"
       />
       <StyledTextInput
         onChangeText={(val) => setInput("description", val)}
         style={styles.input}
         value={formState.description}
-        placeholder="Description (optional)"
+        label="Description (optional)"
+        placeholder="Weekly recurring"
       />
       <SubmitBtn title="Create" onPress={createGroceryList} />
     </View>

@@ -10,6 +10,7 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SwipeListView } from "react-native-swipe-list-view";
 import { lightGrey, mainColor, productCategory, secondaryColor } from "../utils/helpers";
+import PropTypes from "prop-types";
 
 function SwipeSectionList({
   listData,
@@ -194,3 +195,12 @@ const styles = StyleSheet.create({
     right: 0,
   },
 });
+
+
+SwipeSectionList.propTypes = {
+  listData: PropTypes.array.isRequired,
+  deleteProduct: PropTypes.func.isRequired,
+  navigateToEditProduct: PropTypes.func.isRequired,
+  toggleProduct: PropTypes.func.isRequired,
+  toBuyView: PropTypes.bool.isRequired,
+};

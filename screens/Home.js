@@ -113,8 +113,8 @@ const Home = ({groceryLists, navigation}) => {
     return (
       <View style={styles.container}>
         {groceryLists.map((glist, index) => (
-          <View>
-            <View style={styles.glist} key={glist.id}>
+          <View key={glist.id}>
+            <View style={styles.glist} >
               <TouchableOpacity onPress={() => goToList(glist)}>
                 <View style={styles.subContainer}>
                   <MaterialCommunityIcons
@@ -134,7 +134,7 @@ const Home = ({groceryLists, navigation}) => {
                 <PopUpMenu actionsMenu={actionsMenu} groceryListID={glist.id} />
               )}
             </View>
-            <Divider style={{height:1}} key={index} />
+            <Divider style={{height:1}} />
           </View>
         ))}
       </View>

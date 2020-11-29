@@ -1,12 +1,12 @@
 import React from "react";
-import { TextInput, StyleSheet } from "react-native";
-import { grey } from "../utils/helpers";
 import PropTypes from "prop-types";
+import { TextInput } from 'react-native-paper';
 
-export default function StyledTextInput({ value, placeholder, onChangeText }) {
+export default function StyledTextInput({ value, placeholder, onChangeText, label }) {
   return (
     <TextInput
-      style={styles.textInput}
+      label={label}
+      mode="outlined"
       onChangeText={onChangeText}
       value={value}
       placeholder={placeholder}
@@ -14,18 +14,6 @@ export default function StyledTextInput({ value, placeholder, onChangeText }) {
   );
 }
 
-const styles = StyleSheet.create({
-  textInput: {
-    height: 40,
-    borderColor: grey,
-    borderWidth: 2,
-    borderRadius: 10,
-    paddingLeft: 15,
-    marginTop: 10,
-    marginLeft: 30,
-    marginRight: 30,
-  },
-});
 
 StyledTextInput.propTypes = {
   onChangeText: PropTypes.func.isRequired,

@@ -17,14 +17,26 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "buildNumber": "1",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Default permission provided by Expo, not used in App",
+        "NSCalendarsUsageDescription":"Default permission provided by Expo, not used in App",
+        "NSContactsUsageDescription":"Default permission provided by Expo, not used in App",
+        "NSLocationWhenInUseUsageDescription":"Default permission provided by Expo, not used in App",
+        "NSMicrophoneUsageDescription":"Default permission provided by Expo, not used in App",
+        "NSMotionUsageDescription":"Default permission provided by Expo, not used in App",
+        "NSPhotoLibraryAddUsageDescription":"Default permission provided by Expo, not used in App",
+        "NSPhotoLibraryUsageDescription":"Default permission provided by Expo, not used in App",
+        "NSRemindersUsageDescription":"Default permission provided by Expo, not used in App"
+      }
     },
     "web": {
       "favicon": "./assets/icon.png"
     },
     "android": {
       "package": "com.hmisonne.ListBee",
-      "versionCode": 6,
+      "versionCode": 16,
       "permissions": []
     }
   }

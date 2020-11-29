@@ -1,5 +1,6 @@
 import {
   MaterialCommunityIcons,
+  Ionicons
 } from "@expo/vector-icons";
 import * as Font from "expo-font";
 import * as React from "react";
@@ -14,12 +15,13 @@ export default function prepareResources() {
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
-        SplashScreen.preventAutoHideAsync();
+        // SplashScreen.preventAutoHideAsync();
         // Load datastore
         await DataStore.start();
         // Load fonts
         await Font.loadAsync({
           ...MaterialCommunityIcons.font,
+          ...Ionicons.font,
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
@@ -30,7 +32,7 @@ export default function prepareResources() {
           payload.event === 'ready' && setSyncComplete(true);       
         })
         setLoadingComplete(true);
-        SplashScreen.hideAsync();
+        // SplashScreen.hideAsync();
       }
     }
 

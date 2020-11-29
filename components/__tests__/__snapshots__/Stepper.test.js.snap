@@ -35,15 +35,10 @@ exports[`renders correctly 1`] = `
       style={
         Object {
           "backgroundColor": "#ffca18",
-          "borderBottomRightRadius": 0,
-          "borderColor": "#ffca18",
-          "borderRadius": 3,
-          "borderTopRightRadius": 0,
-          "borderWidth": 1,
+          "borderRadius": 10,
+          "margin": 5,
           "opacity": 1,
-          "padding": 5,
-          "paddingLeft": 25,
-          "paddingRight": 25,
+          "padding": 10,
         }
       }
     />
@@ -60,16 +55,10 @@ exports[`renders correctly 1`] = `
       style={
         Object {
           "backgroundColor": "#ffca18",
-          "borderBottomLeftRadius": 0,
-          "borderColor": "#ffca18",
-          "borderLeftWidth": 0,
-          "borderRadius": 3,
-          "borderTopLeftRadius": 0,
-          "borderWidth": 1,
+          "borderRadius": 10,
+          "margin": 5,
           "opacity": 1,
-          "padding": 5,
-          "paddingLeft": 25,
-          "paddingRight": 25,
+          "padding": 10,
         }
       }
     />

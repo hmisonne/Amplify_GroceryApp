@@ -1,6 +1,7 @@
 import * as React from "react";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 import { secondaryColor, lightGrey, mainColor } from "../utils/helpers";
+import PropTypes from "prop-types";
 
 const HeaderTab = ({ firstTabSelected, switchToSecondTab }) => (
   <View style={styles.rowAligned}>
@@ -39,3 +40,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
 });
+
+HeaderTab.propTypes = {
+  firstTabSelected: PropTypes.bool.isRequired, 
+  switchToSecondTab:  PropTypes.func.isRequired
+};

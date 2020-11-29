@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useDispatch } from "react-redux";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {
   handleAddProduct,
   handleUpdateProduct,
@@ -17,7 +16,8 @@ import StyledTextInput from "../components/StyledTextInput";
 import Stepper from "../components/Stepper";
 import SelectionPicker from "../components/SelectionPicker";
 import { grey, mainColor, productCategory } from "../utils/helpers";
-import { Switch } from "react-native-paper";
+import { Divider, Switch, Subheading } from "react-native-paper";
+import AccordionMenu from "../components/AccordionMenu";
 
 const units = ["ct", "lb", "g", "kg", "L"];
 
@@ -76,7 +76,14 @@ const NewProductForm = (props) => {
 
   function showQuantityUnit() {
     return (
-      <View>
+      <View style={styles.container}>
+        <Divider />
+        <AccordionMenu
+          text="Optional: Specify quantity & package size"
+          expanded={expanded}
+          handlePress={handlePress}
+        />
+        <Divider />
         <View style={styles.stepperAndText}>
           <Stepper
             onIncrement={() => onIncrement("quantity")}
@@ -90,69 +97,74 @@ const NewProductForm = (props) => {
             placeholder="quantity"
           />
         </View>
+        <SelectionPicker
+          selectedValue={formState.unit}
+          onValueChange={(val) => setInput("unit", val)}
+          label={formState.unit}
+          value={formState.unit}
+          selection={units}
+        />
+
         <View>
-          <SelectionPicker
-            selectedValue={formState.unit}
-            onValueChange={(val) => setInput("unit", val)}
-            label={formState.unit}
-            value={formState.unit}
-            selection={units}
-          />
+          {productToUpdate ? (
+            <SubmitBtn title="Update" onPress={updateProductHandler} />
+          ) : (
+            <SubmitBtn title="Add to List" onPress={addProductHandler} />
+          )}
         </View>
       </View>
     );
   }
 
-  return (
-    <View style={styles.container}>
-      <View>
-        <StyledTextInput
-          onChangeText={(val) => setInput("name", val)}
-          value={formState.name}
-          placeholder="Name"
-        />
-      </View>
+  function showForm() {
+    return (
+      <View style={styles.container}>
+        <View>
+          <StyledTextInput
+            onChangeText={(val) => setInput("name", val)}
+            label="Name"
+            value={formState.name}
+            placeholder="Golden Apple"
+          />
+        </View>
+        <View>
+          <SelectionPicker
+            selectedValue={formState.category}
+            onValueChange={(val) => setInput("category", val)}
+            label={formState.category}
+            value={formState.category}
+            selection={Object.keys(productCategory)}
+          />
+        </View>
 
-      <View>
-        <SelectionPicker
-          selectedValue={formState.category}
-          onValueChange={(val) => setInput("category", val)}
-          label={formState.category}
-          value={formState.category}
-          selection={Object.keys(productCategory)}
+        <Divider />
+        <View style={[styles.rowAligned, styles.spaceBetween]}>
+          <Subheading>To Buy?</Subheading>
+          <Switch
+            color={mainColor}
+            value={formState.toBuy}
+            onValueChange={onToggleSwitch}
+          />
+        </View>
+        <Divider />
+        <AccordionMenu
+          text="Optional: Specify quantity & package size"
+          expanded={expanded}
+          handlePress={handlePress}
         />
+        <Divider />
+        <View>
+          {productToUpdate ? (
+            <SubmitBtn title="Update" onPress={updateProductHandler} />
+          ) : (
+            <SubmitBtn title="Add to List" onPress={addProductHandler} />
+          )}
+        </View>
       </View>
-      <View style={styles.rowAligned}>
-        <Switch
-          color={mainColor}
-          value={formState.toBuy}
-          onValueChange={onToggleSwitch}
-        />
-        <Text style={{marginLeft: 10}}>To Buy?</Text>
-      </View>
-      <TouchableOpacity onPress={handlePress} style={[styles.rowAligned, styles.spaceBetween]}>
-        <Text>Optional: Specify quantity & package size</Text>
-        <MaterialCommunityIcons
-          name={
-            expanded
-              ? "arrow-up-drop-circle-outline"
-              : "arrow-down-drop-circle-outline"
-          }
-          size={24}
-          color="black"
-        />
-      </TouchableOpacity>
+    );
+  }
 
-      {expanded && showQuantityUnit()}
-      <View>
-        {productToUpdate ? (
-          <SubmitBtn title="Update" onPress={updateProductHandler} />
-        ) : (
-          <SubmitBtn title="Add to List" onPress={addProductHandler} />
-        )}
-      </View>
-    </View>
-  );
+  return expanded ? showQuantityUnit() : showForm();
 };
 
 export default NewProductForm;
@@ -165,8 +177,8 @@ const styles = StyleSheet.create({
   },
   rowAligned: {
     flexDirection: "row",
-    marginLeft: 30,
-    marginRight: 30,
+    marginLeft: 20,
+    // marginRight: 30,
   },
   spaceBetween: {
     justifyContent: "space-between",
@@ -175,8 +187,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     marginTop: 10,
-    marginLeft: 30,
-    marginRight: 30,
+    // marginLeft: 30,
+    // marginRight: 30,
     alignItems: "center",
   },
   numInput: {

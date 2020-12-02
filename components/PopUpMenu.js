@@ -4,7 +4,7 @@ import { Modal, Portal, Text  } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import PropTypes from "prop-types";
 
-const PopUpMenu = ({ actionsMenu, groceryListID, groceryList }) => {
+const PopUpMenu = ({ actionsMenu, groceryList }) => {
   const [visible, setVisible] = React.useState(false);
 
   const openMenu = () => setVisible(true);
@@ -53,7 +53,7 @@ export default PopUpMenu;
 
 PopUpMenu.propTypes = {
   actionsMenu: PropTypes.array.isRequired,
-  groceryListID: PropTypes.string.isRequired,
+  groceryList: PropTypes.object.isRequired,
 };
 
 const styles = StyleSheet.create({

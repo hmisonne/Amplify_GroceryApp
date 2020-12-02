@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  StyleSheet,
-  TextInput,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+import { View, KeyboardAvoidingView, TextInput, StyleSheet, Text, Platform, TouchableWithoutFeedback, Button, Keyboard  } from 'react-native';
 import { useDispatch } from "react-redux";
 import {
   handleAddProduct,
@@ -76,6 +70,12 @@ const NewProductForm = (props) => {
 
   function showQuantityUnit() {
     return (
+      <KeyboardAvoidingView
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <Divider />
         <AccordionMenu
@@ -113,11 +113,19 @@ const NewProductForm = (props) => {
           )}
         </View>
       </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
     );
   }
 
   function showForm() {
     return (
+      <KeyboardAvoidingView
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <View>
           <StyledTextInput
@@ -161,6 +169,8 @@ const NewProductForm = (props) => {
           )}
         </View>
       </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
     );
   }
 

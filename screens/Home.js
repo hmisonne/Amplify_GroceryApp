@@ -14,12 +14,10 @@ import {
   handleLoadGroceryLists,
   syncDatastore,
 } from "../src/redux/actions/groceryList";
-import RoundButton from "../components/RoundButton";
 import FabBar from "../components/FabBar";
 import UndoRedo from "../containers/UndoRedo";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import PopUpMenu from "../components/PopUpMenu";
-import PopUpMenuMobile from "../components/PopUpMenuMobile";
 import { Hub } from "aws-amplify";
 import { Divider } from "react-native-paper";
 
@@ -69,8 +67,8 @@ const Home = ({groceryLists, navigation}) => {
     {
       icon: "share-variant",
       title: "Share",
-      onPress: (groceryListID) =>
-        navigation.push("ShareGroceryList", { groceryListID }),
+      onPress: (groceryList) =>
+        navigation.push("ShareGroceryList", { groceryList: groceryList }),
     },
     // {
     //   icon:"pencil-box-outline",
@@ -80,7 +78,7 @@ const Home = ({groceryLists, navigation}) => {
     {
       icon: "delete-outline",
       title: "Delete",
-      onPress: (groceryListID) => removeGroceryList(groceryListID),
+      onPress: (groceryList) => removeGroceryList(groceryList.id),
     },
   ];
 
@@ -125,14 +123,9 @@ const Home = ({groceryLists, navigation}) => {
                   <Text style={styles.glistName}>{glist.name}</Text>
                 </View>
               </TouchableOpacity>
-              {Platform.OS === "ios" || Platform.OS === "android" ? (
-                <PopUpMenuMobile
-                  actionsMenu={actionsMenu}
-                  groceryListID={glist.id}
-                />
-              ) : (
-                <PopUpMenu actionsMenu={actionsMenu} groceryListID={glist.id} />
-              )}
+
+                <PopUpMenu actionsMenu={actionsMenu} groceryList={glist} groceryListID={glist.id} />
+
             </View>
             <Divider style={{height:1}} />
           </View>

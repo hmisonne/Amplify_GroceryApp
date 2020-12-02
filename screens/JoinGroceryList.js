@@ -57,7 +57,8 @@ const JoinGroceryList = ({ navigation, userGroceryLists }) => {
           onChangeText={(val) => setGroceryListID(val)}
           style={styles.input}
           value={groceryListID}
-          placeholder="Grocery List ID"
+          placeholder="List ID number"
+          label="List ID number"
         />
         <HelperText
           type="error"

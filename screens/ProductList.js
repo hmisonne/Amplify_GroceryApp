@@ -9,6 +9,8 @@ import {
 } from "../src/redux/actions/product";
 import HeaderTab from "../components/HeaderTab";
 import SwipeSectionList from "../components/SwipeSectionList";
+import { DataStore } from "aws-amplify";
+import { Product } from "../src/models";
 
 function ProductList(props) {
   const dispatch = useDispatch();
@@ -20,6 +22,12 @@ function ProductList(props) {
   const groceryListID = props.route.params.groceryList.id;
   useEffect(() => {
     dispatch(handleLoadProducts(groceryListID));
+    const subscription = DataStore.observe(Product).subscribe((msg) => {
+      console.log(msg.model, msg.opType, msg.element);
+      dispatch(handleLoadProducts(groceryListID));
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
   const { allProducts, productsToBuy } = props;
 

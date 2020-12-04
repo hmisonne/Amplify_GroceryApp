@@ -25,9 +25,9 @@ function SwipeSectionList({
     }
   };
 
-  const deleteRow = (rowMap, rowKey) => {
-    closeRow(rowMap, rowKey);
-    deleteProduct(rowKey);
+  const deleteRow = (rowMap, product) => {
+    closeRow(rowMap, product.key);
+    deleteProduct(product);
   };
   const goToEditProduct = (rowMap, product) => {
     closeRow(rowMap, product.key);
@@ -97,7 +97,7 @@ function SwipeSectionList({
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnRight]}
-        onPress={() => deleteRow(rowMap, data.item.key)}
+        onPress={() => deleteRow(rowMap, data.item)}
       >
         <MaterialCommunityIcons name="delete-outline" size={20} color="white" />
       </TouchableOpacity>

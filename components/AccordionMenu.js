@@ -1,7 +1,7 @@
 import React from "react";
-import { TouchableOpacity, StyleSheet } from "react-native";
+import { TouchableOpacity , StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Subheading } from "react-native-paper";
+import { Subheading, Text } from "react-native-paper";
 import PropTypes from "prop-types";
 
 const AccordionMenu = ({ text, expanded, handlePress }) => {
@@ -10,7 +10,7 @@ const AccordionMenu = ({ text, expanded, handlePress }) => {
       onPress={handlePress}
       style={[styles.rowAligned, styles.spaceBetween]}
     >
-      <Subheading>{text}</Subheading>
+      <Text>{text}</Text>
       <Ionicons
         name={expanded ? "ios-arrow-up" : "ios-arrow-down"}
         size={24}

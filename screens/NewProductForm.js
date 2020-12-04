@@ -130,12 +130,14 @@ const NewProductForm = (props) => {
         <View>
           <StyledTextInput
             onChangeText={(val) => setInput("name", val)}
-            label="Name"
+            label="Product Name"
             value={formState.name}
             placeholder="Golden Apple"
           />
         </View>
+        <Divider />
         <View>
+          <Text style={styles.rowAligned}>Pick a Category:</Text>
           <SelectionPicker
             selectedValue={formState.category}
             onValueChange={(val) => setInput("category", val)}
@@ -146,15 +148,7 @@ const NewProductForm = (props) => {
         </View>
 
         <Divider />
-        <View style={[styles.rowAligned, styles.spaceBetween]}>
-          <Subheading>To Buy?</Subheading>
-          <Switch
-            color={mainColor}
-            value={formState.toBuy}
-            onValueChange={onToggleSwitch}
-          />
-        </View>
-        <Divider />
+
         <AccordionMenu
           text="Optional: Specify quantity & package size"
           expanded={expanded}
@@ -210,3 +204,14 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
   },
 });
+
+        
+{/* <View style={[styles.rowAligned, styles.spaceBetween]}>
+<Subheading>To Buy?</Subheading>
+<Switch
+  color={mainColor}
+  value={formState.toBuy}
+  onValueChange={onToggleSwitch}
+/>
+</View>
+<Divider /> */}

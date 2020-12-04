@@ -52,7 +52,9 @@ function ProductList(props) {
       />
       <SwipeSectionList
         listData={toBuyView? productsToBuy : allProducts}
-        deleteProduct={(productID) => deleteProduct(productID)}
+        deleteProduct={toBuyView? 
+          (product) => toggleProductToBuy(product)
+          : (product) => deleteProduct(product.id)}
         navigateToEditProduct={(product) => navigateToEditProduct(product)}
         toggleProduct={toBuyView? (product) => toggleProduct(product): (product) => toggleProductToBuy(product)}
         toBuyView={toBuyView}

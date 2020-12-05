@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { productCategory } from "../utils/helpers";
+import { Modal, Portal, Text, FAB, Provider } from 'react-native-paper';
+import { mainColor, productCategory } from "../utils/helpers";
 import { connect, useDispatch } from "react-redux";
 import {
   handleDeleteProduct,
@@ -11,6 +12,7 @@ import HeaderTab from "../components/HeaderTab";
 import SwipeSectionList from "../components/SwipeSectionList";
 import { DataStore } from "aws-amplify";
 import { Product } from "../src/models";
+import RoundButton from "../components/RoundButton";
 
 function ProductList(props) {
   const dispatch = useDispatch();
@@ -18,7 +20,24 @@ function ProductList(props) {
   function toggleToBuyView(bool) {
     return setToBuyView(bool);
   }
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const showModal = () => setModalVisible(true);
+  const hideModal = () => setModalVisible(false);
+  const containerStyle = {backgroundColor: 'white', padding: 20};
 
+  React.useLayoutEffect(() => {
+    props.navigation.setOptions({
+      headerRight: () => (
+        <RoundButton
+          onPress={showModal}
+          name="dots-vertical"
+          style={{ marginRight: 20 }}
+        />
+      ),
+  }, [props.navigation, setModalVisible]);
+})
+
+  
   const groceryListID = props.route.params.groceryList.id;
   useEffect(() => {
     dispatch(handleLoadProducts(groceryListID));
@@ -45,6 +64,13 @@ function ProductList(props) {
   }
 
   return (
+    <Provider>
+      <Portal>
+        <Modal visible={modalVisible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
+          <Text>Example Modal.  Click outside this area to dismiss.</Text>
+        </Modal>
+      </Portal>
+    
     <View style={styles.container}>
       <HeaderTab
         firstTabSelected={toBuyView}
@@ -59,7 +85,22 @@ function ProductList(props) {
         toggleProduct={toBuyView? (product) => toggleProduct(product): (product) => toggleProductToBuy(product)}
         toBuyView={toBuyView}
       />
+       <FAB
+        style={styles.fab}
+        icon="plus"
+        style={{
+          backgroundColor: mainColor,
+          position: 'absolute',
+          margin: 16,
+          right: 0,
+          bottom: 0,}
+        }
+        onPress={() => props.navigation.push("AddProduct", {
+          groceryListID: groceryListID,
+        })}
+      />
     </View>
+    </Provider>
   );
 }
 

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Modal, Portal, Text, FAB, Provider } from 'react-native-paper';
+import { FAB, Provider } from 'react-native-paper';
 import { mainColor, productCategory } from "../utils/helpers";
 import { connect, useDispatch } from "react-redux";
 import {
+  handleDeleteAllProducts,
   handleDeleteProduct,
   handleLoadProducts,
   handleToggleProduct,
+  handleUnCheckAllProducts,
 } from "../src/redux/actions/product";
 import HeaderTab from "../components/HeaderTab";
 import SwipeSectionList from "../components/SwipeSectionList";
@@ -39,7 +41,7 @@ function ProductList({ navigation,route, allProducts, productsToBuy}) {
 
   const { groceryList } = route.params
   const groceryListID = groceryList.id;
-  
+
   useEffect(() => {
     dispatch(handleLoadProducts(groceryListID));
     const subscription = DataStore.observe(Product).subscribe((msg) => {
@@ -69,6 +71,19 @@ function ProductList({ navigation,route, allProducts, productsToBuy}) {
       onPress: (groceryList) =>
         navigation.push("ShareGroceryList", { groceryList: groceryList }),
     },
+    {
+      icon: "checkbox-multiple-blank-circle-outline" ,
+      title: "Uncheck all items",
+      onPress: (groceryList) =>
+        dispatch(handleUnCheckAllProducts(groceryList.id))
+    },
+    {
+      icon: "delete-variant" ,
+      title: "Delete all items",
+      onPress: (groceryList) =>
+        dispatch(handleDeleteAllProducts(groceryList.id))
+    },
+
   ];
 
   return (

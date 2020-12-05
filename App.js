@@ -17,7 +17,6 @@ import Settings from "./screens/Settings";
 import LoadingScreen from "./screens/LoadingScreen";
 
 import prepareResources from "./hooks/prepareResources";
-import RoundButton from "./components/RoundButton";
 import store from "./src/redux/store";
 
 import { blue, mainColor, secondaryColor } from "./utils/helpers";
@@ -47,11 +46,6 @@ const ProductStack = createStackNavigator();
 
 const App = () => {
   const isAppReady = prepareResources();
-  function goToNewProductScreen(props) {
-    props.navigation.push("AddProduct", {
-      groceryListID: props.route.params.groceryList.id,
-    });
-  }
 
   function goToSettings(props) {
     props.navigation.push("Settings");
@@ -97,14 +91,6 @@ const App = () => {
               options={(props) => ({
                 title: `${props.route.params.groceryList.name}`,
                 headerTintColor: secondaryColor,
-                headerRight: () => (
-                  <RoundButton
-                    onPress={() => goToNewProductScreen(props)}
-                    name="plus-circle"
-                    color={mainColor}
-                    style={{ marginRight: 20 }}
-                  />
-                ),
               })}
             />
             <ProductStack.Screen

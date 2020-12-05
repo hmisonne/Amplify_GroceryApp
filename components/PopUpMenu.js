@@ -1,8 +1,8 @@
 import * as React from "react";
 import { TouchableOpacity, View, StyleSheet} from "react-native";
-import { Modal, Portal, Text  } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import PropTypes from "prop-types";
+import ModalOptionList from './ModalOptionList'
 
 const PopUpMenu = ({ actionsMenu, groceryList }) => {
   const [visible, setVisible] = React.useState(false);
@@ -10,37 +10,14 @@ const PopUpMenu = ({ actionsMenu, groceryList }) => {
   const openMenu = () => setVisible(true);
 
   const closeMenu = () => setVisible(false);
-  const containerStyle = { backgroundColor: "white", padding: 20 };
 
   return (
     <View>
-      <Portal>
-        <Modal
-          visible={visible}
-          onDismiss={closeMenu}
-          contentContainerStyle={containerStyle}
-        >
-          {actionsMenu.map((action, index) => (
-              <TouchableOpacity
-                key = {index}
-                style={styles.row}
-                onPress={() => {
-                  action.onPress(groceryList);
-                  closeMenu();
-                }}
-              >
-                <MaterialCommunityIcons
-                  name={action.icon}
-                  style={styles.iconSpace}
-                  size={24}
-                  color="black"
-                />
-                <Text style={styles.text}>{action.title}</Text>
-              </TouchableOpacity>
-
-          ))}
-        </Modal>
-      </Portal>
+      <ModalOptionList 
+        actionsMenu={actionsMenu} 
+        groceryList={groceryList} 
+        visible={visible}
+        closeMenu={closeMenu}/>
 
       <TouchableOpacity onPress={openMenu}>
         <MaterialCommunityIcons name="dots-vertical" size={24} color="black" />
@@ -55,17 +32,3 @@ PopUpMenu.propTypes = {
   actionsMenu: PropTypes.array.isRequired,
   groceryList: PropTypes.object.isRequired,
 };
-
-const styles = StyleSheet.create({
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
-    margin: 20
-  },
-  iconSpace: {
-    marginRight: 15
-  },
-  text : {
-    fontSize: 18
-  }
-});

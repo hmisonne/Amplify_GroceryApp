@@ -1,4 +1,5 @@
 export const productReducer = (state = [], action) => {
+    let { groceryListID } = action;
     switch (action.type) {
       case "LOAD_PRODUCTS":
         const products = action.products;
@@ -24,6 +25,18 @@ export const productReducer = (state = [], action) => {
             product.id === updatedProduct.id
               ? updatedProduct
               : product
+          );
+        case "UNCHECK_ALL_PRODUCT":
+          return state.map((product) =>
+            product.groceryListID === groceryListID
+              ? { ...product, 
+                checked: false 
+              }
+              : product
+          );
+        case "DELETE_ALL_PRODUCT":
+          return state.filter((product) =>
+            product.groceryListID !== groceryListID
           );
       default:
         return state;

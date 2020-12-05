@@ -17,6 +17,6 @@ RoundButton.propTypes = {
   style: PropTypes.object,
   onPress: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired,
+  color: PropTypes.string,
   size: PropTypes.number,
 };

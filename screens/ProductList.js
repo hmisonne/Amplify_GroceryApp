@@ -13,8 +13,9 @@ import SwipeSectionList from "../components/SwipeSectionList";
 import { DataStore } from "aws-amplify";
 import { Product } from "../src/models";
 import RoundButton from "../components/RoundButton";
+import ModalOptionList from "../components/ModalOptionList";
 
-function ProductList(props) {
+function ProductList({ navigation,route, allProducts, productsToBuy}) {
   const dispatch = useDispatch();
   const [toBuyView, setToBuyView] = useState(true);
   function toggleToBuyView(bool) {
@@ -23,10 +24,9 @@ function ProductList(props) {
   const [modalVisible, setModalVisible] = React.useState(false);
   const showModal = () => setModalVisible(true);
   const hideModal = () => setModalVisible(false);
-  const containerStyle = {backgroundColor: 'white', padding: 20};
 
   React.useLayoutEffect(() => {
-    props.navigation.setOptions({
+    navigation.setOptions({
       headerRight: () => (
         <RoundButton
           onPress={showModal}
@@ -34,11 +34,12 @@ function ProductList(props) {
           style={{ marginRight: 20 }}
         />
       ),
-  }, [props.navigation, setModalVisible]);
+  }, [navigation, setModalVisible]);
 })
 
+  const { groceryList } = route.params
+  const groceryListID = groceryList.id;
   
-  const groceryListID = props.route.params.groceryList.id;
   useEffect(() => {
     dispatch(handleLoadProducts(groceryListID));
     const subscription = DataStore.observe(Product).subscribe((msg) => {
@@ -48,13 +49,12 @@ function ProductList(props) {
 
     return () => subscription.unsubscribe();
   }, []);
-  const { allProducts, productsToBuy } = props;
 
   function deleteProduct(productID) {
     dispatch(handleDeleteProduct(productID));
   }
   function navigateToEditProduct(product) {
-    return props.navigation.push("AddProduct", { product });
+    return navigation.push("AddProduct", { product });
   }
   async function toggleProduct(product) {
     return dispatch(handleToggleProduct(product));
@@ -62,14 +62,22 @@ function ProductList(props) {
   async function toggleProductToBuy(product) {
     return dispatch(handleToggleProduct(product, 'toBuy'));
   }
+  const actionsMenu = [
+    {
+      icon: "share-variant",
+      title: "Share",
+      onPress: (groceryList) =>
+        navigation.push("ShareGroceryList", { groceryList: groceryList }),
+    },
+  ];
 
   return (
     <Provider>
-      <Portal>
-        <Modal visible={modalVisible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
-          <Text>Example Modal.  Click outside this area to dismiss.</Text>
-        </Modal>
-      </Portal>
+      <ModalOptionList 
+        actionsMenu={actionsMenu} 
+        groceryList={groceryList} 
+        visible={modalVisible}
+        closeMenu={hideModal}/>
     
     <View style={styles.container}>
       <HeaderTab
@@ -95,7 +103,7 @@ function ProductList(props) {
           right: 0,
           bottom: 0,}
         }
-        onPress={() => props.navigation.push("AddProduct", {
+        onPress={() => navigation.push("AddProduct", {
           groceryListID: groceryListID,
         })}
       />

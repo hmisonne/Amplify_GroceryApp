@@ -120,9 +120,9 @@ export class BackendInterface {
   
 async unCheckAllProducts(groceryListID){
   try {
-    const products = fetchProductsByGroceryList(groceryListID)
+    const products = await this.fetchProductsByGroceryList(groceryListID)
     const productsToUncheck= products.filter(product => product.checked === true)
-    for (product of productsToUncheck){
+    for (let product of productsToUncheck){
       const original = await this._dataStore.query(Product, product.id);
       const updatedProduct =  await this._dataStore.save(
         Product.copyOf(original, (updated) => {

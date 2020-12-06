@@ -12,7 +12,7 @@ import StyledTextInput from "../components/StyledTextInput";
 import Stepper from "../components/Stepper";
 import SelectionPicker from "../components/SelectionPicker";
 import { grey, productCategory } from "../utils/helpers";
-import { Divider } from "react-native-paper";
+import { Divider, Subheading } from "react-native-paper";
 import AccordionMenu from "../components/AccordionMenu";
 
 const units = ["ct", "lb", "g", "kg", "L"];
@@ -24,9 +24,11 @@ const NewProductForm = (props) => {
     toBuy: true,
     unit: "ct",
     quantity: 0,
-    category: "Produce",
+    category: "Other",
   };
-
+  const validateForm = () => {
+    return formState.name === "";
+  };
   const productToUpdate = props.route.params.product;
   const [formState, setFormState] = useState(
     productToUpdate ? productToUpdate : initialState
@@ -109,12 +111,12 @@ const NewProductForm = (props) => {
           value={formState.unit}
           selection={units}
         />
-
+      <Divider />
         <View>
           {productToUpdate ? (
-            <SubmitBtn title="Update" onPress={updateProductHandler} />
+            <SubmitBtn title="Update" onPress={updateProductHandler} disabled={validateForm()}/>
           ) : (
-            <SubmitBtn title="Add to List" onPress={addProductHandler} />
+            <SubmitBtn title="Add to List" onPress={addProductHandler} disabled={validateForm()}/>
           )}
         </View>
       </View>
@@ -142,10 +144,10 @@ const NewProductForm = (props) => {
         </View>
         <Divider />
           <TouchableOpacity onPress = {goToProductCategory}>
-          <Text >Category:</Text>
+          <Text style={styles.marginBottom}>Category:</Text>
           <View style={styles.rowAligned}>
             <MaterialCommunityIcons name={productCategory[formState.category].picture } size={24} color="black" />
-            <Text style={styles.rowAligned}>{formState.category}</Text>
+            <Subheading style={styles.rowAligned}>{formState.category}</Subheading>
           </View>
 
           </TouchableOpacity>
@@ -159,9 +161,9 @@ const NewProductForm = (props) => {
         <Divider />
         <View>
           {productToUpdate ? (
-            <SubmitBtn title="Update" onPress={updateProductHandler} />
+            <SubmitBtn title="Update" onPress={updateProductHandler} disabled={validateForm()}/>
           ) : (
-            <SubmitBtn title="Add to List" onPress={addProductHandler} />
+            <SubmitBtn title="Add to List" onPress={addProductHandler} disabled={validateForm()}/>
           )}
         </View>
       </View>
@@ -196,6 +198,9 @@ const styles = StyleSheet.create({
     // marginLeft: 30,
     // marginRight: 30,
     alignItems: "center",
+  },
+  marginBottom: {
+    marginBottom: 10,
   },
   numInput: {
     height: 40,

@@ -25,7 +25,7 @@ export default AccordionMenu;
 const styles = StyleSheet.create({
   rowAligned: {
     flexDirection: "row",
-    marginLeft: 20,
+    // marginLeft: 20,
   },
   spaceBetween: {
     justifyContent: "space-between",

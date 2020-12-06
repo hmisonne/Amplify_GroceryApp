@@ -13,10 +13,12 @@ import UndoRedo from "../containers/UndoRedo";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import PopUpMenu from "../components/PopUpMenu";
 import { Hub } from "aws-amplify";
-import { Divider } from "react-native-paper";
+import { Divider, Subheading } from "react-native-paper";
+import LoadingCircle from "../components/LoadingCircle";
 
 const Home = ({ groceryLists, navigation }) => {
   const [visible, setVisible] = React.useState(false);
+  const [isReady, setReady] = React.useState(false);
   const onToggleSnackBar = () => setVisible(!visible);
   const onDismissSnackBar = () => setVisible(false);
 
@@ -26,7 +28,9 @@ const Home = ({ groceryLists, navigation }) => {
     dispatch(handleAuthentificateUser()).then((groceryLists) => {
       if (groceryLists && groceryLists.length !== 0) {
         syncDatastore(groceryLists, "LOAD");
-      }
+      } else (
+        setReady(true)
+      )
     });
 
     const removeListener = Hub.listen("datastore", async (hubData) => {
@@ -34,9 +38,11 @@ const Home = ({ groceryLists, navigation }) => {
       if (event === "ready") {
         console.log("Ready load grocery list HOME");
         dispatch(handleLoadGroceryLists());
+        setReady(true)
         removeListener();
       }
     });
+    
   }, []);
 
   function removeGroceryList(groceryListID) {
@@ -44,6 +50,13 @@ const Home = ({ groceryLists, navigation }) => {
     onToggleSnackBar();
   }
 
+  function displayLoadingCircle() {
+    return (
+      <View style={styles.centered}>
+        <LoadingCircle />
+      </View>
+    );
+  }
   const actions = [
     {
       icon: "format-list-checks",
@@ -78,9 +91,13 @@ const Home = ({ groceryLists, navigation }) => {
 
   return (
     <View style={styles.container}>
-      {groceryLists.length === 0
-        ? displayInstructions()
-        : displayUserGroceryLists()}
+      {!isReady 
+      ? displayLoadingCircle()
+        : groceryLists.length === 0
+          ? displayInstructions()
+          : displayUserGroceryLists()
+        }
+      
 
       <FabBar actions={actions} />
 
@@ -94,9 +111,9 @@ const Home = ({ groceryLists, navigation }) => {
   function displayInstructions() {
     return (
       <View style={styles.centered}>
-        <Text style={styles.text}>
+        <Subheading style={styles.text}>
           Create your first grocery list by clicking on the + icon !
-        </Text>
+        </Subheading>
       </View>
     );
   }
@@ -117,10 +134,7 @@ const Home = ({ groceryLists, navigation }) => {
                   <Text style={styles.glistName}>{glist.name}</Text>
                 </View>
               </TouchableOpacity>
-              <PopUpMenu
-                actionsMenu={actionsMenu}
-                groceryList={glist}
-              />
+              <PopUpMenu actionsMenu={actionsMenu} groceryList={glist} />
             </View>
             <Divider style={{ height: 1 }} />
           </View>

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { View, KeyboardAvoidingView, TextInput, StyleSheet, Text, Platform, TouchableWithoutFeedback, Button, Keyboard  } from 'react-native';
+import { View, KeyboardAvoidingView, TextInput, StyleSheet, Text, Platform, TouchableWithoutFeedback, TouchableOpacity, Keyboard  } from 'react-native';
 import { useDispatch } from "react-redux";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
 import {
   handleAddProduct,
   handleUpdateProduct,
@@ -9,8 +11,8 @@ import SubmitBtn from "../components/SubmitBtn";
 import StyledTextInput from "../components/StyledTextInput";
 import Stepper from "../components/Stepper";
 import SelectionPicker from "../components/SelectionPicker";
-import { grey, mainColor, productCategory } from "../utils/helpers";
-import { Divider, Switch, Subheading } from "react-native-paper";
+import { grey, productCategory } from "../utils/helpers";
+import { Divider } from "react-native-paper";
 import AccordionMenu from "../components/AccordionMenu";
 
 const units = ["ct", "lb", "g", "kg", "L"];
@@ -24,6 +26,7 @@ const NewProductForm = (props) => {
     quantity: 0,
     category: "Produce",
   };
+
   const productToUpdate = props.route.params.product;
   const [formState, setFormState] = useState(
     productToUpdate ? productToUpdate : initialState
@@ -44,7 +47,9 @@ const NewProductForm = (props) => {
     const count = parseInt(formState[key], 10) + 1;
     setFormState({ ...formState, [key]: count });
   }
-
+  function goToProductCategory(){
+    props.navigation.push("ProductCategory", {category: formState.category, updateCategory: (value) =>setInput('category', value) })
+  }
   function onDecrement(key) {
     const count = parseInt(formState[key], 10) - 1;
     setFormState({ ...formState, [key]: count < 0 ? 0 : count });
@@ -121,9 +126,9 @@ const NewProductForm = (props) => {
   function showForm() {
     return (
       <KeyboardAvoidingView
-      behavior={Platform.OS == "ios" ? "padding" : "height"}
-      style={styles.container}
-    >
+        behavior={Platform.OS == "ios" ? "padding" : "height"}
+        style={styles.container}
+      >
 
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
@@ -136,17 +141,14 @@ const NewProductForm = (props) => {
           />
         </View>
         <Divider />
-        <View>
-          <Text style={styles.rowAligned}>Pick a Category:</Text>
-          <SelectionPicker
-            selectedValue={formState.category}
-            onValueChange={(val) => setInput("category", val)}
-            label={formState.category}
-            value={formState.category}
-            selection={Object.keys(productCategory)}
-          />
-        </View>
+          <TouchableOpacity onPress = {goToProductCategory}>
+          <Text >Category:</Text>
+          <View style={styles.rowAligned}>
+            <MaterialCommunityIcons name={productCategory[formState.category].picture } size={24} color="black" />
+            <Text style={styles.rowAligned}>{formState.category}</Text>
+          </View>
 
+          </TouchableOpacity>
         <Divider />
 
         <AccordionMenu

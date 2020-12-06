@@ -17,13 +17,13 @@ import Settings from "./screens/Settings";
 import LoadingScreen from "./screens/LoadingScreen";
 
 import prepareResources from "./hooks/prepareResources";
-import RoundButton from "./components/RoundButton";
 import store from "./src/redux/store";
 
 import { blue, mainColor, secondaryColor } from "./utils/helpers";
 import JoinGroceryList from "./screens/JoinGroceryList";
 import ShareGroceryList from "./screens/ShareGroceryList";
 import ProductList from "./screens/ProductList";
+import ProductCategory from "./screens/ProductCategory"
 import logo from './assets/logo.png'; 
 
 Amplify.configure({
@@ -47,11 +47,6 @@ const ProductStack = createStackNavigator();
 
 const App = () => {
   const isAppReady = prepareResources();
-  function goToNewProductScreen(props) {
-    props.navigation.push("AddProduct", {
-      groceryListID: props.route.params.groceryList.id,
-    });
-  }
 
   function goToSettings(props) {
     props.navigation.push("Settings");
@@ -97,14 +92,6 @@ const App = () => {
               options={(props) => ({
                 title: `${props.route.params.groceryList.name}`,
                 headerTintColor: secondaryColor,
-                headerRight: () => (
-                  <RoundButton
-                    onPress={() => goToNewProductScreen(props)}
-                    name="plus-circle"
-                    color={mainColor}
-                    style={{ marginRight: 20 }}
-                  />
-                ),
               })}
             />
             <ProductStack.Screen
@@ -132,6 +119,14 @@ const App = () => {
                   ? `Update ${props.route.params.product.name}`
                   : `Add New Product`,
               })}
+            />
+            <ProductStack.Screen
+              name="ProductCategory"
+              component={ProductCategory}
+              options={{
+                headerTintColor: secondaryColor,
+                title: 'Category'
+              }}
             />
             <ProductStack.Screen
               name="Settings"

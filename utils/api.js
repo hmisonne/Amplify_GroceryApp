@@ -118,6 +118,31 @@ export class BackendInterface {
     }
   }
   
+async unCheckAllProducts(groceryListID){
+  try {
+    const products = await this.fetchProductsByGroceryList(groceryListID)
+    const productsToUncheck= products.filter(product => product.checked === true)
+    for (let product of productsToUncheck){
+      const original = await this._dataStore.query(Product, product.id);
+      const updatedProduct =  await this._dataStore.save(
+        Product.copyOf(original, (updated) => {
+          updated.checked = false
+        }))
+    }
+  } catch (err) {
+    console.log("error unChecking all items:", err);
+  }
+}
+
+async removeAllProducts(groceryListID){
+  try {
+    await this._dataStore.delete(Product, product => product.groceryListID("eq", groceryListID));
+    console.log("Product deleted successfully from list!");
+  } catch (err) {
+    console.log("error unChecking all items:", err);
+  }
+}
+
   
  async updateProductDetails(product) {
     try {
@@ -134,7 +159,7 @@ export class BackendInterface {
         console.log("Product updated successfully!", updatedProduct);
         return updatedProduct
      } catch (err) {
-    console.log("error creating food:", err);
+    console.log("error updating product:", err);
     }
   }
   

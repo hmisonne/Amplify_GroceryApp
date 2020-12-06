@@ -1,25 +1,47 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { productCategory } from "../utils/helpers";
+import { FAB, Provider } from 'react-native-paper';
+import { mainColor, productCategory } from "../utils/helpers";
 import { connect, useDispatch } from "react-redux";
 import {
+  handleDeleteAllProducts,
   handleDeleteProduct,
   handleLoadProducts,
   handleToggleProduct,
+  handleUnCheckAllProducts,
 } from "../src/redux/actions/product";
 import HeaderTab from "../components/HeaderTab";
 import SwipeSectionList from "../components/SwipeSectionList";
 import { DataStore } from "aws-amplify";
 import { Product } from "../src/models";
+import RoundButton from "../components/RoundButton";
+import ModalOptionList from "../components/ModalOptionList";
 
-function ProductList(props) {
+function ProductList({ navigation,route, allProducts, productsToBuy}) {
   const dispatch = useDispatch();
   const [toBuyView, setToBuyView] = useState(true);
   function toggleToBuyView(bool) {
     return setToBuyView(bool);
   }
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const showModal = () => setModalVisible(true);
+  const hideModal = () => setModalVisible(false);
 
-  const groceryListID = props.route.params.groceryList.id;
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <RoundButton
+          onPress={showModal}
+          name="dots-vertical"
+          style={{ marginRight: 20 }}
+        />
+      ),
+  }, [navigation, setModalVisible]);
+})
+
+  const { groceryList } = route.params
+  const groceryListID = groceryList.id;
+
   useEffect(() => {
     dispatch(handleLoadProducts(groceryListID));
     const subscription = DataStore.observe(Product).subscribe((msg) => {
@@ -29,13 +51,12 @@ function ProductList(props) {
 
     return () => subscription.unsubscribe();
   }, []);
-  const { allProducts, productsToBuy } = props;
 
   function deleteProduct(productID) {
     dispatch(handleDeleteProduct(productID));
   }
   function navigateToEditProduct(product) {
-    return props.navigation.push("AddProduct", { product });
+    return navigation.push("AddProduct", { product });
   }
   async function toggleProduct(product) {
     return dispatch(handleToggleProduct(product));
@@ -43,8 +64,36 @@ function ProductList(props) {
   async function toggleProductToBuy(product) {
     return dispatch(handleToggleProduct(product, 'toBuy'));
   }
+  const actionsMenu = [
+    {
+      icon: "share-variant",
+      title: "Share",
+      onPress: (groceryList) =>
+        navigation.push("ShareGroceryList", { groceryList: groceryList }),
+    },
+    {
+      icon: "checkbox-multiple-blank-circle-outline" ,
+      title: "Uncheck all items",
+      onPress: (groceryList) =>
+        dispatch(handleUnCheckAllProducts(groceryList.id))
+    },
+    {
+      icon: "delete-variant" ,
+      title: "Delete all items",
+      onPress: (groceryList) =>
+        dispatch(handleDeleteAllProducts(groceryList.id))
+    },
+
+  ];
 
   return (
+    <Provider>
+      <ModalOptionList 
+        actionsMenu={actionsMenu} 
+        groceryList={groceryList} 
+        visible={modalVisible}
+        closeMenu={hideModal}/>
+    
     <View style={styles.container}>
       <HeaderTab
         firstTabSelected={toBuyView}
@@ -52,12 +101,29 @@ function ProductList(props) {
       />
       <SwipeSectionList
         listData={toBuyView? productsToBuy : allProducts}
-        deleteProduct={(productID) => deleteProduct(productID)}
+        deleteProduct={toBuyView? 
+          (product) => toggleProductToBuy(product)
+          : (product) => deleteProduct(product.id)}
         navigateToEditProduct={(product) => navigateToEditProduct(product)}
         toggleProduct={toBuyView? (product) => toggleProduct(product): (product) => toggleProductToBuy(product)}
         toBuyView={toBuyView}
       />
+       <FAB
+        style={styles.fab}
+        icon="plus"
+        style={{
+          backgroundColor: mainColor,
+          position: 'absolute',
+          margin: 16,
+          right: 0,
+          bottom: 0,}
+        }
+        onPress={() => navigation.push("AddProduct", {
+          groceryListID: groceryListID,
+        })}
+      />
     </View>
+    </Provider>
   );
 }
 

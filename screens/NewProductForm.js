@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { View, KeyboardAvoidingView, TextInput, StyleSheet, Text, Platform, TouchableWithoutFeedback, Button, Keyboard  } from 'react-native';
+import { View, KeyboardAvoidingView, TextInput, StyleSheet, Text, Platform, TouchableWithoutFeedback, TouchableOpacity, Keyboard  } from 'react-native';
 import { useDispatch } from "react-redux";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
 import {
   handleAddProduct,
   handleUpdateProduct,
@@ -9,8 +11,8 @@ import SubmitBtn from "../components/SubmitBtn";
 import StyledTextInput from "../components/StyledTextInput";
 import Stepper from "../components/Stepper";
 import SelectionPicker from "../components/SelectionPicker";
-import { grey, mainColor, productCategory } from "../utils/helpers";
-import { Divider, Switch, Subheading } from "react-native-paper";
+import { grey, productCategory } from "../utils/helpers";
+import { Divider, Subheading } from "react-native-paper";
 import AccordionMenu from "../components/AccordionMenu";
 
 const units = ["ct", "lb", "g", "kg", "L"];
@@ -22,7 +24,10 @@ const NewProductForm = (props) => {
     toBuy: true,
     unit: "ct",
     quantity: 0,
-    category: "Produce",
+    category: "Other",
+  };
+  const validateForm = () => {
+    return formState.name === "";
   };
   const productToUpdate = props.route.params.product;
   const [formState, setFormState] = useState(
@@ -44,7 +49,9 @@ const NewProductForm = (props) => {
     const count = parseInt(formState[key], 10) + 1;
     setFormState({ ...formState, [key]: count });
   }
-
+  function goToProductCategory(){
+    props.navigation.push("ProductCategory", {category: formState.category, updateCategory: (value) =>setInput('category', value) })
+  }
   function onDecrement(key) {
     const count = parseInt(formState[key], 10) - 1;
     setFormState({ ...formState, [key]: count < 0 ? 0 : count });
@@ -104,12 +111,12 @@ const NewProductForm = (props) => {
           value={formState.unit}
           selection={units}
         />
-
+      <Divider />
         <View>
           {productToUpdate ? (
-            <SubmitBtn title="Update" onPress={updateProductHandler} />
+            <SubmitBtn title="Update" onPress={updateProductHandler} disabled={validateForm()}/>
           ) : (
-            <SubmitBtn title="Add to List" onPress={addProductHandler} />
+            <SubmitBtn title="Add to List" onPress={addProductHandler} disabled={validateForm()}/>
           )}
         </View>
       </View>
@@ -121,40 +128,31 @@ const NewProductForm = (props) => {
   function showForm() {
     return (
       <KeyboardAvoidingView
-      behavior={Platform.OS == "ios" ? "padding" : "height"}
-      style={styles.container}
-    >
+        behavior={Platform.OS == "ios" ? "padding" : "height"}
+        style={styles.container}
+      >
 
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <View>
           <StyledTextInput
             onChangeText={(val) => setInput("name", val)}
-            label="Name"
+            label="Product Name"
             value={formState.name}
             placeholder="Golden Apple"
           />
         </View>
-        <View>
-          <SelectionPicker
-            selectedValue={formState.category}
-            onValueChange={(val) => setInput("category", val)}
-            label={formState.category}
-            value={formState.category}
-            selection={Object.keys(productCategory)}
-          />
-        </View>
+        <Divider />
+          <TouchableOpacity onPress = {goToProductCategory}>
+          <Text style={styles.marginBottom}>Category:</Text>
+          <View style={styles.rowAligned}>
+            <MaterialCommunityIcons name={productCategory[formState.category].picture } size={24} color="black" />
+            <Subheading style={styles.rowAligned}>{formState.category}</Subheading>
+          </View>
 
+          </TouchableOpacity>
         <Divider />
-        <View style={[styles.rowAligned, styles.spaceBetween]}>
-          <Subheading>To Buy?</Subheading>
-          <Switch
-            color={mainColor}
-            value={formState.toBuy}
-            onValueChange={onToggleSwitch}
-          />
-        </View>
-        <Divider />
+
         <AccordionMenu
           text="Optional: Specify quantity & package size"
           expanded={expanded}
@@ -163,9 +161,9 @@ const NewProductForm = (props) => {
         <Divider />
         <View>
           {productToUpdate ? (
-            <SubmitBtn title="Update" onPress={updateProductHandler} />
+            <SubmitBtn title="Update" onPress={updateProductHandler} disabled={validateForm()}/>
           ) : (
-            <SubmitBtn title="Add to List" onPress={addProductHandler} />
+            <SubmitBtn title="Add to List" onPress={addProductHandler} disabled={validateForm()}/>
           )}
         </View>
       </View>
@@ -201,6 +199,9 @@ const styles = StyleSheet.create({
     // marginRight: 30,
     alignItems: "center",
   },
+  marginBottom: {
+    marginBottom: 10,
+  },
   numInput: {
     height: 40,
     width: 50,
@@ -210,3 +211,14 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
   },
 });
+
+        
+{/* <View style={[styles.rowAligned, styles.spaceBetween]}>
+<Subheading>To Buy?</Subheading>
+<Switch
+  color={mainColor}
+  value={formState.toBuy}
+  onValueChange={onToggleSwitch}
+/>
+</View>
+<Divider /> */}

@@ -18,7 +18,7 @@ const ShareGroceryList = (props) => {
     body: 
     `<div>Welcome to ListBee!</div> 
     
-    <div>${formattedUsername} is giving you access to his/her ${formattedGroceryList} list.</div>
+    <div>${formattedUsername} is giving you access to ${formattedGroceryList} list.</div>
 
     <div>If you don't have the app, here is the link to download it the Android App Store:
     https://play.google.com/store/apps/details?id=com.hmisonne.ListBee, </div>

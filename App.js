@@ -23,6 +23,7 @@ import { blue, mainColor, secondaryColor } from "./utils/helpers";
 import JoinGroceryList from "./screens/JoinGroceryList";
 import ShareGroceryList from "./screens/ShareGroceryList";
 import ProductList from "./screens/ProductList";
+import ProductCategory from "./screens/ProductCategory"
 import logo from './assets/logo.png'; 
 
 Amplify.configure({
@@ -118,6 +119,14 @@ const App = () => {
                   ? `Update ${props.route.params.product.name}`
                   : `Add New Product`,
               })}
+            />
+            <ProductStack.Screen
+              name="ProductCategory"
+              component={ProductCategory}
+              options={{
+                headerTintColor: secondaryColor,
+                title: 'Category'
+              }}
             />
             <ProductStack.Screen
               name="Settings"

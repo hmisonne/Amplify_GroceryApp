@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { FAB, Provider } from 'react-native-paper';
-import { mainColor, productCategory } from "../utils/helpers";
 import { connect, useDispatch } from "react-redux";
+import { DataStore } from "aws-amplify";
+
+import { mainColor, productCategory } from "../utils/helpers";
+import { Product } from "../src/models";
 import {
   handleDeleteAllProducts,
   handleDeleteProduct,
@@ -12,35 +15,49 @@ import {
 } from "../src/redux/actions/product";
 import HeaderTab from "../components/HeaderTab";
 import SwipeSectionList from "../components/SwipeSectionList";
-import { DataStore } from "aws-amplify";
-import { Product } from "../src/models";
-import RoundButton from "../components/RoundButton";
-import ModalOptionList from "../components/ModalOptionList";
+import MenuOptions from "../components/MenuOptions";
 
-function ProductList({ navigation,route, allProducts, productsToBuy}) {
+function ProductList({ navigation, route, allProducts, productsToBuy}) {
   const dispatch = useDispatch();
   const [toBuyView, setToBuyView] = useState(true);
   function toggleToBuyView(bool) {
     return setToBuyView(bool);
   }
-  const [modalVisible, setModalVisible] = React.useState(false);
-  const showModal = () => setModalVisible(true);
-  const hideModal = () => setModalVisible(false);
+
+  const { groceryList } = route.params
+  const groceryListID = groceryList.id;
+
+  const actionsMenu = [
+    {
+      icon: "share-variant",
+      title: "Share",
+      onPress: (groceryList) =>
+        navigation.push("ShareGroceryList", { groceryList: groceryList }),
+    },
+    {
+      icon: "checkbox-multiple-blank-circle-outline" ,
+      title: "Uncheck all items",
+      onPress: (groceryList) =>
+        dispatch(handleUnCheckAllProducts(groceryList.id))
+    },
+    {
+      icon: "delete-variant" ,
+      title: "Delete all items",
+      onPress: (groceryList) =>
+        dispatch(handleDeleteAllProducts(groceryList.id))
+    },
+
+  ];
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <RoundButton
-          onPress={showModal}
-          name="dots-vertical"
-          style={{ marginRight: 20 }}
-        />
+        <MenuOptions 
+          actionsMenu={actionsMenu} 
+          groceryList={groceryList} />
       ),
-  }, [navigation, setModalVisible]);
+  }, [navigation, actionsMenu, groceryList]);
 })
-
-  const { groceryList } = route.params
-  const groceryListID = groceryList.id;
 
   useEffect(() => {
     dispatch(handleLoadProducts(groceryListID));
@@ -64,35 +81,9 @@ function ProductList({ navigation,route, allProducts, productsToBuy}) {
   async function toggleProductToBuy(product) {
     return dispatch(handleToggleProduct(product, 'toBuy'));
   }
-  const actionsMenu = [
-    {
-      icon: "share-variant",
-      title: "Share",
-      onPress: (groceryList) =>
-        navigation.push("ShareGroceryList", { groceryList: groceryList }),
-    },
-    {
-      icon: "checkbox-multiple-blank-circle-outline" ,
-      title: "Uncheck all items",
-      onPress: (groceryList) =>
-        dispatch(handleUnCheckAllProducts(groceryList.id))
-    },
-    {
-      icon: "delete-variant" ,
-      title: "Delete all items",
-      onPress: (groceryList) =>
-        dispatch(handleDeleteAllProducts(groceryList.id))
-    },
-
-  ];
 
   return (
     <Provider>
-      <ModalOptionList 
-        actionsMenu={actionsMenu} 
-        groceryList={groceryList} 
-        visible={modalVisible}
-        closeMenu={hideModal}/>
     
     <View style={styles.container}>
       <HeaderTab

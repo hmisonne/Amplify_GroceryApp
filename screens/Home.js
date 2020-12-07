@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Divider, Subheading } from "react-native-paper";
+import { Hub } from "aws-amplify";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { handleAuthentificateUser } from "../src/redux/actions/user";
 import {
@@ -8,13 +11,10 @@ import {
   handleLoadGroceryLists,
   syncDatastore,
 } from "../src/redux/actions/groceryList";
-import FabBar from "../components/FabBar";
 import UndoRedo from "../containers/UndoRedo";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import PopUpMenu from "../components/PopUpMenu";
-import { Hub } from "aws-amplify";
-import { Divider, Subheading } from "react-native-paper";
+import FabBar from "../components/FabBar";
 import LoadingCircle from "../components/LoadingCircle";
+import MenuOptions from "../components/MenuOptions";
 
 const Home = ({ groceryLists, navigation }) => {
   const [visible, setVisible] = React.useState(false);
@@ -134,7 +134,7 @@ const Home = ({ groceryLists, navigation }) => {
                   <Text style={styles.glistName}>{glist.name}</Text>
                 </View>
               </TouchableOpacity>
-              <PopUpMenu actionsMenu={actionsMenu} groceryList={glist} />
+              <MenuOptions actionsMenu={actionsMenu} groceryList={glist}/>
             </View>
             <Divider style={{ height: 1 }} />
           </View>

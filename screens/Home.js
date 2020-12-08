@@ -74,6 +74,7 @@ const Home = ({ groceryLists, navigation }) => {
     {
       icon: "share-variant",
       title: "Share",
+      validationNeeded: false,
       onPress: (groceryList) =>
         navigation.push("ShareGroceryList", { groceryList: groceryList }),
     },
@@ -85,6 +86,7 @@ const Home = ({ groceryLists, navigation }) => {
     {
       icon: "delete-outline",
       title: "Delete",
+      validationNeeded: true,
       onPress: (groceryList) => removeGroceryList(groceryList.id),
     },
   ];

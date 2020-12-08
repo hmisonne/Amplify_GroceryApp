@@ -38,7 +38,7 @@ export class BackendInterface {
     }
   }
   
- async removeGroceryListFromUser(id, user) {
+ async removeGroceryListFromUser(id) {
       try {
         const original = await this._dataStore.query(User)
         const newUser = await this._dataStore.save(
@@ -71,19 +71,19 @@ export class BackendInterface {
     try {
 
       const user = await this._dataStore.query(User)
-      const newUser = await this._dataStore.save(
+      await this._dataStore.save(
         User.copyOf(user[0], (updated) => {
           updated.groceryLists = updated.groceryLists ? 
           [...updated.groceryLists, id]
           : [id]
         }))
-      console.log("Grocery list added to user successfully!", newUser);
+      console.log("Grocery list added to user successfully!");
     } catch (error) {
       console.log("Error adding grocery list to user", error);
     }
   }
   
-   async createNewGroceryList (groceryList, currentUser) {
+   async createNewGroceryList (groceryList) {
       try {
         const groceryListSaved = await this._dataStore.save(
         new GroceryList({
@@ -114,7 +114,7 @@ export class BackendInterface {
       console.log("Product saved successfully!", productSaved);
       return productSaved
     } catch (err) {
-      console.log("error creating food:", err);
+      console.log("error creating product:", err);
     }
   }
   
@@ -124,11 +124,12 @@ async unCheckAllProducts(groceryListID){
     const productsToUncheck= products.filter(product => product.checked === true)
     for (let product of productsToUncheck){
       const original = await this._dataStore.query(Product, product.id);
-      const updatedProduct =  await this._dataStore.save(
+      await this._dataStore.save(
         Product.copyOf(original, (updated) => {
           updated.checked = false
         }))
     }
+    console.log("Products Unchecked successfully!");
   } catch (err) {
     console.log("error unChecking all items:", err);
   }

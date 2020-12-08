@@ -49,9 +49,8 @@ export function handleLoadGroceryLists() {
 }
 
 export function handleDeleteGroceryList(id) {
-  return (dispatch, getState) => {
-		const {user} = getState()
-		return API.removeGroceryListFromUser(id, user)
+  return (dispatch) => {
+		return API.removeGroceryListFromUser(id)
 			.then(()=> {
 				syncDatastore(id, "REMOVE")
 				dispatch(deleteGroceryList(id))})
@@ -59,8 +58,7 @@ export function handleDeleteGroceryList(id) {
 }
 
 export function handleAddGroceryList(id) {
-  return (dispatch, getState) => {
-		const {user} = getState()
+  return (dispatch) => {
 		return API.addGroceryListToUser(id)
 			.then(()=> {
 				syncDatastore(id, "ADD")
@@ -69,9 +67,8 @@ export function handleAddGroceryList(id) {
 }
 
 export function handleCreateGroceryList(groceryList) {
-  return (dispatch, getState) => {
-		const {user} = getState()
-		return API.createNewGroceryList(groceryList, user)
+  return (dispatch) => {
+		return API.createNewGroceryList(groceryList)
 			.then((groceryList)=> {
 				syncDatastore(groceryList.id, "ADD")
 				dispatch(addGroceryListToUser(groceryList.id))

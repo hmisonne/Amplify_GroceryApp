@@ -40,6 +40,11 @@ export const addGroceryListToUser = (id) => ({
 	id,
   });
 
+export const updateGroceryList = (updatedGroceryList) => ({
+	type: "UPDATE_GROCERY_LIST",
+	updatedGroceryList
+});
+
 export function handleLoadGroceryLists() {
   return (dispatch, getState) => {
 		const {user} = getState()
@@ -65,6 +70,13 @@ export function handleAddGroceryList(id) {
 				dispatch(addGroceryListToUser(id))})
 	}
 }
+
+export function handleUpdateGroceryList(groceryList){
+	return (dispatch) => {
+	  return API.updateGroceryListDetails(groceryList)
+	  .then((groceryList) => dispatch(updateGroceryList(groceryList)))
+	}
+  }
 
 export function handleCreateGroceryList(groceryList) {
   return (dispatch) => {

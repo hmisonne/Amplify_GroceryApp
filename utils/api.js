@@ -104,6 +104,20 @@ export class BackendInterface {
       console.log("error creating list:", err);
     }
   }
+
+async updateGroceryListDetails(groceryList) {
+  try {
+    const original = await this._dataStore.query(GroceryList, groceryList.id);
+    const updatedGroceryList =  await this._dataStore.save(
+      Product.copyOf(original, (updated) => {
+        updated.name = groceryList.name
+      }))
+      console.log("Product updated successfully!", updatedGroceryList);
+      return updatedGroceryList
+   } catch (err) {
+  console.log("error updating product:", err);
+  }
+  }
  async createNewProduct(product, groceryListID) {
     try {
       // Retrieve List object

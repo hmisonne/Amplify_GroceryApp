@@ -16,21 +16,32 @@ import StyledTextInput from "../components/StyledTextInput";
 import {
   handleCreateGroceryList,
   handleLoadGroceryLists,
+  handleUpdateGroceryList,
 } from "../src/redux/actions/groceryList";
 import { Hub } from "aws-amplify";
 
 const initialState = {
   name: "",
-  description: "",
 };
 
 const NewGroceryListForm = (props) => {
-  const [formState, setFormState] = useState(initialState);
+  const glistToUpdate = props.route.params.groceryList;
+  const [formState, setFormState] = useState(
+    glistToUpdate ? glistToUpdate : initialState
+  );
   const dispatch = useDispatch();
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
   }
-
+  const validateForm = () => {
+    return formState.name === "";
+  };
+  async function updateGroceryList() {
+    const groceryList = { ...formState };
+    dispatch(handleUpdateGroceryList(groceryList));
+    props.navigation.goBack();
+  }
+  
   async function createGroceryList() {
     const groceryList = { ...formState };
     dispatch(handleCreateGroceryList(groceryList));
@@ -56,17 +67,16 @@ const NewGroceryListForm = (props) => {
             onChangeText={(val) => setInput("name", val)}
             style={styles.input}
             value={formState.name}
-            label="Name"
+            label="List Name"
             placeholder="My List"
           />
-          <StyledTextInput
-            onChangeText={(val) => setInput("description", val)}
-            style={styles.input}
-            value={formState.description}
-            label="Description (optional)"
-            placeholder="Weekly recurring"
-          />
-          <SubmitBtn title="Create" onPress={createGroceryList} />
+           <View>
+          {glistToUpdate ? (
+            <SubmitBtn title="Update" onPress={updateGroceryList} disabled={validateForm()}/>
+          ) : (
+            <SubmitBtn title="Create List" onPress={createGroceryList} disabled={validateForm()}/>
+          )}
+        </View>
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

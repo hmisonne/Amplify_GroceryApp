@@ -97,10 +97,12 @@ const App = () => {
             <ProductStack.Screen
               name="NewList"
               component={NewGroceryListForm}
-              options={{
-                title: "My New List",
+              options={(props) => ({
                 headerTintColor: secondaryColor,
-              }}
+                title: props.route.params.groceryList
+                  ? `Update ${props.route.params.groceryList.name}`
+                  : `Add New List`,
+              })}
             />
             <ProductStack.Screen
               name="JoinGroceryList"

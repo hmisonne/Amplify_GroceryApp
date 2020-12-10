@@ -11,7 +11,7 @@ const HeaderTab = ({ firstTabSelected, switchToSecondTab }) => (
       onPress={() => switchToSecondTab(true)}
     >
       <Text style={{ color: firstTabSelected ? secondaryColor : lightGrey }}>
-        TO BUY
+        MY CART
       </Text>
     </TouchableOpacity>
     <TouchableOpacity
@@ -20,7 +20,7 @@ const HeaderTab = ({ firstTabSelected, switchToSecondTab }) => (
       onPress={() => switchToSecondTab(false)}
     >
       <Text style={{ color: firstTabSelected ? lightGrey: secondaryColor }}>
-        ALL
+        SHOPPING HISTORY
       </Text>
     </TouchableOpacity>
   </View>

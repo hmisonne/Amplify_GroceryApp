@@ -61,7 +61,7 @@ const Home = ({ groceryLists, navigation }) => {
     {
       icon: "format-list-checks",
       label: "New List",
-      onPress: () => navigation.push("NewList"),
+      onPress: () => navigation.push("NewList", { nav: 'newList' }),
     },
     {
       icon: "account-group",
@@ -73,16 +73,17 @@ const Home = ({ groceryLists, navigation }) => {
   const actionsMenu = [
     {
       icon: "share-variant",
-      title: "Share",
+      title: "Share List",
       validationNeeded: false,
       onPress: (groceryList) =>
-        navigation.push("ShareGroceryList", { groceryList: groceryList }),
+        navigation.push("ShareGroceryList", { groceryList }),
     },
-    // {
-    //   icon:"pencil-box-outline",
-    //   title: "Update",
-    //   onPress: () => {},
-    // },
+    {
+      icon:"pencil-box-outline",
+      title: "Edit List",
+      onPress: (groceryList) =>
+        navigation.push("NewList", { groceryList }),
+    },
     {
       icon: "delete-outline",
       title: "Delete",
@@ -168,16 +169,9 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: 20,
-  },
-  bottom2: {
-    alignItems: "flex-end",
-    marginBottom: 46,
-  },
-  bottom: {
-    justifyContent: "flex-end",
-    alignItems: "flex-end",
-    marginBottom: 46,
+    paddingLeft: 10,
+    paddingTop: 5,
+    paddingRight: 10,
   },
   glist: {
     flexDirection: "row",

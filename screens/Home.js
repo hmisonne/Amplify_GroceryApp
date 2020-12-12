@@ -15,6 +15,7 @@ import UndoRedo from "../containers/UndoRedo";
 import FabBar from "../components/FabBar";
 import LoadingCircle from "../components/LoadingCircle";
 import MenuOptions from "../components/MenuOptions";
+import FadeInView from "../components/FadeInView";
 
 const Home = ({ groceryLists, navigation }) => {
   const [visible, setVisible] = React.useState(false);
@@ -113,12 +114,13 @@ const Home = ({ groceryLists, navigation }) => {
   }
   function displayInstructions() {
     return (
-      <View style={styles.centered}>
-        <Subheading style={styles.text}>
-          Create your first grocery list by clicking on the + icon !
-        </Subheading>
+      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        <FadeInView style={{width: 250, height: 50}}>
+          <Text style={{fontSize: 20, textAlign: 'center'}}>Create your first grocery list by clicking on the + icon</Text>
+        </FadeInView>
       </View>
-    );
+    )
+    
   }
 
   function displayUserGroceryLists() {

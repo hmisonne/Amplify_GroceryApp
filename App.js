@@ -14,7 +14,8 @@ import NewProductForm from "./screens/NewProductForm";
 import NewGroceryListForm from "./screens/NewGroceryListForm";
 import Home from "./screens/Home";
 import Settings from "./screens/Settings";
-import LoadingScreen from "./screens/LoadingScreen";
+// import LoadingScreen from "./screens/LoadingScreen";
+import AppLoading from 'expo-app-loading';
 
 import prepareResources from "./hooks/prepareResources";
 import store from "./src/redux/store";
@@ -46,14 +47,24 @@ const theme = {
 const ProductStack = createStackNavigator();
 
 const App = () => {
-  const isAppReady = prepareResources();
+  // const isAppReady = prepareResources();
+  const [isAppReady, setAppReady] = React.useState(false);
 
   function goToSettings(props) {
     props.navigation.push("Settings");
   }
   if (!isAppReady) {
-    return <LoadingScreen />;
+    return (
+      <AppLoading
+        startAsync={prepareResources}
+        onFinish={() => setAppReady(true)}
+        onError={console.warn}
+    />
+    )
   }
+  // if (!isAppReady) {
+  //   return <LoadingScreen />;
+  // }
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>

@@ -1,3 +1,5 @@
+import { Share } from "react-native";
+
 export const grey = '#5c626b'
 export const lightGrey = '#ccc'
 export const white = '#fff'
@@ -6,6 +8,25 @@ export const green = '#04e5d4'
 export const blueGreen = '#04ccde'
 export const mainColor = "#ffca18"
 export const secondaryColor = "#525252"
+
+export const onShare = async (text) => {
+  try {
+    const result = await Share.share({
+      message: text,
+    });
+    if (result.action === Share.sharedAction) {
+      if (result.activityType) {
+        // shared with activity type of result.activityType
+      } else {
+        // shared
+      }
+    } else if (result.action === Share.dismissedAction) {
+      // dismissed
+    }
+  } catch (error) {
+    alert(error.message);
+  }
+};
 
 export const categories = [
     { name: "Produce", img: "food-apple", key:1 },

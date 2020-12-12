@@ -1,14 +1,15 @@
 import React from "react";
-import { View, Share, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { Auth } from "@aws-amplify/auth";
 import { DataStore } from "aws-amplify";
 import * as MailComposer from "expo-mail-composer";
 import { Divider, List } from "react-native-paper";
 
-import SubmitBtn from "../components/SubmitBtn";
+import { onShare } from "../utils/helpers";
 
 const Settings = ({ user }) => {
+  const shareText = "ListBee | A Grocery List App, Android: https://play.google.com/store/apps/details?id=com.hmisonne.ListBee, iOS TestFlight: https://testflight.apple.com/join/xM3anK5Q"
   async function signOut() {
     try {
       await DataStore.clear();
@@ -17,32 +18,14 @@ const Settings = ({ user }) => {
       console.log("error signing out: ", error);
     }
   }
-  const onShare = async () => {
-    try {
-      const result = await Share.share({
-        message:
-          "ListBee | A Grocery List App, Android: https://play.google.com/store/apps/details?id=com.hmisonne.ListBee, iOS TestFlight: https://testflight.apple.com/join/xM3anK5Q",
-      });
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
-      }
-    } catch (error) {
-      alert(error.message);
-    }
-  };
+
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
   const formattedUsername = capitalizeFirstLetter(user.username);
   const mailComposerOptions = {
     isHtml: true,
-    recipients: ["listbee.app@gmail.com "],
+    recipients: ["listbee.app@gmail.com"],
     subject: `ListBee: ${formattedUsername}'s feedback`,
   };
   function sendFeedback() {
@@ -57,7 +40,7 @@ const Settings = ({ user }) => {
         />
       </TouchableOpacity>
       <Divider/>
-      <TouchableOpacity onPress={onShare}>
+      <TouchableOpacity onPress={() => onShare(shareText)}>
         <List.Item
           title="Share the App"
           left={(props) => <List.Icon {...props} icon="share-variant" />}

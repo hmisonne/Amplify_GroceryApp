@@ -9,7 +9,7 @@ import { Hub, DataStore } from 'aws-amplify';
 
 export default function prepareResources() {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
-  const [isSyncComplete, setSyncComplete] = React.useState(false);
+  // const [isSyncComplete, setSyncComplete] = React.useState(false);
 
   // Load any resources or data that we need prior to rendering the app
   React.useEffect(() => {
@@ -27,10 +27,13 @@ export default function prepareResources() {
         // We might want to provide this error information to an error reporting service
         console.warn(e);
       } finally {
-        Hub.listen('datastore', (data) => {
-          const { payload } = data;
-          payload.event === 'ready' && setSyncComplete(true);       
-        })
+        // const removeListener = Hub.listen("datastore", async (data) => {
+        //   const { payload } = data;
+        //   if (payload.event === "ready") {
+        //     setSyncComplete(true)
+        //     removeListener();
+        //   }
+        // });
         setLoadingComplete(true);
         // SplashScreen.hideAsync();
       }
@@ -38,6 +41,6 @@ export default function prepareResources() {
 
     loadResourcesAndDataAsync();
   }, []);
-
-  return isLoadingComplete && isSyncComplete;
+  // return (isSyncComplete && isLoadingComplete);
+  return isLoadingComplete
 }

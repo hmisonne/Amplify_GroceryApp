@@ -19,14 +19,18 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.hmisonne.ListBee",
-      "buildNumber": "1.0.0"
+      "buildNumber": "1.0.4"
     },
     "web": {
       "favicon": "./assets/icon.png"
     },
     "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
       "package": "com.hmisonne.ListBee",
-      "versionCode": 16,
+      "versionCode": 19,
       "permissions": []
     }
   }

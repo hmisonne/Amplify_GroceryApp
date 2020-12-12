@@ -54,7 +54,7 @@ export class BackendInterface {
    async fetchUserGroceryLists(user) {
       try {
         // Filter DataStore GroceryList by User grocery lists in redux state since SelectiveSync will not update with removed ref
-          const groceryListIDs = user.groceryLists
+          const groceryListIDs = user.groceryLists || []
           const result = await this._dataStore.query(GroceryList, c => c.or((c) => {
             return groceryListIDs.reduce((acc, curVal) => {
               return acc.id('eq', curVal);

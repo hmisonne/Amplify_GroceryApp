@@ -1,8 +1,9 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import * as MailComposer from "expo-mail-composer";
 import SubmitBtn from "../components/SubmitBtn";
 import { connect } from "react-redux";
+import { onShare } from "../utils/helpers";
 
 const ShareGroceryList = (props) => {
   const { user } = props;
@@ -10,6 +11,7 @@ const ShareGroceryList = (props) => {
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
+  const shareText = `Grocery List Ref: ${groceryList.id}`
   const formattedUsername = capitalizeFirstLetter(user.username)
   const formattedGroceryList = capitalizeFirstLetter(groceryList.name)
   const mailComposerOptions = {
@@ -39,7 +41,10 @@ const ShareGroceryList = (props) => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}> To share your list, use this reference :</Text>
-      <Text style={styles.ref}>{groceryList.id}</Text>
+      <TouchableOpacity onPress={()=> onShare(shareText)}>
+        <Text style={styles.ref}>{groceryList.id}</Text>
+      </TouchableOpacity>
+      
       <SubmitBtn title="Send an email" onPress={shareList} />
     </View>
   );

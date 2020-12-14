@@ -4,7 +4,7 @@ import { FAB, Provider } from "react-native-paper";
 import { connect, useDispatch } from "react-redux";
 import { DataStore } from "aws-amplify";
 
-import { mainColor, productCategory } from "../utils/helpers";
+import { mainColor, onShare, productCategory } from "../utils/helpers";
 import { Product } from "../src/models";
 import {
   handleDeleteAllProducts,
@@ -33,8 +33,9 @@ function ProductList({ navigation, route, allProducts, productsToBuy }) {
       title: "Share",
       validationNeeded: false,
       onPress: (groceryList) =>
-        navigation.push("ShareGroceryList", { groceryList: groceryList }),
-    },
+        onShare(`👋 ListBee: The grocery list "${groceryList.name}" is now accessible by using this reference: 
+      ${groceryList.id}`),
+      },
     {
       icon: "checkbox-multiple-blank-circle-outline",
       title: "Uncheck all items",

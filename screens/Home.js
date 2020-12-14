@@ -16,6 +16,7 @@ import FabBar from "../components/FabBar";
 import LoadingCircle from "../components/LoadingCircle";
 import MenuOptions from "../components/MenuOptions";
 import FadeInView from "../components/FadeInView";
+import { onShare } from "../utils/helpers";
 
 const Home = ({ groceryLists, navigation }) => {
   const [visible, setVisible] = React.useState(false);
@@ -77,7 +78,8 @@ const Home = ({ groceryLists, navigation }) => {
       title: "Share List",
       validationNeeded: false,
       onPress: (groceryList) =>
-        navigation.push("ShareGroceryList", { groceryList }),
+        onShare(`👋 ListBee: The grocery list "${groceryList.name}" is now accessible by using this reference: 
+        ${groceryList.id}`),
     },
     {
       icon:"pencil-box-outline",

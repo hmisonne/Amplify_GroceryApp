@@ -14,7 +14,6 @@ import NewProductForm from "./screens/NewProductForm";
 import NewGroceryListForm from "./screens/NewGroceryListForm";
 import Home from "./screens/Home";
 import Settings from "./screens/Settings";
-// import LoadingScreen from "./screens/LoadingScreen";
 import AppLoading from 'expo-app-loading';
 
 import prepareResources from "./hooks/prepareResources";
@@ -22,7 +21,6 @@ import store from "./src/redux/store";
 
 import { blue, mainColor, secondaryColor } from "./utils/helpers";
 import JoinGroceryList from "./screens/JoinGroceryList";
-import ShareGroceryList from "./screens/ShareGroceryList";
 import ProductList from "./screens/ProductList";
 import ProductCategory from "./screens/ProductCategory"
 import logo from './assets/logo.png'; 
@@ -47,7 +45,6 @@ const theme = {
 const ProductStack = createStackNavigator();
 
 const App = () => {
-  // const isAppReady = prepareResources();
   const [isAppReady, setAppReady] = React.useState(false);
 
   function goToSettings(props) {
@@ -62,9 +59,6 @@ const App = () => {
     />
     )
   }
-  // if (!isAppReady) {
-  //   return <LoadingScreen />;
-  // }
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>
@@ -146,14 +140,6 @@ const App = () => {
               component={Settings}
               options={() => ({
                 title: "Settings",
-                headerTintColor: secondaryColor,
-              })}
-            />
-            <ProductStack.Screen
-              name="ShareGroceryList"
-              component={ShareGroceryList}
-              options={(props) => ({
-                title: `Share your list: ${props.route.params.groceryList.name}`,
                 headerTintColor: secondaryColor,
               })}
             />

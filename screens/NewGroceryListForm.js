@@ -2,16 +2,13 @@ import React, { useState } from "react";
 import {
   View,
   KeyboardAvoidingView,
-  TextInput,
   StyleSheet,
-  Text,
   Platform,
   TouchableWithoutFeedback,
-  Button,
   Keyboard,
 } from "react-native";
+import { Button } from "react-native-paper";
 import { connect, useDispatch } from "react-redux";
-import SubmitBtn from "../components/SubmitBtn";
 import StyledTextInput from "../components/StyledTextInput";
 import {
   handleCreateGroceryList,
@@ -24,11 +21,34 @@ const initialState = {
   name: "",
 };
 
-const NewGroceryListForm = (props) => {
-  const glistToUpdate = props.route.params.groceryList;
+const NewGroceryListForm = ({route, navigation}) => {
+  const glistToUpdate = route.params.groceryList;
   const [formState, setFormState] = useState(
     glistToUpdate ? glistToUpdate : initialState
   );
+  React.useLayoutEffect(() => {
+    navigation.setOptions(
+      {
+        headerRight: () => (
+          <Button
+            mode="contained"
+            onPress={glistToUpdate ? updateGroceryList : createGroceryList}
+            disabled={validateForm()}
+            style={{marginRight:15}}
+          >
+            Save
+          </Button>
+        ),
+      },
+      [
+        glistToUpdate,
+        navigation,
+        updateGroceryList,
+        createGroceryList,
+        validateForm,
+      ]
+    );
+  });
   const dispatch = useDispatch();
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
@@ -39,7 +59,7 @@ const NewGroceryListForm = (props) => {
   async function updateGroceryList() {
     const groceryList = { ...formState };
     dispatch(handleUpdateGroceryList(groceryList));
-    props.navigation.goBack();
+    navigation.goBack();
   }
   
   async function createGroceryList() {
@@ -53,7 +73,7 @@ const NewGroceryListForm = (props) => {
         removeListener();
       }
     });
-    props.navigation.goBack();
+    navigation.goBack();
   }
 
   return (
@@ -70,13 +90,6 @@ const NewGroceryListForm = (props) => {
             label="List Name"
             placeholder="My List"
           />
-           <View>
-          {glistToUpdate ? (
-            <SubmitBtn title="Update" onPress={updateGroceryList} disabled={validateForm()}/>
-          ) : (
-            <SubmitBtn title="Create List" onPress={createGroceryList} disabled={validateForm()}/>
-          )}
-        </View>
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

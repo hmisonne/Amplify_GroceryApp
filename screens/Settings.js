@@ -9,7 +9,7 @@ import { Divider, List } from "react-native-paper";
 import { onShare } from "../utils/helpers";
 
 const Settings = ({ user }) => {
-  const shareText = "ListBee | A Grocery List App, Android: https://play.google.com/store/apps/details?id=com.hmisonne.ListBee, iOS TestFlight: https://testflight.apple.com/join/xM3anK5Q"
+  const shareText = "ListBee | A Grocery List App, Android: https://play.google.com/store/apps/details?id=com.hmisonne.ListBee, iOS: https://apps.apple.com/us/app/listbee-grocery-shopping-list/id1542615662"
   async function signOut() {
     try {
       await DataStore.clear();

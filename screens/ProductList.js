@@ -10,8 +10,8 @@ import {
   handleDeleteAllProducts,
   handleDeleteProduct,
   handleLoadProducts,
+  handleToggleMultipleProducts,
   handleToggleProduct,
-  handleUnCheckAllProducts,
 } from "../src/redux/actions/product";
 import HeaderTab from "../components/HeaderTab";
 import SwipeSectionList from "../components/SwipeSectionList";
@@ -38,14 +38,21 @@ function ProductList({ navigation, route, allProducts, productsToBuy }) {
       },
     {
       icon: "checkbox-multiple-blank-circle-outline",
-      title: "Uncheck all items",
+      title: "Uncheck All",
       validationNeeded: true,
       onPress: (groceryList) =>
-        dispatch(handleUnCheckAllProducts(groceryList.id)),
+        dispatch(handleToggleMultipleProducts(groceryList.id, "checked")),
+    },
+    {
+      icon: "cart-off",
+      title: "Empty Cart",
+      validationNeeded: true,
+      onPress: (groceryList) =>
+        dispatch(handleToggleMultipleProducts(groceryList.id, "toBuy")),
     },
     {
       icon: "delete-variant",
-      title: "Delete all items",
+      title: "Delete All",
       validationNeeded: true,
       onPress: (groceryList) =>
         dispatch(handleDeleteAllProducts(groceryList.id)),

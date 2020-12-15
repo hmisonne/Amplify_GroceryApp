@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     width: 75,
   },
   backRightBtnLeft: {
-    backgroundColor: mainColor,
+    backgroundColor: secondaryColor,
     right: 75,
   },
   backRightBtnRight: {

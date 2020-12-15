@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Divider, Subheading } from "react-native-paper";
+import { View, Text, StyleSheet } from "react-native";
 import { Hub } from "aws-amplify";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { handleAuthentificateUser } from "../src/redux/actions/user";
 import {
@@ -14,9 +12,8 @@ import {
 import UndoRedo from "../containers/UndoRedo";
 import FabBar from "../components/FabBar";
 import LoadingCircle from "../components/LoadingCircle";
-import MenuOptions from "../components/MenuOptions";
+import SwipeList from "../components/SwipeList";
 import FadeInView from "../components/FadeInView";
-import { onShare } from "../utils/helpers";
 
 const Home = ({ groceryLists, navigation }) => {
   const [visible, setVisible] = React.useState(false);
@@ -72,28 +69,6 @@ const Home = ({ groceryLists, navigation }) => {
     },
   ];
 
-  const actionsMenu = [
-    {
-      icon: "share-variant",
-      title: "Share List",
-      validationNeeded: false,
-      onPress: (groceryList) =>
-        onShare(`👋 ListBee: The grocery list "${groceryList.name}" is now accessible by using this reference: 
-        ${groceryList.id}`),
-    },
-    {
-      icon:"pencil-box-outline",
-      title: "Edit List",
-      onPress: (groceryList) =>
-        navigation.push("NewList", { groceryList }),
-    },
-    {
-      icon: "delete-outline",
-      title: "Delete",
-      validationNeeded: true,
-      onPress: (groceryList) => removeGroceryList(groceryList.id),
-    },
-  ];
 
   return (
     <View style={styles.container}>
@@ -103,10 +78,7 @@ const Home = ({ groceryLists, navigation }) => {
           ? displayInstructions()
           : displayUserGroceryLists()
         }
-      
-
       <FabBar actions={actions} />
-
       <UndoRedo visible={visible} onDismissSnackBar={onDismissSnackBar} />
     </View>
   );
@@ -124,30 +96,15 @@ const Home = ({ groceryLists, navigation }) => {
     )
     
   }
-
-  function displayUserGroceryLists() {
-    return (
-      <View style={styles.container}>
-        {groceryLists.map((glist) => (
-          <View key={glist.id}>
-            <View style={styles.glist}>
-              <TouchableOpacity onPress={() => goToList(glist)}>
-                <View style={styles.subContainer}>
-                  <MaterialCommunityIcons
-                    name="format-list-checks"
-                    size={24}
-                    color="black"
-                  />
-                  <Text style={styles.glistName}>{glist.name}</Text>
-                </View>
-              </TouchableOpacity>
-              <MenuOptions actionsMenu={actionsMenu} groceryList={glist}/>
-            </View>
-            <Divider style={{ height: 1 }} />
-          </View>
-        ))}
-      </View>
-    );
+  function displayUserGroceryLists(){
+    return(
+      <SwipeList
+        listData = {groceryLists}
+        deleteAction = {(groceryList) => removeGroceryList(groceryList.id)}
+        navigateToEdit = {(groceryList) => navigation.push("NewList", { groceryList })}
+        onPressAction = {(groceryList) => goToList(groceryList)}
+      />
+    )
   }
 };
 
@@ -165,9 +122,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  subContainer: {
-    flexDirection: "row",
-  },
   text: {
     textAlign: "center",
   },
@@ -176,16 +130,5 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingTop: 5,
     paddingRight: 10,
-  },
-  glist: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: 15,
-    marginBottom: 15,
-  },
-  glistName: {
-    fontSize: 18,
-    paddingLeft: 15,
   },
 });

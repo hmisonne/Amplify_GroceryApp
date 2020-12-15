@@ -5,11 +5,10 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   View,
-  Button,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SwipeListView } from "react-native-swipe-list-view";
-import { lightGrey, mainColor, productCategory, secondaryColor } from "../utils/helpers";
+import { mainColor, productCategory, secondaryColor } from "../utils/helpers";
 import PropTypes from "prop-types";
 
 function SwipeSectionList({

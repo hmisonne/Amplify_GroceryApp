@@ -122,7 +122,7 @@ function ProductList({ navigation, route, allProducts, productsToBuy }) {
             backgroundColor: mainColor,
             position: "absolute",
             margin: 16,
-            right: 0,
+            alignSelf: 'center',
             bottom: 0,
           }}
           onPress={() =>

@@ -31,15 +31,16 @@ export const updateProduct = (updatedProduct) => ({
   updatedProduct
 });
 
-export const unCheckAllProducts = (groceryListID) => ({
-  type: "UNCHECK_ALL_PRODUCT",
-  groceryListID
-});
-
 export const deleteAllProducts = (groceryListID) => ({
   type: "DELETE_ALL_PRODUCT",
   groceryListID
 });
+
+export const toggleMultipleProducts = (groceryListID, attribute) => ({
+  type: "TOGGLE_MULTIPLE_PRODUCTS",
+  attribute,
+  groceryListID
+})
 
 export function handleUpdateProduct(product){
   return (dispatch) => {
@@ -71,18 +72,12 @@ export function handleLoadProducts(groceryListID){
 
 export function handleToggleProduct(product, attribute='checked'){
   return (dispatch) => {
-    const updatedProduct = {...product, [attribute]: attribute === 'checked'? 
-      !product.checked
-    : !product.toBuy}
+    const updatedProduct = {
+      ...product, 
+      [attribute]: !product[attribute] 
+    }
     return API.updateProductDetails(updatedProduct)
     .then(() => dispatch(toggleProduct(product.id, attribute)))
-  }
-}
-
-export function handleUnCheckAllProducts(groceryListID){
-  return (dispatch) => {
-    return API.unCheckAllProducts(groceryListID)
-    .then(() => dispatch(unCheckAllProducts(groceryListID)))
   }
 }
 
@@ -90,5 +85,12 @@ export function handleDeleteAllProducts(groceryListID){
   return (dispatch) => {
     return API.removeAllProducts(groceryListID)
     .then(() => dispatch(deleteAllProducts(groceryListID)))
+  }
+}
+
+export function handleToggleMultipleProducts(groceryListID, attribute){
+  return (dispatch) => {
+    return API.toggleMultipleProducts(groceryListID, attribute)
+    .then(() => dispatch(toggleMultipleProducts(groceryListID, attribute)))
   }
 }

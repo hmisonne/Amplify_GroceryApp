@@ -131,33 +131,32 @@ async updateGroceryListDetails(groceryList) {
       console.log("error creating product:", err);
     }
   }
-  
-async unCheckAllProducts(groceryListID){
-  try {
-    const products = await this.fetchProductsByGroceryList(groceryListID)
-    const productsToUncheck= products.filter(product => product.checked === true)
-    for (let product of productsToUncheck){
-      const original = await this._dataStore.query(Product, product.id);
-      await this._dataStore.save(
-        Product.copyOf(original, (updated) => {
-          updated.checked = false
-        }))
-    }
-    console.log("Products Unchecked successfully!");
-  } catch (err) {
-    console.log("error unChecking all items:", err);
-  }
-}
 
 async removeAllProducts(groceryListID){
   try {
     await this._dataStore.delete(Product, product => product.groceryListID("eq", groceryListID));
     console.log("Product deleted successfully from list!");
   } catch (err) {
-    console.log("error unChecking all items:", err);
+    console.log("error deleting all items:", err);
   }
 }
 
+async toggleMultipleProducts(groceryListID, attribute){
+  try {
+    const products = await this.fetchProductsByGroceryList(groceryListID)
+    const productsToUncheck= products.filter(product => product[attribute] === true)
+    for (let product of productsToUncheck){
+      const original = await this._dataStore.query(Product, product.id);
+      await this._dataStore.save(
+        Product.copyOf(original, (updated) => {
+          updated[attribute] = false
+        }))
+    }
+    console.log("Products Removed from Cart successfully!");
+  } catch (err) {
+    console.log("error removing all items from Cart:", err);
+  }
+}
   
  async updateProductDetails(product) {
     try {

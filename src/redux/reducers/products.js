@@ -1,5 +1,5 @@
 export const productReducer = (state = [], action) => {
-    let { groceryListID } = action;
+    let { groceryListID, attribute } = action;
     switch (action.type) {
       case "LOAD_PRODUCTS":
         const products = action.products;
@@ -14,9 +14,9 @@ export const productReducer = (state = [], action) => {
       case "TOGGLE_PRODUCT":
         return state.map((product) =>
           product.id === action.id
-            ? { ...product, [action.attribute]: action.attribute === 'checked'? 
-            !product.checked
-          : !product.toBuy}
+            ? { ...product, 
+                [attribute]: !product[attribute]
+              }
             : product
         );
         case "UPDATE_PRODUCT":
@@ -26,11 +26,11 @@ export const productReducer = (state = [], action) => {
               ? updatedProduct
               : product
           );
-        case "UNCHECK_ALL_PRODUCT":
+        case "TOGGLE_MULTIPLE_PRODUCTS":
           return state.map((product) =>
             product.groceryListID === groceryListID
               ? { ...product, 
-                checked: false 
+                [attribute]: false 
               }
               : product
           );

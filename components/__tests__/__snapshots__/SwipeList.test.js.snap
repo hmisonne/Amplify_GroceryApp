@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<RCTScrollView
+  closeOnRowBeginSwipe={false}
+  closeOnRowOpen={true}
+  closeOnRowPress={true}
+  closeOnScroll={true}
+  data={Array []}
+  directionalDistanceChangeThreshold={2}
+  disableHiddenLayoutCalculation={false}
+  disableLeftSwipe={false}
+  disableRightSwipe={false}
+  disableVirtualization={false}
+  getItem={[Function]}
+  getItemCount={[Function]}
+  horizontal={false}
+  initialNumToRender={10}
+  keyExtractor={[Function]}
+  leftOpenValue={75}
+  maxToRenderPerBatch={10}
+  onContentSizeChange={[Function]}
+  onEndReachedThreshold={2}
+  onLayout={[Function]}
+  onMomentumScrollEnd={[Function]}
+  onRowDidOpen={[Function]}
+  onScroll={[Function]}
+  onScrollBeginDrag={[Function]}
+  onScrollEndDrag={[Function]}
+  previewFirstRow={false}
+  previewOpenDelay={3000}
+  previewOpenValue={-40}
+  previewRepeat={false}
+  previewRepeatDelay={1000}
+  previewRowKey="0"
+  recalculateHiddenLayout={false}
+  removeClippedSubviews={false}
+  renderHiddenItem={[Function]}
+  renderItem={[Function]}
+  rightOpenValue={-150}
+  scrollEventThrottle={50}
+  stickyHeaderIndices={Array []}
+  swipeToClosePercent={50}
+  swipeToOpenPercent={50}
+  swipeToOpenVelocityContribution={0}
+  updateCellsBatchingPeriod={50}
+  useAnimatedList={false}
+  useNativeDriver={true}
+  viewabilityConfigCallbackPairs={Array []}
+  windowSize={21}
+>
+  <View />
+</RCTScrollView>
+`;

@@ -1,10 +1,11 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import FabBar from '../FabBar';
+import LoadingCircle from '../LoadingCircle';
+
+jest.useFakeTimers();
 
 test('renders correctly', () => {
-  const tree = renderer.create(<FabBar
-    actions={[]}
+  const tree = renderer.create(<LoadingCircle
     />).toJSON();
   expect(tree).toMatchSnapshot();
 });

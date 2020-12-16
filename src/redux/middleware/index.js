@@ -10,4 +10,4 @@ const logger = (store) => (next) => (action) => {
   return returnValue;
 };
 
-export default applyMiddleware(thunk, logger);
+export default applyMiddleware(thunk);

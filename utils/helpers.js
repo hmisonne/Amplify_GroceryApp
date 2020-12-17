@@ -1,13 +1,13 @@
 import { Share } from "react-native";
 
-export const grey = '#5c626b'
-export const lightGrey = '#ccc'
-export const white = '#fff'
-export const blue = '#04afea'
-export const green = '#04e5d4'
-export const blueGreen = '#04ccde'
-export const mainColor = "#ffca18"
-export const secondaryColor = "#525252"
+export const grey = "#5c626b";
+export const lightGrey = "#ccc";
+export const white = "#fff";
+export const blue = "#04afea";
+export const green = "#04e5d4";
+export const blueGreen = "#04ccde";
+export const mainColor = "#ffca18";
+export const secondaryColor = "#525252";
 
 export const onShare = async (text) => {
   try {
@@ -28,87 +28,87 @@ export const onShare = async (text) => {
   }
 };
 
-
 export const productCategory = {
-  Produce:{
+  Produce: {
     picture: "food-apple",
     name: "Produce",
-    key: 'Produce'
+    key: "Produce",
   },
   Grains: {
     picture: "barley",
     name: "Pasta & Grains",
-    key: 'Grains'
+    key: "Grains",
   },
   Dairy: {
     picture: "cup",
     name: "Dairy",
-    key: 'Dairy'
+    key: "Dairy",
   },
   Meat: {
     picture: "cow",
     name: "Meat",
-    key: 'Meat'
+    key: "Meat",
   },
-  Sea:{ 
-    name: "Sea Food", 
-    picture: "fish" , 
-    key:'Sea'
+  Sea: {
+    name: "Sea Food",
+    picture: "fish",
+    key: "Sea",
   },
   Frozen: {
     picture: "cube-outline",
     name: "Frozen",
-    key: 'Frozen'
+    key: "Frozen",
   },
   Baking: {
     picture: "muffin",
     name: "Bakery",
-    key: 'Baking'
+    key: "Baking",
   },
   Canned: {
     picture: "hockey-puck",
     name: "Canned",
-    key: 'Canned'
+    key: "Canned",
   },
   Drinks: {
     picture: "glass-cocktail",
     name: "Beverages",
-    key: 'Drinks'
+    key: "Drinks",
   },
-  Health:{ 
-    picture: "bandage", 
-    name: "Health & Personal Care", 
-    key:"Health"
+  Health: {
+    picture: "bandage",
+    name: "Health & Personal Care",
+    key: "Health",
   },
-  Pet:{
-    name: "Pet Supplies", 
+  Pet: {
+    name: "Pet Supplies",
     picture: "bone",
-    key:'Pet'
+    key: "Pet",
   },
-  Cleaning:{ 
-    name: "Household & Cleaning", 
-    picture: "broom" , 
-    key:'Cleaning'},
+  Cleaning: {
+    name: "Household & Cleaning",
+    picture: "broom",
+    key: "Cleaning",
+  },
   Other: {
     picture: "food-variant",
     name: "Other",
-    key: 'Other'
+    key: "Other",
   },
-}
+};
 
-export const sortedCategories = Object.keys(productCategory).sort()
+export const sortedCategories = Object.keys(productCategory).sort();
 
-export function formatSectionListData(products){
+export function formatSectionListData(products) {
   const currCategories = new Set();
   products.forEach((product) => currCategories.add(product.category));
   let currListCategories = Array.from(currCategories)
+    .sort()
     .map((cat) => ({
       title: productCategory[cat].name,
       key: cat,
       data: products
         .filter((product) => product.category === cat)
         .map((product) => ({ ...product, key: product.id })),
-    }))
-    .sort((a, b) => a.key - b.key);
-    return currListCategories
+    }));
+  return currListCategories;
 }

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { List } from 'react-native-paper';
-import { categories, mainColor } from "../utils/helpers";
+import { productCategory, categories, mainColor } from "../utils/helpers";
 
 
 const ProductCategory = ({navigation, route}) => {
@@ -11,7 +11,7 @@ const ProductCategory = ({navigation, route}) => {
 
     ;
     return (
-        categories.map(cat => 
+        Object.values(productCategory).map(cat => 
             <TouchableOpacity 
                 style = {categorySelected == cat.name ? styles.backgroundRow : styles.notSelected}
                 onPress = {() => {
@@ -22,7 +22,7 @@ const ProductCategory = ({navigation, route}) => {
                 key = {cat.key}>
                 <List.Item
                     title={cat.name}
-                    left={props => <List.Icon {...props} icon={cat.img} />}
+                    left={props => <List.Icon {...props} icon={cat.picture} />}
                 />
             </TouchableOpacity>
         )

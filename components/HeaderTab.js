@@ -22,17 +22,15 @@ const HeaderTab = ({ firstTabSelected, switchToSecondTab }) => (
       </Text>
     </TouchableOpacity>
 
-   
-
     <View
       style={{
         height: 40,
-        width: 0.8 ,
+        width: 0.8,
         backgroundColor: lightGrey,
       }}
     />
 
-<TouchableOpacity
+    <TouchableOpacity
       style={!firstTabSelected && styles.bottomLine}
       disabled={!firstTabSelected}
       onPress={() => switchToSecondTab(false)}
@@ -47,8 +45,6 @@ const HeaderTab = ({ firstTabSelected, switchToSecondTab }) => (
         HISTORY
       </Text>
     </TouchableOpacity>
-
-   
   </View>
 );
 

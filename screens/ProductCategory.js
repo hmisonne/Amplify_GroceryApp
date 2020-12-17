@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { TouchableOpacity, StyleSheet } from 'react-native';
+import { TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { List } from 'react-native-paper';
-import { productCategory, categories, mainColor } from "../utils/helpers";
+import {sortedCategories, productCategory, mainColor } from "../utils/helpers";
 
 
 const ProductCategory = ({navigation, route}) => {
@@ -11,21 +11,24 @@ const ProductCategory = ({navigation, route}) => {
 
     ;
     return (
-        Object.values(productCategory).map(cat => 
+        <ScrollView>
+        {sortedCategories.map(catID => 
             <TouchableOpacity 
-                style = {categorySelected == cat.name ? styles.backgroundRow : styles.notSelected}
+                style = {categorySelected == productCategory[catID].name ? styles.backgroundRow : styles.notSelected}
                 onPress = {() => {
-                    setCategorySelected(cat.name)
-                    updateCategory(cat.name) 
+                    setCategorySelected(catID)
+                    updateCategory(catID) 
                     navigation.goBack()
                 }}
-                key = {cat.key}>
+                key = {catID}>
                 <List.Item
-                    title={cat.name}
-                    left={props => <List.Icon {...props} icon={cat.picture} />}
+                    title={productCategory[catID].name}
+                    left={props => <List.Icon {...props} icon={productCategory[catID].picture} />}
                 />
             </TouchableOpacity>
-        )
+        )}
+        </ScrollView>
+        
     )
 }
 

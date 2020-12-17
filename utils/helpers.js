@@ -97,3 +97,18 @@ export const productCategory = {
 }
 
 export const sortedCategories = Object.keys(productCategory).sort()
+
+export function formatSectionListData(products){
+  const currCategories = new Set();
+  products.forEach((product) => currCategories.add(product.category));
+  let currListCategories = Array.from(currCategories)
+    .map((cat) => ({
+      title: productCategory[cat].name,
+      key: cat,
+      data: products
+        .filter((product) => product.category === cat)
+        .map((product) => ({ ...product, key: product.id })),
+    }))
+    .sort((a, b) => a.key - b.key);
+    return currListCategories
+}

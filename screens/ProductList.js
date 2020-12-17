@@ -4,7 +4,7 @@ import { FAB, Provider } from "react-native-paper";
 import { connect, useDispatch } from "react-redux";
 import { DataStore } from "aws-amplify";
 
-import { mainColor, onShare, productCategory } from "../utils/helpers";
+import { formatSectionListData, mainColor, onShare, productCategory } from "../utils/helpers";
 import { Product } from "../src/models";
 import {
   handleDeleteAllProducts,
@@ -138,34 +138,10 @@ function ProductList({ navigation, route, allProducts, productsToBuy }) {
 
 function mapStateToProps(state) {
   const { products } = state;
-  // Format products for ALL product view
-  const currCategories = new Set();
-  products.forEach((product) => currCategories.add(product.category));
-  let currListCategories = Array.from(currCategories)
-    .map((cat) => ({
-      title: productCategory[cat].name,
-      key: cat,
-      data: products
-        .filter((product) => product.category === cat)
-        .map((product) => ({ ...product, key: product.id })),
-    }))
-    .sort((a, b) => a.key - b.key);
-  // Format products for TO BUY product view
+  let currListCategories = formatSectionListData(products)
+  // Format products for MY CART product view
   const filteredProducts = products.filter((product) => product.toBuy === true);
-  const filteredCurrCategories = new Set();
-  filteredProducts.forEach((product) =>
-    filteredCurrCategories.add(product.category)
-  );
-  let currListCategoriesFiltered = Array.from(filteredCurrCategories)
-    .map((cat) => ({
-      title: productCategory[cat].name,
-      key: cat,
-      data: filteredProducts
-        .filter((product) => product.category === cat)
-        .map((product) => ({ ...product, key: product.id })),
-    }))
-    .sort((a, b) => a.key - b.key);
-
+  let currListCategoriesFiltered = formatSectionListData(filteredProducts)
   return {
     allProducts: currListCategories,
     productsToBuy: currListCategoriesFiltered,

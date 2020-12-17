@@ -179,7 +179,7 @@ const NewProductForm = ({ route, navigation }) => {
                   color="black"
                 />
                 <Subheading style={styles.rowAligned}>
-                  {formState.category}
+                  {productCategory[formState.category].name}
                 </Subheading>
               </View>
             </TouchableOpacity>

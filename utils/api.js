@@ -32,7 +32,7 @@ export class BackendInterface {
         username: userInfo.username,
       };
       const newUser = await this._dataStore.save(new User(userDetails));
-      console.log("new User created successfully", newUser);
+      console.log("new User created successfully");
       return newUser;
     } catch (err) {
       console.log("error creating new User", err);
@@ -46,7 +46,7 @@ export class BackendInterface {
           User.copyOf(original[0], (updated) => {
             updated.groceryLists = updated.groceryLists.filter(item=> item !==id)
           }))
-        console.log("Grocery list deleted from User successfully!",newUser);
+        console.log("Grocery list deleted from User successfully!");
       } catch (err) {
         console.log("error deleting list", err);
       }
@@ -61,7 +61,7 @@ export class BackendInterface {
               return acc.id('eq', curVal);
             }, c);
           }))
-          console.log("grocery lists retrieved successfully!", result);
+          console.log("grocery lists retrieved successfully!");
           return result
       } catch (error) {
         console.log("Error retrieving grocery lists", error);
@@ -113,7 +113,7 @@ async updateGroceryListDetails(groceryList) {
       Product.copyOf(original, (updated) => {
         updated.name = groceryList.name
       }))
-      console.log("Product updated successfully!", updatedGroceryList);
+      console.log("Product updated successfully!");
       return updatedGroceryList
    } catch (err) {
   console.log("error updating product:", err);
@@ -171,7 +171,7 @@ async toggleMultipleProducts(groceryListID, attribute){
           updated.unit = product.unit
           updated.quantity = product.quantity
         }))
-        console.log("Product updated successfully!", updatedProduct);
+        console.log("Product updated successfully!");
         return updatedProduct
      } catch (err) {
     console.log("error updating product:", err);
@@ -183,7 +183,7 @@ async toggleMultipleProducts(groceryListID, attribute){
       const data = (await this._dataStore.query(Product)).filter(
         (c) => c.groceryListID === groceryListID
       );
-      console.log("products retrieved successfully!", data);
+      console.log("products retrieved successfully!");
       return data
     } catch (error) {
       console.log("Error retrieving products", error);

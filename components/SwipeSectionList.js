@@ -107,7 +107,7 @@ function SwipeSectionList({
     <View style={styles.sectionHeader}>
       <MaterialCommunityIcons
         style={styles.sectionIcon}
-        name={productCategory[section.title].picture}
+        name={productCategory[section.key].picture}
         size={20}
       />
       <Text style={styles.sectionText}>{section.title}</Text>

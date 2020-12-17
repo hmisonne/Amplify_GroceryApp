@@ -143,8 +143,8 @@ function mapStateToProps(state) {
   products.forEach((product) => currCategories.add(product.category));
   let currListCategories = Array.from(currCategories)
     .map((cat) => ({
-      title: cat,
-      key: productCategory[cat].key,
+      title: productCategory[cat].name,
+      key: cat,
       data: products
         .filter((product) => product.category === cat)
         .map((product) => ({ ...product, key: product.id })),
@@ -158,8 +158,8 @@ function mapStateToProps(state) {
   );
   let currListCategoriesFiltered = Array.from(filteredCurrCategories)
     .map((cat) => ({
-      title: cat,
-      key: productCategory[cat].key,
+      title: productCategory[cat].name,
+      key: cat,
       data: filteredProducts
         .filter((product) => product.category === cat)
         .map((product) => ({ ...product, key: product.id })),

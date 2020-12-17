@@ -12,7 +12,8 @@ export class BackendInterface {
       const result = await this._dataStore.query(User, (c) =>
         c.sub("eq", userInfo.attributes.sub,)
       );
-  
+      // if new user created by error, use the oldest reference
+      result.sort((a,b) => a._lastChangedAt - b._lastChangedAt)
       let currentUser = result[0]
       if (currentUser === undefined){
         currentUser = await this.createUser(userInfo)

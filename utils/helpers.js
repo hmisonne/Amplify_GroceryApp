@@ -28,54 +28,72 @@ export const onShare = async (text) => {
   }
 };
 
-export const categories = [
-    { name: "Produce", img: "food-apple", key:1 },
-    { name: "Grains", img: "barley", key:2 },
-    { name: "Dairy", img: "cup", key:3 },
-    { name: "Meat", img: "cow", key:4 },
-    { name: "Frozen", img: "cube-outline", key:5 },
-    { name: "Baking", img: "muffin" , key:6},
-    { name: "Canned", img: "hockey-puck", key:7 },
-    { name: "Drinks", img: "glass-cocktail", key:8 },
-    { name: "Other", img: "food-variant" , key:9},
-  ];
-
 
 export const productCategory = {
   Produce:{
     picture: "food-apple",
-    key: 1
+    name: "Produce",
+    key: 'Produce'
   },
   Grains: {
     picture: "barley",
-    key: 2
+    name: "Pasta & Grains",
+    key: 'Grains'
   },
   Dairy: {
     picture: "cup",
-    key: 3
+    name: "Dairy",
+    key: 'Dairy'
   },
   Meat: {
     picture: "cow",
-    key: 4
+    name: "Meat",
+    key: 'Meat'
+  },
+  Sea:{ 
+    name: "Sea Food", 
+    picture: "fish" , 
+    key:'Sea'
   },
   Frozen: {
     picture: "cube-outline",
-    key: 5
+    name: "Frozen",
+    key: 'Frozen'
   },
   Baking: {
     picture: "muffin",
-    key: 6
+    name: "Bakery",
+    key: 'Baking'
   },
   Canned: {
     picture: "hockey-puck",
-    key: 7
+    name: "Canned",
+    key: 'Canned'
   },
   Drinks: {
     picture: "glass-cocktail",
-    key: 8
+    name: "Beverages",
+    key: 'Drinks'
   },
+  Health:{ 
+    picture: "bandage", 
+    name: "Health & Personal Care", 
+    key:"Health"
+  },
+  Pet:{
+    name: "Pet Supplies", 
+    picture: "bone",
+    key:'Pet'
+  },
+  Cleaning:{ 
+    name: "Household & Cleaning", 
+    picture: "broom" , 
+    key:'Cleaning'},
   Other: {
     picture: "food-variant",
-    key: 9
+    name: "Other",
+    key: 'Other'
   },
 }
+
+export const sortedCategories = Object.keys(productCategory).sort()

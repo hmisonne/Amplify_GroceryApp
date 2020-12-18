@@ -16,10 +16,10 @@ import Home from "./screens/Home";
 import Settings from "./screens/Settings";
 import AppLoading from 'expo-app-loading';
 
-import prepareResources from "./hooks/prepareResources";
+import {_cacheResourcesAsync, prepareResources} from "./hooks/prepareResources";
 import store from "./src/redux/store";
 
-import { blue, mainColor, secondaryColor } from "./utils/helpers";
+import { mainColor, secondaryColor } from "./utils/helpers";
 import JoinGroceryList from "./screens/JoinGroceryList";
 import ProductList from "./screens/ProductList";
 import ProductCategory from "./screens/ProductCategory"
@@ -45,16 +45,18 @@ const theme = {
 const ProductStack = createStackNavigator();
 
 const App = () => {
+  const isDataStoreReady = prepareResources()
   const [isAppReady, setAppReady] = React.useState(false);
 
   function goToSettings(props) {
     props.navigation.push("Settings");
   }
-  if (!isAppReady) {
+  
+  if ( !isAppReady || !isDataStoreReady) {
     return (
       <AppLoading
-        startAsync={prepareResources}
-        onFinish={() => setAppReady(true)}
+        startAsync={_cacheResourcesAsync}
+        onFinish={()=>setAppReady(true)}
         onError={console.warn}
     />
     )

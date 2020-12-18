@@ -15,7 +15,7 @@ export const productReducer = (state = [], action) => {
         return state.map((product) =>
           product.id === action.id
             ? { ...product, 
-                [attribute]: !product[attribute]
+                [attribute]: !product[attribute],
               }
             : product
         );
@@ -30,7 +30,8 @@ export const productReducer = (state = [], action) => {
           return state.map((product) =>
             product.groceryListID === groceryListID
               ? { ...product, 
-                [attribute]: false 
+                [attribute]: false,
+                checked: false, 
               }
               : product
           );

@@ -74,7 +74,9 @@ export function handleToggleProduct(product, attribute='checked'){
   return (dispatch) => {
     const updatedProduct = {
       ...product, 
-      [attribute]: !product[attribute] 
+      [attribute]: !product[attribute],
+      checked: attribute == "toBuy" ? false : !product[attribute]
+       
     }
     return API.updateProductDetails(updatedProduct)
     .then(() => dispatch(toggleProduct(product.id, attribute)))

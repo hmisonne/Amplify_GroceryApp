@@ -148,10 +148,13 @@ async toggleMultipleProducts(groceryListID, attribute){
     const productsToUncheck= products.filter(product => product[attribute] === true)
     for (let product of productsToUncheck){
       const original = await this._dataStore.query(Product, product.id);
-      await this._dataStore.save(
-        Product.copyOf(original, (updated) => {
-          updated[attribute] = false
-        }))
+
+        await this._dataStore.save(
+          Product.copyOf(original, (updated) => {
+            updated[attribute] = false
+            updated.checked = false
+          }))
+     
     }
     console.log("Products Removed from Cart successfully!");
   } catch (err) {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { FAB, Provider } from "react-native-paper";
 import { connect, useDispatch } from "react-redux";
 import { DataStore } from "aws-amplify";
@@ -17,7 +17,7 @@ import HeaderTab from "../components/HeaderTab";
 import SwipeSectionList from "../components/SwipeSectionList";
 import MenuOptions from "../components/MenuOptions";
 
-function ProductList({ navigation, route, allProducts, productsToBuy }) {
+function ProductList({ navigation, route, allProducts, productsToBuy, numOfProducts }) {
   const dispatch = useDispatch();
   const [toBuyView, setToBuyView] = useState(true);
   function toggleToBuyView(bool) {
@@ -115,15 +115,25 @@ function ProductList({ navigation, route, allProducts, productsToBuy }) {
           }
           toBuyView={toBuyView}
         />
-        <FAB
-          style={styles.fab}
+
+        <View  
+        style={{
+            height: 80,
+            // backgroundColor: 'blue',
+            flexDirection: "row",
+            justifyContent: "space-between",
+            padding:15
+          }}>
+            
+            <View
+             style={{
+              alignSelf: 'center',
+            }}><Text>Remaining Items: {numOfProducts.remaining}/{numOfProducts.toBuy}</Text></View>
+          <FAB
           icon="plus"
           style={{
             backgroundColor: mainColor,
-            position: "absolute",
-            margin: 16,
             alignSelf: 'center',
-            bottom: 0,
           }}
           onPress={() =>
             navigation.push("AddProduct", {
@@ -131,6 +141,14 @@ function ProductList({ navigation, route, allProducts, productsToBuy }) {
             })
           }
         />
+        <View
+             style={{
+              alignSelf: 'center',
+            }}><Text style={{
+              color: 'white',
+            }}>Remaining Items: {numOfProducts.remaining}/{numOfProducts.toBuy}</Text></View>
+        </View>
+        
       </View>
     </Provider>
   );
@@ -142,7 +160,13 @@ function mapStateToProps(state) {
   // Format products for MY CART product view
   const filteredProducts = products.filter((product) => product.toBuy === true);
   let currListCategoriesFiltered = formatSectionListData(filteredProducts)
+  const numOfProductsToBuy = products.filter(product => product.toBuy === true)
+  const numOfProductsRemaining = numOfProductsToBuy.filter(product => product.checked === false)
   return {
+    numOfProducts : {
+      toBuy: numOfProductsToBuy.length,
+      remaining: numOfProductsRemaining.length
+    },
     allProducts: currListCategories,
     productsToBuy: currListCategoriesFiltered,
   };

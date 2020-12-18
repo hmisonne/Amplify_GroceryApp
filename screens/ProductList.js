@@ -4,7 +4,11 @@ import { FAB, Provider } from "react-native-paper";
 import { connect, useDispatch } from "react-redux";
 import { DataStore } from "aws-amplify";
 
-import { formatSectionListData, mainColor, onShare, productCategory } from "../utils/helpers";
+import {
+  formatSectionListData,
+  mainColor,
+  onShare,
+} from "../utils/helpers";
 import { Product } from "../src/models";
 import {
   handleDeleteAllProducts,
@@ -17,7 +21,13 @@ import HeaderTab from "../components/HeaderTab";
 import SwipeSectionList from "../components/SwipeSectionList";
 import MenuOptions from "../components/MenuOptions";
 
-function ProductList({ navigation, route, allProducts, productsToBuy, numOfProducts }) {
+function ProductList({
+  navigation,
+  route,
+  allProducts,
+  productsToBuy,
+  numOfProducts,
+}) {
   const dispatch = useDispatch();
   const [toBuyView, setToBuyView] = useState(true);
   function toggleToBuyView(bool) {
@@ -35,11 +45,12 @@ function ProductList({ navigation, route, allProducts, productsToBuy, numOfProdu
       onPress: (groceryList) =>
         onShare(`👋 ListBee: The grocery list "${groceryList.name}" is now accessible by using this reference: 
       ${groceryList.id}`),
-      },
+    },
     {
       icon: "checkbox-multiple-blank-circle-outline",
       title: "Uncheck All",
       validationNeeded: true,
+      message: "Uncheck All Items from Cart?",
       onPress: (groceryList) =>
         dispatch(handleToggleMultipleProducts(groceryList.id, "checked")),
     },
@@ -47,12 +58,14 @@ function ProductList({ navigation, route, allProducts, productsToBuy, numOfProdu
       icon: "cart-off",
       title: "Empty Cart",
       validationNeeded: true,
+      message: "Remove All Items from Cart?",
       onPress: (groceryList) =>
         dispatch(handleToggleMultipleProducts(groceryList.id, "toBuy")),
     },
     {
       icon: "delete-variant",
       title: "Delete All",
+      message: "Delete All Items from Cart and History?",
       validationNeeded: true,
       onPress: (groceryList) =>
         dispatch(handleDeleteAllProducts(groceryList.id)),
@@ -116,39 +129,47 @@ function ProductList({ navigation, route, allProducts, productsToBuy, numOfProdu
           toBuyView={toBuyView}
         />
 
-        <View  
-        style={{
+        <View
+          style={{
             height: 80,
-            // backgroundColor: 'blue',
+            backgroundColor: "#F1F1F0",
+            borderTopWidth: 1,
+            borderTopColor: "#DCDCDC",
             flexDirection: "row",
             justifyContent: "space-between",
-            padding:15
-          }}>
-            
-            <View
-             style={{
-              alignSelf: 'center',
-            }}><Text>Remaining Items: {numOfProducts.remaining}/{numOfProducts.toBuy}</Text></View>
-          <FAB
-          icon="plus"
-          style={{
-            backgroundColor: mainColor,
-            alignSelf: 'center',
+            padding: 15,
           }}
-          onPress={() =>
-            navigation.push("AddProduct", {
-              groceryListID: groceryListID,
-            })
-          }
-        />
-        <View
-             style={{
-              alignSelf: 'center',
-            }}><Text style={{
-              color: 'white',
-            }}>Remaining Items: {numOfProducts.remaining}/{numOfProducts.toBuy}</Text></View>
+        >
+          <View
+            style={{
+              alignSelf: "center",
+            }}
+          >
+            <Text>
+              {numOfProducts.toBuy
+                ? `Products in cart: ${numOfProducts.inCart}`
+                : ""}
+            </Text>
+            <Text>
+              {numOfProducts.toBuy
+                ? `Products to buy: ${numOfProducts.toBuy}`
+                : ""}
+            </Text>
+          </View>
+          
+          <FAB
+            icon="plus"
+            style={{
+              backgroundColor: mainColor,
+              alignSelf: "center",
+            }}
+            onPress={() =>
+              navigation.push("AddProduct", {
+                groceryListID: groceryListID,
+              })
+            }
+          />
         </View>
-        
       </View>
     </Provider>
   );
@@ -156,16 +177,20 @@ function ProductList({ navigation, route, allProducts, productsToBuy, numOfProdu
 
 function mapStateToProps(state) {
   const { products } = state;
-  let currListCategories = formatSectionListData(products)
+  let currListCategories = formatSectionListData(products);
   // Format products for MY CART product view
   const filteredProducts = products.filter((product) => product.toBuy === true);
-  let currListCategoriesFiltered = formatSectionListData(filteredProducts)
-  const numOfProductsToBuy = products.filter(product => product.toBuy === true)
-  const numOfProductsRemaining = numOfProductsToBuy.filter(product => product.checked === false)
+  let currListCategoriesFiltered = formatSectionListData(filteredProducts);
+  const numOfProductsToBuy = products.filter(
+    (product) => product.toBuy === true
+  );
+  const numOfProductsInCart = numOfProductsToBuy.filter(
+    (product) => product.checked === true
+  );
   return {
-    numOfProducts : {
+    numOfProducts: {
       toBuy: numOfProductsToBuy.length,
-      remaining: numOfProductsRemaining.length
+      inCart: numOfProductsInCart.length,
     },
     allProducts: currListCategories,
     productsToBuy: currListCategoriesFiltered,

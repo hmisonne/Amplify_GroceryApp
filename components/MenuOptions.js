@@ -1,26 +1,11 @@
 import * as React from "react";
-import { View, Alert } from "react-native";
-import { Button, Menu, Divider, Provider } from "react-native-paper";
+import { View } from "react-native";
+import { Menu} from "react-native-paper";
 import RoundButton from "./RoundButton";
+import { createTwoButtonAlert } from "../utils/helpers"
 
 const MenuOptions = ({ actionsMenu, groceryList }) => {
   const [visible, setVisible] = React.useState(false);
-
-  
-  const createTwoButtonAlert = (callback, alertTitle) =>
-    Alert.alert(
-      "Warning:",
-      `${alertTitle} ?`,
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        { text: "OK", onPress: () => callback() }
-      ],
-      { cancelable: false }
-    );
 
   const openMenu = () => setVisible(true);
 
@@ -51,7 +36,7 @@ const MenuOptions = ({ actionsMenu, groceryList }) => {
             icon={action.icon}
             onPress={() => {
               action.validationNeeded
-              ? createTwoButtonAlert(() => action.onPress(groceryList), action.title)
+              ? createTwoButtonAlert(() => action.onPress(groceryList), action.message)
               : action.onPress(groceryList)
               closeMenu();
             }}
@@ -65,5 +50,3 @@ const MenuOptions = ({ actionsMenu, groceryList }) => {
 };
 
 export default MenuOptions;
-// action.onPress(groceryList);
-// createTwoButtonAlert(() => action.onPress(groceryList))

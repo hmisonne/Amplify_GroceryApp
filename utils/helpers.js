@@ -1,5 +1,4 @@
-import { Share } from "react-native";
-
+import { Share, Alert} from "react-native";
 export const grey = "#5c626b";
 export const lightGrey = "#ccc";
 export const white = "#fff";
@@ -112,3 +111,18 @@ export function formatSectionListData(products) {
     }));
   return currListCategories;
 }
+
+export const createTwoButtonAlert = (callback, alertMessage) =>
+    Alert.alert(
+      "Warning:",
+      alertMessage,
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => callback() }
+      ],
+      { cancelable: false }
+    );

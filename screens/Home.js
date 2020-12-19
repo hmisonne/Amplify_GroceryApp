@@ -14,6 +14,7 @@ import FabBar from "../components/FabBar";
 import LoadingCircle from "../components/LoadingCircle";
 import SwipeList from "../components/SwipeList";
 import FadeInView from "../components/FadeInView";
+import { createTwoButtonAlert } from "../utils/helpers";
 
 const Home = ({ groceryLists, navigation }) => {
   const [visible, setVisible] = React.useState(false);
@@ -44,6 +45,10 @@ const Home = ({ groceryLists, navigation }) => {
     
   }, []);
 
+  function removeListWithValidation(groceryList){
+    const validationText = `Are you sure you want to delete this list?`
+    createTwoButtonAlert(() => removeGroceryList(groceryList.id), validationText)
+  }
   function removeGroceryList(groceryListID) {
     dispatch(handleDeleteGroceryList(groceryListID));
     onToggleSnackBar();
@@ -100,7 +105,7 @@ const Home = ({ groceryLists, navigation }) => {
     return(
       <SwipeList
         listData = {groceryLists}
-        deleteAction = {(groceryList) => removeGroceryList(groceryList.id)}
+        deleteAction = {(groceryList) => removeListWithValidation(groceryList)}
         navigateToEdit = {(groceryList) => navigation.push("NewList", { groceryList })}
         onPressAction = {(groceryList) => goToList(groceryList)}
       />

@@ -1,6 +1,8 @@
 import { Share, Alert} from "react-native";
+
 export const grey = "#5c626b";
 export const lightGrey = "#ccc";
+export const lightGreyBackground = "#F1F1F0";
 export const white = "#fff";
 export const blue = "#04afea";
 export const green = "#04e5d4";
@@ -107,6 +109,7 @@ export function formatSectionListData(products) {
       key: cat,
       data: products
         .filter((product) => product.category === cat)
+        .sort((a,b)=> a.name - b.name)
         .map((product) => ({ ...product, key: product.id })),
     }));
   return currListCategories;

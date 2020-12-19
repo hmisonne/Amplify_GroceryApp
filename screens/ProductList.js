@@ -6,6 +6,7 @@ import { DataStore } from "aws-amplify";
 
 import {
   formatSectionListData,
+  lightGreyBackground,
   mainColor,
   onShare,
 } from "../utils/helpers";
@@ -132,7 +133,7 @@ function ProductList({
         <View
           style={{
             height: 80,
-            backgroundColor: "#F1F1F0",
+            backgroundColor: lightGreyBackground,
             borderTopWidth: 1,
             borderTopColor: "#DCDCDC",
             flexDirection: "row",
@@ -147,16 +148,11 @@ function ProductList({
           >
             <Text>
               {numOfProducts.toBuy
-                ? `Products in cart: ${numOfProducts.inCart}`
-                : ""}
-            </Text>
-            <Text>
-              {numOfProducts.toBuy
-                ? `Products to buy: ${numOfProducts.toBuy}`
+                ? `Items in cart: ${numOfProducts.inCart}/${numOfProducts.toBuy}`
                 : ""}
             </Text>
           </View>
-          
+
           <FAB
             icon="plus"
             style={{

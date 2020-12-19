@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { List } from 'react-native-paper';
-import {sortedCategories, productCategory, mainColor } from "../utils/helpers";
+import {sortedCategories, productCategory, mainColor, lightGreyBackground } from "../utils/helpers";
 
 
 const ProductCategory = ({navigation, route}) => {
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
       backgroundColor: mainColor,
     },
     notSelected: {
-        backgroundColor: '#F1F1F0',
+        backgroundColor: lightGreyBackground,
     }
   });
   

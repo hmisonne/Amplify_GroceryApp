@@ -5,11 +5,19 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   View,
+  ScrollView,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SwipeListView } from "react-native-swipe-list-view";
-import { lightGrey, lightGreyBackground, mainColor, productCategory, secondaryColor } from "../utils/helpers";
+import {
+  lightGrey,
+  lightGreyBackground,
+  mainColor,
+  productCategory,
+  secondaryColor,
+} from "../utils/helpers";
 import PropTypes from "prop-types";
+import { FAB } from "react-native-paper";
 
 function SwipeSectionList({
   listData,
@@ -17,6 +25,8 @@ function SwipeSectionList({
   navigateToEditProduct,
   toggleProduct,
   toBuyView,
+  groceryListID,
+  fabAction,
 }) {
   const closeRow = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {
@@ -43,7 +53,11 @@ function SwipeSectionList({
     <View>
       <TouchableHighlight
         onPress={() => onToggle(data.item)}
-        style={data.item.toBuy? styles.rowFront : [styles.rowFront, styles.notSelected]}
+        style={
+          data.item.toBuy
+            ? styles.rowFront
+            : [styles.rowFront, styles.notSelected]
+        }
         underlayColor={"#AAA"}
       >
         <View style={styles.rowAlign}>
@@ -61,17 +75,15 @@ function SwipeSectionList({
           ) : (
             <MaterialCommunityIcons
               style={styles.rowIcon}
-              name={
-                data.item.toBuy
-                  ? "cart-outline"
-                  : "cart-off"
-              }
+              name={data.item.toBuy ? "cart-outline" : "cart-off"}
               size={20}
-              color={!data.item.toBuy ?  lightGrey: mainColor }
+              color={!data.item.toBuy ? lightGrey : mainColor}
             />
           )}
 
-          <Text style={ {color: !data.item.toBuy ? lightGrey: secondaryColor }}>
+          <Text
+            style={{ color: !data.item.toBuy ? lightGrey : secondaryColor }}
+          >
             {" "}
             {data.item.name}{" "}
             {data.item.quantity !== 0 && (
@@ -113,21 +125,34 @@ function SwipeSectionList({
       <Text style={styles.sectionText}>{section.title}</Text>
     </View>
   );
-
   return (
-    <SwipeListView
-      useSectionList
-      sections={listData}
-      renderItem={renderItem}
-      renderHiddenItem={renderHiddenItem}
-      renderSectionHeader={renderSectionHeader}
-      leftOpenValue={75}
-      rightOpenValue={-150}
-      previewRowKey={"0"}
-      previewOpenValue={-40}
-      previewOpenDelay={3000}
-      onRowDidOpen={onRowDidOpen}
-    />
+    <ScrollView>
+      <SwipeListView
+        useSectionList
+        sections={listData}
+        renderItem={renderItem}
+        renderHiddenItem={renderHiddenItem}
+        renderSectionHeader={renderSectionHeader}
+        leftOpenValue={75}
+        rightOpenValue={-150}
+        previewRowKey={"0"}
+        previewOpenValue={-40}
+        previewOpenDelay={3000}
+        onRowDidOpen={onRowDidOpen}
+      />
+      {toBuyView && listData.length > 0 && (
+        <FAB
+          icon="clipboard-check-outline"
+          label="I'm done!"
+          style={{
+            marginTop: 10,
+            backgroundColor: mainColor,
+            alignSelf: "center",
+          }}
+          onPress={() => fabAction(groceryListID)}
+        />
+      )}
+    </ScrollView>
   );
 }
 
@@ -163,7 +188,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     height: 50,
   },
-  notSelected:{
+  notSelected: {
     backgroundColor: lightGreyBackground,
   },
   rowIcon: {
@@ -194,7 +219,6 @@ const styles = StyleSheet.create({
     right: 0,
   },
 });
-
 
 SwipeSectionList.propTypes = {
   listData: PropTypes.array.isRequired,

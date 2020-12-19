@@ -28,9 +28,9 @@ export const productReducer = (state = [], action) => {
           );
         case "TOGGLE_MULTIPLE_PRODUCTS":
           return state.map((product) =>
-            product.groceryListID === groceryListID
-              ? { ...product, 
-                [attribute]: false,
+          product.groceryListID == groceryListID && product[attribute] === true
+              ? { ...product,
+                toBuy: action.keepToBuy? true: false,
                 checked: false, 
               }
               : product

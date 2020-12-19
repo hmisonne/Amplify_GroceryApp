@@ -142,23 +142,35 @@ async removeAllProducts(groceryListID){
   }
 }
 
-async toggleMultipleProducts(groceryListID, attribute){
-  try {
-    const products = await this.fetchProductsByGroceryList(groceryListID)
-    const productsToUncheck= products.filter(product => product[attribute] === true)
-    for (let product of productsToUncheck){
-      const original = await this._dataStore.query(Product, product.id);
-
-        await this._dataStore.save(
-          Product.copyOf(original, (updated) => {
-            updated[attribute] = false
-            updated.checked = false
-          }))
-     
-    }
-    console.log("Products Removed from Cart successfully!");
-  } catch (err) {
-    console.log("error removing all items from Cart:", err);
+// async toggleMultipleProducts(groceryListID, attribute, keepToBuy){
+//   try {
+//     const products = await this.fetchProductsByGroceryList(groceryListID)
+  // const productsSelected = products.filter(product => product[attribute] === true)
+  // for (let product of productsSelected){
+  //   const original = await this._dataStore.query(Product, product.id);
+  //     await this._dataStore.save(
+  //       Product.copyOf(original, (updated) => {
+  //         updated.toBuy = keepToBuy? true: false
+  //         updated.checked = false
+  //       }))
+   
+  // }
+//     console.log("Products Removed from Cart successfully!");
+//   } catch (err) {
+//     console.log("error removing all items from Cart:", err);
+//   }
+// }
+async toggleMultipleProducts(groceryListID, attribute, keepToBuy){
+  const products = await this.fetchProductsByGroceryList(groceryListID)
+  const productsSelected = products.filter(product => product[attribute] === true)
+  for (let product of productsSelected){
+    const original = await this._dataStore.query(Product, product.id);
+      await this._dataStore.save(
+        Product.copyOf(original, (updated) => {
+          updated.toBuy = keepToBuy? true: false
+          updated.checked = false
+        }))
+   
   }
 }
   

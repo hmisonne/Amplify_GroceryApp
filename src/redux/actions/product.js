@@ -36,10 +36,11 @@ export const deleteAllProducts = (groceryListID) => ({
   groceryListID
 });
 
-export const toggleMultipleProducts = (groceryListID, attribute) => ({
+export const toggleMultipleProducts = (groceryListID, attribute, keepToBuy) => ({
   type: "TOGGLE_MULTIPLE_PRODUCTS",
   attribute,
-  groceryListID
+  groceryListID,
+  keepToBuy
 })
 
 export function handleUpdateProduct(product){
@@ -90,9 +91,9 @@ export function handleDeleteAllProducts(groceryListID){
   }
 }
 
-export function handleToggleMultipleProducts(groceryListID, attribute){
+export function handleToggleMultipleProducts(groceryListID, attribute, keepToBuy=false){
   return (dispatch) => {
-    return API.toggleMultipleProducts(groceryListID, attribute)
-    .then(() => dispatch(toggleMultipleProducts(groceryListID, attribute)))
+    return API.toggleMultipleProducts(groceryListID, attribute, keepToBuy)
+    .then(() => dispatch(toggleMultipleProducts(groceryListID, attribute, keepToBuy)))
   }
 }

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
-import { secondaryColor, lightGrey, mainColor } from "../utils/helpers";
+import { secondaryColor, lightGrey, mainColor, lightGreyBackground } from "../utils/helpers";
 import PropTypes from "prop-types";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -27,13 +27,6 @@ const HeaderTab = ({ firstTabSelected, switchToSecondTab }) => (
       </Text>
     </TouchableOpacity>
 
-    {/* <View
-      style={{
-        height: 40,
-        width: 0.8,
-        backgroundColor: lightGrey,
-      }}
-    /> */}
 
     <TouchableOpacity
       style={!firstTabSelected ? styles.selectedTab : styles.unSelectedTab}
@@ -62,7 +55,6 @@ export default HeaderTab;
 
 const styles = StyleSheet.create({
   rowAligned: {
-    // flex: 1,
     flexDirection: "row",
     justifyContent: "space-around",
   },
@@ -77,7 +69,7 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
     paddingTop: 8,
     flex: 1,
-    backgroundColor: "#F1F1F0",
+    backgroundColor: lightGreyBackground,
   },
 });
 

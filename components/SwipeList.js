@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SwipeListView } from "react-native-swipe-list-view";
-import { secondaryColor } from "../utils/helpers";
+import { lightGreyBackground, secondaryColor } from "../utils/helpers";
 import PropTypes from "prop-types";
 
 function SwipeList({
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   },
   rowFront: {
     paddingLeft: 20,
-    backgroundColor: "#F1F1F0",
+    backgroundColor: lightGreyBackground,
     borderBottomColor: "#DCDCDC",
     borderBottomWidth: 1,
     justifyContent: "center",

@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SwipeListView } from "react-native-swipe-list-view";
-import { mainColor, productCategory, secondaryColor } from "../utils/helpers";
+import { lightGrey, lightGreyBackground, mainColor, productCategory, secondaryColor } from "../utils/helpers";
 import PropTypes from "prop-types";
 
 function SwipeSectionList({
@@ -67,11 +67,11 @@ function SwipeSectionList({
                   : "cart-off"
               }
               size={20}
-              color={'grey'}
+              color={!data.item.toBuy ?  lightGrey: mainColor }
             />
           )}
 
-          <Text style={!data.item.toBuy ? {color: '#919090'}: {color: 'black'}}>
+          <Text style={ {color: !data.item.toBuy ? lightGrey: secondaryColor }}>
             {" "}
             {data.item.name}{" "}
             {data.item.quantity !== 0 && (
@@ -157,14 +157,14 @@ const styles = StyleSheet.create({
   },
   rowFront: {
     paddingLeft: 20,
-    backgroundColor: "#F1F1F0",
+    backgroundColor: lightGreyBackground,
     borderBottomColor: "#DCDCDC",
     borderBottomWidth: 1,
     justifyContent: "center",
     height: 50,
   },
   notSelected:{
-    backgroundColor: "#dbdbdb",
+    backgroundColor: lightGreyBackground,
   },
   rowIcon: {
     marginRight: 12,

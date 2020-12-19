@@ -5,6 +5,7 @@ import { connect, useDispatch } from "react-redux";
 import { DataStore } from "aws-amplify";
 
 import {
+  createTwoButtonAlert,
   formatSectionListData,
   lightGreyBackground,
   mainColor,
@@ -38,6 +39,25 @@ function ProductList({
   const { groceryList } = route.params;
   const groceryListID = groceryList.id;
 
+  const actionsMenuHistory = [
+    {
+      icon: "share-variant",
+      title: "Share",
+      validationNeeded: false,
+      onPress: (groceryList) =>
+        onShare(`👋 ListBee: The grocery list "${groceryList.name}" is now accessible by using this reference: 
+      ${groceryList.id}`),
+    },
+    {
+      icon: "delete-variant",
+      title: "Delete All",
+      alertTitle: "Delete All Items?",
+      message: "This action will wipe out all of your items",
+      validationNeeded: true,
+      onPress: (groceryList) =>
+        dispatch(handleDeleteAllProducts(groceryList.id)),
+    },
+  ]
   const actionsMenu = [
     {
       icon: "share-variant",
@@ -51,25 +71,28 @@ function ProductList({
       icon: "checkbox-multiple-blank-circle-outline",
       title: "Uncheck All",
       validationNeeded: true,
-      message: "Uncheck All Items from Cart?",
+      alertTitle: "Uncheck All Items from My List?",
+      message: "All items on your list will appear as unchecked",
       onPress: (groceryList) =>
-        dispatch(handleToggleMultipleProducts(groceryList.id, "checked")),
+        dispatch(handleToggleMultipleProducts(groceryList.id, "checked", true)),
     },
     {
-      icon: "cart-off",
-      title: "Empty Cart",
+      icon: "eraser",
+      title: "Empty List",
       validationNeeded: true,
-      message: "Remove All Items from Cart?",
+      alertTitle: "Remove All Items from My List?",
+      message: "We've got you covered, your items will still be available in the History tab",
       onPress: (groceryList) =>
         dispatch(handleToggleMultipleProducts(groceryList.id, "toBuy")),
     },
     {
-      icon: "delete-variant",
-      title: "Delete All",
-      message: "Delete All Items from Cart and History?",
+      icon: "clipboard-check-outline",
+      title: "I'm Done!",
       validationNeeded: true,
+      alertTitle: "Are you done shopping?",
+      message: "Don't worry, all the unchecked items will stay in your list!",
       onPress: (groceryList) =>
-        dispatch(handleDeleteAllProducts(groceryList.id)),
+        dispatch(handleToggleMultipleProducts(groceryList.id, "checked")),
     },
   ];
 
@@ -77,7 +100,7 @@ function ProductList({
     navigation.setOptions(
       {
         headerRight: () => (
-          <MenuOptions actionsMenu={actionsMenu} groceryList={groceryList} />
+          <MenuOptions actionsMenu={toBuyView? actionsMenu: actionsMenuHistory} groceryList={groceryList} />
         ),
       },
       [navigation, actionsMenu, groceryList]
@@ -94,6 +117,14 @@ function ProductList({
     return () => subscription.unsubscribe();
   }, []);
 
+  function doneShoppingWithValidation(groceryListID){
+    const message = `Don't worry, all the unchecked items will stay in your list!`
+    const alertTitle = "Are you done shopping?"
+    return createTwoButtonAlert(() => doneShopping(groceryListID), message, alertTitle)
+  }
+  function doneShopping(groceryListID){
+    return dispatch(handleToggleMultipleProducts(groceryListID, "checked"))
+  }
   function deleteProduct(productID) {
     dispatch(handleDeleteProduct(productID));
   }
@@ -128,6 +159,8 @@ function ProductList({
               : (product) => toggleProductToBuy(product)
           }
           toBuyView={toBuyView}
+          groceryListID={groceryListID}
+          fabAction={(groceryListID) => doneShoppingWithValidation(groceryListID)}
         />
 
         <View

@@ -115,9 +115,9 @@ export function formatSectionListData(products) {
   return currListCategories;
 }
 
-export const createTwoButtonAlert = (callback, alertMessage) =>
+export const createTwoButtonAlert = (callback, alertMessage, alertTitle="Warning") =>
     Alert.alert(
-      "Warning:",
+      alertTitle,
       alertMessage,
       [
         {

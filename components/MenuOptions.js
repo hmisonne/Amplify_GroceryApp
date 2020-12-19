@@ -36,7 +36,7 @@ const MenuOptions = ({ actionsMenu, groceryList }) => {
             icon={action.icon}
             onPress={() => {
               action.validationNeeded
-              ? createTwoButtonAlert(() => action.onPress(groceryList), action.message)
+              ? createTwoButtonAlert(() => action.onPress(groceryList), action.message, action.alertTitle)
               : action.onPress(groceryList)
               closeMenu();
             }}

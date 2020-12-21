@@ -133,7 +133,7 @@ function SwipeSectionList({
         renderItem={renderItem}
         renderHiddenItem={renderHiddenItem}
         renderSectionHeader={renderSectionHeader}
-        leftOpenValue={75}
+        // leftOpenValue={75}
         rightOpenValue={-150}
         previewRowKey={"0"}
         previewOpenValue={-40}

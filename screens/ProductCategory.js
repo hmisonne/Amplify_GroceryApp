@@ -2,14 +2,14 @@ import * as React from 'react';
 
 import { TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { List } from 'react-native-paper';
-import {sortedCategories, productCategory, mainColor, lightGreyBackground } from "../utils/helpers";
+import { productCategory, mainColor, lightGreyBackground } from "../utils/helpers";
 
+const sortedCategories = Object.keys(productCategory)
 
 const ProductCategory = ({navigation, route}) => {
     const { category, updateCategory } = route.params
     const [categorySelected, setCategorySelected] = React.useState(category);
 
-    ;
     return (
         <ScrollView>
         {sortedCategories.map(catID => 

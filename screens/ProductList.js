@@ -45,7 +45,7 @@ function ProductList({
       title: "Share",
       validationNeeded: false,
       onPress: (groceryList) =>
-        onShare(`👋 ListBee: The grocery list "${groceryList.name}" is now accessible by using this reference: 
+        onShare(`👋 ListBee: The grocery list "${groceryList.name}" is now accessible by using this List ID number: 
       ${groceryList.id}`),
     },
     {
@@ -90,7 +90,7 @@ function ProductList({
       title: "I'm Done!",
       validationNeeded: true,
       alertTitle: "Are you done shopping?",
-      message: "Don't worry, all the unchecked items will stay in your list!",
+      message: "Don't worry, all of the unchecked items will stay in your list!",
       onPress: (groceryList) =>
         dispatch(handleToggleMultipleProducts(groceryList.id, "checked")),
     },
@@ -118,7 +118,7 @@ function ProductList({
   }, []);
 
   function doneShoppingWithValidation(groceryListID){
-    const message = `Don't worry, all the unchecked items will stay in your list!`
+    const message = `Don't worry, all of the unchecked items will stay in your list!`
     const alertTitle = "Are you done shopping?"
     return createTwoButtonAlert(() => doneShopping(groceryListID), message, alertTitle)
   }

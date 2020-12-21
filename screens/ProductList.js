@@ -161,6 +161,7 @@ function ProductList({
           toBuyView={toBuyView}
           groceryListID={groceryListID}
           fabAction={(groceryListID) => doneShoppingWithValidation(groceryListID)}
+          itemsInCart={numOfProducts.inCart > 0}
         />
 
         <View

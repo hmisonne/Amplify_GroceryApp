@@ -27,6 +27,7 @@ function SwipeSectionList({
   toBuyView,
   groceryListID,
   fabAction,
+  itemsInCart
 }) {
   const closeRow = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {
@@ -140,7 +141,7 @@ function SwipeSectionList({
         previewOpenDelay={3000}
         onRowDidOpen={onRowDidOpen}
       />
-      {toBuyView && listData.length > 0 && (
+      {toBuyView && listData.length > 0 && itemsInCart && (
         <FAB
           icon="clipboard-check-outline"
           label="I'm done!"

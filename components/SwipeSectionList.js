@@ -110,7 +110,7 @@ function SwipeSectionList({
         style={[styles.backRightBtn, styles.backRightBtnRight]}
         onPress={() => deleteRow(rowMap, data.item)}
       >
-        <MaterialCommunityIcons name="delete-outline" size={20} color="white" />
+        <MaterialCommunityIcons name={toBuyView?"playlist-remove": "delete-outline"} size={20} color="white" />
       </TouchableOpacity>
     </View>
   );
@@ -146,6 +146,7 @@ function SwipeSectionList({
           label="I'm done!"
           style={{
             marginTop: 10,
+            marginBottom: 10,
             backgroundColor: mainColor,
             alignSelf: "center",
           }}

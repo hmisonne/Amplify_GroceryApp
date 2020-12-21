@@ -171,7 +171,7 @@ const NewProductForm = ({ route, navigation }) => {
             </View>
             <Divider />
             <TouchableOpacity onPress={goToProductCategory}>
-              <Text style={styles.marginBottom}>Category:</Text>
+              <Text style={styles.marginBottom}>Select a Category:</Text>
               <View style={styles.rowAligned}>
                 <MaterialCommunityIcons
                   name={productCategory[formState.category].picture}

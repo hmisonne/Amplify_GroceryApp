@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { connect, useDispatch } from "react-redux";
-import { HelperText } from "react-native-paper";
-import SubmitBtn from "../components/SubmitBtn";
+import { HelperText, Button } from "react-native-paper";
 import StyledTextInput from "../components/StyledTextInput";
 import {
   handleAddGroceryList,
@@ -13,15 +12,35 @@ import * as queries from "../src/graphql/queries";
 import { API } from "aws-amplify";
 
 const JoinGroceryList = ({ navigation, userGroceryLists }) => {
+  React.useLayoutEffect(() => {
+    navigation.setOptions(
+      {
+        headerRight: () => (
+          <Button
+            mode="contained"
+            onPress={addGroceryList}
+            disabled={validateForm()}
+            style={{marginRight:15}}
+          >
+            Join
+          </Button>
+        ),
+      },
+      [
+        addGroceryList,
+        validateForm,
+      ]
+    );
+  });
+  const validateForm = () => {
+    return groceryListID.length !== 36;
+  };
   const [groceryListID, setGroceryListID] = useState("");
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertText, setAlertText] = useState("");
 
   const dispatch = useDispatch();
 
-  const incorrectLength = () => {
-    return groceryListID.length !== 36;
-  };
   async function addGroceryList() {
     // Check if user has already access to the grocery list:
     if (userGroceryLists && userGroceryLists.includes(groceryListID)) {
@@ -69,11 +88,6 @@ const JoinGroceryList = ({ navigation, userGroceryLists }) => {
         </HelperText>
       </View>
 
-      <SubmitBtn
-        title="Join List"
-        onPress={addGroceryList}
-        disabled={incorrectLength()}
-      />
     </View>
   );
 };

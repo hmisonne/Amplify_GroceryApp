@@ -107,8 +107,8 @@ const App = () => {
               options={(props) => ({
                 headerTintColor: secondaryColor,
                 title: props.route.params.groceryList
-                  ? `Update ${props.route.params.groceryList.name}`
-                  : `Add New List`,
+                  ? `Update`
+                  : `New List`,
               })}
             />
             <ProductStack.Screen
@@ -125,8 +125,8 @@ const App = () => {
               options={(props) => ({
                 headerTintColor: secondaryColor,
                 title: props.route.params.product
-                  ? `Update ${props.route.params.product.name}`
-                  : `Add New Product`,
+                  ? `Update`
+                  : `New Item`,
               })}
             />
             <ProductStack.Screen

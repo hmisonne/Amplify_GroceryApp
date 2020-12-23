@@ -16,7 +16,7 @@ import SwipeList from "../components/SwipeList";
 import FadeInView from "../components/FadeInView";
 import { createTwoButtonAlert } from "../utils/helpers";
 
-const Home = ({ groceryLists, navigation }) => {
+const Home = ({ groceryLists, navigation, user }) => {
   const [visible, setVisible] = React.useState(false);
   const [isReady, setReady] = React.useState(false);
   const onToggleSnackBar = () => setVisible(!visible);
@@ -104,6 +104,7 @@ const Home = ({ groceryLists, navigation }) => {
   function displayUserGroceryLists(){
     return(
       <SwipeList
+        user = {user}
         listData = {groceryLists}
         deleteAction = {(groceryList) => removeListWithValidation(groceryList)}
         navigateToEdit = {(groceryList) => navigation.push("NewList", { groceryList })}
@@ -116,6 +117,7 @@ const Home = ({ groceryLists, navigation }) => {
 function mapStateToProps(state) {
   return {
     groceryLists: state.groceryLists.present,
+    user: state.user
   };
 }
 

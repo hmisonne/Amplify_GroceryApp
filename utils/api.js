@@ -4,7 +4,6 @@ import { DataStore, Auth } from 'aws-amplify'
 export class BackendInterface {
   constructor(dataStore) {
       this._dataStore = dataStore
-      this.syncReady = false
   }
  async identifyUser() {
     try {
@@ -78,6 +77,13 @@ export class BackendInterface {
     try {
 
       const user = await this._dataStore.query(User)
+      const groceryList = await this._dataStore.query(GroceryList, id)
+      await this._dataStore.save(
+        GroceryList.copyOf(groceryList, (updated) => {
+          updated.shoppers = updated.shoppers ? 
+          [...updated.shoppers, user[0].username]
+          : [user[0].username]
+        }))
       await this._dataStore.save(
         User.copyOf(user[0], (updated) => {
           updated.groceryLists = updated.groceryLists ? 

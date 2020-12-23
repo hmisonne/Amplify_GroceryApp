@@ -16,6 +16,7 @@ type GroceryList @model {
   name: String!
   description: String
   products: [Product] @connection(keyName: "productByGroceryList", fields: ["id"])
+  shoppers: [String]
 }
 
 type User @model 

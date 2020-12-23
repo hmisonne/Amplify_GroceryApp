@@ -83,6 +83,7 @@ export const onCreateGroceryList = /* GraphQL */ `
         nextToken
         startedAt
       }
+      shoppers
       _version
       _deleted
       _lastChangedAt
@@ -116,6 +117,7 @@ export const onUpdateGroceryList = /* GraphQL */ `
         nextToken
         startedAt
       }
+      shoppers
       _version
       _deleted
       _lastChangedAt
@@ -149,6 +151,7 @@ export const onDeleteGroceryList = /* GraphQL */ `
         nextToken
         startedAt
       }
+      shoppers
       _version
       _deleted
       _lastChangedAt

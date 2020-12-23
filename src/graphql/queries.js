@@ -101,6 +101,7 @@ export const syncGroceryLists = /* GraphQL */ `
           nextToken
           startedAt
         }
+        shoppers
         _version
         _deleted
         _lastChangedAt
@@ -137,6 +138,7 @@ export const getGroceryList = /* GraphQL */ `
         nextToken
         startedAt
       }
+      shoppers
       _version
       _deleted
       _lastChangedAt
@@ -160,6 +162,7 @@ export const listGroceryLists = /* GraphQL */ `
           nextToken
           startedAt
         }
+        shoppers
         _version
         _deleted
         _lastChangedAt

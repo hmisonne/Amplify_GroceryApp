@@ -115,6 +115,14 @@ export const schema = {
                         "connectionType": "HAS_MANY",
                         "associatedWith": "groceryListID"
                     }
+                },
+                "shoppers": {
+                    "name": "shoppers",
+                    "isArray": true,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true
                 }
             },
             "syncable": true,
@@ -190,5 +198,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "f9c46c8274a6433660e5a7e13f004406"
+    "version": "a687bc614f1936c42e525bda39b0ef40"
 };

@@ -1,4 +1,22 @@
 {
+  "test": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-mygroceryapp-test-24239-authRole",
+      "UnauthRoleArn": "arn:aws:iam::376262390406:role/amplify-mygroceryapp-test-24239-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::376262390406:role/amplify-mygroceryapp-test-24239-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-mygroceryapp-test-24239-deployment",
+      "UnauthRoleName": "amplify-mygroceryapp-test-24239-unauthRole",
+      "StackName": "amplify-mygroceryapp-test-24239",
+      "StackId": "arn:aws:cloudformation:us-east-1:376262390406:stack/amplify-mygroceryapp-test-24239/865cd1b0-44c8-11eb-8521-0af6b1cd0899",
+      "AmplifyAppId": "d22bl963x1qfmv"
+    },
+    "categories": {
+      "auth": {
+        "mygroceryapp4dbb6b4e": {}
+      }
+    }
+  },
   "dev": {
     "awscloudformation": {
       "AuthRoleName": "amplify-mygroceryapp-dev-100524-authRole",

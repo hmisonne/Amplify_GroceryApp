@@ -41,9 +41,15 @@ export class BackendInterface {
   
  async removeGroceryListFromUser(id) {
       try {
-        const original = await this._dataStore.query(User)
-        const newUser = await this._dataStore.save(
-          User.copyOf(original[0], (updated) => {
+        const user = await this._dataStore.query(User)
+        const groceryList = await this._dataStore.query(GroceryList, id)
+        await this._dataStore.save(
+          GroceryList.copyOf(groceryList, (updated) => {
+            updated.shoppers = updated.shoppers && updated.shoppers.filter(username => username !== user[0].username)
+          }))
+
+        await this._dataStore.save(
+          User.copyOf(user[0], (updated) => {
             updated.groceryLists = updated.groceryLists.filter(item=> item !==id)
           }))
         console.log("Grocery list deleted from User successfully!");

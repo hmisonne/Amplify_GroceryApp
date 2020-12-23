@@ -116,13 +116,13 @@ async updateGroceryListDetails(groceryList) {
   try {
     const original = await this._dataStore.query(GroceryList, groceryList.id);
     const updatedGroceryList =  await this._dataStore.save(
-      Product.copyOf(original, (updated) => {
+      GroceryList.copyOf(original, (updated) => {
         updated.name = groceryList.name
       }))
-      console.log("Product updated successfully!");
+      console.log("GroceryList updated successfully!");
       return updatedGroceryList
    } catch (err) {
-  console.log("error updating product:", err);
+  console.log("error updating GroceryList:", err);
   }
   }
  async createNewProduct(product, groceryListID) {

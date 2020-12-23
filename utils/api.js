@@ -86,13 +86,13 @@ export class BackendInterface {
   
    async createNewGroceryList (groceryList) {
       try {
+        const user = await this._dataStore.query(User)
         const groceryListSaved = await this._dataStore.save(
         new GroceryList({
           name: groceryList.name,
-          description: groceryList.description,
+          shoppers: [user[0].username],
         })
       );
-      const user = await this._dataStore.query(User)
       await this._dataStore.save(
         User.copyOf(user[0], (updated) => {
           updated.groceryLists = updated.groceryLists ? 

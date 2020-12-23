@@ -6,10 +6,10 @@ This project was made for all the grocery shoppers that needs a tool to organize
 
 ### Platform Compatibility
 
-| Web | Android | iOS | TestFlight (iOS)|
-| --- | --- | --- | --- |
-| ✔️ |✔️ | ❌ |✔️ |
-| [Web Listing](https://master.d22bl963x1qfmv.amplifyapp.com/)| [Play Store Listing](https://play.google.com/store/apps/details?id=com.hmisonne.ListBee) | | [TestFlight Listing](https://testflight.apple.com/join/xM3anK5Q) |
+| Web | Android | iOS | 
+| --- | --- | --- | 
+| ✔️ |✔️ | ✔️ |
+| [Web Listing](https://master.d22bl963x1qfmv.amplifyapp.com/)| [Play Store Listing](https://play.google.com/store/apps/details?id=com.hmisonne.ListBee) |[App Store Listing](https://apps.apple.com/us/app/listbee-grocery-shopping-list/id1542615662) |
 
 ![Screenshots](./demo/ListBeeAppListing.JPG)
 

@@ -10,12 +10,14 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SwipeListView } from "react-native-swipe-list-view";
 import { lightGreyBackground, secondaryColor } from "../utils/helpers";
 import PropTypes from "prop-types";
+import { Caption } from "react-native-paper";
 
 function SwipeList({
   listData,
   deleteAction,
   navigateToEdit,
-  onPressAction
+  onPressAction,
+  user
 }) {
   const closeRow = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {
@@ -38,21 +40,25 @@ function SwipeList({
     // console.log("This row opened", rowKey);
   };
 
-  const renderItem = (data) => (
+  const renderItem = (data) => {
+    const sharedWith = data.item.shoppers.filter(username => username !== user.username)
+    const sharedWithText = sharedWith.join(', ') 
+    return (
     <View>
       <TouchableHighlight
         onPress={() => onPress(data.item)}
         style={ styles.rowFront }
         underlayColor={"#AAA"}
       >
-        <View style={styles.rowAlign}>
+        <View>
           <Text style={styles.textItem}>
-            {data.item.name}
+            {data.item.name} 
           </Text>
+          <Caption>{sharedWith.length>0 && `Shared with: ${sharedWithText}`}</Caption>
         </View>
       </TouchableHighlight>
     </View>
-  );
+  )};
 
   const renderHiddenItem = (data, rowMap) => (
     <View style={styles.rowBack}>

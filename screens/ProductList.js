@@ -21,6 +21,7 @@ import {
 } from "../src/redux/actions/product";
 import HeaderTab from "../components/HeaderTab";
 import SwipeSectionList from "../components/SwipeSectionList";
+import SwipeSectionList2 from "../components/SwipeSectionList";
 import MenuOptions from "../components/MenuOptions";
 
 function ProductList({
@@ -57,7 +58,7 @@ function ProductList({
       onPress: (groceryList) =>
         dispatch(handleDeleteAllProducts(groceryList.id)),
     },
-  ]
+  ];
   const actionsMenu = [
     {
       icon: "share-variant",
@@ -81,7 +82,8 @@ function ProductList({
       title: "Empty List",
       validationNeeded: true,
       alertTitle: "Remove All Items from My List?",
-      message: "We've got you covered, your items will still be available in the History tab",
+      message:
+        "We've got you covered, your items will still be available in the History tab",
       onPress: (groceryList) =>
         dispatch(handleToggleMultipleProducts(groceryList.id, "toBuy")),
     },
@@ -90,7 +92,8 @@ function ProductList({
       title: "I'm Done!",
       validationNeeded: true,
       alertTitle: "Are you done shopping?",
-      message: "Don't worry, all of the unchecked items will stay in your list!",
+      message:
+        "Don't worry, all of the unchecked items will stay in your list!",
       onPress: (groceryList) =>
         dispatch(handleToggleMultipleProducts(groceryList.id, "checked")),
     },
@@ -100,7 +103,10 @@ function ProductList({
     navigation.setOptions(
       {
         headerRight: () => (
-          <MenuOptions actionsMenu={toBuyView? actionsMenu: actionsMenuHistory} groceryList={groceryList} />
+          <MenuOptions
+            actionsMenu={toBuyView ? actionsMenu : actionsMenuHistory}
+            groceryList={groceryList}
+          />
         ),
       },
       [navigation, actionsMenu, groceryList]
@@ -117,13 +123,17 @@ function ProductList({
     return () => subscription.unsubscribe();
   }, []);
 
-  function doneShoppingWithValidation(groceryListID){
-    const message = `Don't worry, all of the unchecked items will stay in your list!`
-    const alertTitle = "Are you done shopping?"
-    return createTwoButtonAlert(() => doneShopping(groceryListID), message, alertTitle)
+  function doneShoppingWithValidation(groceryListID) {
+    const message = `Don't worry, all of the unchecked items will stay in your list!`;
+    const alertTitle = "Are you done shopping?";
+    return createTwoButtonAlert(
+      () => doneShopping(groceryListID),
+      message,
+      alertTitle
+    );
   }
-  function doneShopping(groceryListID){
-    return dispatch(handleToggleMultipleProducts(groceryListID, "checked"))
+  function doneShopping(groceryListID) {
+    return dispatch(handleToggleMultipleProducts(groceryListID, "checked"));
   }
   function deleteProduct(productID) {
     dispatch(handleDeleteProduct(productID));
@@ -147,13 +157,13 @@ function ProductList({
         />
         <SwipeSectionList
           listData={toBuyView ? productsToBuy : allProducts}
-          deleteProduct={
+          deleteAction={
             toBuyView
               ? (product) => toggleProductToBuy(product)
               : (product) => deleteProduct(product.id)
           }
-          navigateToEditProduct={(product) => navigateToEditProduct(product)}
-          toggleProduct={
+          navigateToEdit={(product) => navigateToEditProduct(product)}
+          onPressAction={
             toBuyView
               ? (product) => toggleProduct(product)
               : (product) => toggleProductToBuy(product)
@@ -164,17 +174,7 @@ function ProductList({
           itemsInCart={numOfProducts.inCart > 0}
         />
 
-        <View
-          style={{
-            height: 80,
-            backgroundColor: lightGreyBackground,
-            borderTopWidth: 1,
-            borderTopColor: "#DCDCDC",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            padding: 15,
-          }}
-        >
+        <View style={styles.footer}>
           <View
             style={{
               alignSelf: "center",
@@ -232,5 +232,14 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
     flex: 1,
+  },
+  footer: {
+    height: 80,
+    backgroundColor: lightGreyBackground,
+    borderTopWidth: 1,
+    borderTopColor: "#DCDCDC",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 15,
   },
 });

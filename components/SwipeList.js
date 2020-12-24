@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SwipeListView } from "react-native-swipe-list-view";
-import { lightGreyBackground, secondaryColor } from "../utils/helpers";
+import { lightGreyBackground, lightGrey, mainColor, secondaryColor } from "../utils/helpers";
 import PropTypes from "prop-types";
 import { Caption } from "react-native-paper";
 
@@ -17,7 +17,9 @@ function SwipeList({
   deleteAction,
   navigateToEdit,
   onPressAction,
-  user
+  toBuyView,
+  productListView = false,
+  user,
 }) {
   const closeRow = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {
@@ -34,32 +36,83 @@ function SwipeList({
     navigateToEdit(element);
   };
   const onPress = (element) => {
-    onPressAction(element)
-  }
+    onPressAction(element);
+  };
   const onRowDidOpen = (rowKey) => {
     // console.log("This row opened", rowKey);
   };
 
   const renderItem = (data) => {
-    const sharedWith = data.item.shoppers && data.item.shoppers.filter(username => username !== user.username)
-    const sharedWithText = sharedWith && sharedWith.join(', ') 
+    const sharedWith =
+      data.item.shoppers &&
+      data.item.shoppers.filter((username) => username !== user.username);
+    const sharedWithText = sharedWith && sharedWith.join(", ");
     return (
+      <View>
+        <TouchableHighlight
+          onPress={() => onPress(data.item)}
+          style={styles.rowFront}
+          underlayColor={"#AAA"}
+        >
+          <View>
+            <Text style={styles.textItem}>{data.item.name}</Text>
+            {sharedWith && sharedWith.length > 0 && (
+              <Caption> Shared with: {sharedWithText}</Caption>
+            )}
+          </View>
+        </TouchableHighlight>
+      </View>
+    );
+  };
+
+  const renderProductItem = (data) => (
     <View>
       <TouchableHighlight
         onPress={() => onPress(data.item)}
-        style={ styles.rowFront }
+        style={
+          data.item.toBuy
+            ? styles.rowFront
+            : [styles.rowFront, styles.notSelected]
+        }
         underlayColor={"#AAA"}
       >
-        <View>
-          <Text style={styles.textItem}>
-            {data.item.name} 
+        <View style={styles.rowAlign}>
+          {toBuyView ? (
+            <MaterialCommunityIcons
+              style={styles.rowIcon}
+              name={
+                data.item.checked
+                  ? "checkbox-marked-circle"
+                  : "checkbox-blank-circle-outline"
+              }
+              size={20}
+              color={mainColor}
+            />
+          ) : (
+            <MaterialCommunityIcons
+              style={styles.rowIcon}
+              name={data.item.toBuy ? "cart-outline" : "cart-off"}
+              size={20}
+              color={!data.item.toBuy ? lightGrey : mainColor}
+            />
+          )}
+
+          <Text
+            style={[styles.textItem,{ color: !data.item.toBuy ? lightGrey : secondaryColor }]}
+          >
+            {" "}
+            {data.item.name}{" "}
+            {data.item.quantity !== 0 && (
+              <Text>
+                {" "}
+                ({data.item.quantity} {data.item.unit}){" "}
+              </Text>
+            )}
           </Text>
-          {sharedWith && sharedWith.length>0 &&
-          <Caption> Shared with: {sharedWithText}</Caption>}
         </View>
       </TouchableHighlight>
     </View>
-  )};
+  );
 
   const renderHiddenItem = (data, rowMap) => (
     <View style={styles.rowBack}>
@@ -78,11 +131,10 @@ function SwipeList({
     </View>
   );
 
-
   return (
     <SwipeListView
       data={listData}
-      renderItem={renderItem}
+      renderItem={productListView? renderProductItem : renderItem}
       renderHiddenItem={renderHiddenItem}
       leftOpenValue={75}
       rightOpenValue={-150}
@@ -142,12 +194,20 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
     right: 0,
   },
+  notSelected: {
+    backgroundColor: lightGreyBackground,
+  },
+  rowIcon: {
+    marginRight: 12,
+  },
 });
-
 
 SwipeList.propTypes = {
   listData: PropTypes.array.isRequired,
   deleteAction: PropTypes.func.isRequired,
   navigateToEdit: PropTypes.func.isRequired,
   onPressAction: PropTypes.func.isRequired,
+  toBuyView: PropTypes.bool,
+  productListView: PropTypes.bool,
+  user: PropTypes.object,
 };

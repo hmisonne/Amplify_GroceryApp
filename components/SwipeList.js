@@ -41,8 +41,8 @@ function SwipeList({
   };
 
   const renderItem = (data) => {
-    const sharedWith = data.item.shoppers.filter(username => username !== user.username)
-    const sharedWithText = sharedWith.join(', ') 
+    const sharedWith = data.item.shoppers && data.item.shoppers.filter(username => username !== user.username)
+    const sharedWithText = sharedWith && sharedWith.join(', ') 
     return (
     <View>
       <TouchableHighlight
@@ -54,7 +54,8 @@ function SwipeList({
           <Text style={styles.textItem}>
             {data.item.name} 
           </Text>
-          <Caption>{sharedWith.length>0 && `Shared with: ${sharedWithText}`}</Caption>
+          {sharedWith && sharedWith.length>0 &&
+          <Caption> Shared with: {sharedWithText}</Caption>}
         </View>
       </TouchableHighlight>
     </View>

@@ -136,7 +136,6 @@ function SwipeList({
       data={listData}
       renderItem={productListView? renderProductItem : renderItem}
       renderHiddenItem={renderHiddenItem}
-      leftOpenValue={75}
       rightOpenValue={-150}
       previewRowKey={"0"}
       previewOpenValue={-40}

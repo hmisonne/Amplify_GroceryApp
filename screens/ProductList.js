@@ -65,7 +65,7 @@ function ProductList({
       title: "Share",
       validationNeeded: false,
       onPress: (groceryList) =>
-        onShare(`👋 ListBee: The grocery list "${groceryList.name}" is now accessible by using this reference: 
+        onShare(`👋 ListBee: The grocery list "${groceryList.name}" is now accessible by using this List ID number: 
       ${groceryList.id}`),
     },
     {

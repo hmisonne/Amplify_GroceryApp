@@ -14,9 +14,13 @@ jest.mock("@expo/vector-icons", () => {
 test('renders correctly', () => {
   const tree = renderer.create(<SwipeSectionList
     listData={[]}
-    deleteProduct={x=>x}
-    navigateToEditProduct={x=>x}
-    toggleProduct={x=>x}
-    toBuyView={true}/>).toJSON();
+    deleteAction={x=>x}
+    navigateToEdit={x=>x}
+    onPressAction={x=>x}
+    toBuyView={true}
+    fabAction={x=>x}
+    itemsInCart={true}
+    groceryListID={''}
+  />).toJSON();
   expect(tree).toMatchSnapshot();
 });

@@ -23,6 +23,7 @@ import HeaderTab from "../components/HeaderTab";
 import SwipeSectionList from "../components/SwipeSectionList";
 import SwipeSectionList2 from "../components/SwipeSectionList";
 import MenuOptions from "../components/MenuOptions";
+import Footer from "../components/Footer";
 
 function ProductList({
   navigation,
@@ -174,32 +175,13 @@ function ProductList({
           itemsInCart={numOfProducts.inCart > 0}
         />
 
-        <View style={styles.footer}>
-          <View
-            style={{
-              alignSelf: "center",
-            }}
-          >
-            <Text>
-              {numOfProducts.toBuy
-                ? `Items in cart: ${numOfProducts.inCart}/${numOfProducts.toBuy}`
-                : ""}
-            </Text>
-          </View>
-
-          <FAB
-            icon="plus"
-            style={{
-              backgroundColor: mainColor,
-              alignSelf: "center",
-            }}
-            onPress={() =>
-              navigation.push("AddProduct", {
-                groceryListID: groceryListID,
-              })
-            }
-          />
-        </View>
+        <Footer
+          onPressAction={() =>
+            navigation.push("AddProduct", {
+              groceryListID,
+            })
+          }
+          numOfProducts={numOfProducts}/>
       </View>
     </Provider>
   );
@@ -232,14 +214,5 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
     flex: 1,
-  },
-  footer: {
-    height: 80,
-    backgroundColor: lightGreyBackground,
-    borderTopWidth: 1,
-    borderTopColor: "#DCDCDC",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    padding: 15,
   },
 });

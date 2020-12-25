@@ -51,7 +51,7 @@ function SwipeList({
       <View>
         <TouchableHighlight
           onPress={() => onPress(data.item)}
-          style={styles.rowFront}
+          style={styles.rowFrontBig}
           underlayColor={"#AAA"}
         >
           <View>
@@ -165,6 +165,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     justifyContent: "center",
     height: 50,
+  },
+  rowFrontBig: {
+    paddingLeft: 20,
+    backgroundColor: lightGreyBackground,
+    borderBottomColor: "#DCDCDC",
+    borderBottomWidth: 1,
+    justifyContent: "center",
+    height: 70,
   },
   textItem: {
     fontSize: 20,

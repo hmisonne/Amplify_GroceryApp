@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { FAB, Provider } from "react-native-paper";
 import { connect, useDispatch } from "react-redux";
 import { DataStore } from "aws-amplify";
 
 import {
   createTwoButtonAlert,
   formatSectionListData,
-  lightGreyBackground,
-  mainColor,
   onShare,
 } from "../utils/helpers";
 import { Product } from "../src/models";
@@ -149,7 +146,6 @@ function ProductList({
   }
 
   return (
-    <Provider>
       <View style={styles.container}>
         <HeaderTab
           firstTabSelected={toBuyView}
@@ -182,7 +178,6 @@ function ProductList({
           }
           numOfProducts={numOfProducts}/>
       </View>
-    </Provider>
   );
 }
 

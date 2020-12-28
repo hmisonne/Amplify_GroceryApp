@@ -10,6 +10,7 @@ export default function StyledTextInput({ value, placeholder, onChangeText, labe
       onChangeText={onChangeText}
       value={value}
       placeholder={placeholder}
+      testID="TextInput"
     />
   );
 }

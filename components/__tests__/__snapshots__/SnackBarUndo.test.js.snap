@@ -133,6 +133,7 @@ exports[`renders correctly 1`] = `
           >
             <Text
               numberOfLines={1}
+              selectable={false}
               style={
                 Array [
                   Object {

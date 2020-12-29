@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import { connect, useDispatch } from "react-redux";
 import { HelperText, Button } from "react-native-paper";
 import StyledTextInput from "../components/StyledTextInput";
@@ -20,16 +20,13 @@ const JoinGroceryList = ({ navigation, userGroceryLists }) => {
             mode="contained"
             onPress={addGroceryList}
             disabled={validateForm()}
-            style={{marginRight:15}}
+            style={{ marginRight: 15 }}
           >
             Join
           </Button>
         ),
       },
-      [
-        addGroceryList,
-        validateForm,
-      ]
+      [addGroceryList, validateForm]
     );
   });
   const validateForm = () => {
@@ -69,11 +66,25 @@ const JoinGroceryList = ({ navigation, userGroceryLists }) => {
     }
   }
 
+  function setInput(value) {
+    setGroceryListID(value);
+    if (value.length !== 36) {
+      setAlertText("Incorrect number of character");
+      return setAlertVisible(true);
+    } else {
+      setAlertVisible(false);
+    }
+  }
   return (
     <View style={styles.container}>
-      <View>
+      <Text>
+        Ask your friend to share the grocery list you would like to join. Then
+        copy-paste the List ID below!
+      </Text>
+
+      <View style={styles.centered}>
         <StyledTextInput
-          onChangeText={(val) => setGroceryListID(val)}
+          onChangeText={(val) => setInput(val)}
           style={styles.input}
           value={groceryListID}
           placeholder="List ID number"
@@ -87,7 +98,6 @@ const JoinGroceryList = ({ navigation, userGroceryLists }) => {
           {alertText}
         </HelperText>
       </View>
-
     </View>
   );
 };
@@ -100,8 +110,10 @@ export default connect(mapStateToProps)(JoinGroceryList);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-around",
     padding: 20,
+  },
+  centered: {
+    marginTop: 20,
   },
   input: { height: 50, backgroundColor: "#ddd", marginBottom: 10, padding: 8 },
 });

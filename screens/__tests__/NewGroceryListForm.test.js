@@ -26,6 +26,7 @@ test("adds a new Grocery List when the button is pressed", () => {
   expect(userState.groceryLists.length).toEqual(1);
 });
 
+// TODO: Important for this test to work
 
 // Remove API call from handleCreateGroceryList function: redux/actions/groceryLists
 // export function handleCreateGroceryList(groceryList) {
@@ -34,4 +35,4 @@ test("adds a new Grocery List when the button is pressed", () => {
 //       }
 //   }
 
-// button on header not rendered with jest, move it to the return statement
+// Add Save Button to <NewGroceryListForm/> return statement: button on header not rendered with jest

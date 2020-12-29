@@ -89,6 +89,7 @@ const JoinGroceryList = ({ navigation, userGroceryLists }) => {
           value={groceryListID}
           placeholder="List ID number"
           label="List ID number"
+          multiline={true}
         />
         <HelperText
           type="error"

@@ -17,7 +17,7 @@ function SwipeList({
   deleteAction,
   navigateToEdit,
   onPressAction,
-  toBuyView,
+  toBuyView = false,
   productListView = false,
   user,
 }) {
@@ -126,7 +126,7 @@ function SwipeList({
         style={[styles.backRightBtn, styles.backRightBtnRight]}
         onPress={() => deleteRow(rowMap, data.item)}
       >
-        <MaterialCommunityIcons name="delete-outline" size={20} color="white" />
+        <MaterialCommunityIcons name={toBuyView?"playlist-remove": "delete-outline"} size={20} color="white" />
       </TouchableOpacity>
     </View>
   );

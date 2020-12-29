@@ -20,6 +20,7 @@ import HeaderTab from "../components/HeaderTab";
 import SwipeSectionList from "../components/SwipeSectionList";
 import MenuOptions from "../components/MenuOptions";
 import Footer from "../components/Footer";
+import { API } from "../utils/api";
 
 function ProductList({
   navigation,
@@ -53,7 +54,7 @@ function ProductList({
       message: "This action will wipe out all of your items",
       validationNeeded: true,
       onPress: (groceryList) =>
-        dispatch(handleDeleteAllProducts(groceryList.id)),
+        handleDeleteAllProducts(groceryList.id),
     },
   ];
   const actionsMenu = [
@@ -72,7 +73,7 @@ function ProductList({
       alertTitle: "Uncheck All Items from My List?",
       message: "All items on your list will appear as unchecked",
       onPress: (groceryList) =>
-        dispatch(handleToggleMultipleProducts(groceryList.id, "checked", true)),
+        handleToggleMultipleProducts(groceryList.id, "checked", true),
     },
     {
       icon: "eraser",
@@ -82,7 +83,7 @@ function ProductList({
       message:
         "We've got you covered, your items will still be available in the History tab",
       onPress: (groceryList) =>
-        dispatch(handleToggleMultipleProducts(groceryList.id, "toBuy")),
+        handleToggleMultipleProducts(groceryList.id, "toBuy"),
     },
     {
       icon: "clipboard-check-outline",
@@ -92,7 +93,7 @@ function ProductList({
       message:
         "Don't worry, all of the unchecked items will stay in your list!",
       onPress: (groceryList) =>
-        dispatch(handleToggleMultipleProducts(groceryList.id, "checked")),
+        handleToggleMultipleProducts(groceryList.id, "checked"),
     },
   ];
 
@@ -111,9 +112,10 @@ function ProductList({
   });
 
   useEffect(() => {
+    console.log('first load')
     dispatch(handleLoadProducts(groceryListID));
     const subscription = DataStore.observe(Product).subscribe((msg) => {
-      console.log(msg.model, msg.opType, msg.element);
+      console.log("Subscription", msg.model, msg.opType, msg.element);
       dispatch(handleLoadProducts(groceryListID));
     });
 
@@ -130,19 +132,19 @@ function ProductList({
     );
   }
   function doneShopping(groceryListID) {
-    return dispatch(handleToggleMultipleProducts(groceryListID, "checked"));
+    return handleToggleMultipleProducts(groceryListID, "checked");
   }
   function deleteProduct(productID) {
-    dispatch(handleDeleteProduct(productID));
+    handleDeleteProduct(productID);
   }
   function navigateToEditProduct(product) {
     return navigation.push("AddProduct", { product });
   }
   async function toggleProduct(product) {
-    return dispatch(handleToggleProduct(product));
+    return handleToggleProduct(product);
   }
   async function toggleProductToBuy(product) {
-    return dispatch(handleToggleProduct(product, "toBuy"));
+    return handleToggleProduct(product, "toBuy");
   }
 
   return (

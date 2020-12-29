@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   Keyboard,
 } from "react-native";
-import { Button } from "react-native-paper";
+import { Button, HelperText } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -59,8 +59,11 @@ const NewProductForm = ({ route, navigation }) => {
       ]
     );
   });
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertText, setAlertText] = useState("");
+
   const validateForm = () => {
-    return formState.name === "";
+    return (formState.name === "" || !Number.isInteger(parseInt(formState.quantity)));
   };
   const productToUpdate = route.params.product;
   const [formState, setFormState] = useState(
@@ -72,15 +75,23 @@ const NewProductForm = ({ route, navigation }) => {
   const dispatch = useDispatch();
 
   function setInput(key, value) {
-    setFormState({ ...formState, [key]: value });
-  }
+    setFormState({ ...formState, [key]: value })
+    if (key == "quantity"){
+      if (!Number.isInteger(parseInt(value))){
+        setAlertText("Please enter a number")
+        return setAlertVisible(true)
+      } else 
+        setAlertVisible(false)
+      }
+    }
 
   const onToggleSwitch = () =>
     setFormState({ ...formState, toBuy: !formState.toBuy });
 
   function onIncrement(key) {
-    const count = parseInt(formState[key], 10) + 1;
+    const count = (parseInt(formState[key], 10) || 0) + 1;
     setFormState({ ...formState, [key]: count });
+    setAlertVisible(false)
   }
   function goToProductCategory() {
     navigation.push("ProductCategory", {
@@ -89,8 +100,9 @@ const NewProductForm = ({ route, navigation }) => {
     });
   }
   function onDecrement(key) {
-    const count = parseInt(formState[key], 10) - 1;
+    const count = (parseInt(formState[key], 10) || 0) - 1;
     setFormState({ ...formState, [key]: count < 0 ? 0 : count });
+    setAlertVisible(false)
   }
 
   async function updateProductHandler() {
@@ -136,8 +148,14 @@ const NewProductForm = ({ route, navigation }) => {
                 onChangeText={(val) => setInput("quantity", val)}
                 keyboardType="numeric"
                 value={`${formState.quantity}`}
-                placeholder="quantity"
               />
+              <HelperText
+                type="error"
+                visible={alertVisible}
+                style={{ textAlign: "center" }}
+              >
+                {alertText}
+              </HelperText>
             </View>
             <SelectionPicker
               selectedValue={formState.unit}

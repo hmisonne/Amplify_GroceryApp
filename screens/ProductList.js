@@ -20,7 +20,6 @@ import HeaderTab from "../components/HeaderTab";
 import SwipeSectionList from "../components/SwipeSectionList";
 import MenuOptions from "../components/MenuOptions";
 import Footer from "../components/Footer";
-import { API } from "../utils/api";
 
 function ProductList({
   navigation,
@@ -112,10 +111,9 @@ function ProductList({
   });
 
   useEffect(() => {
-    console.log('first load')
     dispatch(handleLoadProducts(groceryListID));
     const subscription = DataStore.observe(Product).subscribe((msg) => {
-      console.log("Subscription", msg.model, msg.opType, msg.element);
+      console.log(msg.model, msg.opType, msg.element);
       dispatch(handleLoadProducts(groceryListID));
     });
 
@@ -135,7 +133,7 @@ function ProductList({
     return handleToggleMultipleProducts(groceryListID, "checked");
   }
   function deleteProduct(productID) {
-    handleDeleteProduct(productID);
+    return handleDeleteProduct(productID);
   }
   function navigateToEditProduct(product) {
     return navigation.push("AddProduct", { product });

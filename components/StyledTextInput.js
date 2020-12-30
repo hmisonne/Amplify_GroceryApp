@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { TextInput } from 'react-native-paper';
 
-export default function StyledTextInput({ value, placeholder, onChangeText, label, multiline=false }) {
+export default function StyledTextInput({ value, placeholder, onChangeText, label, multiline=false, keyboardType='default' }) {
   return (
     <TextInput
       label={label}
@@ -12,6 +12,7 @@ export default function StyledTextInput({ value, placeholder, onChangeText, labe
       placeholder={placeholder}
       testID="TextInput"
       multiline={multiline}
+      keyboardType={keyboardType}
     />
   );
 }
@@ -22,4 +23,5 @@ StyledTextInput.propTypes = {
   value: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   multiline: PropTypes.bool,
+  keyboardType: PropTypes.string
 };

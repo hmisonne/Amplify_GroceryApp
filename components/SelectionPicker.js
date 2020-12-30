@@ -12,13 +12,13 @@ export default function SelectionPicker({
       <Picker
         selectedValue={selectedValue}
         onValueChange={onValueChange}
-        itemStyle={{ fontSize:16, textAlign: 'left'}}
+        itemStyle={{ fontSize:16 }}
       >
-        <Picker.Item label={"   "+value} value={value} />
+        <Picker.Item label={value} value={value} />
         {selection
           .filter((element) => element !== value)
           .map((element) => (
-            <Picker.Item label={"   "+element} value={element} key={element} />
+            <Picker.Item label={element} value={element} key={element} />
           ))}
       </Picker>
     

@@ -30,6 +30,11 @@ export const onShare = async (text) => {
 };
 
 export const productCategory = {
+  Baby: {
+    picture: "baby-bottle",
+    name: "Baby",
+    key: "Baby",
+  },
   Baking: {
     picture: "muffin",
     name: "Bakery",

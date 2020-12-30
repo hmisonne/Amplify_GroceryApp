@@ -143,20 +143,21 @@ const NewProductForm = ({ route, navigation }) => {
                 onIncrement={() => onIncrement("quantity")}
                 onDecrement={() => onDecrement("quantity")}
               />
-              <TextInput
+              <View>
+                <StyledTextInput
                 style={styles.numInput}
                 onChangeText={(val) => setInput("quantity", val)}
                 keyboardType="numeric"
                 value={`${formState.quantity}`}
               />
-              <HelperText
-                type="error"
-                visible={alertVisible}
-                style={{ textAlign: "center" }}
-              >
-                {alertText}
-              </HelperText>
-            </View>
+                <HelperText
+                  type="error"
+                  visible={alertVisible}
+                  style={{ textAlign: "center" }}
+                >
+                  {alertText} </HelperText>
+              </View> 
+             </View>
             <SelectionPicker
               selectedValue={formState.unit}
               onValueChange={(val) => setInput("unit", val)}

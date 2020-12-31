@@ -44,24 +44,24 @@ export const toggleMultipleProducts = (groceryListID, attribute, keepToBuy) => (
 })
 
 export function handleUpdateProduct(product){
-  // return (dispatch) => {
+  return (dispatch) => {
     return API.updateProductDetails(product)
-    // .then((product) => dispatch(updateProduct(product)))
-  // }
+    .then((product) => dispatch(updateProduct(product)))
+  }
 }
 
 export function handleAddProduct(product, groceryListID){
-  // return (dispatch) => {
+  return (dispatch) => {
     return API.createNewProduct(product, groceryListID)
-    // .then((product) => dispatch(addProduct(product)))
-  // }
+    .then((product) => dispatch(addProduct(product)))
+  }
 }
 
 export function handleDeleteProduct(id){
-  // return (dispatch) => {
+  return (dispatch) => {
     return API.removeProduct(id)
-  //   .then(() => dispatch(deleteProduct(id)))
-  // }
+    .then(() => dispatch(deleteProduct(id)))
+  }
 }
 
 export function handleLoadProducts(groceryListID){
@@ -72,7 +72,7 @@ export function handleLoadProducts(groceryListID){
 }
 
 export function handleToggleProduct(product, attribute='checked'){
-  // return (dispatch) => {
+  return (dispatch) => {
     const updatedProduct = {
       ...product, 
       [attribute]: !product[attribute],
@@ -80,20 +80,20 @@ export function handleToggleProduct(product, attribute='checked'){
        
     }
     return API.updateProductDetails(updatedProduct)
-  //   .then(() => dispatch(toggleProduct(product.id, attribute)))
-  // }
+    .then(() => dispatch(toggleProduct(product.id, attribute)))
+  }
 }
 
 export function handleDeleteAllProducts(groceryListID){
-  // return (dispatch) => {
+  return (dispatch) => {
     return API.removeAllProducts(groceryListID)
-  //   .then(() => dispatch(deleteAllProducts(groceryListID)))
-  // }
+    .then(() => dispatch(deleteAllProducts(groceryListID)))
+  }
 }
 
 export function handleToggleMultipleProducts(groceryListID, attribute, keepToBuy=false){
-  // return (dispatch) => {
+  return (dispatch) => {
     return API.toggleMultipleProducts(groceryListID, attribute, keepToBuy)
-  //   .then(() => dispatch(toggleMultipleProducts(groceryListID, attribute, keepToBuy)))
-  // }
+    .then(() => dispatch(toggleMultipleProducts(groceryListID, attribute, keepToBuy)))
+  }
 }

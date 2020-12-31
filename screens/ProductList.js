@@ -53,7 +53,7 @@ function ProductList({
       message: "This action will wipe out all of your items",
       validationNeeded: true,
       onPress: (groceryList) =>
-        handleDeleteAllProducts(groceryList.id),
+        dispatch(handleDeleteAllProducts(groceryList.id)),
     },
   ];
   const actionsMenu = [
@@ -72,7 +72,7 @@ function ProductList({
       alertTitle: "Uncheck All Items from My List?",
       message: "All items on your list will appear as unchecked",
       onPress: (groceryList) =>
-        handleToggleMultipleProducts(groceryList.id, "checked", true),
+        dispatch(handleToggleMultipleProducts(groceryList.id, "checked", true)),
     },
     {
       icon: "eraser",
@@ -82,7 +82,7 @@ function ProductList({
       message:
         "We've got you covered, your items will still be available in the History tab",
       onPress: (groceryList) =>
-        handleToggleMultipleProducts(groceryList.id, "toBuy"),
+        dispatch(handleToggleMultipleProducts(groceryList.id, "toBuy")),
     },
     {
       icon: "clipboard-check-outline",
@@ -92,7 +92,7 @@ function ProductList({
       message:
         "Don't worry, all of the unchecked items will stay in your list!",
       onPress: (groceryList) =>
-        handleToggleMultipleProducts(groceryList.id, "checked"),
+        dispatch(handleToggleMultipleProducts(groceryList.id, "checked")),
     },
   ];
 
@@ -130,19 +130,19 @@ function ProductList({
     );
   }
   function doneShopping(groceryListID) {
-    return handleToggleMultipleProducts(groceryListID, "checked");
+    return dispatch(handleToggleMultipleProducts(groceryListID, "checked"));
   }
   function deleteProduct(productID) {
-    return handleDeleteProduct(productID);
+    return dispatch(handleDeleteProduct(productID));
   }
   function navigateToEditProduct(product) {
     return navigation.push("AddProduct", { product });
   }
   async function toggleProduct(product) {
-    return handleToggleProduct(product);
+    return dispatch(handleToggleProduct(product));
   }
   async function toggleProductToBuy(product) {
-    return handleToggleProduct(product, "toBuy");
+    return dispatch(handleToggleProduct(product, "toBuy"));
   }
 
   return (

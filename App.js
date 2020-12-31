@@ -27,9 +27,6 @@ import logo from './assets/logo.png';
 
 Amplify.configure({
   ...config,
-  Analytics: {
-    disabled: true,
-  },
 });
 
 const theme = {

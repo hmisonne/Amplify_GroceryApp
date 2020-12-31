@@ -7,94 +7,152 @@ Parameters:
     Type: String
   unauthRoleArn:
     Type: String
-  
+
   
 
     
   identityPoolName:
     Type: String
-                
+  
+            
+  
   allowUnauthenticatedIdentities:
     Type: String
             
   resourceNameTruncated:
     Type: String
-              
+  
+            
   userPoolName:
     Type: String
-                      
+  
+            
+        
   autoVerifiedAttributes:
     Type: CommaDelimitedList
       
   mfaConfiguration:
     Type: String
-                      
+  
+            
+        
   mfaTypes:
     Type: CommaDelimitedList
       
   smsAuthenticationMessage:
     Type: String
-              
+  
+            
   smsVerificationMessage:
     Type: String
-              
+  
+            
   emailVerificationSubject:
     Type: String
-              
+  
+            
   emailVerificationMessage:
     Type: String
-                
+  
+            
+  
   defaultPasswordPolicy:
     Type: String
-                
+            
+    
   passwordPolicyMinLength:
     Type: Number
-                  
+          
+        
   passwordPolicyCharacters:
     Type: CommaDelimitedList
-              
+      
+        
   requiredAttributes:
     Type: CommaDelimitedList
-        
+      
+  
   userpoolClientGenerateSecret:
     Type: String
-                
+            
+    
   userpoolClientRefreshTokenValidity:
     Type: Number
-                  
+          
+        
   userpoolClientWriteAttributes:
     Type: CommaDelimitedList
-              
+      
+        
   userpoolClientReadAttributes:
     Type: CommaDelimitedList
       
   userpoolClientLambdaRole:
     Type: String
-                
+  
+            
+  
   userpoolClientSetAttributes:
     Type: String
             
   sharedId:
     Type: String
-              
+  
+            
   resourceName:
     Type: String
-              
+  
+            
   authSelections:
     Type: String
-                                      
+  
+            
+            
+            
   useDefault:
     Type: String
-                      
+  
+            
+        
   userPoolGroupList:
     Type: CommaDelimitedList
-                  
+      
   serviceName:
     Type: String
-                      
+  
+            
+        
   dependsOn:
     Type: CommaDelimitedList
-    
+      
+  
+  thirdPartyAuth:
+    Type: String
+            
+  
+  userPoolGroups:
+    Type: String
+            
+  
+  adminQueries:
+    Type: String
+            
+  triggers:
+    Type: String
+  
+            
+  
+  hostedUI:
+    Type: String
+            
+      
+  parentStack:
+    Type: String
+        
+        
+  permissions:
+    Type: CommaDelimitedList
+      
 Conditions:
   ShouldNotCreateEnvResources: !Equals [ !Ref env, NONE ]
 
@@ -102,32 +160,32 @@ Resources:
   
   
   # BEGIN SNS ROLE RESOURCE
-  SNSRole: 
+  SNSRole:
   # Created to allow the UserPool SMS Config to publish via the Simple Notification Service during MFA Process
     Type: AWS::IAM::Role
     Properties:
       RoleName: !If [ShouldNotCreateEnvResources, 'mygroc4dbb6b4e_sns-role', !Join ['',[ 'sns', '4dbb6b4e', !Select [3, !Split ['-', !Ref 'AWS::StackName']], '-', !Ref env]]]
-      AssumeRolePolicyDocument: 
+      AssumeRolePolicyDocument:
         Version: "2012-10-17"
-        Statement: 
+        Statement:
           - Sid: ""
             Effect: "Allow"
-            Principal: 
+            Principal:
               Service: "cognito-idp.amazonaws.com"
-            Action: 
+            Action:
               - "sts:AssumeRole"
-            Condition: 
+            Condition:
               StringEquals:
                 sts:ExternalId: mygroc4dbb6b4e_role_external_id
-      Policies: 
-        - 
+      Policies:
+        -
           PolicyName: mygroc4dbb6b4e-sns-policy
-          PolicyDocument: 
+          PolicyDocument:
             Version: "2012-10-17"
-            Statement: 
-              - 
+            Statement:
+              -
                 Effect: "Allow"
-                Action: 
+                Action:
                   - "sns:Publish"
                 Resource: "*"
   # BEGIN USER POOL RESOURCES
@@ -139,7 +197,8 @@ Resources:
     Properties:
       UserPoolName: !If [ShouldNotCreateEnvResources, !Ref userPoolName, !Join ['',[!Ref userPoolName, '-', !Ref env]]]
       
-      Schema: 
+      
+      Schema:
         
         -
           Name: email
@@ -154,7 +213,7 @@ Resources:
       
       EmailVerificationMessage: !Ref emailVerificationMessage
       EmailVerificationSubject: !Ref emailVerificationSubject
-            
+      
       Policies:
         PasswordPolicy:
           MinimumLength: !Ref passwordPolicyMinLength
@@ -162,13 +221,25 @@ Resources:
           RequireNumbers: false
           RequireSymbols: false
           RequireUppercase: false
-          
+      
       MfaConfiguration: !Ref mfaConfiguration
       SmsVerificationMessage: !Ref smsVerificationMessage
-      SmsConfiguration: 
+      SmsConfiguration:
         SnsCallerArn: !GetAtt SNSRole.Arn
         ExternalId: mygroc4dbb6b4e_role_external_id
     
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  # Updating lambda role with permissions to Cognito
+  
   
   UserPoolClientWeb:
   # Created provide application access to user pool
@@ -214,7 +285,7 @@ Resources:
     Type: 'AWS::Lambda::Function'
     Properties:
       Code:
-        ZipFile: !Join 
+        ZipFile: !Join
           - |+
           - - 'const response = require(''cfn-response'');'
             - 'const aws = require(''aws-sdk'');'
@@ -230,7 +301,7 @@ Resources:
             - '   };'
             - '   identity.describeUserPoolClient(params).promise()'
             - '     .then((res) => {'
-            - '       response.send(event, context, response.SUCCESS, {''appSecret'': res.UserPoolClient.ClientSecret});'   
+            - '       response.send(event, context, response.SUCCESS, {''appSecret'': res.UserPoolClient.ClientSecret});'
             - '     })'
             - '     .catch((err) => {'
             - '       response.send(event, context, response.FAILED, {err});'
@@ -240,7 +311,7 @@ Resources:
       Handler: index.handler
       Runtime: nodejs10.x
       Timeout: '300'
-      Role: !GetAtt 
+      Role: !GetAtt
         - UserPoolClientRole
         - Arn
     DependsOn: UserPoolClientRole
@@ -251,7 +322,7 @@ Resources:
     Type: 'AWS::IAM::Policy'
     Properties:
       PolicyName: mygroc4dbb6b4e_userpoolclient_lambda_iam_policy
-      Roles: 
+      Roles:
         - !Ref UserPoolClientRole
       PolicyDocument:
         Version: '2012-10-17'
@@ -268,7 +339,7 @@ Resources:
     Type: 'AWS::IAM::Policy'
     Properties:
       PolicyName: mygroc4dbb6b4e_userpoolclient_lambda_log_policy
-      Roles: 
+      Roles:
         - !Ref UserPoolClientRole
       PolicyDocument:
         Version: 2012-10-17
@@ -278,10 +349,10 @@ Resources:
               - 'logs:CreateLogGroup'
               - 'logs:CreateLogStream'
               - 'logs:PutLogEvents'
-            Resource: !Sub  
+            Resource: !Sub
               - arn:aws:logs:${region}:${account}:log-group:/aws/lambda/${lambda}:log-stream:*
               - { region: !Ref "AWS::Region",  account: !Ref "AWS::AccountId", lambda: !Ref UserPoolClientLambda}
-    DependsOn: UserPoolClientLambdaPolicy  
+    DependsOn: UserPoolClientLambdaPolicy
   UserPoolClientInputs:
   # Values passed to Userpool client Lambda
   # Depends on UserPool for Id
@@ -302,11 +373,11 @@ Resources:
     
   # BEGIN IDENTITY POOL RESOURCES
   
- 
+
   IdentityPool:
   # Always created
     Type: AWS::Cognito::IdentityPool
-    Properties: 
+    Properties:
       IdentityPoolName: !If [ShouldNotCreateEnvResources, 'mygroceryapp4dbb6b4e_identitypool_4dbb6b4e', !Join ['',['mygroceryapp4dbb6b4e_identitypool_4dbb6b4e', '__', !Ref env]]]
       
       CognitoIdentityProviders:
@@ -320,16 +391,16 @@ Resources:
             - { region: !Ref "AWS::Region",  client: !Ref UserPool}
             
       AllowUnauthenticatedIdentities: !Ref allowUnauthenticatedIdentities
-       
-       
-    DependsOn: UserPoolClientInputs 
+      
     
-  
+    DependsOn: UserPoolClientInputs
+    
+
   IdentityPoolRoleMap:
   # Created to map Auth and Unauth roles to the identity pool
   # Depends on Identity Pool for ID ref
     Type: AWS::Cognito::IdentityPoolRoleAttachment
-    Properties: 
+    Properties:
       IdentityPoolId: !Ref IdentityPool
       Roles:
           unauthenticated: !Ref unauthRoleArn
@@ -343,7 +414,7 @@ Outputs :
     Value: !Ref 'IdentityPool'
     Description:  Id for the identity pool
   IdentityPoolName:
-    Value: !GetAtt IdentityPool.Name 
+    Value: !GetAtt IdentityPool.Name
   
   
   
@@ -362,9 +433,9 @@ Outputs :
   AppClientSecret:
     Value: !GetAtt UserPoolClientInputs.appSecret
   
-   
-   
   
-   
-   
+  
+  
+  
+  
   

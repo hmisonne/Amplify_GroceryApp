@@ -1,6 +1,6 @@
 {
     "identityPoolName": "mygroceryapp4dbb6b4e_identitypool_4dbb6b4e",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "mygroc4dbb6b4e",
     "userPoolName": "mygroceryapp4dbb6b4e_userpool_4dbb6b4e",
     "autoVerifiedAttributes": [
@@ -45,8 +45,17 @@
             "Arn"
         ]
     },
-    "useDefault": "default",
+    "useDefault": "manual",
     "userPoolGroupList": [],
     "serviceName": "Cognito",
-    "dependsOn": []
+    "dependsOn": [],
+    "thirdPartyAuth": false,
+    "userPoolGroups": false,
+    "adminQueries": false,
+    "triggers": "{}",
+    "hostedUI": false,
+    "parentStack": {
+        "Ref": "AWS::StackId"
+    },
+    "permissions": []
 }

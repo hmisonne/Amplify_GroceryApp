@@ -29,5 +29,11 @@
       "service": "Pinpoint",
       "providerPlugin": "awscloudformation"
     }
+  },
+  "storage": {
+    "ListBeeProducts": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation"
+    }
   }
 }

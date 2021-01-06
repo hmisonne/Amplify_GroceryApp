@@ -25,6 +25,9 @@ import { grey, productCategory } from "../utils/helpers";
 import { Divider, Subheading } from "react-native-paper";
 import AccordionMenu from "../components/AccordionMenu";
 
+import { Storage } from "aws-amplify";
+import * as Linking from "expo-linking";
+
 const units = ["ct", "lb", "g", "kg", "L"];
 const initialState = {
   name: "",
@@ -44,7 +47,7 @@ const NewProductForm = ({ route, navigation }) => {
             mode="contained"
             onPress={productToUpdate ? updateProductHandler : addProductHandler}
             disabled={validateForm()}
-            style={{marginRight:15}}
+            style={{ marginRight: 15 }}
           >
             Save
           </Button>
@@ -63,7 +66,9 @@ const NewProductForm = ({ route, navigation }) => {
   const [alertText, setAlertText] = useState("");
 
   const validateForm = () => {
-    return (formState.name === "" || !Number.isInteger(parseInt(formState.quantity)));
+    return (
+      formState.name === "" || !Number.isInteger(parseInt(formState.quantity))
+    );
   };
   const productToUpdate = route.params.product;
   const [formState, setFormState] = useState(
@@ -75,15 +80,14 @@ const NewProductForm = ({ route, navigation }) => {
   const dispatch = useDispatch();
 
   function setInput(key, value) {
-    setFormState({ ...formState, [key]: value })
-    if (key == "quantity"){
-      if (!Number.isInteger(parseInt(value))){
-        setAlertText("Please enter a number")
-        return setAlertVisible(true)
-      } else 
-        setAlertVisible(false)
-      }
+    setFormState({ ...formState, [key]: value });
+    if (key == "quantity") {
+      if (!Number.isInteger(parseInt(value))) {
+        setAlertText("Please enter a number");
+        return setAlertVisible(true);
+      } else setAlertVisible(false);
     }
+  }
 
   const onToggleSwitch = () =>
     setFormState({ ...formState, toBuy: !formState.toBuy });
@@ -91,7 +95,7 @@ const NewProductForm = ({ route, navigation }) => {
   function onIncrement(key) {
     const count = (parseInt(formState[key], 10) || 0) + 1;
     setFormState({ ...formState, [key]: count });
-    setAlertVisible(false)
+    setAlertVisible(false);
   }
   function goToProductCategory() {
     navigation.push("ProductCategory", {
@@ -102,7 +106,7 @@ const NewProductForm = ({ route, navigation }) => {
   function onDecrement(key) {
     const count = (parseInt(formState[key], 10) || 0) - 1;
     setFormState({ ...formState, [key]: count < 0 ? 0 : count });
-    setAlertVisible(false)
+    setAlertVisible(false);
   }
 
   async function updateProductHandler() {
@@ -122,7 +126,10 @@ const NewProductForm = ({ route, navigation }) => {
     dispatch(handleAddProduct(product, groceryListID));
     navigation.goBack();
   }
-
+  const downloadImage = async () => {
+    const signedUrl = await Storage.get(`${productToUpdate.id}.jpeg`);
+    Linking.openURL(signedUrl);
+  };
   function showQuantityUnit() {
     return (
       <KeyboardAvoidingView
@@ -145,19 +152,20 @@ const NewProductForm = ({ route, navigation }) => {
               />
               <View>
                 <StyledTextInput
-                style={styles.numInput}
-                onChangeText={(val) => setInput("quantity", val)}
-                keyboardType="numeric"
-                value={`${formState.quantity}`}
-              />
+                  style={styles.numInput}
+                  onChangeText={(val) => setInput("quantity", val)}
+                  keyboardType="numeric"
+                  value={`${formState.quantity}`}
+                />
                 <HelperText
                   type="error"
                   visible={alertVisible}
                   style={{ textAlign: "center" }}
                 >
-                  {alertText} </HelperText>
-              </View> 
-             </View>
+                  {alertText}{" "}
+                </HelperText>
+              </View>
+            </View>
             <SelectionPicker
               selectedValue={formState.unit}
               onValueChange={(val) => setInput("unit", val)}
@@ -203,6 +211,20 @@ const NewProductForm = ({ route, navigation }) => {
               </View>
             </TouchableOpacity>
             <Divider />
+            {productToUpdate && (
+              <View>
+                <Button onPress={downloadImage}>Download</Button>
+                <Button
+                  onPress={() =>
+                    navigation.push("UploadImage", {
+                      productID: productToUpdate.id,
+                    })
+                  }
+                >
+                  Upload
+                </Button>
+              </View>
+            )}
 
             <AccordionMenu
               text="Optional: Specify quantity & package size"

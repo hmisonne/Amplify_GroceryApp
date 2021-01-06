@@ -24,6 +24,7 @@ import JoinGroceryList from "./screens/JoinGroceryList";
 import ProductList from "./screens/ProductList";
 import ProductCategory from "./screens/ProductCategory"
 import logo from './assets/logo.png'; 
+import UploadImage from "./screens/UploadImage";
 
 Amplify.configure({
   ...config,
@@ -97,6 +98,10 @@ const App = () => {
                 title: `${props.route.params.groceryList.name}`,
                 headerTintColor: secondaryColor,
               })}
+            />
+            <ProductStack.Screen
+              name="UploadImage"
+              component={UploadImage}
             />
             <ProductStack.Screen
               name="NewList"

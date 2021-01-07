@@ -1,15 +1,18 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Platform } from "react-native";
 import { connect } from "react-redux";
 import { Auth } from "@aws-amplify/auth";
 import { DataStore } from "aws-amplify";
 import * as MailComposer from "expo-mail-composer";
 import { Divider, List } from "react-native-paper";
+import * as Linking from 'expo-linking';
 
 import { onShare } from "../utils/helpers";
 
 const Settings = ({ user }) => {
-  const shareText = "ListBee | A Grocery List App, Android: https://play.google.com/store/apps/details?id=com.hmisonne.ListBee, iOS: https://apps.apple.com/us/app/listbee-grocery-shopping-list/id1542615662"
+  const androidURL = "https://play.google.com/store/apps/details?id=com.hmisonne.ListBee"
+  const iosURL = "https://apps.apple.com/us/app/listbee-grocery-shopping-list/id154261566"
+  const shareText = `ListBee | A Grocery List App, Android: ${androidURL}, iOS: ${iosURL}`
   async function signOut() {
     try {
       await DataStore.clear();
@@ -30,6 +33,13 @@ const Settings = ({ user }) => {
   };
   function sendFeedback() {
     MailComposer.composeAsync(mailComposerOptions);
+  }
+  const requestReview = () => {
+    let url = ''
+    Platform.OS === 'android' 
+    ? url = androidURL
+    : url = iosURL
+    Linking.openURL(url)
   }
   return (
     <View style={styles.container}>
@@ -53,6 +63,14 @@ const Settings = ({ user }) => {
           left={(props) => <List.Icon {...props} icon="mail" />}
         />
       </TouchableOpacity>
+      <Divider/>
+      <TouchableOpacity onPress={requestReview}>
+      <List.Item
+        title={Platform.OS === 'android' ? "Rate on Google Play" : "Rate on App Store" }
+        left={(props) => <List.Icon {...props} icon="star" />}
+      />
+    </TouchableOpacity>
+    
     </View>
   );
 };

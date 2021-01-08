@@ -92,7 +92,7 @@ function ProductList({
                 onShare(`👋 ListBee: The grocery list "${groceryList.name}" is now accessible by using this List ID number: 
               ${groceryList.id}`)
               }
-              name="share-variant"
+              name="account-plus"
               color={secondaryColor}
               style={{ marginRight: 20 }}
             />

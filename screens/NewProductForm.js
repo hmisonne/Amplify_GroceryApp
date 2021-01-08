@@ -3,6 +3,7 @@ import {
   View,
   KeyboardAvoidingView,
   TextInput,
+  Image,
   StyleSheet,
   Text,
   Platform,
@@ -39,6 +40,10 @@ const initialState = {
 };
 
 const NewProductForm = ({ route, navigation }) => {
+  const [itemURI, setPictureURI] = React.useState('')
+  // React.useEffect(()=>{
+  //   downloadImage()
+  // }, [])
   React.useLayoutEffect(() => {
     navigation.setOptions(
       {
@@ -126,6 +131,12 @@ const NewProductForm = ({ route, navigation }) => {
     dispatch(handleAddProduct(product, groceryListID));
     navigation.goBack();
   }
+  const downloadImage2 = async () => {
+    const signedUrl = await Storage.get(`${productToUpdate.id}.jpeg`);
+    // Linking.openURL(signedUrl);
+    console.log('signedUrl', signedUrl)
+    return setPictureURI(signedUrl)  
+  };
   const downloadImage = async () => {
     const signedUrl = await Storage.get(`${productToUpdate.id}.jpeg`);
     Linking.openURL(signedUrl);
@@ -277,3 +288,9 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
   },
 });
+
+                {/* <Image
+                  source={{
+                    uri: itemURI,
+                  }}
+                /> */}

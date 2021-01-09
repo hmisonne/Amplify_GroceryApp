@@ -7,6 +7,7 @@ import {
   createTwoButtonAlert,
   formatSectionListData,
   onShare,
+  secondaryColor,
 } from "../utils/helpers";
 import { Product } from "../src/models";
 import {
@@ -20,6 +21,7 @@ import HeaderTab from "../components/HeaderTab";
 import SwipeSectionList from "../components/SwipeSectionList";
 import MenuOptions from "../components/MenuOptions";
 import Footer from "../components/Footer";
+import RoundButton from "../components/RoundButton";
 
 function ProductList({
   navigation,
@@ -39,14 +41,6 @@ function ProductList({
 
   const actionsMenuHistory = [
     {
-      icon: "share-variant",
-      title: "Share",
-      validationNeeded: false,
-      onPress: (groceryList) =>
-        onShare(`👋 ListBee: The grocery list "${groceryList.name}" is now accessible by using this List ID number: 
-      ${groceryList.id}`),
-    },
-    {
       icon: "delete-variant",
       title: "Delete All",
       alertTitle: "Delete All Items?",
@@ -57,14 +51,6 @@ function ProductList({
     },
   ];
   const actionsMenu = [
-    {
-      icon: "share-variant",
-      title: "Share",
-      validationNeeded: false,
-      onPress: (groceryList) =>
-        onShare(`👋 ListBee: The grocery list "${groceryList.name}" is now accessible by using this List ID number: 
-      ${groceryList.id}`),
-    },
     {
       icon: "checkbox-multiple-blank-circle-outline",
       title: "Uncheck All",
@@ -100,10 +86,21 @@ function ProductList({
     navigation.setOptions(
       {
         headerRight: () => (
-          <MenuOptions
-            actionsMenu={toBuyView ? actionsMenu : actionsMenuHistory}
-            groceryList={groceryList}
-          />
+          <View style={{ flexDirection: "row" }}>
+            <RoundButton
+              onPress={() =>
+                onShare(`👋 ListBee: The grocery list "${groceryList.name}" is now accessible by using this List ID number: 
+              ${groceryList.id}`)
+              }
+              name="account-plus"
+              color={secondaryColor}
+              style={{ marginRight: 20 }}
+            />
+            <MenuOptions
+              actionsMenu={toBuyView ? actionsMenu : actionsMenuHistory}
+              groceryList={groceryList}
+            />
+          </View>
         ),
       },
       [navigation, actionsMenu, groceryList]
@@ -146,38 +143,39 @@ function ProductList({
   }
 
   return (
-      <View style={styles.container}>
-        <HeaderTab
-          firstTabSelected={toBuyView}
-          switchToSecondTab={toggleToBuyView}
-        />
-        <SwipeSectionList
-          listData={toBuyView ? productsToBuy : allProducts}
-          deleteAction={
-            toBuyView
-              ? (product) => toggleProductToBuy(product)
-              : (product) => deleteProduct(product.id)
-          }
-          navigateToEdit={(product) => navigateToEditProduct(product)}
-          onPressAction={
-            toBuyView
-              ? (product) => toggleProduct(product)
-              : (product) => toggleProductToBuy(product)
-          }
-          toBuyView={toBuyView}
-          groceryListID={groceryListID}
-          fabAction={(groceryListID) => doneShoppingWithValidation(groceryListID)}
-          itemsInCart={numOfProducts.inCart > 0}
-        />
+    <View style={styles.container}>
+      <HeaderTab
+        firstTabSelected={toBuyView}
+        switchToSecondTab={toggleToBuyView}
+      />
+      <SwipeSectionList
+        listData={toBuyView ? productsToBuy : allProducts}
+        deleteAction={
+          toBuyView
+            ? (product) => toggleProductToBuy(product)
+            : (product) => deleteProduct(product.id)
+        }
+        navigateToEdit={(product) => navigateToEditProduct(product)}
+        onPressAction={
+          toBuyView
+            ? (product) => toggleProduct(product)
+            : (product) => toggleProductToBuy(product)
+        }
+        toBuyView={toBuyView}
+        groceryListID={groceryListID}
+        fabAction={(groceryListID) => doneShoppingWithValidation(groceryListID)}
+        itemsInCart={numOfProducts.inCart > 0}
+      />
 
-        <Footer
-          onPressAction={() =>
-            navigation.push("AddProduct", {
-              groceryListID,
-            })
-          }
-          numOfProducts={numOfProducts}/>
-      </View>
+      <Footer
+        onPressAction={() =>
+          navigation.push("AddProduct", {
+            groceryListID,
+          })
+        }
+        numOfProducts={numOfProducts}
+      />
+    </View>
   );
 }
 

@@ -11,7 +11,11 @@ import { onShare } from "../utils/helpers";
 
 const Settings = ({ user }) => {
   const androidURL = "https://play.google.com/store/apps/details?id=com.hmisonne.ListBee"
+<<<<<<< HEAD
   const iosURL = "https://apps.apple.com/us/app/listbee-grocery-shopping-list/id1542615662"
+=======
+  const iosURL = "https://apps.apple.com/us/app/listbee-grocery-shopping-list/id154261566"
+>>>>>>> 4107685105696a9a45d9e98f00a4494aeba896c7
   const shareText = `ListBee | A Grocery List App, Android: ${androidURL}, iOS: ${iosURL}`
   async function signOut() {
     try {

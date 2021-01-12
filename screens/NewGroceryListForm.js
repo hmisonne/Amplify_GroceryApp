@@ -7,7 +7,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import { Button } from "react-native-paper";
+import { Button, HelperText } from "react-native-paper";
 import { connect, useDispatch } from "react-redux";
 import StyledTextInput from "../components/StyledTextInput";
 import {
@@ -23,6 +23,9 @@ const initialState = {
 
 const NewGroceryListForm = ({route, navigation}) => {
   const glistToUpdate = route.params.groceryList;
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertText, setAlertText] = useState("");
+
   const [formState, setFormState] = useState(
     glistToUpdate ? glistToUpdate : initialState
   );
@@ -49,12 +52,19 @@ const NewGroceryListForm = ({route, navigation}) => {
       ]
     );
   });
+
   const dispatch = useDispatch();
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
+    if (value.length > 20) {
+      setAlertText("Maximum number of characters allowed: 20");
+      return setAlertVisible(true);
+    } else {
+      setAlertVisible(false);
+    }
   }
   const validateForm = () => {
-    return formState.name === "";
+    return formState.name === "" || formState.name.length > 20;
   };
   async function updateGroceryList() {
     const groceryList = { ...formState };
@@ -90,6 +100,13 @@ const NewGroceryListForm = ({route, navigation}) => {
             label="List Name"
             placeholder="My List"
           />
+          <HelperText
+            type="error"
+            visible={alertVisible}
+            style={{ textAlign: "center" }}
+          >
+            {alertText}
+        </HelperText>
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

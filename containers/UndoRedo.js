@@ -4,7 +4,7 @@ import { connect, useDispatch } from "react-redux";
 import { View } from "react-native";
 import SubmitBtn from "../components/SubmitBtn";
 import { API } from "../utils/api";
-import SnackbarUndo from "../components/SnackBarUndo";
+import SnackBar from "../components/SnackBar";
 import { handleAddGroceryList } from "../src/redux/actions/groceryList";
 
 let UndoRedo = ({
@@ -28,7 +28,7 @@ let UndoRedo = ({
 
   return (
     <View>
-      <SnackbarUndo
+      <SnackBar
         visible={visible}
         onDismissSnackBar={onDismissSnackBar}
         undoAction={addGroceryListBack}

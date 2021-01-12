@@ -61,11 +61,10 @@ const NewProductForm = ({ route, navigation }) => {
   });
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertText, setAlertText] = useState("");
-
+  const { onToggleSnackBar, onSetSnackContent } = route.params
   const validateForm = () => {
-    const forbiddenCharacters = [",",".","-"," "]
     return (
-      formState.name === "" || forbiddenCharacters.some(el => formState.quantity.includes(el) || !Number.isInteger(parseInt(formState.quantity)))
+      formState.name === "" || !Number.isInteger(parseInt(formState.quantity))
     );
   };
   const productToUpdate = route.params.product;
@@ -113,6 +112,8 @@ const NewProductForm = ({ route, navigation }) => {
     // Convert Quantity to Int
     product.quantity = parseInt(product.quantity, 10);
     dispatch(handleUpdateProduct(product));
+    onSetSnackContent(product.name, "updated")
+    onToggleSnackBar()
     navigation.goBack();
   }
 
@@ -123,6 +124,8 @@ const NewProductForm = ({ route, navigation }) => {
     product.quantity = parseInt(product.quantity, 10);
 
     dispatch(handleAddProduct(product, groceryListID));
+    onSetSnackContent(product.name, "added")
+    onToggleSnackBar()
     navigation.goBack();
   }
 

@@ -22,6 +22,7 @@ import SwipeSectionList from "../components/SwipeSectionList";
 import MenuOptions from "../components/MenuOptions";
 import Footer from "../components/Footer";
 import RoundButton from "../components/RoundButton";
+import SnackBar from "../components/SnackBar";
 
 function ProductList({
   navigation,
@@ -32,6 +33,11 @@ function ProductList({
 }) {
   const dispatch = useDispatch();
   const [toBuyView, setToBuyView] = useState(true);
+  const [snackVisible, setSnackVisible] = React.useState(false);
+  const onToggleSnackBar = () => setSnackVisible(!snackVisible);
+  const onDismissSnackBar = () => setSnackVisible(false);
+  const [snackContent, setSnackContent] = useState('')
+  const onSetSnackContent = (productName, action) => setSnackContent(`✅ ${productName} successfully ${action}!`)
   function toggleToBuyView(bool) {
     return setToBuyView(bool);
   }
@@ -133,7 +139,7 @@ function ProductList({
     return dispatch(handleDeleteProduct(productID));
   }
   function navigateToEditProduct(product) {
-    return navigation.push("AddProduct", { product });
+    return navigation.push("AddProduct", { product, onToggleSnackBar, onSetSnackContent });
   }
   async function toggleProduct(product) {
     return dispatch(handleToggleProduct(product));
@@ -166,11 +172,17 @@ function ProductList({
         fabAction={(groceryListID) => doneShoppingWithValidation(groceryListID)}
         itemsInCart={numOfProducts.inCart > 0}
       />
+    <SnackBar 
+      visible={snackVisible}
+      onDismissSnackBar={onDismissSnackBar}
+      snackContent={snackContent}/>
 
       <Footer
         onPressAction={() =>
           navigation.push("AddProduct", {
             groceryListID,
+            onToggleSnackBar,
+            onSetSnackContent
           })
         }
         numOfProducts={numOfProducts}

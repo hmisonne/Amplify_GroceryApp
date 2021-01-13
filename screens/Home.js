@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { View, Text, StyleSheet } from "react-native";
 import { Hub } from "aws-amplify";
@@ -9,18 +9,21 @@ import {
   handleLoadGroceryLists,
   syncDatastore,
 } from "../src/redux/actions/groceryList";
-import UndoRedo from "../containers/UndoRedo";
+// import UndoRedo from "../containers/UndoRedo";
 import FabBar from "../components/FabBar";
 import LoadingCircle from "../components/LoadingCircle";
 import SwipeList from "../components/SwipeList";
 import FadeInView from "../components/FadeInView";
 import { createTwoButtonAlert } from "../utils/helpers";
+import SnackBar from "../components/SnackBar";
 
 const Home = ({ groceryLists, navigation, user }) => {
-  const [visible, setVisible] = React.useState(false);
-  const [isReady, setReady] = React.useState(false);
-  const onToggleSnackBar = (bool) => setVisible(bool);
-
+  const [snackVisible, setSnackVisible] = useState(false);
+  const [isReady, setReady] = useState(false);
+  const onToggleSnackBar = (bool) => setSnackVisible(bool);
+  const [snackContent, setSnackContent] = useState("");
+  const onSetSnackContent = (listName, action) =>
+    setSnackContent(`✅ ${listName} ${action}!`);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -64,7 +67,11 @@ const Home = ({ groceryLists, navigation, user }) => {
     {
       icon: "format-list-checks",
       label: "New List",
-      onPress: () => navigation.push("NewList", { nav: 'newList' }),
+      onPress: () => navigation.push("NewList", { 
+        nav: 'newList', 
+        onToggleSnackBar,
+        onSetSnackContent, 
+      }),
     },
     {
       icon: "account-group",
@@ -82,8 +89,19 @@ const Home = ({ groceryLists, navigation, user }) => {
           ? displayInstructions()
           : displayUserGroceryLists()
         }
-      <UndoRedo visible={visible} onDismissSnackBar={() => onToggleSnackBar(false)} />
-      <FabBar actions={actions} />
+      {/* <UndoRedo visible={visible} onDismissSnackBar={() => onToggleSnackBar(false)} /> */}
+
+        <FabBar actions={actions} />   
+        <SnackBar
+          // style={{ 
+          //   position: 'absolute',
+          //   right: 0,
+          //   bottom: 0,}}
+          visible={snackVisible}
+          style={{width: 100}}
+          onDismissSnackBar={() => onToggleSnackBar(false)}
+          snackContent={snackContent}
+        />   
     </View>
   );
 
@@ -106,7 +124,8 @@ const Home = ({ groceryLists, navigation, user }) => {
         user = {user}
         listData = {groceryLists.map((groceryList) => ({ ...groceryList, key: groceryList.id }))}
         deleteAction = {(groceryList) => removeListWithValidation(groceryList)}
-        navigateToEdit = {(groceryList) => navigation.push("NewList", { groceryList })}
+        navigateToEdit = {(groceryList) => navigation.push("NewList", { groceryList, onToggleSnackBar,
+          onSetSnackContent })}
         onPressAction = {(groceryList) => goToList(groceryList)}
       />
     )
@@ -133,6 +152,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    justifyContent: 'space-between',
     paddingLeft: 10,
     paddingTop: 5,
     paddingRight: 10,

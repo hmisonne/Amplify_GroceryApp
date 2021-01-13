@@ -104,7 +104,7 @@ const Home = ({ groceryLists, navigation, user }) => {
     return(
       <SwipeList
         user = {user}
-        listData = {groceryLists}
+        listData = {groceryLists.map((groceryList) => ({ ...groceryList, key: groceryList.id }))}
         deleteAction = {(groceryList) => removeListWithValidation(groceryList)}
         navigateToEdit = {(groceryList) => navigation.push("NewList", { groceryList })}
         onPressAction = {(groceryList) => goToList(groceryList)}

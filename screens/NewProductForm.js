@@ -118,7 +118,7 @@ const NewProductForm = ({ route, navigation }) => {
     product.quantity = parseInt(product.quantity, 10);
 
     dispatch(handleAddProduct(product, groceryListID));
-    onSetSnackContent(product.name, "added")
+    onSetSnackContent(product.name, "created and added to My List")
     onToggleSnackBar(true)
     navigation.goBack();
   }

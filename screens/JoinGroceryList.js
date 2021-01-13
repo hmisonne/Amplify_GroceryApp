@@ -26,7 +26,7 @@ const JoinGroceryList = ({ navigation, userGroceryLists }) => {
           </Button>
         ),
       },
-      [addGroceryList, validateForm]
+      []
     );
   });
   const validateForm = () => {

@@ -4,7 +4,7 @@ import { Snackbar } from 'react-native-paper';
 import PropTypes from "prop-types";
 import { mainColor } from '../utils/helpers';
 
-const SnackbarUndo = ({visible, onDismissSnackBar, undoAction, snackContent}) => {
+const SnackBarAlert = ({visible, onDismissSnackBar, undoAction=null, snackContent}) => {
 
   return (
     <View style={styles.container}>
@@ -15,10 +15,12 @@ const SnackbarUndo = ({visible, onDismissSnackBar, undoAction, snackContent}) =>
         },
       }}
         onDismiss={onDismissSnackBar}
-        action={{
+        action={undoAction
+          ? {
           label: 'Undo',
           onPress: undoAction,
-        }}>
+        }: {}
+      }>
         {snackContent}
       </Snackbar>
     </View>
@@ -32,11 +34,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SnackbarUndo;
+export default SnackBarAlert;
 
-SnackbarUndo.propTypes = {
+SnackBarAlert.propTypes = {
   visible: PropTypes.bool.isRequired,
   onDismissSnackBar:PropTypes.func.isRequired, 
-  undoAction: PropTypes.func.isRequired, 
+  undoAction: PropTypes.func, 
   snackContent: PropTypes.string.isRequired,
 };

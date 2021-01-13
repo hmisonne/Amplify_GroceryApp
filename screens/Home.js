@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Hub } from "aws-amplify";
 
 import { handleAuthentificateUser } from "../src/redux/actions/user";
@@ -9,28 +9,27 @@ import {
   handleLoadGroceryLists,
   syncDatastore,
 } from "../src/redux/actions/groceryList";
-import UndoRedo from "../containers/UndoRedo";
 import FabBar from "../components/FabBar";
 import LoadingCircle from "../components/LoadingCircle";
 import SwipeList from "../components/SwipeList";
 import FadeInView from "../components/FadeInView";
 import { createTwoButtonAlert } from "../utils/helpers";
+import SnackBar from "../components/SnackBar";
 
 const Home = ({ groceryLists, navigation, user }) => {
-  const [visible, setVisible] = React.useState(false);
-  const [isReady, setReady] = React.useState(false);
-  const onToggleSnackBar = () => setVisible(!visible);
-  const onDismissSnackBar = () => setVisible(false);
-
+  const [snackVisible, setSnackVisible] = useState(false);
+  const [isReady, setReady] = useState(false);
+  const onToggleSnackBar = (bool) => setSnackVisible(bool);
+  const [snackContent, setSnackContent] = useState("");
+  const onSetSnackContent = (listName, action) =>
+    setSnackContent(`✅ ${listName} ${action}!`);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(handleAuthentificateUser()).then((groceryLists) => {
       if (groceryLists && groceryLists.length !== 0) {
         syncDatastore(groceryLists, "LOAD");
-      } else (
-        setReady(true)
-      )
+      } else setReady(true);
     });
 
     const removeListener = Hub.listen("datastore", async (hubData) => {
@@ -38,20 +37,22 @@ const Home = ({ groceryLists, navigation, user }) => {
       if (event === "ready") {
         console.log("Ready load grocery list HOME");
         dispatch(handleLoadGroceryLists());
-        setReady(true)
+        setReady(true);
         removeListener();
       }
     });
-    
   }, []);
 
-  function removeListWithValidation(groceryList){
-    const validationText = `Are you sure you want to delete this list?`
-    createTwoButtonAlert(() => removeGroceryList(groceryList.id), validationText)
+  function removeListWithValidation(groceryList) {
+    const validationText = `Are you sure you want to delete this list?`;
+    createTwoButtonAlert(
+      () => removeGroceryList(groceryList.id),
+      validationText
+    );
   }
   function removeGroceryList(groceryListID) {
     dispatch(handleDeleteGroceryList(groceryListID));
-    onToggleSnackBar();
+    onToggleSnackBar(true);
   }
 
   function displayLoadingCircle() {
@@ -65,7 +66,11 @@ const Home = ({ groceryLists, navigation, user }) => {
     {
       icon: "format-list-checks",
       label: "New List",
-      onPress: () => navigation.push("NewList", { nav: 'newList' }),
+      onPress: () =>
+        navigation.push("NewList", {
+          onToggleSnackBar,
+          onSetSnackContent,
+        }),
     },
     {
       icon: "account-group",
@@ -74,17 +79,20 @@ const Home = ({ groceryLists, navigation, user }) => {
     },
   ];
 
-
   return (
     <View style={styles.container}>
-      {!isReady 
-      ? displayLoadingCircle()
+      {!isReady
+        ? displayLoadingCircle()
         : groceryLists.length === 0
-          ? displayInstructions()
-          : displayUserGroceryLists()
-        }
+        ? displayInstructions()
+        : displayUserGroceryLists()}
       <FabBar actions={actions} />
-      <UndoRedo visible={visible} onDismissSnackBar={onDismissSnackBar} />
+      <SnackBar
+        visible={snackVisible}
+        style={{ width: 100 }}
+        onDismissSnackBar={() => onToggleSnackBar(false)}
+        snackContent={snackContent}
+      />
     </View>
   );
 
@@ -93,31 +101,48 @@ const Home = ({ groceryLists, navigation, user }) => {
   }
   function displayInstructions() {
     return (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <FadeInView style={{width: 250, height: 50}}>
-          <Text style={{fontSize: 20, textAlign: 'center'}}>Create your first grocery list by clicking on the + icon</Text>
+      <TouchableOpacity 
+        onPress={() =>
+          navigation.push("NewList", {
+            onToggleSnackBar,
+            onSetSnackContent,
+          })
+        }
+        style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <FadeInView style={{ width: 250, height: 50 }}>
+          <Text style={{ fontSize: 20, textAlign: "center" }}>
+            Create your first grocery list by clicking on the + icon
+          </Text>
         </FadeInView>
-      </View>
-    )
-    
+      </TouchableOpacity>
+    );
   }
-  function displayUserGroceryLists(){
-    return(
+  function displayUserGroceryLists() {
+    return (
       <SwipeList
-        user = {user}
-        listData = {groceryLists}
-        deleteAction = {(groceryList) => removeListWithValidation(groceryList)}
-        navigateToEdit = {(groceryList) => navigation.push("NewList", { groceryList })}
-        onPressAction = {(groceryList) => goToList(groceryList)}
+        user={user}
+        listData={groceryLists.map((groceryList) => ({
+          ...groceryList,
+          key: groceryList.id,
+        }))}
+        deleteAction={(groceryList) => removeListWithValidation(groceryList)}
+        navigateToEdit={(groceryList) =>
+          navigation.push("NewList", {
+            groceryList,
+            onToggleSnackBar,
+            onSetSnackContent,
+          })
+        }
+        onPressAction={(groceryList) => goToList(groceryList)}
       />
-    )
+    );
   }
 };
 
 function mapStateToProps(state) {
   return {
     groceryLists: state.groceryLists.present,
-    user: state.user
+    user: state.user,
   };
 }
 
@@ -139,3 +164,4 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
 });
+

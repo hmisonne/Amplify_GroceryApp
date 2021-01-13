@@ -22,6 +22,8 @@ import SwipeSectionList from "../components/SwipeSectionList";
 import MenuOptions from "../components/MenuOptions";
 import Footer from "../components/Footer";
 import RoundButton from "../components/RoundButton";
+import SnackBar from "../components/SnackBar";
+
 
 function ProductList({
   navigation,
@@ -32,6 +34,11 @@ function ProductList({
 }) {
   const dispatch = useDispatch();
   const [toBuyView, setToBuyView] = useState(true);
+  const [snackVisible, setSnackVisible] = React.useState(false);
+  const onToggleSnackBar = (bool) => setSnackVisible(bool);
+  const [snackContent, setSnackContent] = useState("");
+  const onSetSnackContent = (productName, action) =>
+    setSnackContent(`✅ ${productName} ${action}!`);
   function toggleToBuyView(bool) {
     return setToBuyView(bool);
   }
@@ -103,7 +110,7 @@ function ProductList({
           </View>
         ),
       },
-      [navigation, actionsMenu, groceryList]
+      []
     );
   });
 
@@ -133,7 +140,11 @@ function ProductList({
     return dispatch(handleDeleteProduct(productID));
   }
   function navigateToEditProduct(product) {
-    return navigation.push("AddProduct", { product });
+    return navigation.push("AddProduct", {
+      product,
+      onToggleSnackBar,
+      onSetSnackContent,
+    });
   }
   async function toggleProduct(product) {
     return dispatch(handleToggleProduct(product));
@@ -159,18 +170,31 @@ function ProductList({
         onPressAction={
           toBuyView
             ? (product) => toggleProduct(product)
-            : (product) => toggleProductToBuy(product)
+            : (product) => {
+                onSetSnackContent(
+                  product.name,
+                  product.toBuy ? "removed from My List" : "added to My List"
+                );
+                toggleProductToBuy(product);
+                onToggleSnackBar(true);
+              }
         }
         toBuyView={toBuyView}
         groceryListID={groceryListID}
         fabAction={(groceryListID) => doneShoppingWithValidation(groceryListID)}
         itemsInCart={numOfProducts.inCart > 0}
       />
-
+      <SnackBar
+        visible={snackVisible}
+        onDismissSnackBar={() => onToggleSnackBar(false)}
+        snackContent={snackContent}
+      />
       <Footer
         onPressAction={() =>
           navigation.push("AddProduct", {
             groceryListID,
+            onToggleSnackBar,
+            onSetSnackContent,
           })
         }
         numOfProducts={numOfProducts}

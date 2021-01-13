@@ -6,12 +6,12 @@ import { DataStore } from "aws-amplify";
 import * as MailComposer from "expo-mail-composer";
 import { Divider, List } from "react-native-paper";
 import * as Linking from 'expo-linking';
-
-import { onShare } from "../utils/helpers";
+import { createTwoButtonAlert, onShare } from "../utils/helpers";
 
 const Settings = ({ user }) => {
   const androidURL = "https://play.google.com/store/apps/details?id=com.hmisonne.ListBee"
-  const iosURL = "https://apps.apple.com/us/app/listbee-grocery-shopping-list/id154261566"
+  const iosURL = "https://apps.apple.com/us/app/listbee-grocery-shopping-list/id1542615662"
+
   const shareText = `ListBee | A Grocery List App, Android: ${androidURL}, iOS: ${iosURL}`
   async function signOut() {
     try {
@@ -20,6 +20,11 @@ const Settings = ({ user }) => {
     } catch (error) {
       console.log("error signing out: ", error);
     }
+  }
+
+  function signOutWithValidation(){
+    const validationText = `Are you sure you want to sign out?`
+    createTwoButtonAlert(() => signOut(), validationText)
   }
 
   function capitalizeFirstLetter(string) {
@@ -34,16 +39,25 @@ const Settings = ({ user }) => {
   function sendFeedback() {
     MailComposer.composeAsync(mailComposerOptions);
   }
-  const requestReview = () => {
+
+  const requestReview = async () => {
+
     let url = ''
     Platform.OS === 'android' 
     ? url = androidURL
     : url = iosURL
-    Linking.openURL(url)
+
+    const supported = await Linking.canOpenURL(url);
+
+    if (supported) {
+      await Linking.openURL(url);
+    } else {
+     Alert.alert(`This link is not accessible: ${url}`);
+    }
   }
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={signOut}>
+      <TouchableOpacity onPress={signOutWithValidation}>
         <List.Item
           title="Sign Out"
           left={(props) => <List.Icon {...props} icon="logout" />}

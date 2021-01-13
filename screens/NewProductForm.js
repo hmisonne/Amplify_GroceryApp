@@ -21,7 +21,7 @@ import {
 import StyledTextInput from "../components/StyledTextInput";
 import Stepper from "../components/Stepper";
 import SelectionPicker from "../components/SelectionPicker";
-import { grey, productCategory } from "../utils/helpers";
+import { productCategory } from "../utils/helpers";
 import { Divider, Subheading } from "react-native-paper";
 import AccordionMenu from "../components/AccordionMenu";
 
@@ -44,26 +44,22 @@ const NewProductForm = ({ route, navigation }) => {
             mode="contained"
             onPress={productToUpdate ? updateProductHandler : addProductHandler}
             disabled={validateForm()}
-            style={{marginRight:15}}
+            style={{ marginRight: 15 }}
           >
             Save
           </Button>
         ),
       },
-      [
-        productToUpdate,
-        navigation,
-        updateProductHandler,
-        addProductHandler,
-        validateForm,
-      ]
+      []
     );
   });
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertText, setAlertText] = useState("");
-
+  const { onToggleSnackBar, onSetSnackContent } = route.params
   const validateForm = () => {
-    return (formState.name === "" || !Number.isInteger(parseInt(formState.quantity)));
+    return (
+      formState.name === "" || !Number.isInteger(parseInt(formState.quantity))
+    );
   };
   const productToUpdate = route.params.product;
   const [formState, setFormState] = useState(
@@ -75,15 +71,15 @@ const NewProductForm = ({ route, navigation }) => {
   const dispatch = useDispatch();
 
   function setInput(key, value) {
-    setFormState({ ...formState, [key]: value })
-    if (key == "quantity"){
-      if (!Number.isInteger(parseInt(value))){
-        setAlertText("Please enter a number")
-        return setAlertVisible(true)
-      } else 
-        setAlertVisible(false)
-      }
+    setFormState({ ...formState, [key]: value });
+    if (key == "quantity") {
+      const forbiddenCharacters = [",",".","-"," "]
+      if (forbiddenCharacters.some(el => value.includes(el)) || !Number.isInteger(parseInt(value))) {
+        setAlertText("Only numbers are allowed. Please enter a number without decimals");
+        return setAlertVisible(true);
+      } else setAlertVisible(false);
     }
+  }
 
   const onToggleSwitch = () =>
     setFormState({ ...formState, toBuy: !formState.toBuy });
@@ -91,7 +87,7 @@ const NewProductForm = ({ route, navigation }) => {
   function onIncrement(key) {
     const count = (parseInt(formState[key], 10) || 0) + 1;
     setFormState({ ...formState, [key]: count });
-    setAlertVisible(false)
+    setAlertVisible(false);
   }
   function goToProductCategory() {
     navigation.push("ProductCategory", {
@@ -102,7 +98,7 @@ const NewProductForm = ({ route, navigation }) => {
   function onDecrement(key) {
     const count = (parseInt(formState[key], 10) || 0) - 1;
     setFormState({ ...formState, [key]: count < 0 ? 0 : count });
-    setAlertVisible(false)
+    setAlertVisible(false);
   }
 
   async function updateProductHandler() {
@@ -110,6 +106,8 @@ const NewProductForm = ({ route, navigation }) => {
     // Convert Quantity to Int
     product.quantity = parseInt(product.quantity, 10);
     dispatch(handleUpdateProduct(product));
+    onSetSnackContent(product.name, "updated")
+    onToggleSnackBar(true)
     navigation.goBack();
   }
 
@@ -120,6 +118,8 @@ const NewProductForm = ({ route, navigation }) => {
     product.quantity = parseInt(product.quantity, 10);
 
     dispatch(handleAddProduct(product, groceryListID));
+    onSetSnackContent(product.name, "created and added to My List")
+    onToggleSnackBar(true)
     navigation.goBack();
   }
 
@@ -138,26 +138,27 @@ const NewProductForm = ({ route, navigation }) => {
               handlePress={handlePress}
             />
             <Divider />
-            <View style={styles.stepperAndText}>
-              <Stepper
-                onIncrement={() => onIncrement("quantity")}
-                onDecrement={() => onDecrement("quantity")}
-              />
-              <View>
+            <View>
+              <View style={styles.stepperAndText}>
+                <Stepper
+                  onIncrement={() => onIncrement("quantity")}
+                  onDecrement={() => onDecrement("quantity")}
+                />
                 <StyledTextInput
-                style={styles.numInput}
-                onChangeText={(val) => setInput("quantity", val)}
-                keyboardType="numeric"
-                value={`${formState.quantity}`}
-              />
-                <HelperText
-                  type="error"
-                  visible={alertVisible}
-                  style={{ textAlign: "center" }}
-                >
-                  {alertText} </HelperText>
-              </View> 
-             </View>
+                  style={styles.numInput}
+                  onChangeText={(val) => setInput("quantity", val)}
+                  keyboardType="numeric"
+                  value={`${formState.quantity}`}
+                />
+              </View>
+              <HelperText
+                type="error"
+                visible={alertVisible}
+                style={{ textAlign: "center" }}
+              >
+                {alertText}
+              </HelperText>
+            </View>
             <SelectionPicker
               selectedValue={formState.unit}
               onValueChange={(val) => setInput("unit", val)}
@@ -189,19 +190,24 @@ const NewProductForm = ({ route, navigation }) => {
               />
             </View>
             <Divider />
-            <TouchableOpacity onPress={goToProductCategory}>
+            <View>
               <Text style={styles.marginBottom}>Select a Category:</Text>
-              <View style={styles.rowAligned}>
-                <MaterialCommunityIcons
-                  name={productCategory[formState.category].picture}
-                  size={24}
-                  color="black"
-                />
-                <Subheading style={styles.rowAligned}>
-                  {productCategory[formState.category].name}
-                </Subheading>
-              </View>
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.border}
+                onPress={goToProductCategory}
+              >
+                <View style={styles.rowAligned}>
+                  <MaterialCommunityIcons
+                    name={productCategory[formState.category].picture}
+                    size={24}
+                    color="black"
+                  />
+                  <Subheading style={styles.rowAligned}>
+                    {productCategory[formState.category].name}
+                  </Subheading>
+                </View>
+              </TouchableOpacity>
+            </View>
             <Divider />
 
             <AccordionMenu
@@ -229,7 +235,7 @@ const styles = StyleSheet.create({
   },
   rowAligned: {
     flexDirection: "row",
-    marginLeft: 20,
+    marginLeft: 15,
     // marginRight: 30,
   },
   spaceBetween: {
@@ -247,11 +253,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   numInput: {
-    height: 40,
-    width: 50,
-    borderColor: grey,
-    borderWidth: 2,
-    borderRadius: 10,
-    paddingLeft: 15,
+    width: 100,
+  },
+  border: {
+    borderColor: "#969696",
+    borderWidth: 1,
+    paddingBottom: 15,
+    paddingTop: 15,
   },
 });

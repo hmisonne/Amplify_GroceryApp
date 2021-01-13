@@ -14,14 +14,12 @@ import FabBar from "../components/FabBar";
 import LoadingCircle from "../components/LoadingCircle";
 import SwipeList from "../components/SwipeList";
 import FadeInView from "../components/FadeInView";
-import { createTwoButtonAlert, lightGreyBackground } from "../utils/helpers";
-import Footer from "../components/Footer";
+import { createTwoButtonAlert } from "../utils/helpers";
 
 const Home = ({ groceryLists, navigation, user }) => {
   const [visible, setVisible] = React.useState(false);
   const [isReady, setReady] = React.useState(false);
-  const onToggleSnackBar = () => setVisible(!visible);
-  const onDismissSnackBar = () => setVisible(false);
+  const onToggleSnackBar = (bool) => setVisible(bool);
 
   const dispatch = useDispatch();
 
@@ -52,7 +50,7 @@ const Home = ({ groceryLists, navigation, user }) => {
   }
   function removeGroceryList(groceryListID) {
     dispatch(handleDeleteGroceryList(groceryListID));
-    onToggleSnackBar();
+    onToggleSnackBar(true);
   }
 
   function displayLoadingCircle() {
@@ -84,7 +82,7 @@ const Home = ({ groceryLists, navigation, user }) => {
           ? displayInstructions()
           : displayUserGroceryLists()
         }
-      <UndoRedo visible={visible} onDismissSnackBar={onDismissSnackBar} />
+      <UndoRedo visible={visible} onDismissSnackBar={() => onToggleSnackBar(false)} />
       <FabBar actions={actions} />
     </View>
   );

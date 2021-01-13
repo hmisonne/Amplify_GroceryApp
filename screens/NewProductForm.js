@@ -107,7 +107,7 @@ const NewProductForm = ({ route, navigation }) => {
     product.quantity = parseInt(product.quantity, 10);
     dispatch(handleUpdateProduct(product));
     onSetSnackContent(product.name, "updated")
-    onToggleSnackBar()
+    onToggleSnackBar(true)
     navigation.goBack();
   }
 
@@ -119,7 +119,7 @@ const NewProductForm = ({ route, navigation }) => {
 
     dispatch(handleAddProduct(product, groceryListID));
     onSetSnackContent(product.name, "added")
-    onToggleSnackBar()
+    onToggleSnackBar(true)
     navigation.goBack();
   }
 

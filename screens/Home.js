@@ -14,7 +14,8 @@ import FabBar from "../components/FabBar";
 import LoadingCircle from "../components/LoadingCircle";
 import SwipeList from "../components/SwipeList";
 import FadeInView from "../components/FadeInView";
-import { createTwoButtonAlert } from "../utils/helpers";
+import { createTwoButtonAlert, lightGreyBackground } from "../utils/helpers";
+import Footer from "../components/Footer";
 
 const Home = ({ groceryLists, navigation, user }) => {
   const [visible, setVisible] = React.useState(false);
@@ -83,8 +84,8 @@ const Home = ({ groceryLists, navigation, user }) => {
           ? displayInstructions()
           : displayUserGroceryLists()
         }
-      <FabBar actions={actions} />
       <UndoRedo visible={visible} onDismissSnackBar={onDismissSnackBar} />
+      <FabBar actions={actions} />
     </View>
   );
 

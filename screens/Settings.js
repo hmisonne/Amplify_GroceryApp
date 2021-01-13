@@ -11,6 +11,7 @@ import { createTwoButtonAlert, onShare } from "../utils/helpers";
 const Settings = ({ user }) => {
   const androidURL = "https://play.google.com/store/apps/details?id=com.hmisonne.ListBee"
   const iosURL = "https://apps.apple.com/us/app/listbee-grocery-shopping-list/id1542615662"
+
   const shareText = `ListBee | A Grocery List App, Android: ${androidURL}, iOS: ${iosURL}`
   async function signOut() {
     try {
@@ -38,11 +39,14 @@ const Settings = ({ user }) => {
   function sendFeedback() {
     MailComposer.composeAsync(mailComposerOptions);
   }
+
   const requestReview = async () => {
+
     let url = ''
     Platform.OS === 'android' 
     ? url = androidURL
     : url = iosURL
+
     const supported = await Linking.canOpenURL(url);
 
     if (supported) {

@@ -24,6 +24,7 @@ import Footer from "../components/Footer";
 import RoundButton from "../components/RoundButton";
 import SnackBar from "../components/SnackBar";
 
+
 function ProductList({
   navigation,
   route,
@@ -188,7 +189,6 @@ function ProductList({
         onDismissSnackBar={() => onToggleSnackBar(false)}
         snackContent={snackContent}
       />
-
       <Footer
         onPressAction={() =>
           navigation.push("AddProduct", {

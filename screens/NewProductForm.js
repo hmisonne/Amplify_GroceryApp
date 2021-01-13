@@ -50,13 +50,7 @@ const NewProductForm = ({ route, navigation }) => {
           </Button>
         ),
       },
-      [
-        productToUpdate,
-        navigation,
-        updateProductHandler,
-        addProductHandler,
-        validateForm,
-      ]
+      []
     );
   });
   const [alertVisible, setAlertVisible] = useState(false);

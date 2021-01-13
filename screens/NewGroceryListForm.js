@@ -43,13 +43,7 @@ const NewGroceryListForm = ({route, navigation}) => {
           </Button>
         ),
       },
-      [
-        glistToUpdate,
-        navigation,
-        updateGroceryList,
-        createGroceryList,
-        validateForm,
-      ]
+      []
     );
   });
 

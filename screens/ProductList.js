@@ -109,7 +109,7 @@ function ProductList({
           </View>
         ),
       },
-      [navigation, actionsMenu, groceryList]
+      []
     );
   });
 

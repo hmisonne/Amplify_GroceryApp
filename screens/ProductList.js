@@ -37,8 +37,8 @@ function ProductList({
   const [snackVisible, setSnackVisible] = React.useState(false);
   const onToggleSnackBar = (bool) => setSnackVisible(bool);
   const [snackContent, setSnackContent] = useState("");
-  const onSetSnackContent = (productName, action) =>
-    setSnackContent(`✅ ${productName} ${action}!`);
+  const onSetSnackContent = (content) =>
+    setSnackContent(content); 
   function toggleToBuyView(bool) {
     return setToBuyView(bool);
   }
@@ -163,8 +163,16 @@ function ProductList({
         listData={toBuyView ? productsToBuy : allProducts}
         deleteAction={
           toBuyView
-            ? (product) => toggleProductToBuy(product)
-            : (product) => deleteProduct(product.id)
+            ? (product) => {
+              onSetSnackContent(`❗ ${product.name} removed from My List`)
+              onToggleSnackBar(true)
+              toggleProductToBuy(product)
+            }
+            : (product) => {
+              onSetSnackContent(`❌ ${product.name} deleted`)
+              onToggleSnackBar(true)
+              deleteProduct(product.id)
+            }
         }
         navigateToEdit={(product) => navigateToEditProduct(product)}
         onPressAction={
@@ -172,8 +180,7 @@ function ProductList({
             ? (product) => toggleProduct(product)
             : (product) => {
                 onSetSnackContent(
-                  product.name,
-                  product.toBuy ? "removed from My List" : "added to My List"
+                  product.toBuy ? `❗ ${product.name} removed from My List` : `✅${product.name} added to My List`
                 );
                 toggleProductToBuy(product);
                 onToggleSnackBar(true);

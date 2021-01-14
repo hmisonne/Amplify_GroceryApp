@@ -21,8 +21,8 @@ const Home = ({ groceryLists, navigation, user }) => {
   const [isReady, setReady] = useState(false);
   const onToggleSnackBar = (bool) => setSnackVisible(bool);
   const [snackContent, setSnackContent] = useState("");
-  const onSetSnackContent = (listName, action) =>
-    setSnackContent(`✅ ${listName} ${action}!`);
+  const onSetSnackContent = (content) =>
+    setSnackContent(content);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -46,12 +46,13 @@ const Home = ({ groceryLists, navigation, user }) => {
   function removeListWithValidation(groceryList) {
     const validationText = `Are you sure you want to delete this list?`;
     createTwoButtonAlert(
-      () => removeGroceryList(groceryList.id),
+      () => removeGroceryList(groceryList),
       validationText
     );
   }
-  function removeGroceryList(groceryListID) {
-    dispatch(handleDeleteGroceryList(groceryListID));
+  function removeGroceryList(groceryList) {
+    dispatch(handleDeleteGroceryList(groceryList.id));
+    onSetSnackContent(`❌${groceryList.name} deleted`)
     onToggleSnackBar(true);
   }
 
@@ -164,4 +165,3 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
 });
-

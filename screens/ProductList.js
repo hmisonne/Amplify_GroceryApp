@@ -180,7 +180,7 @@ function ProductList({
             ? (product) => toggleProduct(product)
             : (product) => {
                 onSetSnackContent(
-                  product.toBuy ? `❗ ${product.name} removed from My List` : `✅${product.name} added to My List`
+                  product.toBuy ? `❗ ${product.name} removed from My List` : `✅ ${product.name} added to My List`
                 );
                 toggleProductToBuy(product);
                 onToggleSnackBar(true);

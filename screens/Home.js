@@ -52,7 +52,7 @@ const Home = ({ groceryLists, navigation, user }) => {
   }
   function removeGroceryList(groceryList) {
     dispatch(handleDeleteGroceryList(groceryList.id));
-    onSetSnackContent(`❌${groceryList.name} deleted`)
+    onSetSnackContent(`❌ ${groceryList.name} deleted`)
     onToggleSnackBar(true);
   }
 

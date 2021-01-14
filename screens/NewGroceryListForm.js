@@ -65,7 +65,7 @@ const NewGroceryListForm = ({route, navigation}) => {
   async function updateGroceryList() {
     const groceryList = { ...formState };
     dispatch(handleUpdateGroceryList(groceryList));
-    onSetSnackContent(groceryList.name, "updated")
+    onSetSnackContent(`✅ ${groceryList.name} updated!`)
     onToggleSnackBar(true)
     navigation.goBack();
   }
@@ -78,7 +78,7 @@ const NewGroceryListForm = ({route, navigation}) => {
       if (event === "ready") {
         console.log("Ready load grocery list NEW");
         dispatch(handleLoadGroceryLists());
-        onSetSnackContent(groceryList.name, "created")
+        onSetSnackContent(`✅ ${groceryList.name} created!`)
         onToggleSnackBar(true)
         removeListener();
       }

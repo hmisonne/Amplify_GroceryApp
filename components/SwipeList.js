@@ -159,22 +159,22 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   rowFront: {
-    paddingLeft: 20,
+    padding: 10,
+    paddingLeft: 15,
     backgroundColor: lightGreyBackground,
     borderBottomColor: "#DCDCDC",
     borderBottomWidth: 1,
     justifyContent: "center",
-    height: 50,
   },
   rowFrontBig: {
-    paddingLeft: 20,
+    padding: 15,
     backgroundColor: lightGreyBackground,
     borderBottomColor: "#DCDCDC",
     borderBottomWidth: 1,
     justifyContent: "center",
-    height: 70,
   },
   textItem: {
+    flex: 20,
     fontSize: 20,
   },
   rowBack: {
@@ -205,7 +205,9 @@ const styles = StyleSheet.create({
     backgroundColor: lightGreyBackground,
   },
   rowIcon: {
+    flex: 1,
     marginRight: 12,
+    alignSelf: "center"
   },
 });
 

@@ -106,7 +106,7 @@ const NewProductForm = ({ route, navigation }) => {
     // Convert Quantity to Int
     product.quantity = parseInt(product.quantity, 10);
     dispatch(handleUpdateProduct(product));
-    onSetSnackContent(product.name, "updated")
+    onSetSnackContent(`✅ ${product.name} updated!`)
     onToggleSnackBar(true)
     navigation.goBack();
   }
@@ -118,7 +118,7 @@ const NewProductForm = ({ route, navigation }) => {
     product.quantity = parseInt(product.quantity, 10);
 
     dispatch(handleAddProduct(product, groceryListID));
-    onSetSnackContent(product.name, "created and added to My List")
+    onSetSnackContent(`✅ ${product.name} created and added to My List!`)
     onToggleSnackBar(true)
     navigation.goBack();
   }

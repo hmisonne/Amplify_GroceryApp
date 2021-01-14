@@ -10,6 +10,7 @@ const SnackBarAlert = ({visible, onDismissSnackBar, undoAction=null, snackConten
     <View style={styles.container}>
       <Snackbar
         visible={visible}
+        duration = {1000}
         theme = {{colors: {
           accent: mainColor,
         },

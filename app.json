@@ -2,7 +2,7 @@
   "expo": {
     "name": "ListBee",
     "slug": "ListBee",
-    "version": "1.0.1",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -19,7 +19,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.hmisonne.ListBee",
-      "buildNumber": "1.0.7"
+      "buildNumber": "1.0.12"
     },
     "web": {
       "favicon": "./assets/icon.png"
@@ -30,7 +30,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.hmisonne.ListBee",
-      "versionCode": 24,
+      "versionCode": 28,
       "permissions": []
     }
   }

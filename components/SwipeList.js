@@ -174,6 +174,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   textItem: {
+    flex: 20,
     fontSize: 20,
   },
   rowBack: {
@@ -204,7 +205,9 @@ const styles = StyleSheet.create({
     backgroundColor: lightGreyBackground,
   },
   rowIcon: {
+    flex: 1,
     marginRight: 12,
+    alignSelf: "center"
   },
 });
 

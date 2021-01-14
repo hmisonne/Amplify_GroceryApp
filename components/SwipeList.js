@@ -159,20 +159,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   rowFront: {
-    paddingLeft: 20,
+    padding: 10,
+    paddingLeft: 15,
     backgroundColor: lightGreyBackground,
     borderBottomColor: "#DCDCDC",
     borderBottomWidth: 1,
     justifyContent: "center",
-    height: 50,
   },
   rowFrontBig: {
-    paddingLeft: 20,
+    padding: 15,
     backgroundColor: lightGreyBackground,
     borderBottomColor: "#DCDCDC",
     borderBottomWidth: 1,
     justifyContent: "center",
-    height: 70,
   },
   textItem: {
     fontSize: 20,

@@ -191,11 +191,13 @@ function ProductList({
         fabAction={(groceryListID) => doneShoppingWithValidation(groceryListID)}
         itemsInCart={numOfProducts.inCart > 0}
       />
-      <SnackBar
-        visible={snackVisible}
-        onDismissSnackBar={() => onToggleSnackBar(false)}
-        snackContent={snackContent}
-      />
+      <View>
+        <SnackBar
+          visible={snackVisible}
+          onDismissSnackBar={() => onToggleSnackBar(false)}
+          snackContent={snackContent}
+        />
+      </View>
       <Footer
         onPressAction={() =>
           navigation.push("AddProduct", {

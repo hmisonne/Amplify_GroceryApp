@@ -87,13 +87,13 @@ const Home = ({ groceryLists, navigation, user }) => {
         : groceryLists.length === 0
         ? displayInstructions()
         : displayUserGroceryLists()}
-      <FabBar actions={actions} />
+      
       <SnackBar
         visible={snackVisible}
-        style={{ width: 100 }}
         onDismissSnackBar={() => onToggleSnackBar(false)}
         snackContent={snackContent}
       />
+      <FabBar actions={actions} />
     </View>
   );
 

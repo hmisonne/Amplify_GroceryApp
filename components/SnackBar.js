@@ -7,7 +7,6 @@ import { mainColor } from '../utils/helpers';
 const SnackBarAlert = ({visible, onDismissSnackBar, undoAction=null, snackContent}) => {
 
   return (
-    <View style={styles.container}>
       <Snackbar
         visible={visible}
         duration = {1000}
@@ -24,16 +23,9 @@ const SnackBarAlert = ({visible, onDismissSnackBar, undoAction=null, snackConten
       }>
         {snackContent}
       </Snackbar>
-    </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'space-between',
-  },
-});
 
 export default SnackBarAlert;
 

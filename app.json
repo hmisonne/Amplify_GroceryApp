@@ -19,7 +19,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.hmisonne.ListBee",
-      "buildNumber": "1.0.13"
+      "buildNumber": "1.0.14"
     },
     "web": {
       "favicon": "./assets/icon.png"

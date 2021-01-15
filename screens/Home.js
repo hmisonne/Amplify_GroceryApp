@@ -122,7 +122,9 @@ const Home = ({ groceryLists, navigation, user }) => {
     return (
       <SwipeList
         user={user}
-        listData={groceryLists.map((groceryList) => ({
+        listData={groceryLists
+          .sort((a,b)=> b._lastChangedAt - a._lastChangedAt)
+          .map((groceryList) => ({
           ...groceryList,
           key: groceryList.id,
         }))}

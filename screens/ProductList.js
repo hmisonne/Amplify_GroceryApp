@@ -169,7 +169,7 @@ function ProductList({
               toggleProductToBuy(product)
             }
             : (product) => {
-              onSetSnackContent(`❌ ${product.name} deleted`)
+              onSetSnackContent(`❌ ${product.name} deleted permanently`)
               onToggleSnackBar(true)
               deleteProduct(product.id)
             }

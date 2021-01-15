@@ -150,7 +150,6 @@ export default SwipeList;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
-    flex: 1,
   },
   backTextWhite: {
     color: "#FFF",
@@ -174,7 +173,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   textItem: {
-    flex: 20,
+    paddingRight: 50,
     fontSize: 20,
   },
   rowBack: {
@@ -205,8 +204,7 @@ const styles = StyleSheet.create({
     backgroundColor: lightGreyBackground,
   },
   rowIcon: {
-    flex: 1,
-    marginRight: 12,
+    paddingRight: 12,
     alignSelf: "center"
   },
 });

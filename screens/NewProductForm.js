@@ -186,6 +186,7 @@ const NewProductForm = ({ route, navigation }) => {
                 onChangeText={(val) => setInput("name", val)}
                 label="Product Name"
                 value={formState.name}
+                multiline={true}
                 placeholder="Golden Apple"
               />
             </View>

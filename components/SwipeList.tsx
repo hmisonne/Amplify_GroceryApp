@@ -9,43 +9,56 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SwipeListView } from "react-native-swipe-list-view";
 import { lightGreyBackground, lightGrey, mainColor, secondaryColor } from "../utils/helpers";
-import PropTypes from "prop-types";
 import { Caption } from "react-native-paper";
+import { Product, User } from "../src/models";
+import { RowData } from "../src/types/ListElements";
 
-function SwipeList({
-  listData,
+
+interface Props {
+  listData: RowData[];
+  deleteAction: (element: Product) => void;
+  navigateToEdit: (element: Product) => void;
+  onPressAction: (element: Product) => void;
+  toBuyView?: boolean;
+  productListView?: boolean;
+  user?: User;
+}
+
+
+const SwipeList: React.FC<Props> = ({ listData,
   deleteAction,
   navigateToEdit,
   onPressAction,
   toBuyView = false,
   productListView = false,
-  user,
-}) {
-  const closeRow = (rowMap, rowKey) => {
+  user = {},
+}) => {
+
+  const closeRow = (rowMap: any, rowKey: string) => {
     if (rowMap[rowKey]) {
       rowMap[rowKey].closeRow();
     }
   };
 
-  const deleteRow = (rowMap, element) => {
+  const deleteRow = (rowMap: any, element: any) => {
     closeRow(rowMap, element.key);
     deleteAction(element);
   };
-  const goToEdit = (rowMap, element) => {
+  const goToEdit = (rowMap: any, element: any) => {
     closeRow(rowMap, element.key);
     navigateToEdit(element);
   };
-  const onPress = (element) => {
+  const onPress = (element: Product) => {
     onPressAction(element);
   };
-  const onRowDidOpen = (rowKey) => {
+  const onRowDidOpen = (rowKey: any) => {
     // console.log("This row opened", rowKey);
   };
 
-  const renderItem = (data) => {
+  const renderItem = (data: any) => {
     const sharedWith =
       data.item.shoppers &&
-      data.item.shoppers.filter((username) => username !== user.username);
+      data.item.shoppers.filter((username: any) => username !== user.username);
     const sharedWithText = sharedWith && sharedWith.join(", ");
     return (
       <View>
@@ -65,7 +78,7 @@ function SwipeList({
     );
   };
 
-  const renderProductItem = (data) => (
+  const renderProductItem = (data: any) => (
     <View>
       <TouchableHighlight
         onPress={() => onPress(data.item)}
@@ -89,16 +102,16 @@ function SwipeList({
               color={mainColor}
             />
           ) : (
-            <MaterialCommunityIcons
-              style={styles.rowIcon}
-              name={data.item.toBuy ? "cart-outline" : "cart-off"}
-              size={20}
-              color={!data.item.toBuy ? lightGrey : mainColor}
-            />
-          )}
+              <MaterialCommunityIcons
+                style={styles.rowIcon}
+                name={data.item.toBuy ? "cart-outline" : "cart-off"}
+                size={20}
+                color={!data.item.toBuy ? lightGrey : mainColor}
+              />
+            )}
 
           <Text
-            style={[styles.textItem,{ color: !data.item.toBuy ? lightGrey : secondaryColor }]}
+            style={[styles.textItem, { color: !data.item.toBuy ? lightGrey : secondaryColor }]}
           >
             {" "}
             {data.item.name}{" "}
@@ -114,7 +127,7 @@ function SwipeList({
     </View>
   );
 
-  const renderHiddenItem = (data, rowMap) => (
+  const renderHiddenItem = (data: any, rowMap: any) => (
     <View style={styles.rowBack}>
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnLeft]}
@@ -126,7 +139,7 @@ function SwipeList({
         style={[styles.backRightBtn, styles.backRightBtnRight]}
         onPress={() => deleteRow(rowMap, data.item)}
       >
-        <MaterialCommunityIcons name={toBuyView?"playlist-remove": "delete-outline"} size={20} color="white" />
+        <MaterialCommunityIcons name={toBuyView ? "playlist-remove" : "delete-outline"} size={20} color="white" />
       </TouchableOpacity>
     </View>
   );
@@ -134,7 +147,7 @@ function SwipeList({
   return (
     <SwipeListView
       data={listData}
-      renderItem={productListView? renderProductItem : renderItem}
+      renderItem={productListView ? renderProductItem : renderItem}
       renderHiddenItem={renderHiddenItem}
       rightOpenValue={-150}
       previewRowKey={"0"}
@@ -208,13 +221,3 @@ const styles = StyleSheet.create({
     alignSelf: "center"
   },
 });
-
-SwipeList.propTypes = {
-  listData: PropTypes.array.isRequired,
-  deleteAction: PropTypes.func.isRequired,
-  navigateToEdit: PropTypes.func.isRequired,
-  onPressAction: PropTypes.func.isRequired,
-  toBuyView: PropTypes.bool,
-  productListView: PropTypes.bool,
-  user: PropTypes.object,
-};

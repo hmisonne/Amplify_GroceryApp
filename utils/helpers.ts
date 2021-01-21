@@ -1,4 +1,5 @@
 import { Share, Alert} from "react-native";
+import { Product } from '../src/models'
 
 export const grey = "#5c626b";
 export const lightGrey = "#ccc";
@@ -10,7 +11,7 @@ export const blueGreen = "#04ccde";
 export const mainColor = "#ffca18";
 export const secondaryColor = "#525252";
 
-export const onShare = async (text) => {
+export const onShare = async (text: string) => {
   try {
     const result = await Share.share({
       message: text,
@@ -29,7 +30,15 @@ export const onShare = async (text) => {
   }
 };
 
-export const productCategory = {
+interface productCategory {
+  [name: string]: { 
+    picture: string;
+    name: string;
+    key: string;
+  }
+}
+
+export const productCategory: productCategory = {
   Baby: {
     picture: "baby-bottle",
     name: "Baby",
@@ -102,7 +111,7 @@ export const productCategory = {
   },
 };
 
-export function formatSectionListData(products) {
+export function formatSectionListData(products: Product[]) {
   const currCategories = new Set();
   products.forEach((product) => currCategories.add(product.category));
   const filteredCurrCategories = Object.keys(productCategory).filter(cat => currCategories.has(cat))
@@ -128,7 +137,7 @@ export function formatSectionListData(products) {
   return currListCategories;
 }
 
-export const createTwoButtonAlert = (callback, alertMessage, alertTitle="Warning") =>
+export const createTwoButtonAlert = (callback: ()=> void, alertMessage: string, alertTitle="Warning") =>
     Alert.alert(
       alertTitle,
       alertMessage,

@@ -1,14 +1,23 @@
 import React from "react";
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
-import { blue, grey, mainColor, secondaryColor } from "../utils/helpers";
-import PropTypes from "prop-types";
+import { mainColor, secondaryColor } from "../utils/helpers";
 
-export default function SubmitBtn({
+
+interface Props {
+  title: string;
+  onPress: () => void;
+  style?: object,
+  disabled?: boolean;
+}
+
+
+const SubmitBtn: React.FC<Props> = ({
   title,
   onPress,
   disabled = false,
   style = {},
-}) {
+}) => {
+
   return (
     <TouchableOpacity
       style={
@@ -40,9 +49,4 @@ const styles = StyleSheet.create({
   },
 });
 
-SubmitBtn.propTypes = {
-  title: PropTypes.string.isRequired,
-  onPress: PropTypes.func.isRequired,
-  style: PropTypes.object,
-  disabled: PropTypes.bool,
-};
+export default SubmitBtn;

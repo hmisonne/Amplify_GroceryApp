@@ -1,10 +1,17 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import { FAB, Portal, Provider } from 'react-native-paper';
-import { mainColor, secondaryColor } from '../utils/helpers';
-import PropTypes from "prop-types";
+import { FabBarAction } from '../src/types/ActionElements';
+import { mainColor } from '../utils/helpers';
 
-const FabBar = ({actions}) => {
+
+
+interface Props {
+  actions: FabBarAction[];
+}
+
+
+const FabBar: React.FC<Props> = ({ actions }) => {
   const [state, setState] = React.useState({ open: false });
 
   const onStateChange = ({ open }) => setState({ open });
@@ -16,12 +23,12 @@ const FabBar = ({actions}) => {
       <Portal>
         <FAB.Group
           open={open}
-          icon={ 'plus'}
+          icon={'plus'}
           style={styles.fab}
           actions={actions}
           onStateChange={onStateChange}
-          fabStyle={{backgroundColor: mainColor}}
-        
+          fabStyle={{ backgroundColor: mainColor }}
+          visible={true}
         />
       </Portal>
     </Provider>
@@ -29,15 +36,11 @@ const FabBar = ({actions}) => {
 };
 
 const styles = StyleSheet.create({
-    fab: {
-      position: 'absolute',
-      right: 0,
-      bottom: 0,
-    },
-  })
+  fab: {
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+  },
+})
 
 export default FabBar;
-
-FabBar.propTypes = {
-  actions: PropTypes.array.isRequired,
-};

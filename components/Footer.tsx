@@ -1,11 +1,19 @@
 import * as React from "react";
 import { StyleSheet, View, Text } from "react-native";
-import {  mainColor, lightGreyBackground } from "../utils/helpers";
-import PropTypes from "prop-types";
+import { mainColor, lightGreyBackground } from "../utils/helpers";
 import { FAB } from "react-native-paper";
 
-const Footer = ({ numOfProducts, onPressAction }) => (
-    <View style={styles.footer}>
+
+interface Props {
+  numOfProducts: {
+    toBuy: number;
+    inCart: number;
+  };
+  onPressAction: () => void;
+}
+
+const Footer: React.FC<Props> = ({ numOfProducts, onPressAction }) => (
+  <View style={styles.footer}>
     <View
       style={{
         alignSelf: "center",
@@ -32,18 +40,13 @@ const Footer = ({ numOfProducts, onPressAction }) => (
 export default Footer;
 
 const styles = StyleSheet.create({
-    footer: {
-      height: 80,
-      backgroundColor: lightGreyBackground,
-      borderTopWidth: 1,
-      borderTopColor: "#DCDCDC",
-      flexDirection: "row",
-      justifyContent: "space-between",
-      padding: 15,
-    },
-  });
-
-  Footer.propTypes = {
-    numOfProducts: PropTypes.object.isRequired,
-    onPressAction: PropTypes.func.isRequired,
-  };
+  footer: {
+    height: 80,
+    backgroundColor: lightGreyBackground,
+    borderTopWidth: 1,
+    borderTopColor: "#DCDCDC",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 15,
+  },
+});

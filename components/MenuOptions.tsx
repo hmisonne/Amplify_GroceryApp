@@ -1,10 +1,22 @@
 import * as React from "react";
 import { View } from "react-native";
-import { Menu} from "react-native-paper";
+import { Menu } from "react-native-paper";
 import RoundButton from "./RoundButton";
 import { createTwoButtonAlert } from "../utils/helpers"
+import { GroceryList } from "../src/models"
+import { MenuAction } from "../src/types/ActionElements";
 
-const MenuOptions = ({ actionsMenu, groceryList }) => {
+
+
+interface Props {
+  actionsMenu: MenuAction[];
+  groceryList: GroceryList;
+
+}
+
+
+
+const MenuOptions: React.FC<Props> = ({ actionsMenu, groceryList }) => {
   const [visible, setVisible] = React.useState(false);
 
   const openMenu = () => setVisible(true);
@@ -30,14 +42,13 @@ const MenuOptions = ({ actionsMenu, groceryList }) => {
         }
       >
         {actionsMenu.map((action, index) => (
-          
-           <Menu.Item
+          <Menu.Item
             key={index}
             icon={action.icon}
             onPress={() => {
               action.validationNeeded
-              ? createTwoButtonAlert(() => action.onPress(groceryList), action.message, action.alertTitle)
-              : action.onPress(groceryList)
+                ? createTwoButtonAlert(() => action.onPress(groceryList), action.message, action.alertTitle)
+                : action.onPress(groceryList)
               closeMenu();
             }}
             title={action.title}

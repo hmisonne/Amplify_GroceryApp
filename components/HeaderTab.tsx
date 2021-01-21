@@ -1,10 +1,14 @@
 import * as React from "react";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 import { secondaryColor, lightGrey, mainColor, lightGreyBackground } from "../utils/helpers";
-import PropTypes from "prop-types";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-const HeaderTab = ({ firstTabSelected, switchToSecondTab }) => (
+interface Props {
+  firstTabSelected: boolean;
+  switchToSecondTab: (bool: boolean) => void;
+}
+
+const HeaderTab: React.FC<Props> = ({ firstTabSelected, switchToSecondTab }) => (
   <View style={styles.rowAligned}>
     <TouchableOpacity
       style={firstTabSelected ? styles.selectedTab : styles.unSelectedTab}
@@ -72,8 +76,3 @@ const styles = StyleSheet.create({
     backgroundColor: lightGreyBackground,
   },
 });
-
-HeaderTab.propTypes = {
-  firstTabSelected: PropTypes.bool.isRequired,
-  switchToSecondTab: PropTypes.func.isRequired,
-};

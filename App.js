@@ -115,20 +115,38 @@ const App = () => {
             </ProductStack.Screen>
             <ProductStack.Screen
               name="ProductList"
-              component={ProductList}
               options={(props) => ({
                 title: `${props.route.params.groceryList.name}`,
                 headerTintColor: secondaryColor,
               })}
-            />
+            >
+              {(props) => (
+                <ProductList
+                  {...props}
+                  snackVisible={snackVisible}
+                  snackContent={snackContent}
+                  toggleMessage={(message) => toggleMessage(message)}
+                  onDismissSnackBar={() => onToggleSnackBar(false)}
+                />
+              )}
+            </ProductStack.Screen>
             <ProductStack.Screen
               name="NewList"
-              component={NewGroceryListForm}
               options={(props) => ({
                 headerTintColor: secondaryColor,
-                title: props.route.params.groceryList ? `Update` : `New List`,
+                title: props.route.params?.groceryList ? `Update` : `New List`,
               })}
-            />
+            >
+              {(props) => (
+                <NewGroceryListForm
+                  {...props}
+                  snackVisible={snackVisible}
+                  snackContent={snackContent}
+                  toggleMessage={(message) => toggleMessage(message)}
+                  onDismissSnackBar={() => onToggleSnackBar(false)}
+                />
+              )}
+              </ProductStack.Screen>
             <ProductStack.Screen
               name="JoinGroceryList"
               options={{
@@ -145,12 +163,18 @@ const App = () => {
             </ProductStack.Screen>
             <ProductStack.Screen
               name="AddProduct"
-              component={NewProductForm}
               options={(props) => ({
                 headerTintColor: secondaryColor,
-                title: props.route.params.product ? `Update` : `New Item`,
+                title: props.route.params?.product ? `Update` : `New Item`,
               })}
-            />
+            >
+              {(props) => (
+                <NewProductForm
+                  {...props}
+                  toggleMessage={(message) => toggleMessage(message)}
+                />
+              )}
+            </ProductStack.Screen>
             <ProductStack.Screen
               name="ProductCategory"
               component={ProductCategory}

@@ -24,21 +24,19 @@ import Footer from "../components/Footer";
 import RoundButton from "../components/RoundButton";
 import SnackBar from "../components/SnackBar";
 
-
 function ProductList({
   navigation,
   route,
   allProducts,
   productsToBuy,
   numOfProducts,
+  snackContent,
+  snackVisible,
+  onDismissSnackBar,
+  toggleMessage,
 }) {
   const dispatch = useDispatch();
   const [toBuyView, setToBuyView] = useState(true);
-  const [snackVisible, setSnackVisible] = React.useState(false);
-  const onToggleSnackBar = (bool) => setSnackVisible(bool);
-  const [snackContent, setSnackContent] = useState("");
-  const onSetSnackContent = (content) =>
-    setSnackContent(content); 
   function toggleToBuyView(bool) {
     return setToBuyView(bool);
   }
@@ -140,11 +138,7 @@ function ProductList({
     return dispatch(handleDeleteProduct(productID));
   }
   function navigateToEditProduct(product) {
-    return navigation.push("AddProduct", {
-      product,
-      onToggleSnackBar,
-      onSetSnackContent,
-    });
+    return navigation.push("AddProduct", { product });
   }
   async function toggleProduct(product) {
     return dispatch(handleToggleProduct(product));
@@ -164,26 +158,25 @@ function ProductList({
         deleteAction={
           toBuyView
             ? (product) => {
-              onSetSnackContent(`❗ ${product.name} removed from My List`)
-              onToggleSnackBar(true)
-              toggleProductToBuy(product)
-            }
+                toggleMessage(`❗ ${product.name} removed from My List`);
+                toggleProductToBuy(product);
+              }
             : (product) => {
-              onSetSnackContent(`❌ ${product.name} deleted permanently`)
-              onToggleSnackBar(true)
-              deleteProduct(product.id)
-            }
+                toggleMessage(`❌ ${product.name} deleted permanently`);
+                deleteProduct(product.id);
+              }
         }
         navigateToEdit={(product) => navigateToEditProduct(product)}
         onPressAction={
           toBuyView
             ? (product) => toggleProduct(product)
             : (product) => {
-                onSetSnackContent(
-                  product.toBuy ? `❗ ${product.name} removed from My List` : `✅ ${product.name} added to My List`
+                toggleMessage(
+                  product.toBuy
+                    ? `❗ ${product.name} removed from My List`
+                    : `✅ ${product.name} added to My List`
                 );
                 toggleProductToBuy(product);
-                onToggleSnackBar(true);
               }
         }
         toBuyView={toBuyView}
@@ -194,7 +187,7 @@ function ProductList({
       <View>
         <SnackBar
           visible={snackVisible}
-          onDismissSnackBar={() => onToggleSnackBar(false)}
+          onDismissSnackBar={onDismissSnackBar}
           snackContent={snackContent}
         />
       </View>
@@ -202,8 +195,6 @@ function ProductList({
         onPressAction={() =>
           navigation.push("AddProduct", {
             groceryListID,
-            onToggleSnackBar,
-            onSetSnackContent,
           })
         }
         numOfProducts={numOfProducts}

@@ -21,15 +21,14 @@ const initialState = {
   name: "",
 };
 
-const NewGroceryListForm = ({route, navigation}) => {
-  const glistToUpdate = route.params.groceryList;
+const NewGroceryListForm = ({route, navigation, toggleMessage}) => {
+  const glistToUpdate = route.params?.groceryList;
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertText, setAlertText] = useState("");
 
   const [formState, setFormState] = useState(
     glistToUpdate ? glistToUpdate : initialState
   );
-  const { onToggleSnackBar, onSetSnackContent } = route.params
 
   React.useLayoutEffect(() => {
     navigation.setOptions(
@@ -65,8 +64,7 @@ const NewGroceryListForm = ({route, navigation}) => {
   async function updateGroceryList() {
     const groceryList = { ...formState };
     dispatch(handleUpdateGroceryList(groceryList));
-    onSetSnackContent(`✅ ${groceryList.name} updated!`)
-    onToggleSnackBar(true)
+    toggleMessage(`✅ ${groceryList.name} updated!`)
     navigation.goBack();
   }
   
@@ -78,8 +76,7 @@ const NewGroceryListForm = ({route, navigation}) => {
       if (event === "ready") {
         console.log("Ready load grocery list NEW");
         dispatch(handleLoadGroceryLists());
-        onSetSnackContent(`✅ ${groceryList.name} created!`)
-        onToggleSnackBar(true)
+        toggleMessage(`✅ ${groceryList.name} created!`)
         removeListener();
       }
     });

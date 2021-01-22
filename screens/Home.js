@@ -66,11 +66,7 @@ const Home = ({
     {
       icon: "format-list-checks",
       label: "New List",
-      onPress: () =>
-        navigation.push("NewList", {
-          onToggleSnackBar,
-          onSetSnackContent,
-        }),
+      onPress: () => navigation.push("NewList"),
     },
     {
       icon: "account-group",
@@ -102,12 +98,7 @@ const Home = ({
   function displayInstructions() {
     return (
       <TouchableOpacity
-        onPress={() =>
-          navigation.push("NewList", {
-            onToggleSnackBar,
-            onSetSnackContent,
-          })
-        }
+        onPress={() => navigation.push("NewList")}
         style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
       >
         <FadeInView style={{ width: 250, height: 50 }}>
@@ -130,11 +121,7 @@ const Home = ({
           }))}
         deleteAction={(groceryList) => removeListWithValidation(groceryList)}
         navigateToEdit={(groceryList) =>
-          navigation.push("NewList", {
-            groceryList,
-            onToggleSnackBar,
-            onSetSnackContent,
-          })
+          navigation.push("NewList", { groceryList })
         }
         onPressAction={(groceryList) => goToList(groceryList)}
       />

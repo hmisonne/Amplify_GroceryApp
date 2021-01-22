@@ -35,7 +35,7 @@ const initialState = {
   category: "Other",
 };
 
-const NewProductForm = ({ route, navigation }) => {
+const NewProductForm = ({ route, navigation, toggleMessage }) => {
   React.useLayoutEffect(() => {
     navigation.setOptions(
       {
@@ -55,13 +55,12 @@ const NewProductForm = ({ route, navigation }) => {
   });
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertText, setAlertText] = useState("");
-  const { onToggleSnackBar, onSetSnackContent } = route.params
   const validateForm = () => {
     return (
       formState.name === "" || !Number.isInteger(parseInt(formState.quantity))
     );
   };
-  const productToUpdate = route.params.product;
+  const productToUpdate = route.params?.product;
   const [formState, setFormState] = useState(
     productToUpdate ? productToUpdate : initialState
   );
@@ -106,8 +105,7 @@ const NewProductForm = ({ route, navigation }) => {
     // Convert Quantity to Int
     product.quantity = parseInt(product.quantity, 10);
     dispatch(handleUpdateProduct(product));
-    onSetSnackContent(`✅ ${product.name} updated!`)
-    onToggleSnackBar(true)
+    toggleMessage(`✅ ${product.name} updated!`)
     navigation.goBack();
   }
 
@@ -118,8 +116,7 @@ const NewProductForm = ({ route, navigation }) => {
     product.quantity = parseInt(product.quantity, 10);
 
     dispatch(handleAddProduct(product, groceryListID));
-    onSetSnackContent(`✅ ${product.name} created and added to My List!`)
-    onToggleSnackBar(true)
+    toggleMessage(`✅ ${product.name} created and added to My List!`)
     navigation.goBack();
   }
 

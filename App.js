@@ -14,16 +14,19 @@ import NewProductForm from "./screens/NewProductForm";
 import NewGroceryListForm from "./screens/NewGroceryListForm";
 import Home from "./screens/Home";
 import Settings from "./screens/Settings";
-import AppLoading from 'expo-app-loading';
+import AppLoading from "expo-app-loading";
 
-import {_cacheResourcesAsync, prepareResources} from "./hooks/prepareResources";
+import {
+  _cacheResourcesAsync,
+  prepareResources,
+} from "./hooks/prepareResources";
 import store from "./src/redux/store";
 
 import { mainColor, secondaryColor } from "./utils/helpers";
 import JoinGroceryList from "./screens/JoinGroceryList";
 import ProductList from "./screens/ProductList";
-import ProductCategory from "./screens/ProductCategory"
-import logo from './assets/logo.png'; 
+import ProductCategory from "./screens/ProductCategory";
+import logo from "./assets/logo.png";
 
 Amplify.configure({
   ...config,
@@ -42,21 +45,30 @@ const theme = {
 const ProductStack = createStackNavigator();
 
 const App = () => {
-  const isDataStoreReady = prepareResources()
+  const isDataStoreReady = prepareResources();
   const [isAppReady, setAppReady] = React.useState(false);
 
   function goToSettings(props) {
     props.navigation.push("Settings");
   }
-  
-  if ( !isAppReady || !isDataStoreReady) {
+  const onToggleSnackBar = (bool) => setSnackVisible(bool);
+  const [snackContent, setSnackContent] = React.useState("");
+  const onSetSnackContent = (content) => setSnackContent(content);
+  const [snackVisible, setSnackVisible] = React.useState(false);
+  function toggleMessage(message) {
+    console.log("toggleMessage");
+    onSetSnackContent(message);
+    onToggleSnackBar(true);
+  }
+
+  if (!isAppReady || !isDataStoreReady) {
     return (
       <AppLoading
         startAsync={_cacheResourcesAsync}
-        onFinish={()=>setAppReady(true)}
+        onFinish={() => setAppReady(true)}
         onError={console.warn}
-    />
-    )
+      />
+    );
   }
   return (
     <Provider store={store}>
@@ -65,12 +77,13 @@ const App = () => {
           <ProductStack.Navigator>
             <ProductStack.Screen
               name="Home"
-              component={Home}
               options={(props) => ({
                 title: "My Grocery Lists",
                 headerLeft: () => (
-                  <Image 
-                    source={logo} style={{ width: 30, height: 30,  marginLeft: 20 }} /> 
+                  <Image
+                    source={logo}
+                    style={{ width: 30, height: 30, marginLeft: 20 }}
+                  />
                 ),
                 headerRight: () => (
                   <MaterialCommunityIcons
@@ -89,7 +102,17 @@ const App = () => {
                   // fontWeight: 'bold',
                 },
               })}
-            />
+            >
+              {(props) => (
+                <Home
+                  {...props}
+                  snackVisible={snackVisible}
+                  snackContent={snackContent}
+                  toggleMessage={(message) => toggleMessage(message)}
+                  onDismissSnackBar={() => onToggleSnackBar(false)}
+                />
+              )}
+            </ProductStack.Screen>
             <ProductStack.Screen
               name="ProductList"
               component={ProductList}
@@ -103,9 +126,7 @@ const App = () => {
               component={NewGroceryListForm}
               options={(props) => ({
                 headerTintColor: secondaryColor,
-                title: props.route.params.groceryList
-                  ? `Update`
-                  : `New List`,
+                title: props.route.params.groceryList ? `Update` : `New List`,
               })}
             />
             <ProductStack.Screen
@@ -121,9 +142,7 @@ const App = () => {
               component={NewProductForm}
               options={(props) => ({
                 headerTintColor: secondaryColor,
-                title: props.route.params.product
-                  ? `Update`
-                  : `New Item`,
+                title: props.route.params.product ? `Update` : `New Item`,
               })}
             />
             <ProductStack.Screen
@@ -131,7 +150,7 @@ const App = () => {
               component={ProductCategory}
               options={{
                 headerTintColor: secondaryColor,
-                title: 'Category'
+                title: "Category",
               }}
             />
             <ProductStack.Screen

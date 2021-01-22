@@ -16,13 +16,16 @@ import FadeInView from "../components/FadeInView";
 import { createTwoButtonAlert } from "../utils/helpers";
 import SnackBar from "../components/SnackBar";
 
-const Home = ({ groceryLists, navigation, user }) => {
-  const [snackVisible, setSnackVisible] = useState(false);
+const Home = ({
+  groceryLists,
+  navigation,
+  user,
+  snackContent,
+  snackVisible,
+  onDismissSnackBar,
+  toggleMessage,
+}) => {
   const [isReady, setReady] = useState(false);
-  const onToggleSnackBar = (bool) => setSnackVisible(bool);
-  const [snackContent, setSnackContent] = useState("");
-  const onSetSnackContent = (content) =>
-    setSnackContent(content);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -45,15 +48,11 @@ const Home = ({ groceryLists, navigation, user }) => {
 
   function removeListWithValidation(groceryList) {
     const validationText = `Are you sure you want to delete this list?`;
-    createTwoButtonAlert(
-      () => removeGroceryList(groceryList),
-      validationText
-    );
+    createTwoButtonAlert(() => removeGroceryList(groceryList), validationText);
   }
   function removeGroceryList(groceryList) {
     dispatch(handleDeleteGroceryList(groceryList.id));
-    onSetSnackContent(`❌ ${groceryList.name} deleted`)
-    onToggleSnackBar(true);
+    toggleMessage(`❌ ${groceryList.name} deleted`);
   }
 
   function displayLoadingCircle() {
@@ -87,10 +86,10 @@ const Home = ({ groceryLists, navigation, user }) => {
         : groceryLists.length === 0
         ? displayInstructions()
         : displayUserGroceryLists()}
-      
+
       <SnackBar
         visible={snackVisible}
-        onDismissSnackBar={() => onToggleSnackBar(false)}
+        onDismissSnackBar={onDismissSnackBar}
         snackContent={snackContent}
       />
       <FabBar actions={actions} />
@@ -102,14 +101,15 @@ const Home = ({ groceryLists, navigation, user }) => {
   }
   function displayInstructions() {
     return (
-      <TouchableOpacity 
+      <TouchableOpacity
         onPress={() =>
           navigation.push("NewList", {
             onToggleSnackBar,
             onSetSnackContent,
           })
         }
-        style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+      >
         <FadeInView style={{ width: 250, height: 50 }}>
           <Text style={{ fontSize: 20, textAlign: "center" }}>
             Create your first grocery list by clicking on the + icon
@@ -123,11 +123,11 @@ const Home = ({ groceryLists, navigation, user }) => {
       <SwipeList
         user={user}
         listData={groceryLists
-          .sort((a,b)=> b._lastChangedAt - a._lastChangedAt)
+          .sort((a, b) => b._lastChangedAt - a._lastChangedAt)
           .map((groceryList) => ({
-          ...groceryList,
-          key: groceryList.id,
-        }))}
+            ...groceryList,
+            key: groceryList.id,
+          }))}
         deleteAction={(groceryList) => removeListWithValidation(groceryList)}
         navigateToEdit={(groceryList) =>
           navigation.push("NewList", {

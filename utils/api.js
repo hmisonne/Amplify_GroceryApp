@@ -77,13 +77,6 @@ export class BackendInterface {
     try {
 
       const user = await this._dataStore.query(User)
-      const groceryList = await this._dataStore.query(GroceryList, id)
-      await this._dataStore.save(
-        GroceryList.copyOf(groceryList, (updated) => {
-          updated.shoppers = updated.shoppers ? 
-          [...updated.shoppers, user[0].username]
-          : [user[0].username]
-        }))
       await this._dataStore.save(
         User.copyOf(user[0], (updated) => {
           updated.groceryLists = updated.groceryLists ? 
@@ -93,6 +86,22 @@ export class BackendInterface {
       console.log("Grocery list added to user successfully!");
     } catch (error) {
       console.log("Error adding grocery list to user", error);
+    }
+  }
+
+  async updateGroceryListShoppers(id){
+    try {
+      const user = await this._dataStore.query(User)
+      const groceryList = await this._dataStore.query(GroceryList, id)
+      await this._dataStore.save(
+        GroceryList.copyOf(groceryList, (updated) => {
+          updated.shoppers = updated.shoppers ? 
+          [...updated.shoppers, user[0].username]
+          : [user[0].username]
+        }))
+      console.log("Shopper added to grocery list successfully!");
+    } catch (error) {
+      console.log("Error adding shopper to grocery list", error);
     }
   }
   

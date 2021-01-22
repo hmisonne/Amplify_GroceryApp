@@ -9,7 +9,8 @@ import {
 } from "../src/redux/actions/groceryList";
 import { Hub } from "aws-amplify";
 import * as queries from "../src/graphql/queries";
-import { API } from "aws-amplify";
+import { API as APIGraphQL }  from "aws-amplify" ;
+import { API } from "../utils/api";
 
 const JoinGroceryList = ({ navigation, userGroceryLists }) => {
   React.useLayoutEffect(() => {
@@ -45,7 +46,7 @@ const JoinGroceryList = ({ navigation, userGroceryLists }) => {
       return setAlertVisible(true);
     }
     // Check if grocerylist exists:
-    const validityCheck = await API.graphql({
+    const validityCheck = await APIGraphQL.graphql({
       query: queries.getGroceryList,
       variables: { id: groceryListID },
     });
@@ -58,6 +59,7 @@ const JoinGroceryList = ({ navigation, userGroceryLists }) => {
         const { event, data } = hubData.payload;
         if (event === "ready") {
           console.log("Ready load grocery list JOIN");
+          await API.updateGroceryListShoppers(groceryListID);
           dispatch(handleLoadGroceryLists());
           removeListener();
         }

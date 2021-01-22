@@ -131,12 +131,18 @@ const App = () => {
             />
             <ProductStack.Screen
               name="JoinGroceryList"
-              component={JoinGroceryList}
               options={{
                 title: "Join Grocery List",
                 headerTintColor: secondaryColor,
               }}
-            />
+            >
+              {(props) => (
+                <JoinGroceryList
+                  {...props}
+                  toggleMessage={(message) => toggleMessage(message)}
+                />
+              )}
+            </ProductStack.Screen>
             <ProductStack.Screen
               name="AddProduct"
               component={NewProductForm}

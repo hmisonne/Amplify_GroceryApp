@@ -12,7 +12,7 @@ import * as queries from "../src/graphql/queries";
 import { API as APIGraphQL }  from "aws-amplify" ;
 import { API } from "../utils/api";
 
-const JoinGroceryList = ({ navigation, userGroceryLists }) => {
+const JoinGroceryList = ({ navigation, userGroceryLists, toggleMessage }) => {
   React.useLayoutEffect(() => {
     navigation.setOptions(
       {
@@ -36,7 +36,6 @@ const JoinGroceryList = ({ navigation, userGroceryLists }) => {
   const [groceryListID, setGroceryListID] = useState("");
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertText, setAlertText] = useState("");
-
   const dispatch = useDispatch();
 
   async function addGroceryList() {
@@ -55,6 +54,7 @@ const JoinGroceryList = ({ navigation, userGroceryLists }) => {
       setAlertVisible(true);
     } else {
       dispatch(handleAddGroceryList(groceryListID));
+      toggleMessage(`✅ New List joined!`)
       const removeListener = Hub.listen("datastore", async (hubData) => {
         const { event, data } = hubData.payload;
         if (event === "ready") {

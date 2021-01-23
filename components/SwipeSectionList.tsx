@@ -2,7 +2,7 @@ import React from "react";
 
 import ListAccordion from "./ListAccordion";
 import { mainColor, productCategory } from "../utils/helpers";
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 import { FAB } from "react-native-paper";
 import { SectionData } from "../src/types/ListElements"
 
@@ -15,6 +15,7 @@ interface Props {
   fabAction: (text: string) => void;
   itemsInCart: boolean;
   groceryListID: string;
+  expandedAll: boolean;
 }
 
 
@@ -26,11 +27,12 @@ const SwipeSectionList: React.FC<Props> = ({
   toBuyView,
   fabAction,
   groceryListID,
-  itemsInCart
+  itemsInCart,
+  expandedAll
 }) => {
 
   return (
-    <ScrollView>
+    <View>
       {listData.map((section) => (
         <ListAccordion
           sectionTitle={section.title}
@@ -41,9 +43,10 @@ const SwipeSectionList: React.FC<Props> = ({
           navigateToEdit={navigateToEdit}
           onPressAction={onPressAction}
           toBuyView={toBuyView}
+          expandedAll={expandedAll}
         />
       ))}
-      {toBuyView && listData.length > 0 && itemsInCart && (
+         {toBuyView && listData.length > 0 && itemsInCart && (
         <FAB
           icon="clipboard-check-outline"
           label="I'm done!"
@@ -56,7 +59,8 @@ const SwipeSectionList: React.FC<Props> = ({
           onPress={() => fabAction(groceryListID)}
         />
       )}
-    </ScrollView>
+     
+    </View>
   )
 }
 

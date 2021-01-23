@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { connect, useDispatch } from "react-redux";
 import { DataStore } from "aws-amplify";
 
@@ -23,6 +23,7 @@ import MenuOptions from "../components/MenuOptions";
 import Footer from "../components/Footer";
 import RoundButton from "../components/RoundButton";
 import SnackBar from "../components/SnackBar";
+import ListAccordionHeader from "../components/ListAccordionHeader"
 
 function ProductList({
   navigation,
@@ -43,7 +44,10 @@ function ProductList({
 
   const { groceryList } = route.params;
   const groceryListID = groceryList.id;
-
+  const [expandedAllCategories, setExpandedAllCategories] = React.useState(true);
+  const handlePressExpandCategories = () => {
+    setExpandedAllCategories(!expandedAllCategories); 
+  }
   const actionsMenuHistory = [
     {
       icon: "delete-variant",
@@ -153,6 +157,11 @@ function ProductList({
         firstTabSelected={toBuyView}
         switchToSecondTab={toggleToBuyView}
       />
+      <ScrollView>
+      <ListAccordionHeader 
+        expandedAll={expandedAllCategories}
+        handlePress={handlePressExpandCategories}
+      />
       <SwipeSectionList
         listData={toBuyView ? productsToBuy : allProducts}
         deleteAction={
@@ -183,7 +192,9 @@ function ProductList({
         groceryListID={groceryListID}
         fabAction={(groceryListID) => doneShoppingWithValidation(groceryListID)}
         itemsInCart={numOfProducts.inCart > 0}
+        expandedAll={expandedAllCategories}
       />
+      </ScrollView>
       <View>
         <SnackBar
           visible={snackVisible}

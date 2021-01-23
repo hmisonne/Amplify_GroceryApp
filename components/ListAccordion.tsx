@@ -12,6 +12,7 @@ interface Props {
   navigateToEdit: () => void;
   onPressAction: () => void;
   toBuyView: boolean;
+  expandedAll: boolean;
 }
 
 const ListAccordion: React.FC<Props> = ({
@@ -22,10 +23,15 @@ const ListAccordion: React.FC<Props> = ({
   navigateToEdit,
   onPressAction,
   toBuyView,
+  expandedAll
 }) => {
-  const [expanded, setExpanded] = React.useState(true);
+  const [expanded, setExpanded] = React.useState(expandedAll);
   const checkedItemPerCat = rowData.filter(data => data.checked === true)
   const handlePress = () => setExpanded(!expanded);
+  React.useEffect(() => {
+   setExpanded(expandedAll)
+  }, [expandedAll]);
+  
 
   return (
     <List.Accordion

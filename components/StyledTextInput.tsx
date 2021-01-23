@@ -1,5 +1,6 @@
 import React from "react";
 import { TextInput } from 'react-native-paper';
+import { secondaryColor } from "../utils/helpers";
 
 
 interface Props {
@@ -27,6 +28,11 @@ const StyledTextInput: React.FC<Props> = ({
       testID="TextInput"
       multiline={multiline}
       keyboardType={keyboardType}
+      theme={{
+        colors: {
+          primary:secondaryColor
+        },
+      }}
       style={style}
     />
   );

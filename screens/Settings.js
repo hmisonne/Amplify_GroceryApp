@@ -39,7 +39,9 @@ const Settings = ({ user }) => {
   function sendFeedback() {
     MailComposer.composeAsync(mailComposerOptions);
   }
-
+  function sendBug(){
+    throw new Error(`Sentry error ${user.username}! `);
+  }
   const requestReview = async () => {
 
     let url = ''
@@ -82,6 +84,12 @@ const Settings = ({ user }) => {
       <List.Item
         title={Platform.OS === 'android' ? "Rate on Google Play" : "Rate on App Store" }
         left={(props) => <List.Icon {...props} icon="star" />}
+      />
+    </TouchableOpacity>
+    <TouchableOpacity onPress={sendBug}>
+      <List.Item
+        title={"Bug Test" }
+        left={(props) => <List.Icon {...props} icon="bug" />}
       />
     </TouchableOpacity>
     

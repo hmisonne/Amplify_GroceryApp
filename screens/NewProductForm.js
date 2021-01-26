@@ -25,7 +25,7 @@ import { productCategory } from "../utils/helpers";
 import { Divider, Subheading } from "react-native-paper";
 import AccordionMenu from "../components/AccordionMenu";
 
-const units = ["ct", "lb", "g", "kg", "L"];
+const units = ["piece","bag", "bottle", "lbs", "oz", "g", "kg", "L"];
 const initialState = {
   name: "",
   checked: false,
@@ -55,6 +55,7 @@ const NewProductForm = ({ route, navigation, toggleMessage }) => {
   });
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertText, setAlertText] = useState("");
+
   const validateForm = () => {
     return (
       formState.name === "" || !Number.isInteger(parseInt(formState.quantity))
@@ -64,6 +65,10 @@ const NewProductForm = ({ route, navigation, toggleMessage }) => {
   const [formState, setFormState] = useState(
     productToUpdate ? productToUpdate : initialState
   );
+  const accordionMenuText = formState.quantity == 0 ?
+  `Optional: Specify quantity & package size` 
+  : `Quantity & package size: ${formState.quantity} ${formState.unit}`
+
   const [expanded, setExpanded] = React.useState(false);
   const handlePress = () => setExpanded(!expanded);
 
@@ -130,7 +135,7 @@ const NewProductForm = ({ route, navigation, toggleMessage }) => {
           <View style={styles.container}>
             <Divider />
             <AccordionMenu
-              text="Optional: Specify quantity & package size"
+              text={accordionMenuText}
               expanded={expanded}
               handlePress={handlePress}
             />
@@ -209,7 +214,7 @@ const NewProductForm = ({ route, navigation, toggleMessage }) => {
             <Divider />
 
             <AccordionMenu
-              text="Optional: Specify quantity & package size"
+              text={accordionMenuText}
               expanded={expanded}
               handlePress={handlePress}
             />

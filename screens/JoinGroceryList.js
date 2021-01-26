@@ -54,13 +54,13 @@ const JoinGroceryList = ({ navigation, userGroceryLists, toggleMessage }) => {
       setAlertVisible(true);
     } else {
       dispatch(handleAddGroceryList(groceryListID));
-      toggleMessage(`✅ New List joined!`)
       const removeListener = Hub.listen("datastore", async (hubData) => {
         const { event, data } = hubData.payload;
         if (event === "ready") {
           console.log("Ready load grocery list JOIN");
-          await API.updateGroceryListShoppers(groceryListID);
+          const updatedGroceryList = await API.updateGroceryListShoppers(groceryListID);
           dispatch(handleLoadGroceryLists());
+          toggleMessage(`✅ ${updatedGroceryList.name} joined!`)
           removeListener();
         }
       });
@@ -87,7 +87,6 @@ const JoinGroceryList = ({ navigation, userGroceryLists, toggleMessage }) => {
       <View style={styles.centered}>
         <StyledTextInput
           onChangeText={(val) => setInput(val)}
-          style={styles.input}
           value={groceryListID}
           placeholder="List ID number"
           label="List ID number"

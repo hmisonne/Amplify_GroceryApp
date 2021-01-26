@@ -93,13 +93,14 @@ export class BackendInterface {
     try {
       const user = await this._dataStore.query(User)
       const groceryList = await this._dataStore.query(GroceryList, id)
-      await this._dataStore.save(
+      const updatedGroceryList = await this._dataStore.save(
         GroceryList.copyOf(groceryList, (updated) => {
           updated.shoppers = updated.shoppers ? 
           [...updated.shoppers, user[0].username]
           : [user[0].username]
         }))
       console.log("Shopper added to grocery list successfully!");
+      return updatedGroceryList
     } catch (error) {
       console.log("Error adding shopper to grocery list", error);
     }

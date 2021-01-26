@@ -15,6 +15,8 @@ import NewGroceryListForm from "./screens/NewGroceryListForm";
 import Home from "./screens/Home";
 import Settings from "./screens/Settings";
 import AppLoading from "expo-app-loading";
+import Constants from 'expo-constants';
+import * as Sentry from 'sentry-expo';
 
 import {
   _cacheResourcesAsync,
@@ -41,6 +43,14 @@ const theme = {
     accent: secondaryColor,
   },
 };
+
+Sentry.init({
+  dsn: Constants.manifest.extra.sentryDSN,
+  enableInExpoDevelopment: true,
+  debug: true, // Sentry will try to print out useful debugging information if something goes wrong with sending an event. Set this to `false` in production.
+});
+
+
 
 const ProductStack = createStackNavigator();
 

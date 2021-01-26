@@ -39,41 +39,58 @@ interface productCategory {
 }
 
 export const productCategory: productCategory = {
+  Other: {
+    picture: "food-variant",
+    name: "Other",
+    key: "Other",
+  },
   Baby: {
     picture: "baby-bottle",
     name: "Baby",
     key: "Baby",
-  },
-  Baking: {
-    picture: "muffin",
-    name: "Bakery",
-    key: "Baking",
   },
   Drinks: {
     picture: "glass-cocktail",
     name: "Beverages",
     key: "Drinks",
   },
-  Canned: {
-    picture: "hockey-puck",
-    name: "Canned",
-    key: "Canned",
+  Breakfast: {
+    picture: "bowl",
+    name: "Breakfast & Cereals",
+    key: "Breakfast",
   },
+  Condiments: {
+    picture: "food-variant",
+    name: "Condiments & Dressing",
+    key: "Condiments",
+  },
+  Baking: {
+    picture: "muffin",
+    name: "Cooking & Baking",
+    key: "Baking",
+  },  
+
   Dairy: {
     picture: "cup",
     name: "Dairy",
     key: "Dairy",
+  },
+  Deli: {
+    picture: "sausage",
+    name: "Deli",
+    key: "Deli",
+  },
+  Produce: {
+    picture: "food-apple",
+    name: "Fruits & Vegetables",
+    key: "Produce",
   },
   Frozen: {
     picture: "cube-outline",
     name: "Frozen",
     key: "Frozen",
   },
-  Meat: {
-    picture: "cow",
-    name: "Meat",
-    key: "Meat",
-  },
+
   Health: {
     picture: "bandage",
     name: "Health & Personal Care",
@@ -84,10 +101,10 @@ export const productCategory: productCategory = {
     picture: "broom",
     key: "Cleaning",
   },
-  Other: {
-    picture: "food-variant",
-    name: "Other",
-    key: "Other",
+  Meat: {
+    picture: "cow",
+    name: "Meat",
+    key: "Meat",
   },
   Grains: {
     picture: "barley",
@@ -99,15 +116,15 @@ export const productCategory: productCategory = {
     picture: "bone",
     key: "Pet",
   },
-  Produce: {
-    picture: "food-apple",
-    name: "Produce",
-    key: "Produce",
-  },
   Sea: {
     name: "Sea Food",
     picture: "fish",
     key: "Sea",
+  },
+  Canned: {
+    picture: "hockey-puck",
+    name: "Soups & Canned Goods",
+    key: "Canned",
   },
 };
 

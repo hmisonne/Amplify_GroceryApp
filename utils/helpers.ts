@@ -39,11 +39,6 @@ interface productCategory {
 }
 
 export const productCategory: productCategory = {
-  Other: {
-    picture: "food-variant",
-    name: "Other",
-    key: "Other",
-  },
   Baby: {
     picture: "baby-bottle",
     name: "Baby",
@@ -69,7 +64,6 @@ export const productCategory: productCategory = {
     name: "Cooking & Baking",
     key: "Baking",
   },  
-
   Dairy: {
     picture: "cup",
     name: "Dairy",
@@ -125,6 +119,16 @@ export const productCategory: productCategory = {
     picture: "hockey-puck",
     name: "Soups & Canned Goods",
     key: "Canned",
+  },
+  Snack: {
+    name: "Snacks",
+    picture: "candycane",
+    key: "Sea",
+  },
+  Other: {
+    picture: "food-fork-drink",
+    name: "Other",
+    key: "Other",
   },
 };
 

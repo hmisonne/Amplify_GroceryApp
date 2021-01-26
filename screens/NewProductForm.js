@@ -30,7 +30,7 @@ const initialState = {
   name: "",
   checked: false,
   toBuy: true,
-  unit: "ct",
+  unit: "piece",
   quantity: 0,
   category: "Other",
 };

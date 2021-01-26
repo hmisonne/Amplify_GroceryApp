@@ -116,6 +116,5 @@ const styles = StyleSheet.create({
   },
   centered: {
     marginTop: 20,
-  },
-  input: { height: 50, backgroundColor: "#ddd", marginBottom: 10, padding: 8 },
+  }
 });

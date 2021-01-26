@@ -35,7 +35,9 @@ const ListAccordion: React.FC<Props> = ({
 
   return (
     <List.Accordion
-      title={toBuyView ? `${sectionTitle} (${checkedItemPerCat.length}/${rowData.length})` : sectionTitle}
+      title={toBuyView 
+        ? `${sectionTitle} (${checkedItemPerCat.length}/${rowData.length})` 
+        : `${sectionTitle} (${rowData.length})`}
       theme={{
         colors: {
           primary: "black",

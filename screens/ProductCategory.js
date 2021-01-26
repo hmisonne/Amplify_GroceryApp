@@ -14,7 +14,7 @@ const ProductCategory = ({navigation, route}) => {
         <ScrollView>
         {sortedCategories.map(catID => 
             <TouchableOpacity 
-                style = {categorySelected == productCategory[catID].name ? styles.backgroundRow : styles.notSelected}
+                style = {categorySelected == productCategory[catID].key ? styles.backgroundRow : styles.notSelected}
                 onPress = {() => {
                     setCategorySelected(catID)
                     updateCategory(catID) 

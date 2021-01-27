@@ -5,14 +5,16 @@ import { Auth } from "@aws-amplify/auth";
 import { DataStore } from "aws-amplify";
 import * as MailComposer from "expo-mail-composer";
 import { Divider, List } from "react-native-paper";
-import * as Linking from 'expo-linking';
+import * as Linking from "expo-linking";
 import { createTwoButtonAlert, onShare } from "../utils/helpers";
 
 const Settings = ({ user }) => {
-  const androidURL = "https://play.google.com/store/apps/details?id=com.hmisonne.ListBee"
-  const iosURL = "https://apps.apple.com/us/app/listbee-grocery-shopping-list/id1542615662"
+  const androidURL =
+    "https://play.google.com/store/apps/details?id=com.hmisonne.ListBee";
+  const iosURL =
+    "https://apps.apple.com/us/app/listbee-grocery-shopping-list/id1542615662";
 
-  const shareText = `ListBee | A Grocery List App, Android: ${androidURL}, iOS: ${iosURL}`
+  const shareText = `ListBee | A Grocery List App, Android: ${androidURL}, iOS: ${iosURL}`;
   async function signOut() {
     try {
       await DataStore.clear();
@@ -22,9 +24,9 @@ const Settings = ({ user }) => {
     }
   }
 
-  function signOutWithValidation(){
-    const validationText = `Are you sure you want to sign out?`
-    createTwoButtonAlert(() => signOut(), validationText)
+  function signOutWithValidation() {
+    const validationText = `Are you sure you want to sign out?`;
+    createTwoButtonAlert(() => signOut(), validationText);
   }
 
   function capitalizeFirstLetter(string) {
@@ -39,24 +41,18 @@ const Settings = ({ user }) => {
   function sendFeedback() {
     MailComposer.composeAsync(mailComposerOptions);
   }
-  function sendBug(){
-    throw new Error(`Sentry error ${user.username}! `);
-  }
   const requestReview = async () => {
-
-    let url = ''
-    Platform.OS === 'android' 
-    ? url = androidURL
-    : url = iosURL
+    let url = "";
+    Platform.OS === "android" ? (url = androidURL) : (url = iosURL);
 
     const supported = await Linking.canOpenURL(url);
 
     if (supported) {
       await Linking.openURL(url);
     } else {
-     Alert.alert(`This link is not accessible: ${url}`);
+      Alert.alert(`This link is not accessible: ${url}`);
     }
-  }
+  };
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={signOutWithValidation}>
@@ -65,34 +61,31 @@ const Settings = ({ user }) => {
           left={(props) => <List.Icon {...props} icon="logout" />}
         />
       </TouchableOpacity>
-      <Divider/>
+      <Divider />
       <TouchableOpacity onPress={() => onShare(shareText)}>
         <List.Item
           title="Share the App"
           left={(props) => <List.Icon {...props} icon="share-variant" />}
         />
       </TouchableOpacity>
-      <Divider/>
+      <Divider />
       <TouchableOpacity onPress={sendFeedback}>
         <List.Item
           title="Send Feedback"
           left={(props) => <List.Icon {...props} icon="mail" />}
         />
       </TouchableOpacity>
-      <Divider/>
+      <Divider />
       <TouchableOpacity onPress={requestReview}>
-      <List.Item
-        title={Platform.OS === 'android' ? "Rate on Google Play" : "Rate on App Store" }
-        left={(props) => <List.Icon {...props} icon="star" />}
-      />
-    </TouchableOpacity>
-    <TouchableOpacity onPress={sendBug}>
-      <List.Item
-        title={"Bug Test" }
-        left={(props) => <List.Icon {...props} icon="bug" />}
-      />
-    </TouchableOpacity>
-    
+        <List.Item
+          title={
+            Platform.OS === "android"
+              ? "Rate on Google Play"
+              : "Rate on App Store"
+          }
+          left={(props) => <List.Icon {...props} icon="star" />}
+        />
+      </TouchableOpacity>
     </View>
   );
 };

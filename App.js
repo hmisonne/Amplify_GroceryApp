@@ -47,7 +47,7 @@ const theme = {
 Sentry.init({
   dsn: Constants.manifest.extra.sentryDSN,
   enableInExpoDevelopment: true,
-  debug: true, // Sentry will try to print out useful debugging information if something goes wrong with sending an event. Set this to `false` in production.
+  debug: false,
 });
 
 

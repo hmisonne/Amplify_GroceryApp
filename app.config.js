@@ -18,7 +18,7 @@ export default {
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.hmisonne.ListBee",
-      "buildNumber": "1.0.17"
+      "buildNumber": "1.0.18"
     },
     "web": {
       "favicon": "./assets/icon.png"
@@ -29,7 +29,7 @@ export default {
         "backgroundColor": "#ffffff"
       },
       "package": "com.hmisonne.ListBee",
-      "versionCode": 32,
+      "versionCode": 33,
       "permissions": []
     },
     "hooks": {

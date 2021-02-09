@@ -6,12 +6,12 @@ This project was made for all the grocery shoppers that needs a tool to organize
 
 ### Platform Compatibility
 
-| Web | Android | iOS | 
-| --- | --- | --- | 
-| ✔️ |✔️ | ✔️ |
-| [Web Listing](https://master.d22bl963x1qfmv.amplifyapp.com/)| [Play Store Listing](https://play.google.com/store/apps/details?id=com.hmisonne.ListBee) |[App Store Listing](https://apps.apple.com/us/app/listbee-grocery-shopping-list/id1542615662) |
+| Android | iOS | 
+| --- | --- | 
+|✔️ | ✔️ |
+| [Play Store Listing](https://play.google.com/store/apps/details?id=com.hmisonne.ListBee) |[App Store Listing](https://apps.apple.com/us/app/listbee-grocery-shopping-list/id1542615662) |
 
-![Screenshots](./demo/ListBeeAppListing.JPG)
+![Screenshots](./demo/ListBeeAppListing2.JPG)
 
 ### Features
 
@@ -35,45 +35,39 @@ This architecture allowed me to only interact with the DataStore API using stand
 ## GraphQL Schema
 
 This app has 3 models Product, GroceryList and User. 
- - A user can add to his dashboard multiple grocery lists which can be shared among multiple users. To create this **many-to-many** relationship, I added the UserGroceryListJoin table. 
- - After creating a new grocery list, products can be added to this specific list. This is a **one-to-many** relationship. 
+ - A user can add to his/her dashboard multiple grocery lists which can be shared among multiple users. 
+ - After creating a new grocery list, products can be added to a specific list. This is a **one-to-many** relationship. 
 
- NB: Ideally a user should only have access to the grocery lists he created or that I was given access to. Unfortunately, having an editors field populated with Authentification Data is not currently compatible with Amplify DataStore. See [Issue #7069](https://github.com/aws-amplify/amplify-js/issues/7069)
 
 ```graphql
 type Product @model 
+@key(name: "productByGroceryList", fields: ["groceryListID"])
 {
   id: ID!
-  groceryList: GroceryList @connection(name: "GroceryListProducts")
+  groceryListID: ID!
   name: String!
   checked: Boolean!
   unit: String!
   quantity: Int!
   category: String!
+  toBuy: Boolean
 }
 
 type GroceryList @model {
   id: ID!
   name: String!
   description: String
-  products: [Product] @connection(name: "GroceryListProducts")
-  users: [UserGroceryListJoin] @connection(keyName: "byUser", fields: ["id"])
+  products: [Product] @connection(keyName: "productByGroceryList", fields: ["id"])
+  shoppers: [String]
 }
 
-type User @model {
+type User @model 
+@auth(rules: [{ allow: owner }])
+{
   id: ID!
   sub: String!
-  groceryLists: [UserGroceryListJoin] @connection(keyName: "byGroceryList", fields: ["id"])
-}
-
-type UserGroceryListJoin @model(queries: null)
-  @key(name: "byUser", fields: ["userID", "groceryListID"])
-  @key(name: "byGroceryList", fields: ["groceryListID", "userID"]){
-  id: ID!
-  userID: ID!
-  groceryListID: ID!
-  user: User! @connection(fields: ["userID"])      
-  groceryList: GroceryList! @connection(fields: ["groceryListID"])  
+  username: String
+  groceryLists: [String]
 }
 ```
 

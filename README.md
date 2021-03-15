@@ -138,6 +138,7 @@ Start the app
 
 - Currently the AWS Datastore does not provide support to an array of owners using the **@auth** [authorization rule](https://docs.amplify.aws/lib/datastore/setup-auth-rules/q/platform/js), [issue 7069](https://github.com/aws-amplify/amplify-js/issues/7069). 
 > This rule limit which individuals or groups should have access to create, read, update, or delete data on your types by specifying an @auth directive
+
 To allow users to share multiple lists with multiple users, I am using [Selective Sync](https://docs.amplify.aws/lib/datastore/sync/q/platform/js#selectively-syncing-a-subset-of-your-data) to prevent the DataStore from downloading the entire content of the cloud database and only get a subset of the data by defining a predicate. This predicates, in my case is the list of **grocery list id** that is stored per user under 'groceryLists'.
 
 ## Resources
